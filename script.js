@@ -93,9 +93,7 @@ function addBlockButton() {
       if (confirmed) {
         var requestUrl = `${apiUrlBlock}?profile_urls=${getUsernames()}`;
 
-        fetch(requestUrl, {
-          method: "POST"
-        })
+        fetch(requestUrl)
           .then(result => result.text())
           .then(html => console.log(html));
       }
