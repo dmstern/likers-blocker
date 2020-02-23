@@ -98,10 +98,9 @@ function addBlockButton() {
     blockIconWrapper.innerHTML = blockIcon;
     blockIconWrapper.style.marginRight = ".3em";
     blockButton.querySelector("div").prepend(blockIconWrapper);
-//    var highlightColor = getComputedStyle(blockButton).borderBottomColor;
+
     var highlightColor = getComputedStyle(topbar.querySelector('h2')).color;
     var backgroundColor = document.querySelector('body').style.backgroundColor;
-    console.log(topbar);
     blockIconWrapper.querySelector("svg").style.color = highlightColor;
 
     blockButton.addEventListener("click", () => {
