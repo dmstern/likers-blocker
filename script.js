@@ -34,24 +34,25 @@ function getUsernames() {
   return users.map(user => user.querySelector("a").href);
 }
 
-// TODO listen on locationchange (doesnt work yet)
-// window.addEventListener('locationchange', () => {
-//   console.log(window.location.url.match(/.*/likes/ig));
-// });
-
 function addBlockButton() {
   tryToAccessDOM(followButton => {
+    // prevent multiple blockButtons:
+    if (document.querySelector("[data-testid=blockAll")) {
+      return;
+    }
+
     var blockButton = document.createElement("a");
+    var requestURL = `https://ichbinhier-twittertools.herokuapp.com/blockapi/profile_urls=${usernamesList}`;
     blockButton.classList = followButton.classList;
     blockButton.style.textDecoration = "none";
     blockButton.style.marginRight = "1rem";
+    blockButton.dataset.testid = "blockAll";
     blockButton.innerHTML = followButton.innerHTML;
     blockButton.querySelector("div > span > span").innerHTML =
       "Alle Blockieren";
     blockButton.target = "_blank";
     // post usernames to block API:
     var usernamesList = getUsernames().join(":");
-    blockButton.href = `https://ichbinhier-twittertools.herokuapp.com/blockapi/profile_urls=${usernamesList}`;
     let topbar = document.querySelector(
       "main > div > div > div > div > div > div"
     );
@@ -60,32 +61,26 @@ function addBlockButton() {
     // add blockIcon:
     var blockIconWrapper = document.createElement("span");
     blockIconWrapper.innerHTML = blockIcon;
-    blockIconWrapper.style.marginRight = ".5em";
+    blockIconWrapper.style.marginRight = ".3em";
     blockButton.querySelector("div").prepend(blockIconWrapper);
-blockIconWrapper.querySelector('svg').style.color = getComputedStyle(blockButton).borderBottomColor;
+    blockIconWrapper.querySelector("svg").style.color = getComputedStyle(
+      blockButton
+    ).borderBottomColor;
+
+    var confirmed = blockButton.addEventListener("click", function() {
+      confirm(
+        "Bist du sicher, dass du alle, die diesen Tweet geliked haben blockieren möchtest?"
+      );
+
+      if (confirmed) {
+        window.location.href = requestUrl;
+      }
+    });
   }, "[data-testid*=follow]");
-}
-
-function addClickListenerToLikesCounter() {
-  tryToAccessDOM(likesCounter => {
-    likesCounter.addEventListener("click", addBlockButton);
-
-    // var interactionBar = likesCounter.parentNode.parentNode;
-
-    // blockButton.style.marginLeft = "1em";
-    // blockButton.classList = likesCounter.classList;
-
-    // blockButton.addEventListener("click", function() {
-    //   confirm(
-    //     "Bist du sicher, dass du alle, die diesen Tweet geliked haben blockieren möchtest?"
-    //   );
-    // });
-
-    // interactionBar.appendChild(blockButton);
-  }, 'a[href*="/likes"]');
 }
 
 // for we are on the likes page:
 addBlockButton();
-// for we are on a tweet:
-addClickListenerToLikesCounter();
+
+// For every other page: try it on click again:
+document.querySelector("body").addEventListener("click", addBlockButton);
