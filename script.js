@@ -1,6 +1,8 @@
 var blockIcon =
   '<svg viewBox="0 0 24 24" class="r-9ilb82 r-4qtqp9 r-yyyyoo r-1q142lx r-1xvli5t r-zso239 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M12 1.25C6.072 1.25 1.25 6.072 1.25 12S6.072 22.75 12 22.75 22.75 17.928 22.75 12 17.928 1.25 12 1.25zm0 1.5c2.28 0 4.368.834 5.982 2.207L4.957 17.982C3.584 16.368 2.75 14.282 2.75 12c0-5.1 4.15-9.25 9.25-9.25zm0 18.5c-2.28 0-4.368-.834-5.982-2.207L19.043 6.018c1.373 1.614 2.207 3.7 2.207 5.982 0 5.1-4.15 9.25-9.25 9.25z"></path></g></svg>';
 var apiUrlBlock = "https://ichbinhier-twittertools.herokuapp.com/blocklists";
+var urlLengthMax = 2000;
+var collectedUsers = [];
 
 var topbarSelector = {
   mobile: "main > div > div > div > div > div > div",
@@ -41,13 +43,21 @@ function isMobile() {
   return document.documentElement.clientWidth < 699;
 }
 
-function getUsernames() {
+function scrapeUsernames() {
   var userCells = document.querySelectorAll('[data-testid="UserCell"]');
   var users = Array.from(userCells);
   return users.map(user => {
     var userUrl = user.querySelector("a").href;
     return userUrl.replace("https://twitter.com/", "");
   });
+}
+
+function addUsers(users) {
+  collectedUsers.push(...users);
+}
+
+function getUsers() {
+  return Array.from(new Set(collectedUsers));
 }
 
 function addBlockButton() {
@@ -92,11 +102,37 @@ function addBlockButton() {
     blockIconWrapper.querySelector("svg").style.color = highlightColor;
 
     blockButton.addEventListener("click", () => {
-      var requestUrl = `${apiUrlBlock}?users=${getUsernames()}`;
-      var confirmed = confirm(`Willst du alle ${getUsernames().length} Nutzer blockieren? Evtl. musst du Popups ein deinem Browser für twitter.com erlauben.`);
-      if (confirmed) {
-        window.open(requestUrl, '_blank');
-      }
+      collectedUsers = [];
+      // scroll down to get more users:
+      var scrollList = topbar.parentNode.parentNode.parentNode.parentNode.children[1].children[0];
+      var initBlocking = function (users) {
+        var confirmed = confirm(`Willst du alle ${users.length} Nutzer blockieren? Evtl. musst du Popups ein deinem Browser für twitter.com erlauben.`);
+
+        if (confirmed) {
+          window.open(requestUrl, '_blank');
+        }        
+      };
+
+      var scrollInterval = setInterval(() => {
+        var scrollListIsSmall = scrollList.scrollHeight < scrollList.clientHeight * 2;
+        var scrolledToBottom = scrollList.scrollTop > scrollList.scrollHeight - (scrollList.clientHeight * 2);
+        scrollList.scroll({
+          top: scrollList.scrollTop + scrollList.clientHeight,
+          left: 0,
+          behavior: "smooth"
+        });
+        
+        addUsers(scrapeUsernames());
+
+        var users = getUsers();
+        var requestUrl = `${apiUrlBlock}?users=${users}`;
+        var reachedUrlLengthMax = requestUrl.length > urlLengthMax - 100;
+
+        if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
+          clearInterval(scrollInterval);
+          initBlocking(users);
+        }
+      }, 800); // FIXME: might be too long or too short. should rather scroll further on scrolled ready.
     });
   }, "[data-testid*=follow]");
 }
