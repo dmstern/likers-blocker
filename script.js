@@ -42,7 +42,6 @@ function addBlockButton() {
     }
 
     var blockButton = document.createElement("a");
-    var requestURL = `https://ichbinhier-twittertools.herokuapp.com/blockapi/profile_urls=${usernamesList}`;
     blockButton.classList = followButton.classList;
     blockButton.style.textDecoration = "none";
     blockButton.style.marginRight = "1rem";
@@ -51,8 +50,6 @@ function addBlockButton() {
     blockButton.querySelector("div > span > span").innerHTML =
       "Alle Blockieren";
     blockButton.target = "_blank";
-    // post usernames to block API:
-    var usernamesList = getUsernames().join(":");
     let topbar = document.querySelector(
       "main > div > div > div > div > div > div"
     );
@@ -67,15 +64,21 @@ function addBlockButton() {
       blockButton
     ).borderBottomColor;
 
-    var confirmed = blockButton.addEventListener("click", function() {
-      confirm(
+    blockButton.addEventListener("click", function() {
+      var confirmed = confirm(
         "Bist du sicher, dass du alle, die diesen Tweet geliked haben blockieren möchtest?"
       );
 
+      console.log(confirmed);
+
       if (confirmed) {
+        var usernamesList = getUsernames().join(":");
+        var requestUrl = `https://ichbinhier-twittertools.herokuapp.com/blockapi/profile_urls=${usernamesList}`;
         window.location.href = requestUrl;
       }
+
     });
+
   }, "[data-testid*=follow]");
 }
 
