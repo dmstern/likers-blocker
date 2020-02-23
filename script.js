@@ -84,25 +84,10 @@ function addBlockButton() {
 
     blockButton.addEventListener("click", () => {
       var requestUrl = `${apiUrlBlock}?users=${getUsernames()}`;
-
-      var iframe = document.createElement("iframe");
-      var popup = document.createElement("div");
-      popup.style.background = document.querySelector(
-        "body"
-      ).style.backgroundColor;
-      popup.classList.add("lb-popup");
-      iframe.src = requestUrl;
-      var closeButton = document.createElement("div");
-      closeButton.role = "button";
-      closeButton.classList.add("lb-close-button");
-      closeButton.innerHTML = "×";
-      closeButton.style.color = highlightColor;
-      closeButton.addEventListener("click", () => {
-        popup.remove();
-      });
-      document.body.appendChild(popup);
-      popup.appendChild(closeButton);
-      popup.appendChild(iframe);
+      var confirmed = confirm(`Willst du alle ${getUsernames().length} Nutzer blockieren? Evtl. musst du Popups ein deinem Browser für twitter.com erlauben.`);
+      if (confirmed) {
+        window.open(requestUrl, '_blank');
+      }
     });
   }, "[data-testid*=follow]");
 }
