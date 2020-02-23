@@ -2,6 +2,11 @@ var blockIcon =
   '<svg viewBox="0 0 24 24" class="r-9ilb82 r-4qtqp9 r-yyyyoo r-1q142lx r-1xvli5t r-zso239 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M12 1.25C6.072 1.25 1.25 6.072 1.25 12S6.072 22.75 12 22.75 22.75 17.928 22.75 12 17.928 1.25 12 1.25zm0 1.5c2.28 0 4.368.834 5.982 2.207L4.957 17.982C3.584 16.368 2.75 14.282 2.75 12c0-5.1 4.15-9.25 9.25-9.25zm0 18.5c-2.28 0-4.368-.834-5.982-2.207L19.043 6.018c1.373 1.614 2.207 3.7 2.207 5.982 0 5.1-4.15 9.25-9.25 9.25z"></path></g></svg>';
 var apiUrlBlock = "https://ichbinhier-twittertools.herokuapp.com/blockapi/";
 
+var topbarSelector = {
+  mobile: "main > div > div > div > div > div > div",
+  desktop: "[aria-labelledby=modal-header] > div > div > div > div > div"
+};
+
 function tryToAccessDOM(callback, elementToExpectSelector, context = document) {
   var elementToExpect = null;
   var tryCounter = 0;
@@ -17,7 +22,11 @@ function tryToAccessDOM(callback, elementToExpectSelector, context = document) {
 
     elementToExpect = context.querySelector(elementToExpectSelector);
 
-    if (!elementToExpect) {
+    if (
+      !elementToExpect ||
+      elementToExpect.style.display === "none" ||
+      elementToExpect.offsetParent === null
+    ) {
       return;
     }
     clearInterval(interval);
@@ -28,9 +37,13 @@ function tryToAccessDOM(callback, elementToExpectSelector, context = document) {
   interval = setInterval(tryIt, 500);
 }
 
+function isMobile() {
+  return document.documentElement.clientWidth < 1000;
+}
+
 function getUsernames() {
-  let userCells = document.querySelectorAll('[data-testid="UserCell"]');
-  let users = Array.from(userCells);
+  var userCells = document.querySelectorAll('[data-testid="UserCell"]');
+  var users = Array.from(userCells);
   return users.map(user => {
     var userUrl = user.querySelector("a").href;
     return userUrl.replace("https://twitter.com/", "");
@@ -53,9 +66,12 @@ function addBlockButton() {
     var blockButtonLabel = blockButton.querySelector("div > span > span");
     blockButtonLabel.innerHTML = "Alle Blockieren";
 
-    let topbar = document.querySelector(
-      "main > div > div > div > div > div > div"
-    );
+    var viewport = isMobile() ? "mobile" : "desktop";
+    var topbar = document.querySelector(topbarSelector[viewport]);
+
+    if (!topbar) {
+      return;
+    }
     topbar.appendChild(blockButton);
 
     // add blockIcon:
@@ -75,12 +91,13 @@ function addBlockButton() {
       );
 
       if (confirmed) {
-         var requestUrl = `${apiUrlBlock}?profile_urls=${getUsernames()}`;
+        var requestUrl = `${apiUrlBlock}?profile_urls=${getUsernames()}`;
 
         fetch(requestUrl, {
-          method: 'POST'
-        }).then(result => result.text())
-        .then(html => console.log(html));
+          method: "POST"
+        })
+          .then(result => result.text())
+          .then(html => console.log(html));
       }
     });
   }, "[data-testid*=follow]");
@@ -91,3 +108,4 @@ addBlockButton();
 
 // For every other page: try it on click again:
 document.querySelector("body").addEventListener("click", addBlockButton);
+window.addEventListener("resize", addBlockButton);
