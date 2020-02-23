@@ -31,7 +31,10 @@ function tryToAccessDOM(callback, elementToExpectSelector, context = document) {
 function getUsernames() {
   let userCells = document.querySelectorAll('[data-testid="UserCell"]');
   let users = Array.from(userCells);
-  return users.map(user => user.querySelector("a").href);
+  return users.map(user => {
+    var userUrl = user.querySelector("a").href;
+    return userUrl.replace("https://twitter.com/", "");
+  });
 }
 
 function addBlockButton() {
