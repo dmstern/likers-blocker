@@ -99,43 +99,55 @@ function addBlockButton() {
     blockIconWrapper.style.marginRight = ".3em";
     blockButton.querySelector("div").prepend(blockIconWrapper);
 
-    var highlightColor = getComputedStyle(topbar.querySelector('h2')).color;
-    var backgroundColor = document.querySelector('body').style.backgroundColor;
+    var highlightColor = getComputedStyle(topbar.querySelector("h2")).color;
+    var backgroundColor = document.querySelector("body").style.backgroundColor;
     blockIconWrapper.querySelector("svg").style.color = highlightColor;
 
     blockButton.addEventListener("click", () => {
-      var scrollList = topbar.parentNode.parentNode.parentNode.parentNode.children[1].children[0];
+      var scrollList =
+        topbar.parentNode.parentNode.parentNode.parentNode.children[1]
+          .children[0];
       collectedUsers = [];
 
       // scroll down to get more users:
-      var initBlocking = function (users) {
-        var confirmed = confirm(`Willst du alle ${users.length} Nutzer blockieren? Evtl. musst du Popups ein deinem Browser für twitter.com erlauben.`);
+      var initBlocking = function(users) {
+        var confirmed = confirm(
+          `Willst du alle ${
+            users.length
+          } Nutzer blockieren? Evtl. musst du Popups ein deinem Browser für twitter.com erlauben.`
+        );
 
         if (confirmed) {
-          window.open(requestUrl, '_blank');
-        }        
+          window.open(requestUrl, "_blank");
+        }
       };
 
-      var textStyle = document.querySelector('section > div > div > div > div > div > div > div > div:nth-child(2) > div:nth-child(2)').classList;
-      var scrollingInfo = document.createElement('div');
-      scrollingInfo.classList.add('lb-scrolling-info', 'lb-popup', 'lb-hide');
+      var textStyle = document.querySelector(
+        "section > div > div > div > div > div > div > div > div:nth-child(2) > div:nth-child(2)"
+      ).classList;
+      var scrollingInfo = document.createElement("div");
+      scrollingInfo.classList.add("lb-scrolling-info", "lb-popup", "lb-hide");
       scrollingInfo.style.background = backgroundColor;
       scrollingInfo.style.color = highlightColor;
-      scrollingInfo.innerHTML = "<span class='lb-label'><p>Sammle Nutzernamen ein...</p><p>Für besonders große Listen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden.</p></span><h1><span class='lb-loading'>...</span></h1>"
-      document.querySelector('body').appendChild(scrollingInfo);
-      scrollingInfo.querySelector('.lb-label').classList.add(...textStyle);
-      scrollingInfo.classList.remove('lb-hide');
-      scrollList.classList.add('lb-blur');
+      scrollingInfo.innerHTML =
+        "<span class='lb-label'><p>Sammle Nutzernamen ein...</p><p>Für besonders große Listen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden.</p></span><h1><span class='lb-loading'>...</span></h1>";
+      document.querySelector("body").appendChild(scrollingInfo);
+      scrollingInfo.querySelector(".lb-label").classList.add(...textStyle);
+      scrollingInfo.classList.remove("lb-hide");
+      scrollList.classList.add("lb-blur");
 
       var scrollInterval = setInterval(() => {
-        var scrollListIsSmall = scrollList.scrollHeight < scrollList.clientHeight * 2;
-        var scrolledToBottom = scrollList.scrollTop > scrollList.scrollHeight - (scrollList.clientHeight * 2);
+        var scrollListIsSmall =
+          scrollList.scrollHeight < scrollList.clientHeight * 2;
+        var scrolledToBottom =
+          scrollList.scrollTop >
+          scrollList.scrollHeight - scrollList.clientHeight * 2;
         scrollList.scroll({
           top: scrollList.scrollTop + scrollList.clientHeight,
           left: 0,
           behavior: "smooth"
         });
-        
+
         addUsers(scrapeUsernames());
 
         var users = getUsers();
@@ -143,11 +155,11 @@ function addBlockButton() {
         var reachedUrlLengthMax = requestUrl.length > urlLengthMax - 100;
 
         if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
-          scrollingInfo.classList.add('lb-hide');
-          scrollingInfo.addEventListener('transitionend', () => {
+          scrollingInfo.classList.add("lb-hide");
+          scrollingInfo.addEventListener("transitionend", () => {
             scrollingInfo.remove();
           });
-          scrollList.classList.remove('lb-blur');
+          scrollList.classList.remove("lb-blur");
           clearInterval(scrollInterval);
           initBlocking(users);
         }
