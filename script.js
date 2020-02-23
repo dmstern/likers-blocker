@@ -82,16 +82,7 @@ function addBlockButton() {
     var highlightColor = getComputedStyle(blockButton).borderBottomColor;
     blockIconWrapper.querySelector("svg").style.color = highlightColor;
 
-    blockButton.addEventListener("click", function(event) {
-      var confirmed = confirm(
-        `Bist du sicher, dass du alle ${
-          getUsernames().length
-        } User, die diesen Tweet geliked haben, blockieren möchtest?`
-      );
-
-      if (!confirmed) {
-        return;
-      }
+    blockButton.addEventListener("click", () => {
       var requestUrl = `${apiUrlBlock}?users=${getUsernames()}`;
 
       var iframe = document.createElement("iframe");
