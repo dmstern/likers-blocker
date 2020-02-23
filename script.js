@@ -38,7 +38,7 @@ function tryToAccessDOM(callback, elementToExpectSelector, context = document) {
 }
 
 function isMobile() {
-  return document.documentElement.clientWidth < 1000;
+  return document.documentElement.clientWidth < 699;
 }
 
 function getUsernames() {
