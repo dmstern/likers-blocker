@@ -26,7 +26,7 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
 see [Issues](https://github.com/dmstern/likers-blocker/issues)
 
-## Collaboration
+## Contribution
 
 Feel free to suggest improvements or to create pull requests!
 
