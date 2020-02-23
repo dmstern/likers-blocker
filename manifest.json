@@ -5,7 +5,8 @@
   "content_scripts": [
     {
       "matches": ["https://twitter.com/*"],
-      "js": ["script.js"]
+      "js": ["script.js"],
+      "css": ["style.css"]
     }
   ],
   "manifest_version": 2,

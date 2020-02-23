@@ -1,6 +1,6 @@
 var blockIcon =
   '<svg viewBox="0 0 24 24" class="r-9ilb82 r-4qtqp9 r-yyyyoo r-1q142lx r-1xvli5t r-zso239 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M12 1.25C6.072 1.25 1.25 6.072 1.25 12S6.072 22.75 12 22.75 22.75 17.928 22.75 12 17.928 1.25 12 1.25zm0 1.5c2.28 0 4.368.834 5.982 2.207L4.957 17.982C3.584 16.368 2.75 14.282 2.75 12c0-5.1 4.15-9.25 9.25-9.25zm0 18.5c-2.28 0-4.368-.834-5.982-2.207L19.043 6.018c1.373 1.614 2.207 3.7 2.207 5.982 0 5.1-4.15 9.25-9.25 9.25z"></path></g></svg>';
-var apiUrlBlock = "https://ichbinhier-twittertools.herokuapp.com/blockapi/";
+var apiUrlBlock = "https://ichbinhier-twittertools.herokuapp.com/blocklists";
 
 var topbarSelector = {
   mobile: "main > div > div > div > div > div > div",
@@ -79,9 +79,8 @@ function addBlockButton() {
     blockIconWrapper.innerHTML = blockIcon;
     blockIconWrapper.style.marginRight = ".3em";
     blockButton.querySelector("div").prepend(blockIconWrapper);
-    blockIconWrapper.querySelector("svg").style.color = getComputedStyle(
-      blockButton
-    ).borderBottomColor;
+    var highlightColor = getComputedStyle(blockButton).borderBottomColor;
+    blockIconWrapper.querySelector("svg").style.color = highlightColor;
 
     blockButton.addEventListener("click", function(event) {
       var confirmed = confirm(
@@ -90,13 +89,29 @@ function addBlockButton() {
         } User, die diesen Tweet geliked haben, blockieren möchtest?`
       );
 
-      if (confirmed) {
-        var requestUrl = `${apiUrlBlock}?profile_urls=${getUsernames()}`;
-
-        fetch(requestUrl)
-          .then(result => result.text())
-          .then(html => console.log(html));
+      if (!confirmed) {
+        return;
       }
+      var requestUrl = `${apiUrlBlock}?users=${getUsernames()}`;
+
+      var iframe = document.createElement("iframe");
+      var popup = document.createElement("div");
+      popup.style.background = document.querySelector(
+        "body"
+      ).style.backgroundColor;
+      popup.classList.add("lb-popup");
+      iframe.src = requestUrl;
+      var closeButton = document.createElement("div");
+      closeButton.role = "button";
+      closeButton.classList.add("lb-close-button");
+      closeButton.innerHTML = "×";
+      closeButton.style.color = highlightColor;
+      closeButton.addEventListener("click", () => {
+        popup.remove();
+      });
+      document.body.appendChild(popup);
+      popup.appendChild(closeButton);
+      popup.appendChild(iframe);
     });
   }, "[data-testid*=follow]");
 }
