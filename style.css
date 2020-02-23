@@ -1,14 +1,54 @@
 .lb-popup {
   position: fixed;
-  width: 500px;
-  height: 350px;
-  position: fixed;
+  width: 400px;
+  height: 150px;
   top: 100px;
   left: 50%;
-  margin-left: -250px;
+  margin-left: -200px;
   border-radius: 25px;
   box-shadow: 0 8px 41px 22px #2f2f2fa3;
   border: 1px solid rgba(120, 120, 120, 0.3);
+  padding: 2em;
+  opacity: 0.9;
+  transition: opacity ease 500ms;
+  filter: none;
+}
+
+@keyframes swipe {
+  0% {
+    transform: translateX(0);
+    letter-spacing: 0;
+  }
+  25% {
+    letter-spacing: 10px;
+  }
+  50% {
+    transform: translateX(calc(100% - 2rem));
+    letter-spacing: 0;
+  }
+  75% {
+    letter-spacing: 10px;
+  }
+  100% {
+    transform: translateX(0);
+    letter-spacing: 0;
+  }
+}
+
+.lb-loading {
+  display: block;
+  animation-name: swipe;
+  animation-duration: 3s;
+  animation-timing-funtion: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.lb-blur {
+  filter: blur(3px);
+}
+
+.lb-hide {
+  opacity: 0;
 }
 
 .lb-popup iframe {
