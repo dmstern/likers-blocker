@@ -60,6 +60,25 @@ function getUsers() {
   return Array.from(new Set(collectedUsers));
 }
 
+var styleTagSet = false;
+function addStyleTag(highlightColor) {
+  if (styleTagSet) {
+    return;
+  }
+
+  var css = `.lb-close-button:hover { color: ${highlightColor} }`;
+  var style = document.createElement("style");
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+
+  document.querySelector("head").appendChild(style);
+  styleTagSet = true;
+}
+
 function addBlockButton() {
   tryToAccessDOM(followButton => {
     // prevent multiple blockButtons:
@@ -99,9 +118,11 @@ function addBlockButton() {
     blockIconWrapper.style.marginRight = ".3em";
     blockButton.querySelector("div").prepend(blockIconWrapper);
 
-    var highlightColor = getComputedStyle(topbar.querySelector("h2")).color;
+    var highlightColor = getComputedStyle(topbar.querySelector("svg")).color;
     var backgroundColor = document.querySelector("body").style.backgroundColor;
     blockIconWrapper.querySelector("svg").style.color = highlightColor;
+
+    addStyleTag(highlightColor);
 
     blockButton.addEventListener("click", () => {
       var scrollList =
@@ -130,13 +151,32 @@ function addBlockButton() {
       scrollingInfo.style.background = backgroundColor;
       scrollingInfo.style.color = highlightColor;
       scrollingInfo.innerHTML =
-        "<span class='lb-label'><p>Sammle Nutzernamen ein...</p><p>Für besonders große Listen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden.</p></span><h1><span class='lb-loading'>...</span></h1>";
+        "<span class='lb-label'><h3>Sammle Nutzernamen ein...</h3><p>Für besonders große Listen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden.</p></span><h1><span class='lb-loading'>...</span></h1>";
       document.querySelector("body").appendChild(scrollingInfo);
       scrollingInfo.querySelector(".lb-label").classList.add(...textStyle);
       scrollingInfo.classList.remove("lb-hide");
+
+      var closeButton = document.createElement("div");
+      closeButton.role = "button";
+      closeButton.innerHTML = "×";
+      closeButton.classList.add("lb-close-button");
+      closeButton.title = "Abbrechen";
+      scrollingInfo.prepend(closeButton);
       scrollList.classList.add("lb-blur");
 
-      var scrollInterval = setInterval(() => {
+      var scrollInterval;
+
+      var stopScrolling = function() {
+        scrollingInfo.classList.add("lb-hide");
+        scrollingInfo.addEventListener("transitionend", () => {
+          scrollingInfo.remove();
+        });
+
+        scrollList.classList.remove("lb-blur");
+        clearInterval(scrollInterval);
+      };
+
+      scrollInterval = setInterval(() => {
         var scrollListIsSmall =
           scrollList.scrollHeight < scrollList.clientHeight * 2;
         var scrolledToBottom =
@@ -155,17 +195,16 @@ function addBlockButton() {
         var reachedUrlLengthMax = requestUrl.length > urlLengthMax - 100;
 
         if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
-          scrollingInfo.classList.add("lb-hide");
-          scrollingInfo.addEventListener("transitionend", () => {
-            scrollingInfo.remove();
-          });
-          scrollList.classList.remove("lb-blur");
-          clearInterval(scrollInterval);
+          stopScrolling();
           initBlocking(users);
         }
       }, 800); // FIXME: might be too long or too short. should rather scroll further on scrolled ready.
+
+      closeButton.addEventListener("click", () => {
+        stopScrolling();
+      });
     });
-  }, "[data-testid*=follow]");
+  }, "[data-testid$=-follow]");
 }
 
 // for when we are on the likes page:

@@ -8,8 +8,8 @@
   border-radius: 25px;
   box-shadow: 0 8px 41px 22px #2f2f2fa3;
   border: 1px solid rgba(120, 120, 120, 0.3);
-  padding: 2em;
-  opacity: 0.9;
+  padding: 2rem;
+  opacity: 0.8;
   transition: opacity ease 500ms;
   filter: none;
 }
@@ -59,8 +59,9 @@
 }
 
 .lb-close-button {
-  padding: 1rem;
-  font-size: 1rem;
+  margin-top: -2.2rem;
+  padding: 2rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: white;
   cursor: pointer;
@@ -68,4 +69,8 @@
   position: absolute;
   right: 0;
   line-height: 1.7rem;
+}
+
+.lb-label h3 {
+  margin-top: 0;
 }
