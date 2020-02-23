@@ -72,6 +72,15 @@ function addBlockButton() {
     if (!topbar) {
       return;
     }
+
+    var lastChild = topbar.children[topbar.children.length - 1];
+    var lastHasWrongType = lastChild.nodeName !== "DIV";
+    var isTopbarFalseHit = topbar.children.length !== 2 || lastHasWrongType;
+
+    if (isTopbarFalseHit) {
+      return;
+    }
+
     topbar.appendChild(blockButton);
 
     // add blockIcon:
