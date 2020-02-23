@@ -131,7 +131,7 @@ function addBlockButton() {
       collectedUsers = [];
 
       // scroll down to get more users:
-      var initBlocking = function(users) {
+      var initBlocking = function(users, requestUrl) {
         var confirmed = confirm(
           `Willst du alle ${
             users.length
@@ -196,7 +196,7 @@ function addBlockButton() {
 
         if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
           stopScrolling();
-          initBlocking(users);
+          initBlocking(users, requestUrl);
         }
       }, 800); // FIXME: might be too long or too short. should rather scroll further on scrolled ready.
 
