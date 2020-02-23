@@ -76,7 +76,7 @@ function addBlockButton() {
       var confirmed = confirm(
         "Bist du sicher, dass du alle, die diesen Tweet geliked haben blockieren möchtest?"
       );
-      
+
       if (!confirmed) {
         event.preventDefault();
         event.stopPropagation();
