@@ -39,11 +39,12 @@ function getUsernames() {
 
 function addBlockButton() {
   tryToAccessDOM(followButton => {
+
     // prevent multiple blockButtons:
     if (document.querySelector("[data-testid=blockAll")) {
       return;
     }
-
+    
     var blockButton = document.createElement("a");
     blockButton.classList = followButton.classList;
     blockButton.style.textDecoration = "none";
@@ -74,7 +75,7 @@ function addBlockButton() {
 
     blockButton.addEventListener("click", function(event) {
       var confirmed = confirm(
-        "Bist du sicher, dass du alle, die diesen Tweet geliked haben blockieren möchtest?"
+        `Bist du sicher, dass du alle ${getUsernames().length} User, die diesen Tweet geliked haben, blockieren möchtest?`
       );
 
       if (!confirmed) {
