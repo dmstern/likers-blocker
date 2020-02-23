@@ -39,25 +39,19 @@ function getUsernames() {
 
 function addBlockButton() {
   tryToAccessDOM(followButton => {
-
     // prevent multiple blockButtons:
     if (document.querySelector("[data-testid=blockAll")) {
       return;
     }
-    
-    var blockButton = document.createElement("a");
+
+    var blockButton = document.createElement("button");
     blockButton.classList = followButton.classList;
     blockButton.style.textDecoration = "none";
     blockButton.style.marginRight = "1rem";
     blockButton.dataset.testid = "blockAll";
     blockButton.innerHTML = followButton.innerHTML;
-    var blockButtonLabel = blockButton.querySelector("div > span > span")
+    var blockButtonLabel = blockButton.querySelector("div > span > span");
     blockButtonLabel.innerHTML = "Alle Blockieren";
-    blockButton.target = "_blank";
-
-    var usernamesList = getUsernames().join(":");
-    var requestUrl = `${apiUrlBlock}profile_urls=${usernamesList}`;
-    blockButton.href = requestUrl;
 
     let topbar = document.querySelector(
       "main > div > div > div > div > div > div"
@@ -75,16 +69,20 @@ function addBlockButton() {
 
     blockButton.addEventListener("click", function(event) {
       var confirmed = confirm(
-        `Bist du sicher, dass du alle ${getUsernames().length} User, die diesen Tweet geliked haben, blockieren möchtest?`
+        `Bist du sicher, dass du alle ${
+          getUsernames().length
+        } User, die diesen Tweet geliked haben, blockieren möchtest?`
       );
 
-      if (!confirmed) {
-        event.preventDefault();
-        event.stopPropagation();
+      if (confirmed) {
+         var requestUrl = `${apiUrlBlock}?profile_urls=${getUsernames()}`;
+
+        fetch(requestUrl, {
+          method: 'POST'
+        }).then(result => result.text())
+        .then(html => console.log(html));
       }
-
     });
-
   }, "[data-testid*=follow]");
 }
 
