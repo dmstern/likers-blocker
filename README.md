@@ -1,4 +1,4 @@
-# likers-blocker
+# Likers Blocker
 A Chrome extension to block all likers of a tweet.
 
 Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
@@ -24,3 +24,17 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 ## Known Issues and to dos
 
 see [Issues](https://github.com/dmstern/likers-blocker/issues)
+
+## Collaboration
+
+Feel free to suggest improvements or to create pull requests!
+
+### Development
+
+To test the extension locally:
+
+* clone this repository
+* in Chrome, go to `chrome://extensions`
+* enable the developer mode with the regarding toggle button on the right side
+* click on "Load unpacked"
+* Select the folder of the cloned repository
