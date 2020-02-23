@@ -7,7 +7,7 @@ Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 > In Übrigen wünsche ich mir für solche Fälle ein Twitter-Add-On, das alle Liker eines bestimmten Tweets blockt, weil es nur Arschlöcher sein können. Wer programmiert es?
 > – [10:41 am · 22 Feb. 2020](https://twitter.com/sixtus/status/1231152136857231360)
 
-In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the [back-end](https://github.com/pkreissel/ichbinhier_twittertools) for this tool.
+In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the back-end for this tool: https://github.com/pkreissel/ichbinhier_twittertools).
 
 ## Installation
 
@@ -18,9 +18,12 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 ## Usage
 
 * Once you click on a tweet, there is a link which indicates how many people liked this tweet.
-* click on that link and you should get a list of all likers and a button on the top which says "block all".
-* click on that button and confirm if you are sure and wait for the success message.
-* ✔ DONE. All the dumbasses are blocked. 😇
+* click on that link to get the list of all likers
+* then click on the new button on the top which says "Block all" / "Alle Blockieren".
+* if you use it for the first time, you will have to authorize the app to access your twitter account.
+* you get a list of all users that are about to be blocked.
+* Confirm and wait for the sucess message.
+* ✔ DONE. All the likers of the tweet are blocked. 😇
 
 ## Known Issues and to dos
 
