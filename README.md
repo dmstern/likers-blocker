@@ -11,7 +11,7 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
 ## Installation
 
-* Go to the releases tab and download the .crx file from the latest release.
+* Go to the [releases](https://github.com/dmstern/likers-blocker/releases) tab and download the .crx file from the latest release.
 * Open it in Chrome.
 * Conform the installation.
 
