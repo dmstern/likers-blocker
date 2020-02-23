@@ -9,7 +9,6 @@ function tryToAccessDOM(callback, elementToExpectSelector, context = document) {
 
   function tryIt() {
     tryCounter++;
-    console.log(elementToExpectSelector, tryCounter);
 
     if (tryCounter >= tryMax || elementToExpect) {
       clearInterval(interval);
@@ -71,8 +70,6 @@ function addBlockButton() {
       var confirmed = confirm(
         "Bist du sicher, dass du alle, die diesen Tweet geliked haben blockieren möchtest?"
       );
-
-      console.log(confirmed);
 
       if (confirmed) {
         var usernamesList = getUsernames().join(":");
