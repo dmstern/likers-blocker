@@ -21,11 +21,15 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
 * Once you click on a tweet, there is a link which indicates how many people liked this tweet.
 * Click on that link to get the list of all likers
+
+  ![Screenshot](screenshots/likes.png)
 * Then click on the new button on the top which says "Block all" / "Alle Blockieren".
+  ![Screenshot](screenshots/block-all-button.png)
+  ![Screenshot](screenshots/collecting-usernames.png)
 * If you use it for the first time, you will have to authorize the app to access your twitter account.
 * You get a list of all users that are about to be blocked.
 * Confirm and wait for the sucess message.
-* ✔ DONE. All the likers of the tweet are blocked. 😇
+* ✔ DONE. All the collected likers of the tweet are blocked. 😇
 
 ## Known Issues and ToDos
 
