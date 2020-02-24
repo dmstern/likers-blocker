@@ -20,7 +20,7 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 ## Usage
 
 * Once you click on a tweet, there is a link which indicates how many people liked this tweet.
-* cclick on that link to get the list of all likers
+* Click on that link to get the list of all likers
 * Then click on the new button on the top which says "Block all" / "Alle Blockieren".
 * If you use it for the first time, you will have to authorize the app to access your twitter account.
 * You get a list of all users that are about to be blocked.
