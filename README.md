@@ -1,4 +1,4 @@
-# Likers Blocker  ![Logo](icon32.png)
+# Likers Blocker  ![Logo](icon48.png)
 
 A Chrome extension to block (almost) all likers of a tweet.
 
@@ -11,7 +11,7 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
 ## Installation
 
-* Go to the [releases](https://github.com/dmstern/likers-blocker/releases) tab and download the `.crx` file from the latest release under "assets".
+* Download the latest release [here](https://github.com/dmstern/likers-blocker/releases/latest/download/likers-blocker.crx).
 * In Chrome navigate to `chrome://extensions`.
 * Turn on the developer mode (with the toggle button in the top right corner)
 * Drag and drop the downloaded `.crx` file into the extensions page
