@@ -60,25 +60,6 @@ function getUsers() {
   return Array.from(new Set(collectedUsers));
 }
 
-var styleTagSet = false;
-function addStyleTag(highlightColor) {
-  if (styleTagSet) {
-    return;
-  }
-
-  var css = `.lb-close-button:hover { color: ${highlightColor} }`;
-  var style = document.createElement("style");
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-  } else {
-    style.appendChild(document.createTextNode(css));
-  }
-
-  document.querySelector("head").appendChild(style);
-  styleTagSet = true;
-}
-
 function addBlockButton() {
   tryToAccessDOM(followButton => {
     // prevent multiple blockButtons:
@@ -121,8 +102,6 @@ function addBlockButton() {
     var highlightColor = getComputedStyle(topbar.querySelector("svg")).color;
     var backgroundColor = document.querySelector("body").style.backgroundColor;
     blockIconWrapper.querySelector("svg").style.color = highlightColor;
-
-    addStyleTag(highlightColor);
 
     blockButton.addEventListener("click", () => {
       var scrollList =

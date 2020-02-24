@@ -59,16 +59,24 @@
 }
 
 .lb-close-button {
-  margin-top: -2.2rem;
   padding: 2rem;
   font-size: 1.2rem;
   font-weight: bold;
-  color: white;
+  color: inherit;
   cursor: pointer;
   font-size: 2rem;
   position: absolute;
   right: 0;
-  line-height: 1.7rem;
+  border-radius: 50%;
+  line-height: .5em;
+  padding: .5em;
+  margin-top: -.5em;
+  margin-right: .5em;
+  transition: background-color ease 500ms;
+}
+
+.lb-close-button:hover {
+  background-color: rgba(150, 150, 150, .2);
 }
 
 .lb-label h3 {
