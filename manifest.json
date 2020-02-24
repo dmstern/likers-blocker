@@ -1,7 +1,7 @@
 {
   "name": "Likers Blocker",
   "version": "1.0",
-  "description": "Block all likers of a tweet",
+  "description": "Block (almost) all likers of a tweet.",
   "content_scripts": [
     {
       "matches": ["https://twitter.com/*"],
