@@ -12,7 +12,9 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 ## Installation
 
 * Go to the [releases](https://github.com/dmstern/likers-blocker/releases) tab and download the .crx file from the latest release.
-* Open it in Chrome.
+* In Chrome navigate to `chrome://extensions`.
+* turn on the developer mode (with the toggle button in the top right corner)
+* drag and drop the downloaded `.crx` file into the extensions page
 * Conform the installation.
 
 ## Usage
