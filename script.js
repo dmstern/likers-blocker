@@ -135,7 +135,7 @@ function addBlockButton() {
         var confirmed = confirm(
           `Willst du alle ${
             users.length
-          } Nutzer blockieren? Evtl. musst du Popups ein deinem Browser für twitter.com erlauben.`
+          } Nutzer blockieren? Evtl. musst du in deinem Browser Popups für twitter.com erlauben.`
         );
 
         if (confirmed) {
