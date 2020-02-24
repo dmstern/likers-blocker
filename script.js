@@ -43,8 +43,8 @@ function isMobile() {
   return document.documentElement.clientWidth < 699;
 }
 
-function scrapeUsernames() {
-  var userCells = document.querySelectorAll('[data-testid="UserCell"]');
+function scrapeUsernames(likersList) {
+  var userCells = likersList.querySelectorAll('[data-testid="UserCell"]');
   var users = Array.from(userCells);
   return users.map(user => {
     var userUrl = user.querySelector("a").href;
@@ -188,7 +188,7 @@ function addBlockButton() {
           behavior: "smooth"
         });
 
-        addUsers(scrapeUsernames());
+        addUsers(scrapeUsernames(scrollList));
 
         var users = getUsers();
         var requestUrl = `${apiUrlBlock}?users=${users}`;
