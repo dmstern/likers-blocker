@@ -27,7 +27,7 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 * Confirm and wait for the sucess message.
 * ✔ DONE. All the likers of the tweet are blocked. 😇
 
-## Known Issues and to dos
+## Known Issues and ToDos
 
 see [Issues](https://github.com/dmstern/likers-blocker/issues)
 
