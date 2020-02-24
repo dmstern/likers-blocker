@@ -43,7 +43,7 @@ If you find a bug or want to suggest new features, [file an issue](https://githu
 * For big lists of likers (hundrets and more), not *all* likers are blocked, because they do not appear in the likers list from twitter.
 * Currently the extension is not available in the Chrome Web Store. You will have to install it manually.
 * For some users this manual installtion does not work, because Chrome won't enable an extension that does not come from the Web Store. A workaround can be found here: https://www.ghacks.net/2017/07/04/hide-chromes-disable-developer-mode-extensions-warning/
-* Currently we support only Google Chrome. Support for Firefox is planned: #1.
+* Currently we support only Google Chrome. Support for Firefox is [planned](https://github.com/dmstern/likers-blocker/issues/1).
 
 ## Contribution
 
