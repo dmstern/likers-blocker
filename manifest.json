@@ -1,6 +1,6 @@
 {
   "name": "Likers Blocker",
-  "version": "1.0-beta.4",
+  "version": "1.0",
   "description": "Block (almost) all likers of a tweet.",
   "icons": {
     "16": "icon16.png",
