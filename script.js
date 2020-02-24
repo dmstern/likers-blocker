@@ -83,7 +83,10 @@ function addBlockButton() {
 
     var lastChild = topbar.children[topbar.children.length - 1];
     var lastHasWrongType = lastChild.nodeName !== "DIV";
-    var isTopbarFalseHit = topbar.children.length !== 2 || lastHasWrongType;
+    var heading = lastChild.querySelector('div > h2 > span');
+    var headingIsNotLikes = !heading.innerText.match(/(gefällt|like).*/ig);
+
+    var isTopbarFalseHit = topbar.children.length !== 2 || lastHasWrongType || !heading || headingIsNotLikes;
 
     if (isTopbarFalseHit) {
       return;
