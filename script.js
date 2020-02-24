@@ -68,9 +68,7 @@ function addBlockButton() {
     }
 
     var blockButton = document.createElement("button");
-    blockButton.classList = followButton.classList;
-    blockButton.style.textDecoration = "none";
-    blockButton.style.marginRight = "1rem";
+    blockButton.classList.add('lb-block-button', ...followButton.classList);
     blockButton.dataset.testid = "blockAll";
     blockButton.innerHTML = followButton.innerHTML;
     var blockButtonLabel = blockButton.querySelector("div > span > span");

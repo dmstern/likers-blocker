@@ -82,3 +82,21 @@
 .lb-label h3 {
   margin-top: 0;
 }
+
+.lb-block-button {
+  margin-right: 10px !important;
+  textDecoration: none;
+}
+
+@media (max-width: 621px) {
+  .lb-block-button {
+    margin-right: 3px !important;
+  }
+}
+
+@media (min-width: 620) AND (max-width: 698px) {
+  .lb-block-button {
+    margin-right: 6px !important;
+  }
+}
+
