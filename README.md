@@ -13,17 +13,17 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
 * Go to the [releases](https://github.com/dmstern/likers-blocker/releases) tab and download the `.crx` file from the latest release under "assets".
 * In Chrome navigate to `chrome://extensions`.
-* turn on the developer mode (with the toggle button in the top right corner)
-* drag and drop the downloaded `.crx` file into the extensions page
-* Conform the installation.
+* Turn on the developer mode (with the toggle button in the top right corner)
+* Drag and drop the downloaded `.crx` file into the extensions page
+* Confirm the installation.
 
 ## Usage
 
 * Once you click on a tweet, there is a link which indicates how many people liked this tweet.
-* click on that link to get the list of all likers
-* then click on the new button on the top which says "Block all" / "Alle Blockieren".
-* if you use it for the first time, you will have to authorize the app to access your twitter account.
-* you get a list of all users that are about to be blocked.
+* cclick on that link to get the list of all likers
+* Then click on the new button on the top which says "Block all" / "Alle Blockieren".
+* If you use it for the first time, you will have to authorize the app to access your twitter account.
+* You get a list of all users that are about to be blocked.
 * Confirm and wait for the sucess message.
 * ✔ DONE. All the likers of the tweet are blocked. 😇
 
@@ -39,8 +39,8 @@ Feel free to suggest improvements or to create pull requests!
 
 To test the extension locally:
 
-* clone this repository
-* in Chrome, go to `chrome://extensions`
-* enable the developer mode with the regarding toggle button on the right side
-* click on "Load unpacked"
+* Clone this repository
+* In Chrome, go to `chrome://extensions`
+* Enable the developer mode with the regarding toggle button on the right side
+* Click on "Load unpacked"
 * Select the folder of the cloned repository
