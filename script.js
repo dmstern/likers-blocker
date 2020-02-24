@@ -163,8 +163,8 @@ function addBlockButton() {
         var scrollListIsSmall =
           scrolly.scrollHeight < scrolly.clientHeight * 2;
         var scrolledToBottom =
-          scrolly.scrollTop >
-          scrolly.scrollHeight - scrolly.clientHeight * 2;
+          scrolly.scrollTop >=
+          scrolly.scrollHeight - scrolly.clientHeight;
         scrolly.scroll({
           top: scrolly.scrollTop + scrolly.clientHeight,
           left: 0,
