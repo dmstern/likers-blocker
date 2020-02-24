@@ -29,7 +29,7 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
 ## Known Issues and ToDos
 
-see [Issues](https://github.com/dmstern/likers-blocker/issues)
+See [Issues](https://github.com/dmstern/likers-blocker/issues)
 
 ## Contribution
 
