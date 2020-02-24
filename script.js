@@ -68,7 +68,7 @@ function addBlockButton() {
     }
 
     var blockButton = document.createElement("button");
-    blockButton.classList.add('lb-block-button', ...followButton.classList);
+    blockButton.classList.add("lb-block-button", ...followButton.classList);
     blockButton.dataset.testid = "blockAll";
     blockButton.innerHTML = followButton.innerHTML;
     var blockButtonLabel = blockButton.querySelector("div > span > span");
@@ -83,10 +83,14 @@ function addBlockButton() {
 
     var lastChild = topbar.children[topbar.children.length - 1];
     var lastHasWrongType = lastChild.nodeName !== "DIV";
-    var heading = lastChild.querySelector('div > h2 > span');
-    var headingIsNotLikes = !heading.innerText.match(/(gefällt|like).*/ig);
+    var heading = lastChild.querySelector("div > h2 > span");
+    var headingIsNotLikes = !heading.innerText.match(/(gefällt|like).*/gi);
 
-    var isTopbarFalseHit = topbar.children.length !== 2 || lastHasWrongType || !heading || headingIsNotLikes;
+    var isTopbarFalseHit =
+      topbar.children.length !== 2 ||
+      lastHasWrongType ||
+      !heading ||
+      headingIsNotLikes;
 
     if (isTopbarFalseHit) {
       return;
@@ -126,14 +130,21 @@ function addBlockButton() {
       var bioText = document.querySelector(
         "section > div > div > div > div > div > div > div > div:nth-child(2) > div:nth-child(2)"
       );
-      var handleText = document.querySelector("section > div > div > div > div > div > div > div > div:nth-child(2) > div >div >a > div > div > div");
+      var handleText = document.querySelector(
+        "section > div > div > div > div > div > div > div > div:nth-child(2) > div >div >a > div > div > div"
+      );
       var textStyle = (bioText || handleText).classList;
       var scrollingInfo = document.createElement("div");
       scrollingInfo.classList.add("lb-scrolling-info", "lb-popup", "lb-hide");
       scrollingInfo.style.background = backgroundColor;
       scrollingInfo.style.color = highlightColor;
-      scrollingInfo.innerHTML =
-        "<span class='lb-label'><h3>Sammle Nutzernamen ein...</h3><p>Für besonders große Listen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden.</p></span><h1><span class='lb-loading'>...</span></h1>";
+      scrollingInfo.innerHTML = `
+        <span class='lb-label'>
+          <h3>Sammle Nutzernamen ein...</h3>
+          <p>Für besonders große Listen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden.</p>
+        </span>
+        <h1><span class='lb-loading'>...</span></h1>
+      `;
       document.querySelector("body").appendChild(scrollingInfo);
       scrollingInfo.querySelector(".lb-label").classList.add(...textStyle);
       scrollingInfo.classList.remove("lb-hide");
@@ -158,13 +169,11 @@ function addBlockButton() {
         clearInterval(scrollInterval);
       };
 
-      var scrolly = isMobile() ? document.querySelector('html') : scrollList;
+      var scrolly = isMobile() ? document.querySelector("html") : scrollList;
       scrollInterval = setInterval(() => {
-        var scrollListIsSmall =
-          scrolly.scrollHeight < scrolly.clientHeight * 2;
+        var scrollListIsSmall = scrolly.scrollHeight < scrolly.clientHeight * 2;
         var scrolledToBottom =
-          scrolly.scrollTop >=
-          scrolly.scrollHeight - scrolly.clientHeight;
+          scrolly.scrollTop >= scrolly.scrollHeight - scrolly.clientHeight;
         scrolly.scroll({
           top: scrolly.scrollTop + scrolly.clientHeight,
           left: 0,
