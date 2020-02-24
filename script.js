@@ -155,14 +155,15 @@ function addBlockButton() {
         clearInterval(scrollInterval);
       };
 
+      var scrolly = isMobile() ? document.querySelector('html') : scrollList;
       scrollInterval = setInterval(() => {
         var scrollListIsSmall =
-          scrollList.scrollHeight < scrollList.clientHeight * 2;
+          scrolly.scrollHeight < scrolly.clientHeight * 2;
         var scrolledToBottom =
-          scrollList.scrollTop >
-          scrollList.scrollHeight - scrollList.clientHeight * 2;
-        scrollList.scroll({
-          top: scrollList.scrollTop + scrollList.clientHeight,
+          scrolly.scrollTop >
+          scrolly.scrollHeight - scrolly.clientHeight * 2;
+        scrolly.scroll({
+          top: scrolly.scrollTop + scrolly.clientHeight,
           left: 0,
           behavior: "smooth"
         });
