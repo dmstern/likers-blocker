@@ -1,4 +1,4 @@
-# Likers Blocker
+# Likers Blocker  ![Logo](icon32.png)
 
 A Chrome extension to block all likers of a tweet.
 
