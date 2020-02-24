@@ -1,6 +1,6 @@
 # Likers Blocker
 
-A Chrome extension to block all likers of a tweet.
+A Chrome extension to block (almost) all likers of a tweet.
 
 Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 
