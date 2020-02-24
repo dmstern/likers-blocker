@@ -123,9 +123,11 @@ function addBlockButton() {
         }
       };
 
-      var textStyle = document.querySelector(
+      var bioText = document.querySelector(
         "section > div > div > div > div > div > div > div > div:nth-child(2) > div:nth-child(2)"
-      ).classList;
+      );
+      var handleText = document.querySelector("section > div > div > div > div > div > div > div > div:nth-child(2) > div >div >a > div > div > div");
+      var textStyle = (bioText || handleText).classList;
       var scrollingInfo = document.createElement("div");
       scrollingInfo.classList.add("lb-scrolling-info", "lb-popup", "lb-hide");
       scrollingInfo.style.background = backgroundColor;
