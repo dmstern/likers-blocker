@@ -38,11 +38,11 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 ---
 
 **NOTE:**
-The Extension is currently in beta status. This means that there may be issues, bugs, false-positives. See [Issues](https://github.com/dmstern/likers-blocker/issues).
+The Extension is currently in beta status. This means that it can not be considered as stable and there may be bugs. See [Issues](https://github.com/dmstern/likers-blocker/issues).
 
 ---
 
-If you find a bug or want to suggest new features, [file an issue](https://github.com/dmstern/likers-blocker/issues/new).
+If you find a bug or want to suggest new features, [file a new issue](https://github.com/dmstern/likers-blocker/issues/new).
 
 ### Constraints
 
