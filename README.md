@@ -4,6 +4,8 @@
 
 A browser extension to block all visually displayed likers of a tweet.
 
+![Preview](screenshots/preview2-small.png)
+
 Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 
 > In Übrigen wünsche ich mir für solche Fälle ein Twitter-Add-On, das alle Liker eines bestimmten Tweets blockt, weil es nur Arschlöcher sein können. Wer programmiert es?
