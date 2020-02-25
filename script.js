@@ -108,7 +108,7 @@ function addBlockButton() {
     }
 
     var tweetId = location.href
-      .replace("https://twitter.com/muenchner661/status/", "")
+      .replace(/https:\/\/twitter.com\/.*\/status\//g, "")
       .replace("/likes", "");
 
     topbar.appendChild(blockButton);
@@ -160,9 +160,11 @@ function addBlockButton() {
         confirmMessageElement.appendChild(confirmButton);
 
         confirmButton.addEventListener("click", () => {
-          window.open(`${requestUrl}&rt=${checkbox.checked ? 1 : 0}`, "_blank");
+          var tweetParam = checkbox.checked ? `&tweet_id=${tweetId}` : '';
+          window.open(`${requestUrl}${tweetParam}`, "_blank");
           closePopup(popup, blockButton, scrollList);
         });
+
         setTimeout(() => {
           popup.classList.add("lb-confirm");
         }, 500);
@@ -220,7 +222,7 @@ function addBlockButton() {
         addUsers(scrapeUsernames(scrollList));
 
         var users = getUsers();
-        var requestUrl = `${apiUrlBlock}?tweet_id=${tweetId}&users=${users}`;
+        var requestUrl = `${apiUrlBlock}?users=${users}`;
         var reachedUrlLengthMax = requestUrl.length > urlLengthMax - 100;
 
         if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
