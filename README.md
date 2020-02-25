@@ -1,6 +1,8 @@
-# Likers Blocker  ![Logo](icon32.png)
+# Likers Blocker
 
-A Chrome extension to block (almost) all likers of a tweet.
+![Logo](icon128.png)  [![Creative Commons Lizenzvertrag](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+A browser extension to block all visually displayed likers of a tweet.
 
 Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 
@@ -11,7 +13,7 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
 ## Installation
 
-* Go to the [releases](https://github.com/dmstern/likers-blocker/releases) tab and download the `.crx` file from the latest release under "assets".
+* Download the latest release [here](https://github.com/dmstern/likers-blocker/releases/latest/download/likers-blocker.crx).
 * In Chrome navigate to `chrome://extensions`.
 * Turn on the developer mode (with the toggle button in the top right corner)
 * Drag and drop the downloaded `.crx` file into the extensions page
@@ -36,11 +38,11 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 ---
 
 **NOTE:**
-The Extension is currently in beta status. This means that there may be issues, bugs, false-positives. See [Issues](https://github.com/dmstern/likers-blocker/issues).
+The Extension is currently in beta status. This means that it can not be considered as stable and there may be bugs. See [Issues](https://github.com/dmstern/likers-blocker/issues).
 
 ---
 
-If you find a bug or want to suggest new features, [file an issue](https://github.com/dmstern/likers-blocker/issues/new).
+If you find a bug or want to suggest new features, [file a new issue](https://github.com/dmstern/likers-blocker/issues/new).
 
 ### Constraints
 
