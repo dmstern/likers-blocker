@@ -132,7 +132,8 @@ function addBlockButton() {
       var initBlocking = function(users, requestUrl, popup) {
         var confirmMessage = `<p>Willst du alle ${
             users.length
-          } Nutzer blockieren? Evtl. musst du in deinem Browser Popups für twitter.com erlauben.</p>`;
+          } Nutzer blockieren? <br/>
+          Evtl. musst du in deinem Browser Popups für twitter.com erlauben.</p>`;
 
         var confirmButton = blockButton.cloneNode(true);
         confirmButton.classList.add('lb-confirm-button');
