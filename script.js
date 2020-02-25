@@ -61,6 +61,18 @@ function getUsers() {
 }
 
 function addBlockButton() {
+
+  function closePopup(popup, blockButton, scrollList) {
+    blockButton.disabled = false;
+
+    popup.classList.add("lb-hide");
+    popup.addEventListener("transitionend", () => {
+      popup.remove();
+    });
+
+    scrollList.classList.remove("lb-blur");
+  }
+
   tryToAccessDOM(followButton => {
     // prevent multiple blockButtons:
     if (document.querySelector("[data-testid=blockAll")) {
@@ -95,6 +107,8 @@ function addBlockButton() {
     if (isTopbarFalseHit) {
       return;
     }
+    
+    var tweetId = location.href.replace("https://twitter.com/muenchner661/status/", "").replace("/likes", "");
 
     topbar.appendChild(blockButton);
 
@@ -115,16 +129,39 @@ function addBlockButton() {
       collectedUsers = [];
 
       // scroll down to get more users:
-      var initBlocking = function(users, requestUrl) {
-        var confirmed = confirm(
-          `Willst du alle ${
+      var initBlocking = function(users, requestUrl, popup) {
+        var confirmMessage = `<p>Willst du alle ${
             users.length
-          } Nutzer blockieren? Evtl. musst du in deinem Browser Popups für twitter.com erlauben.`
-        );
+          } Nutzer blockieren? Evtl. musst du in deinem Browser Popups für twitter.com erlauben.</p>`;
 
-        if (confirmed) {
-          window.open(requestUrl, "_blank");
-        }
+        var confirmButton = blockButton.cloneNode(true);
+        confirmButton.classList.add('lb-confirm-button');
+        confirmButton.classList.remove('lb-block-button');
+        confirmButton.querySelector("div > span").remove();
+        confirmButton.querySelector("div > span > span").innerText = "OK";
+        confirmButton.disabled = false;
+
+        var checkbox = document.createElement("input");
+        var label = document.createElement("label");
+
+        var confirmMessageElement = popup.querySelector(".lb-label").cloneNode();
+        confirmMessageElement.innerHTML = confirmMessage;
+        popup.appendChild(confirmMessageElement);
+
+        checkbox.type = "checkbox";
+        checkbox.classList.add("lb-checkbox");
+        confirmMessageElement.appendChild(label);
+        label.innerHTML = "Auch alle Retweeter blockieren?";
+        label.prepend(checkbox);
+        confirmMessageElement.appendChild(confirmButton);
+
+        confirmButton.addEventListener('click', () => {
+          window.open(`${requestUrl}&rt=${checkbox.checked ? 1 : 0}`, "_blank");
+          closePopup(popup, blockButton, scrollList);
+        });
+        setTimeout(() => {
+          popup.classList.add('lb-confirm');
+        }, 500);
       };
 
       var bioText = document.querySelector(
@@ -134,38 +171,34 @@ function addBlockButton() {
         "section > div > div > div > div > div > div > div > div:nth-child(2) > div >div >a > div > div > div"
       );
       var textStyle = (bioText || handleText).classList;
-      var scrollingInfo = document.createElement("div");
-      scrollingInfo.classList.add("lb-scrolling-info", "lb-popup", "lb-hide");
-      scrollingInfo.style.background = backgroundColor;
-      scrollingInfo.style.color = highlightColor;
-      scrollingInfo.innerHTML = `
+      var popup = document.createElement("div");
+      popup.classList.add("lb-scrolling-info", "lb-popup", "lb-hide");
+      popup.style.background = backgroundColor;
+      popup.style.color = highlightColor;
+      popup.innerHTML = `
         <span class='lb-label'>
           <h3>Sammle Nutzernamen ein...</h3>
           <p>Für besonders große Listen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden.</p>
         </span>
         <h1><span class='lb-loading'>...</span></h1>
       `;
-      document.querySelector("body").appendChild(scrollingInfo);
-      scrollingInfo.querySelector(".lb-label").classList.add(...textStyle);
-      scrollingInfo.classList.remove("lb-hide");
+      document.querySelector("body").appendChild(popup);
+      blockButton.disabled = true;
+
+      popup.querySelector(".lb-label").classList.add(...textStyle);
+      popup.classList.remove("lb-hide");
 
       var closeButton = document.createElement("div");
       closeButton.role = "button";
       closeButton.innerHTML = "×";
       closeButton.classList.add("lb-close-button");
       closeButton.title = "Abbrechen";
-      scrollingInfo.prepend(closeButton);
+      popup.prepend(closeButton);
       scrollList.classList.add("lb-blur");
 
       var scrollInterval;
-
-      var stopScrolling = function() {
-        scrollingInfo.classList.add("lb-hide");
-        scrollingInfo.addEventListener("transitionend", () => {
-          scrollingInfo.remove();
-        });
-
-        scrollList.classList.remove("lb-blur");
+      
+      var stopScrolling = function () {
         clearInterval(scrollInterval);
       };
 
@@ -183,16 +216,17 @@ function addBlockButton() {
         addUsers(scrapeUsernames(scrollList));
 
         var users = getUsers();
-        var requestUrl = `${apiUrlBlock}?users=${users}`;
+        var requestUrl = `${apiUrlBlock}?tweet_id=${tweetId}&users=${users}`;
         var reachedUrlLengthMax = requestUrl.length > urlLengthMax - 100;
 
         if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
           stopScrolling();
-          initBlocking(users, requestUrl);
+          initBlocking(users, requestUrl, popup);
         }
       }, 800); // FIXME: might be too long or too short. should rather scroll further on scrolled ready.
 
       closeButton.addEventListener("click", () => {
+        closePopup(popup, blockButton, scrollList);
         stopScrolling();
       });
     });
