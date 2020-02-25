@@ -2,7 +2,7 @@
 
 ![Logo](icon128.png)
 
-A Browser extension to block all visually displayed likers of a tweet.
+A browser extension to block all visually displayed likers of a tweet.
 
 Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 
