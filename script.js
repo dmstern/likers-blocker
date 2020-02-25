@@ -61,7 +61,6 @@ function getUsers() {
 }
 
 function addBlockButton() {
-
   function closePopup(popup, blockButton, scrollList) {
     blockButton.disabled = false;
 
@@ -107,8 +106,10 @@ function addBlockButton() {
     if (isTopbarFalseHit) {
       return;
     }
-    
-    var tweetId = location.href.replace("https://twitter.com/muenchner661/status/", "").replace("/likes", "");
+
+    var tweetId = location.href
+      .replace("https://twitter.com/muenchner661/status/", "")
+      .replace("/likes", "");
 
     topbar.appendChild(blockButton);
 
@@ -131,13 +132,13 @@ function addBlockButton() {
       // scroll down to get more users:
       var initBlocking = function(users, requestUrl, popup) {
         var confirmMessage = `<p>Willst du alle ${
-            users.length
-          } Nutzer blockieren? <br/>
+          users.length
+        } Nutzer blockieren? <br/>
           Evtl. musst du in deinem Browser Popups für twitter.com erlauben.</p>`;
 
         var confirmButton = blockButton.cloneNode(true);
-        confirmButton.classList.add('lb-confirm-button');
-        confirmButton.classList.remove('lb-block-button');
+        confirmButton.classList.add("lb-confirm-button");
+        confirmButton.classList.remove("lb-block-button");
         confirmButton.querySelector("div > span").remove();
         confirmButton.querySelector("div > span > span").innerText = "OK";
         confirmButton.disabled = false;
@@ -145,7 +146,9 @@ function addBlockButton() {
         var checkbox = document.createElement("input");
         var label = document.createElement("label");
 
-        var confirmMessageElement = popup.querySelector(".lb-label").cloneNode();
+        var confirmMessageElement = popup
+          .querySelector(".lb-label")
+          .cloneNode();
         confirmMessageElement.innerHTML = confirmMessage;
         popup.appendChild(confirmMessageElement);
 
@@ -156,22 +159,22 @@ function addBlockButton() {
         label.prepend(checkbox);
         confirmMessageElement.appendChild(confirmButton);
 
-        confirmButton.addEventListener('click', () => {
+        confirmButton.addEventListener("click", () => {
           window.open(`${requestUrl}&rt=${checkbox.checked ? 1 : 0}`, "_blank");
           closePopup(popup, blockButton, scrollList);
         });
         setTimeout(() => {
-          popup.classList.add('lb-confirm');
+          popup.classList.add("lb-confirm");
         }, 500);
       };
 
       var bioText = document.querySelector(
-        "section > div > div > div > div > div > div > div > div:nth-child(2) > div:nth-child(2)"
+        "[data-testid=UserCell] > div > div:nth-child(2) > div:nth-child(2)"
       );
-      var handleText = document.querySelector(
-        "section > div > div > div > div > div > div > div > div:nth-child(2) > div >div >a > div > div > div"
+      var nameText = document.querySelector(
+        "[data-testid=UserCell] > div > div:nth-child(2) > div > div > a > div > div > div"
       );
-      var textStyle = (bioText || handleText).classList;
+      var textStyle = (bioText || nameText).classList;
       var popup = document.createElement("div");
       popup.classList.add("lb-scrolling-info", "lb-popup", "lb-hide");
       popup.style.background = backgroundColor;
@@ -198,8 +201,8 @@ function addBlockButton() {
       scrollList.classList.add("lb-blur");
 
       var scrollInterval;
-      
-      var stopScrolling = function () {
+
+      var stopScrolling = function() {
         clearInterval(scrollInterval);
       };
 

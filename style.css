@@ -131,7 +131,7 @@
 .lb-block-button {
   margin-right: 10px !important;
 }
-  
+
 .lb-confirm-button {
   position: absolute !important;
   right: 0;
@@ -140,7 +140,7 @@
 }
 
 .lb-checkbox {
-  margin: 0 .7em 0 0;
+  margin: 0 0.7em 0 0;
 }
 
 @media (max-width: 621px) {
