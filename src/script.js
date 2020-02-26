@@ -238,10 +238,13 @@ function addBlockButton() {
       };
 
       var scrolly = isMobile() ? document.querySelector("html") : scrollList;
+      scrolly.scrollTo(0, 0);
+
       scrollInterval = setInterval(() => {
         var scrollListIsSmall = scrolly.scrollHeight < scrolly.clientHeight * 2;
         var scrolledToBottom =
           scrolly.scrollTop >= scrolly.scrollHeight - scrolly.clientHeight;
+
         scrolly.scroll({
           top: scrolly.scrollTop + scrolly.clientHeight,
           left: 0,
