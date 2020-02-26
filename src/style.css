@@ -154,3 +154,8 @@
     margin-right: 6px !important;
   }
 }
+
+.lb-info {
+  margin-left: 1em;
+  padding: 3px;
+}

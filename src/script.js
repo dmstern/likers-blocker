@@ -173,7 +173,7 @@ function addBlockButton() {
         checkbox.type = "checkbox";
         checkbox.classList.add("lb-checkbox");
         confirmMessageElement.appendChild(label);
-        label.innerHTML = "Auch alle Retweeter blockieren?";
+        label.innerHTML = "<span>Auch alle Retweeter blockieren?</span><span class='lb-info' title='Beinhaltet nur direkte Retweeter ohne Kommentar'>🛈</span>";
         label.prepend(checkbox);
         confirmMessageElement.appendChild(confirmButton);
 
