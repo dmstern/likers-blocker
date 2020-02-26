@@ -1,6 +1,6 @@
 # Likers Blocker
 
-![Logo](src/icon128.png)  [![Creative Commons Lizenzvertrag](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
+![Logo](src/icon128.png)
 
 A browser extension to block all visually displayed likers of a tweet.
 
@@ -65,4 +65,10 @@ To test the extension locally:
 * In Chrome, go to `chrome://extensions`
 * Enable the developer mode with the regarding toggle button on the right side
 * Click on "Load unpacked"
-* Select the folder of the cloned repository
+* Select the `src` folder of the cloned repository
+
+
+---
+
+[![Creative Commons Lizenzvertrag](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
+All information on this site is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
