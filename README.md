@@ -4,7 +4,7 @@
 
 A browser extension to block all visually displayed likers of a tweet.
 
-![Preview](screenshots/preview2-small.png)
+![Preview](screenshots/preview2-medium.png)
 
 Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 
