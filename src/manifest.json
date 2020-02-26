@@ -18,12 +18,5 @@
   "manifest_version": 2,
   "browser_action": {
     "default_popup": "popup.html"
-  },
-  "permissions": [
-    "declarativeContent",
-    "tabs",
-    "activeTab",
-    "webNavigation",
-    "https://ichbinhier-twittertools.herokuapp.com/"
-  ]
+  }
 }
