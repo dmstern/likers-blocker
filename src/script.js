@@ -9,6 +9,21 @@ var topbarSelector = {
   desktop: "[aria-labelledby=modal-header] > div > div > div > div > div"
 };
 
+function debounce(func, wait, immediate) {
+  var timeout;
+  return function() {
+	  var context = this, args = arguments;
+	  var later = function() {
+		  timeout = null;
+		  if (!immediate) func.apply(context, args);
+	  };
+	  var callNow = immediate && !timeout;
+	  clearTimeout(timeout);
+	  timeout = setTimeout(later, wait);
+	  if (callNow) func.apply(context, args);
+  };
+}
+
 function tryToAccessDOM(callback, elementToExpectSelector, context = document) {
   var elementToExpect = null;
   var tryCounter = 0;
@@ -78,13 +93,6 @@ function addBlockButton() {
       return;
     }
 
-    var blockButton = document.createElement("button");
-    blockButton.classList.add("lb-block-button", ...followButton.classList);
-    blockButton.dataset.testid = "blockAll";
-    blockButton.innerHTML = followButton.innerHTML;
-    var blockButtonLabel = blockButton.querySelector("div > span > span");
-    blockButtonLabel.innerHTML = "Alle Blockieren";
-
     var viewport = isMobile() ? "mobile" : "desktop";
     var topbar = document.querySelector(topbarSelector[viewport]);
 
@@ -110,6 +118,14 @@ function addBlockButton() {
     var tweetId = location.href
       .replace(/https:\/\/twitter.com\/.*\/status\//g, "")
       .replace("/likes", "");
+
+    var blockButton = document.createElement("button");
+    blockButton.classList.add("lb-block-button", ...followButton.classList);
+    blockButton.dataset.testid = "blockAll";
+    blockButton.innerHTML = followButton.innerHTML;
+
+    var blockButtonLabel = blockButton.querySelector("div > span > span");
+    blockButtonLabel.innerHTML = "Alle Blockieren";
 
     topbar.appendChild(blockButton);
 
@@ -244,4 +260,4 @@ addBlockButton();
 
 // For every other page: try it on click again:
 document.querySelector("body").addEventListener("click", addBlockButton);
-window.addEventListener("resize", addBlockButton);
+window.addEventListener("resize", debounce(addBlockButton, 250));
