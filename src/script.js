@@ -12,15 +12,16 @@ var topbarSelector = {
 function debounce(func, wait, immediate) {
   var timeout;
   return function() {
-	  var context = this, args = arguments;
-	  var later = function() {
-		  timeout = null;
-		  if (!immediate) func.apply(context, args);
-	  };
-	  var callNow = immediate && !timeout;
-	  clearTimeout(timeout);
-	  timeout = setTimeout(later, wait);
-	  if (callNow) func.apply(context, args);
+    var context = this,
+      args = arguments;
+    var later = function() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
   };
 }
 
@@ -87,7 +88,6 @@ function closePopup(popup, blockButton, scrollList) {
 }
 
 function addBlockButton() {
-
   tryToAccessDOM(followButton => {
     // prevent multiple blockButtons:
     if (document.querySelector("[data-testid=blockAll")) {
@@ -104,7 +104,8 @@ function addBlockButton() {
     var lastChild = topbar.children[topbar.children.length - 1];
     var lastHasWrongType = lastChild.nodeName !== "DIV";
     var heading = lastChild.querySelector("div > h2 > span");
-    var headingIsNotLikes = !heading || !heading.innerText.match(/(gefällt|like).*/gi);
+    var headingIsNotLikes =
+      !heading || !heading.innerText.match(/(gefällt|like).*/gi);
 
     var isTopbarFalseHit =
       topbar.children.length !== 2 ||
