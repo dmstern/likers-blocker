@@ -1,3 +1,5 @@
 likers-blocker.zip
 *.orig
+*.pem
+*.crx
 
