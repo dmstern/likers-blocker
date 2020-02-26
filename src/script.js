@@ -160,7 +160,7 @@ function addBlockButton() {
         confirmMessageElement.appendChild(confirmButton);
 
         confirmButton.addEventListener("click", () => {
-          var tweetParam = checkbox.checked ? `&tweet_id=${tweetId}` : '';
+          var tweetParam = checkbox.checked ? `&tweet_id=${tweetId}` : "";
           window.open(`${requestUrl}${tweetParam}`, "_blank");
           closePopup(popup, blockButton, scrollList);
         });
