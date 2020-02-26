@@ -246,7 +246,7 @@ function addBlockButton() {
           stopScrolling();
           initBlocking(users, requestUrl, popup);
         }
-      }, 800); // FIXME: might be too long or too short. should rather scroll further on scrolled ready.
+      }, 800);
 
       closeButton.addEventListener("click", () => {
         closePopup(popup, blockButton, scrollList);
