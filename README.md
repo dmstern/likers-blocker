@@ -1,6 +1,6 @@
 # Likers Blocker
 
-![Logo](icon128.png)  [![Creative Commons Lizenzvertrag](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
+![Logo](src/icon128.png)  [![Creative Commons Lizenzvertrag](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 A browser extension to block all visually displayed likers of a tweet.
 
