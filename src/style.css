@@ -1,3 +1,13 @@
+.lb-popup-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(80, 80, 80, .4);
+  transition: opacity ease 500ms;
+}
+
 .lb-popup {
   position: fixed;
   width: 440px;
@@ -10,7 +20,6 @@
   border: 1px solid rgba(120, 120, 120, 0.3);
   padding: 2rem;
   opacity: 0.8;
-  transition: opacity ease 500ms;
   filter: none;
   overflow: hidden;
   box-sizing: border-box;
@@ -64,8 +73,12 @@
   letter-spacing: 0;
 }
 
+#react-root {
+  transition: filter ease 500ms;
+}
+
 .lb-blur {
-  filter: blur(3px);
+  filter: blur(4px);
 }
 
 .lb-hide {

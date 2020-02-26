@@ -3,11 +3,19 @@ var blockIcon =
 var apiUrlBlock = "https://ichbinhier-twittertools.herokuapp.com/blocklists";
 var urlLengthMax = 2000;
 var collectedUsers = [];
+var reactRoot;
 
 var topbarSelector = {
   mobile: "main > div > div > div > div > div > div",
   desktop: "[aria-labelledby=modal-header] > div > div > div > div > div"
 };
+
+function getRoot() {
+  if (!reactRoot) {
+    reactRoot = document.querySelector("#react-root");
+  }
+  return reactRoot;
+}
 
 function debounce(func, wait, immediate) {
   var timeout;
@@ -76,15 +84,14 @@ function getUsers() {
   return Array.from(new Set(collectedUsers));
 }
 
-function closePopup(popup, blockButton, scrollList) {
-  blockButton.disabled = false;
+function closePopup(popup) {
 
   popup.classList.add("lb-hide");
   popup.addEventListener("transitionend", () => {
     popup.remove();
   });
 
-  scrollList.classList.remove("lb-blur");
+  getRoot().classList.remove("lb-blur");
 }
 
 function addBlockButton() {
@@ -159,7 +166,6 @@ function addBlockButton() {
         confirmButton.classList.remove("lb-block-button");
         confirmButton.querySelector("div > span").remove();
         confirmButton.querySelector("div > span > span").innerText = "OK";
-        confirmButton.disabled = false;
 
         var checkbox = document.createElement("input");
         var label = document.createElement("label");
@@ -180,7 +186,7 @@ function addBlockButton() {
         confirmButton.addEventListener("click", () => {
           var tweetParam = checkbox.checked ? `&tweet_id=${tweetId}` : "";
           window.open(`${requestUrl}${tweetParam}`, "_blank");
-          closePopup(popup, blockButton, scrollList);
+          closePopup(popupWrapper);
         });
 
         setTimeout(() => {
@@ -195,8 +201,11 @@ function addBlockButton() {
         "[data-testid=UserCell] > div > div:nth-child(2) > div > div > a > div > div > div"
       );
       var textStyle = (bioText || nameText).classList;
+      var popupWrapper = document.createElement("div");
+      popupWrapper.classList.add("lb-popup-wrapper", "lb-hide");
       var popup = document.createElement("div");
-      popup.classList.add("lb-popup", "lb-hide");
+      popupWrapper.appendChild(popup);
+      popup.classList.add("lb-popup");
       popup.style.background = backgroundColor;
       popup.style.color = highlightColor;
       popup.innerHTML = `
@@ -206,11 +215,13 @@ function addBlockButton() {
         </span>
         <h1><span class='lb-loading'>...</span></h1>
       `;
-      document.querySelector("body").appendChild(popup);
-      blockButton.disabled = true;
+      document.querySelector("body").appendChild(popupWrapper);
 
       popup.querySelector(".lb-label").classList.add(...textStyle);
-      popup.classList.remove("lb-hide");
+
+      setTimeout(() => {
+        popupWrapper.classList.remove("lb-hide");
+      }, 250);
 
       var closeButton = document.createElement("div");
       closeButton.role = "button";
@@ -218,7 +229,7 @@ function addBlockButton() {
       closeButton.classList.add("lb-close-button");
       closeButton.title = "Abbrechen";
       popup.prepend(closeButton);
-      scrollList.classList.add("lb-blur");
+      getRoot().classList.add("lb-blur");
 
       var scrollInterval;
 
@@ -250,7 +261,7 @@ function addBlockButton() {
       }, 800);
 
       closeButton.addEventListener("click", () => {
-        closePopup(popup, blockButton, scrollList);
+        closePopup(popupWrapper);
         stopScrolling();
       });
     });
