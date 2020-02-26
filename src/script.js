@@ -75,17 +75,18 @@ function getUsers() {
   return Array.from(new Set(collectedUsers));
 }
 
+function closePopup(popup, blockButton, scrollList) {
+  blockButton.disabled = false;
+
+  popup.classList.add("lb-hide");
+  popup.addEventListener("transitionend", () => {
+    popup.remove();
+  });
+
+  scrollList.classList.remove("lb-blur");
+}
+
 function addBlockButton() {
-  function closePopup(popup, blockButton, scrollList) {
-    blockButton.disabled = false;
-
-    popup.classList.add("lb-hide");
-    popup.addEventListener("transitionend", () => {
-      popup.remove();
-    });
-
-    scrollList.classList.remove("lb-blur");
-  }
 
   tryToAccessDOM(followButton => {
     // prevent multiple blockButtons:
@@ -194,7 +195,7 @@ function addBlockButton() {
       );
       var textStyle = (bioText || nameText).classList;
       var popup = document.createElement("div");
-      popup.classList.add("lb-scrolling-info", "lb-popup", "lb-hide");
+      popup.classList.add("lb-popup", "lb-hide");
       popup.style.background = backgroundColor;
       popup.style.color = highlightColor;
       popup.innerHTML = `
