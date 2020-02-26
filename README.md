@@ -65,4 +65,4 @@ To test the extension locally:
 * In Chrome, go to `chrome://extensions`
 * Enable the developer mode with the regarding toggle button on the right side
 * Click on "Load unpacked"
-* Select the folder of the cloned repository
+* Select the `src` folder of the cloned repository
