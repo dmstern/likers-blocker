@@ -191,6 +191,7 @@ function addBlockButton() {
 
         setTimeout(() => {
           popup.classList.add("lb-confirm");
+          scrollList.classList.remove("lb-blur");
         }, 500);
       };
 
