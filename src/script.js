@@ -169,6 +169,8 @@ function addBlockButton() {
 
         var checkbox = document.createElement("input");
         var label = document.createElement("label");
+        var labelWrapper = document.createElement("div");
+        labelWrapper.appendChild(label);
 
         var confirmMessageElement = popup
           .querySelector(".lb-label")
@@ -178,9 +180,14 @@ function addBlockButton() {
 
         checkbox.type = "checkbox";
         checkbox.classList.add("lb-checkbox");
-        confirmMessageElement.appendChild(label);
-        label.innerHTML = "<span>Auch alle Retweeter blockieren?</span><span class='lb-info' title='Beinhaltet nur direkte Retweeter ohne Kommentar'>🛈</span>";
+        confirmMessageElement.appendChild(labelWrapper);
+        label.innerHTML = "<span>Auch alle Retweeter blockieren?</span>";
+        retweetersNotice = document.createElement("span");
+        retweetersNotice.classList.add("lb-info");
+        retweetersNotice.title = "Beinhaltet nur direkte Retweeter ohne Kommentar"
+        retweetersNotice.textContent = "🛈";
         label.prepend(checkbox);
+        labelWrapper.appendChild(retweetersNotice);
         confirmMessageElement.appendChild(confirmButton);
 
         confirmButton.addEventListener("click", () => {

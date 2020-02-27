@@ -117,7 +117,7 @@
 }
 
 .lb-label label {
-  display: flex;
+  display: inline-flex;
   align-items: center;
 }
 
@@ -171,4 +171,5 @@
 .lb-info {
   margin-left: 1em;
   padding: 3px;
+  cursor: pointer;
 }
