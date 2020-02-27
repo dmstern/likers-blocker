@@ -78,7 +78,7 @@
 }
 
 .lb-blur {
-  filter: blur(4px);
+  filter: blur(2px);
 }
 
 .lb-hide {

@@ -84,14 +84,14 @@ function getUsers() {
   return Array.from(new Set(collectedUsers));
 }
 
-function closePopup(popup) {
+function closePopup(popup, scrollList) {
 
   popup.classList.add("lb-hide");
   popup.addEventListener("transitionend", () => {
     popup.remove();
   });
 
-  getRoot().classList.remove("lb-blur");
+  scrollList.classList.remove("lb-blur");
 }
 
 function addBlockButton() {
@@ -186,7 +186,7 @@ function addBlockButton() {
         confirmButton.addEventListener("click", () => {
           var tweetParam = checkbox.checked ? `&tweet_id=${tweetId}` : "";
           window.open(`${requestUrl}${tweetParam}`, "_blank");
-          closePopup(popupWrapper);
+          closePopup(popupWrapper, scrollList);
         });
 
         setTimeout(() => {
@@ -229,7 +229,7 @@ function addBlockButton() {
       closeButton.classList.add("lb-close-button");
       closeButton.title = "Abbrechen";
       popup.prepend(closeButton);
-      getRoot().classList.add("lb-blur");
+      scrollList.classList.add("lb-blur");
 
       var scrollInterval;
 
@@ -264,7 +264,7 @@ function addBlockButton() {
       }, 800);
 
       closeButton.addEventListener("click", () => {
-        closePopup(popupWrapper);
+        closePopup(popupWrapper, scrollList);
         stopScrolling();
       });
     });
