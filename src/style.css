@@ -105,7 +105,6 @@
 }
 
 .lb-close-button:not(:hover) {
- /* background-color: rgba(150, 150, 150, 0.2);*/
   background-color: transparent !important;
 }
 
