@@ -57,18 +57,17 @@
 }
 
 .lb-close-button {
-  width: 0.5em;
-  height: 0.5em;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 20px;
+  height: 20px;
   padding: 11px;
-  font-size: 2.2rem;
-  font-weight: bold;
+  font-size: xx-large;
   color: inherit;
   cursor: pointer;
   position: absolute;
   right: 0;
   border-radius: 50%;
-  line-height: 0.5em;
-  padding: 0.5em;
+  line-height: 20px;
   margin-top: -0.5em;
   margin-right: 0.5em;
   z-index: 1000;
