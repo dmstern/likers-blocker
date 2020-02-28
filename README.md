@@ -49,8 +49,8 @@ You can also test the extension locally, see [Development](#development) (this i
 * Then click on the new button on the top which says "Block all" / "Alle Blockieren".
   ![Screenshot](screenshots/block-all-button.png)
   ![Screenshot](screenshots/collecting-usernames.png)
-  ![Screenshot](screenshots/confirm.png)
 * You can also chose to block all retweeters of the tweet (only direct retweeters without comment).
+  ![Screenshot](screenshots/confirm.png)
 * If you use it for the first time, you will have to authorize the app to access your twitter account.
 * You get a list of all users that are about to be blocked.
 * Confirm and wait for the sucess message.
