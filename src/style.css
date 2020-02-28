@@ -1,3 +1,8 @@
+body {
+  --lb-popup-padding: 2rem;
+  --lb-close-button-padding: 9px;
+}
+
 .lb-popup-wrapper {
   position: fixed;
   top: 0;
@@ -18,7 +23,7 @@
   border-radius: 25px;
   box-shadow: 0 8px 41px 22px #2f2f2fa3;
   border: 1px solid rgba(120, 120, 120, 0.3);
-  padding: 2rem;
+  padding: var(--lb-popup-padding);
   opacity: 0.8;
   filter: none;
   overflow: hidden;
@@ -57,21 +62,19 @@
 }
 
 .lb-close-button {
-  font-family: Arial, Helvetica, sans-serif;
-  width: 20px;
-  height: 20px;
-  padding: 11px;
-  font-size: xx-large;
-  color: inherit;
+  padding: var(--lb-close-button-padding);
   cursor: pointer;
   position: absolute;
-  right: 0;
+  right: calc(var(--lb-popup-padding) - var(--lb-close-button-padding));
+  top: calc(var(--lb-popup-padding) - var(--lb-close-button-padding));
   border-radius: 50%;
-  line-height: 20px;
-  margin-top: -0.5em;
-  margin-right: 0.5em;
   z-index: 1000;
   transition: background-color ease 500ms;
+}
+
+.lb-close-button svg {
+  width: 1.5em;
+  height: 1.5em;
 }
 
 .lb-close-button:not(:hover) {
