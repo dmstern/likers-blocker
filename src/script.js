@@ -131,7 +131,7 @@ function addBlockButton() {
       .replace(/https:\/\/twitter.com\/.*\/status\//g, "")
       .replace("/likes", "");
 
-    var blockButton = document.createElement("button");
+    var blockButton = document.createElement("a");
     blockButton.classList.add("lb-block-button", ...followButton.classList);
     blockButton.dataset.testid = "blockAll";
     blockButton.innerHTML = followButton.innerHTML;
@@ -211,6 +211,7 @@ function addBlockButton() {
       confirmButton.classList.remove("lb-block-button");
       confirmButton.querySelector("div > span").remove();
       confirmButton.querySelector("div > span > span").innerText = "OK";
+      confirmButton.target = "_blank";
 
       var checkbox = document.createElement("input");
       var label = document.createElement("label");
@@ -243,10 +244,13 @@ function addBlockButton() {
       loadingInfo.appendChild(checkmark);
       checkmark.style.background = highlightColor;
       checkmark.innerHTML = checkmarkIcon;
+      checkbox.addEventListener('change', () => {
+        var tweetParam = checkbox.checked ? `&tweet_id=${tweetId}` : "";
+        var requestUrl = confirmButton.href;
+        confirmButton.href = `${requestUrl}${tweetParam}`;
+      });
 
       confirmButton.addEventListener("click", () => {
-        var tweetParam = checkbox.checked ? `&tweet_id=${tweetId}` : "";
-        window.open(`${requestUrl}${tweetParam}`, "_blank");
         closePopup(popupWrapper, scrollList);
       });
 
@@ -298,6 +302,7 @@ function addBlockButton() {
         var users = getUsers();
         var requestUrl = `${apiUrlBlock}?users=${users}`;
         var reachedUrlLengthMax = requestUrl.length > urlLengthMax - 100;
+        confirmButton.href = requestUrl;
 
         if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
           var confirmHeading = popup.querySelector(".lb-confirm-message h3");

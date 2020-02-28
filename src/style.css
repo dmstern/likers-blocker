@@ -180,6 +180,7 @@ body {
   right: 0;
   margin-top: 1.2rem !important;
   padding: 0 4em !important;
+  text-decoration: none;
 }
 
 .lb-checkbox {
