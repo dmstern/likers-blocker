@@ -85,7 +85,7 @@ To test the extension locally:
 
 * Go `about:debugging#/runtime/this-firefox`
 * Click on `Load Temorary Add-On...`
-* Select any file of the cloned repository
+* Select any file in the `src` folder of the cloned repository
 
 ---
 
