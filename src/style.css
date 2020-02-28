@@ -4,7 +4,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(80, 80, 80, .4);
+  background: rgba(80, 80, 80, 0.4);
   transition: opacity ease 500ms;
 }
 
@@ -24,6 +24,7 @@
   overflow: hidden;
   box-sizing: border-box;
   max-width: 100vw;
+  transition: opacity 500ms ease;
 }
 
 @media (max-width: 440px) {
@@ -35,36 +36,6 @@
 
 .lb-popup.lb-confirm {
   opacity: 1;
-}
-
-@keyframes swipe {
-  0% {
-    transform: translateX(0);
-    letter-spacing: -8px;
-  }
-  25% {
-    letter-spacing: 10px;
-  }
-  50% {
-    transform: translateX(calc(100% - 2rem));
-    letter-spacing: -8px;
-  }
-  75% {
-    letter-spacing: 10px;
-  }
-  100% {
-    transform: translateX(0);
-    letter-spacing: -8px;
-  }
-}
-
-.lb-loading {
-  display: block;
-  animation-name: swipe;
-  animation-duration: 3s;
-  animation-timing-funtion: ease-in-out;
-  animation-iteration-count: infinite;
-  transition: opacity ease 1s;
 }
 
 .lb-confirm .lb-loading {
@@ -86,8 +57,8 @@
 }
 
 .lb-close-button {
-  width: .5em;
-  height: .5em;
+  width: 0.5em;
+  height: 0.5em;
   padding: 11px;
   font-size: 2.2rem;
   font-weight: bold;
@@ -115,6 +86,7 @@
 
   display: block !important;
   opacity: 1;
+  position: relative;
 }
 
 .lb-label label {
@@ -126,20 +98,75 @@
   margin-top: 0;
 }
 
+@keyframes swipe {
+  0% {
+    letter-spacing: -8px;
+    transform: translateX(0);
+  }
+  16% {
+    transform: translateX(0);
+  }
+  50% {
+    letter-spacing: 10px;
+  }
+  100% {
+    letter-spacing: -8px;
+    transform: translateX(calc(100% - 16px));
+  }
+}
+
+.lb-loading {
+  display: block;
+  animation: swipe 2000ms ease-in-out alternate infinite;
+  opacity: 1;
+  transition: opacity 300ms ease;
+}
+
+.lb-checkmark {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: scale(0);
+  transition: transform 1000ms ease;
+}
+
+.lb-checkmark svg {
+  fill: none;
+  stroke: white;
+  stroke-width: 8;
+  width: 12px !important;
+  height: 12px !important;
+  margin-top: 6px;
+  margin-left: 6px;
+}
+
+.lb-collected .lb-loading {
+  opacity: 0;
+  animation-play-state: paused;
+}
+
+.lb-collected .lb-checkmark {
+  transform: scale(1.3);
+}
+
 .lb-confirm .lb-label {
   transform: translateY(-180px);
 }
 
-.lb-confirm .lb-label:nth-of-type(1) {
+.lb-label.lb-confirm-message {
   opacity: 0;
 }
 
-.lb-confirm .lb-label:nth-of-type(2) {
+.lb-confirm .lb-label.lb-collecting {
+  opacity: 0;
+}
+
+.lb-confirm .lb-label.lb-confirm-message {
   opacity: 1;
-}
-
-.lb-label:nth-of-type(2) {
-  opacity: 0;
 }
 
 .lb-block-button {
