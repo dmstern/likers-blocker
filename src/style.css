@@ -121,31 +121,31 @@ body {
 
 .lb-loading {
   display: block;
-  animation: swipe 2000ms ease-in-out alternate infinite;
+  animation: swipe 1600ms ease-in-out alternate infinite;
   opacity: 1;
   transition: opacity 300ms ease;
 }
 
 .lb-checkmark {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   display: block;
   position: absolute;
   right: 0;
   bottom: 0;
   transform: scale(0);
-  transition: transform 1000ms ease;
+  transition: transform 1000ms cubic-bezier(.66,.47,.2,1.89);
 }
 
 .lb-checkmark svg {
   fill: none;
   stroke: white;
   stroke-width: 8;
-  width: 12px !important;
-  height: 12px !important;
-  margin-top: 6px;
-  margin-left: 6px;
+  width: 50% !important;
+  height: 50% !important;
+  margin-top: 25%;
+  margin-left: 25%;
 }
 
 .lb-collected .lb-loading {
