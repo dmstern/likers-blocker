@@ -2,7 +2,7 @@
 
 ![Logo](src/icon128.png)
 
-A browser extension to block all visible likers of a tweet.
+A browser extension to block all visible likers (and optionally all retweeters) of a tweet on Twitter.
 
 ![Preview](screenshots/preview2-medium.png)
 

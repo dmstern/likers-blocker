@@ -2,7 +2,7 @@
   "name": "Likers Blocker",
   "version": "1.0",
   "version_name": "1.0",
-  "description": "Block all visible likers of a tweet.",
+  "description": "Block all visible likers (and optionally all retweeters) of a tweet on Twitter.",
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
