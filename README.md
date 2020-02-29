@@ -11,7 +11,7 @@ Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 > In Übrigen wünsche ich mir für solche Fälle ein Twitter-Add-On, das alle Liker eines bestimmten Tweets blockt, weil es nur Arschlöcher sein können. Wer programmiert es?
 > – [10:41 am · 22 Feb. 2020](https://twitter.com/sixtus/status/1231152136857231360)
 
-In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the back-end for this tool: https://github.com/pkreissel/ichbinhier_twittertools.
+In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the back-end for this tool: [https://github.com/pkreissel/ichbinhier_twittertools](https://github.com/pkreissel/ichbinhier_twittertools).
 
 ## Installation
 
