@@ -15,30 +15,8 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
 ## Installation
 
----
-
-**NOTE:**
-The Extension is currently in beta status. This means that it can not be considered as stable and there may be bugs. See [Issues](https://github.com/dmstern/likers-blocker/issues).
-
-Since the extension is not yet available in the *Chrome Web Store* or on *Firefox Add-Ons*, you will have to install it manually. Please note that you won't get updates if you install the extension manually.
-
-If you have problems with the installation, it's reccomended to wait until the extension is officially published (turn on notifications for [#19](https://github.com/dmstern/likers-blocker/issues/19)).
-
-You can also test the extension locally, see [Development](#development) (this is only reccomended for advanced users).
-
----
-
-### Google Chrome
-
-* Download the latest release [here](https://github.com/dmstern/likers-blocker/releases/latest/download/likers-blocker.crx).
-* In Chrome navigate to `chrome://extensions`.
-* Turn on the developer mode (with the toggle button in the top right corner)
-* Drag and drop the downloaded `.crx` file into the extensions page
-* Confirm the installation.
-
-### Mozilla Firefox
-
- * See [#Development](#development)
+* [![Firefox](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Firefox_logo%2C_2019.svg/68px-Firefox_logo%2C_2019.svg.png) Install Add-On for Mozilla Firefox](https://addons.mozilla.org/firefox/addon/likers-blocker/)
+* [![Chrome](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Chrome_icon_%28September_2014%29.svg/64px-Google_Chrome_icon_%28September_2014%29.svg.png) Install Extension for Google Chrome](https://chrome.google.com/webstore/detail/melnbpmfhaejmcpfflfjmchondkpmkcj/)
 
 ## Usage
 
