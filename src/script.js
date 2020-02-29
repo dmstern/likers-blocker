@@ -277,6 +277,7 @@ function addBlockButton() {
       closeButton.classList.add("lb-close-button");
       closeButton.title = "Abbrechen";
       closeButton.style.backgroundColor = highlightColor.replace(")", ", 0.1)");
+      closeButton.style.color = highlightColor;
       popup.prepend(closeButton);
       scrollList.classList.add("lb-blur");
 
