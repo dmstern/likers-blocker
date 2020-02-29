@@ -216,6 +216,7 @@ function addBlockButton() {
       var checkbox = document.createElement("input");
       var label = document.createElement("label");
       var labelWrapper = document.createElement("div");
+      labelWrapper.classList.add("lb-label-wrapper");
       labelWrapper.appendChild(label);
 
       var loadingInfo = popup.querySelector(".lb-label");
@@ -233,7 +234,7 @@ function addBlockButton() {
       retweetersNotice.classList.add("lb-info");
       retweetersNotice.title =
         "Beinhaltet nur direkte Retweeter ohne Kommentar";
-      retweetersNotice.textContent = "🛈";
+      retweetersNotice.textContent = "i";
 
       label.prepend(checkbox);
       labelWrapper.appendChild(retweetersNotice);
