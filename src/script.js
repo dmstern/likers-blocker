@@ -186,7 +186,9 @@ function addBlockButton() {
       popup.innerHTML = `
         <div class='lb-label lb-collecting'>
           <h3>Sammle Nutzernamen ein...</h3>
-          <p>Für besonders große Listen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden.</p>
+          <p>Für besonders große Listen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden.
+            <span class="lb-info" title="Du kannst die Aktion nach dem Bestätigen einfach mehrfach noch mal ausführen, um mehr Nutzer zu blockieren.">i</span>
+          </p>
           <h1><span class='lb-loading'>...</span></h1>
         </div>
       `;
