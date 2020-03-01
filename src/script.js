@@ -318,7 +318,7 @@ function addBlockButton() {
             var collectingMessage = popup.querySelector(
               ".lb-label.lb-collecting"
             );
-            collectingMessage.style.marginTop = `-${collectingMessage.clientHeight}px`;
+            collectingMessage.style.marginTop = `calc(-${collectingMessage.clientHeight}px - 1.5rem)`;
             popup.classList.add("lb-confirm");
             scrollList.classList.remove("lb-blur");
           });
