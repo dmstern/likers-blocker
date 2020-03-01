@@ -13,6 +13,13 @@ var reactRoot;
 var likesCount = 0;
 var likersLimit = 80;
 
+var limitMessage = {
+  largeList:
+    "Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur max. 80 aus dieser Liste.",
+  smallList:
+    "Wir können nur Liker aus dieser Liste blocken. Evtl. werden einige von Twitter ausgeblendet."
+};
+
 var topbarSelector = {
   mobile: "main > div > div > div > div > div > div",
   desktop: "[aria-labelledby=modal-header] > div > div > div > div > div"
@@ -181,12 +188,16 @@ function addBlockButton() {
       popup.classList.add("lb-popup");
       popup.style.background = backgroundColor;
       popup.style.color = highlightColor;
+      var isListLarge = likesCount > likersLimit;
+
       popup.innerHTML = `
         <div class='lb-label lb-collecting'>
           <h3>Sammle Nutzernamen ein...</h3>
-          <p class="${likesCount < likersLimit &&
-            "lb-hide"} lb-text">Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur max. 80 aus dieser Liste.
-            <span class="lb-info" title="Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.">${infoIcon}</span>
+          <p class="lb-text">${
+            limitMessage[isListLarge ? "largeList" : "smallList"]
+          }
+            <span class="lb-info ${!isListLarge &&
+              "lb-hide"}" title="Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.">${infoIcon}</span>
           </p>
           <h1><span class='lb-loading'>...</span></h1>
         </div>
