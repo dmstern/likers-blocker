@@ -1,6 +1,7 @@
 body {
   --lb-popup-padding: 2rem;
   --lb-close-button-padding: 9px;
+  --text-line-height: 19px;
 }
 
 .lb-popup-wrapper {
@@ -30,6 +31,7 @@ body {
   box-sizing: border-box;
   max-width: 100vw;
   transition: opacity 500ms ease;
+  line-height: var(--text-line-height);
 }
 
 @media (max-width: 440px) {
@@ -203,15 +205,18 @@ body {
 
 .lb-info {
   display: inline-block;
-  width: 9px;
-  height: 9px;
   margin-left: 1em;
-  padding: 3px;
-  border: 1px solid;
-  border-radius: 50%;
-  text-align: center;
-  font-size: 9px;
-  line-height: 9px;
-  font-weight: bold;
+  height: var(--text-line-height);
+  width: var(--text-line-height);
   cursor: help;
+}
+
+.lb-label .lb-text svg {
+  position: relative;
+  top: .15em;
+}
+
+.lb-info svg {
+  display: block;
+  height: inherit;
 }

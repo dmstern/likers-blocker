@@ -3,6 +3,8 @@ var blockIcon =
 var checkmarkIcon = `<?xml version="1.0" encoding="UTF-8"?><svg width="45.255mm" height="37.707mm" version="1.1" viewBox="0 0 45.255 37.707" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><metadata><rdf:RDF><cc:Work rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/><dc:title/></cc:Work></rdf:RDF></metadata><g transform="translate(-54.843 -79.398)"><path d="m56.872 99.051 16.455 13.496 24.244-31.185"/></g></svg>`;
 var closeIcon =
   '<svg viewBox="0 0 24 24" class="r-13gxpu9 r-4qtqp9 r-yyyyoo r-1q142lx r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g></svg>';
+var infoIcon =
+  '<svg viewBox="0 0 24 24" class="r-daml9f r-4qtqp9 r-yyyyoo r-1q142lx r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M12 18.042c-.553 0-1-.447-1-1v-5.5c0-.553.447-1 1-1s1 .447 1 1v5.5c0 .553-.447 1-1 1z"></path><circle cx="12" cy="8.042" r="1.25"></circle><path d="M12 22.75C6.072 22.75 1.25 17.928 1.25 12S6.072 1.25 12 1.25 22.75 6.072 22.75 12 17.928 22.75 12 22.75zm0-20C6.9 2.75 2.75 6.9 2.75 12S6.9 21.25 12 21.25s9.25-4.15 9.25-9.25S17.1 2.75 12 2.75z"></path></g></svg>';
 
 var apiUrlBlock = "https://ichbinhier-twittertools.herokuapp.com/blocklists";
 var urlLengthMax = 2000;
@@ -183,8 +185,8 @@ function addBlockButton() {
         <div class='lb-label lb-collecting'>
           <h3>Sammle Nutzernamen ein...</h3>
           <p class="${likesCount < likersLimit &&
-            "lb-hide"}">Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur die 80 aus dieser Liste.
-            <span class="lb-info" title="Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.">i</span>
+            "lb-hide"} lb-text">Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur die 80 aus dieser Liste.
+            <span class="lb-info" title="Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.">${infoIcon}</span>
           </p>
           <h1><span class='lb-loading'>...</span></h1>
         </div>
@@ -233,7 +235,7 @@ function addBlockButton() {
       retweetersNotice.classList.add("lb-info");
       retweetersNotice.title =
         "Beinhaltet nur direkte Retweeter ohne Kommentar";
-      retweetersNotice.textContent = "i";
+      retweetersNotice.innerHTML = infoIcon;
 
       label.prepend(checkbox);
       labelWrapper.appendChild(retweetersNotice);
@@ -313,7 +315,9 @@ function addBlockButton() {
           var checkmark = popup.querySelector(".lb-checkmark");
 
           checkmark.addEventListener("transitionend", () => {
-            var collectingMessage = popup.querySelector(".lb-label.lb-collecting");
+            var collectingMessage = popup.querySelector(
+              ".lb-label.lb-collecting"
+            );
             collectingMessage.style.marginTop = `-${collectingMessage.clientHeight}px`;
             popup.classList.add("lb-confirm");
             scrollList.classList.remove("lb-blur");
