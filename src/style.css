@@ -213,10 +213,14 @@ body {
 
 .lb-label .lb-text svg {
   position: relative;
-  top: .15em;
+  top: 0.15em;
 }
 
 .lb-info svg {
   display: block;
   height: inherit;
+}
+
+[class^="lb-"] svg {
+  color: inherit !important;
 }
