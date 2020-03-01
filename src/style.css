@@ -129,13 +129,13 @@ body {
 }
 
 .lb-checkmark {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   display: block;
   position: absolute;
-  right: 0;
-  bottom: 0;
+  right: 3px;
+  bottom: 2px;
   transform: scale(0);
   transition: transform 1000ms cubic-bezier(0.66, 0.47, 0.2, 1.89);
 }
