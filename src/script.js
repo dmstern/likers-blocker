@@ -110,7 +110,22 @@ function closePopup(popup, scrollList) {
 
 function addBlockButton() {
   tryToAccessDOM(likesCountElement => {
-    likesCount = likesCountElement.textContent;
+    likesCountText = likesCountElement.textContent;
+    var lastCharacter = likesCountText.slice(-1);
+
+    var multiplyer = 1;
+    if (lastCharacter === "K") {
+      multiplyer = 1000;
+    } else if (multiplyer === "M") {
+      multiplyer = 1000000;
+    }
+
+    likesCount =
+      multiplyer === 1
+        ? // german number format:
+          likesCountText.replace(".", "")
+        : // english number format:
+          parseFloat(likesCountText) * multiplyer;
   }, "a[href$=likes] > div > span > span");
 
   tryToAccessDOM(followButton => {
