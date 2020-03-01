@@ -100,11 +100,10 @@ function closePopup(popup, scrollList) {
 }
 
 function addBlockButton() {
-
-  tryToAccessDOM((likesCountElement) => {
+  tryToAccessDOM(likesCountElement => {
     likesCount = likesCountElement.textContent;
   }, "a[href$=likes] > div > span > span");
-  
+
   tryToAccessDOM(followButton => {
     // prevent multiple blockButtons:
     if (document.querySelector("[data-testid=blockAll")) {
@@ -166,16 +165,6 @@ function addBlockButton() {
 
       var animationIterationCounter = 0;
 
-      // scroll down to get more users:
-      var initBlocking = function(users, requestUrl, popup) {
-        var checkmark = popup.querySelector(".lb-checkmark");
-
-        checkmark.addEventListener("transitionend", () => {
-          popup.classList.add("lb-confirm");
-          scrollList.classList.remove("lb-blur");
-        });
-      };
-
       var bioText = document.querySelector(
         "[data-testid=UserCell] > div > div:nth-child(2) > div:nth-child(2)"
       );
@@ -193,7 +182,8 @@ function addBlockButton() {
       popup.innerHTML = `
         <div class='lb-label lb-collecting'>
           <h3>Sammle Nutzernamen ein...</h3>
-          <p class="${likesCount < likersLimit && 'lb-hide'}">Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur die 80 aus dieser Liste.
+          <p class="${likesCount < likersLimit &&
+            "lb-hide"}">Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur die 80 aus dieser Liste.
             <span class="lb-info" title="Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.">i</span>
           </p>
           <h1><span class='lb-loading'>...</span></h1>
@@ -254,7 +244,7 @@ function addBlockButton() {
       loadingInfo.appendChild(checkmark);
       checkmark.style.background = highlightColor;
       checkmark.innerHTML = checkmarkIcon;
-      checkbox.addEventListener('change', () => {
+      checkbox.addEventListener("change", () => {
         var tweetParam = checkbox.checked ? `&tweet_id=${tweetId}` : "";
         var requestUrl = confirmButton.href;
         confirmButton.href = `${requestUrl}${tweetParam}`;
@@ -317,12 +307,17 @@ function addBlockButton() {
 
         if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
           var confirmHeading = popup.querySelector(".lb-confirm-message h3");
-          confirmHeading.textContent = `${users.length} ${
-            confirmHeading.textContent
-          }`;
+          confirmHeading.textContent = `${users.length} ${confirmHeading.textContent}`;
           stopScrolling();
           popup.classList.add("lb-check");
-          initBlocking(users, requestUrl, popup);
+          var checkmark = popup.querySelector(".lb-checkmark");
+
+          checkmark.addEventListener("transitionend", () => {
+            var collectingMessage = popup.querySelector(".lb-label.lb-collecting");
+            collectingMessage.style.marginTop = `-${collectingMessage.clientHeight}px`;
+            popup.classList.add("lb-confirm");
+            scrollList.classList.remove("lb-blur");
+          });
         }
       }, 800);
 
