@@ -185,7 +185,7 @@ function addBlockButton() {
         <div class='lb-label lb-collecting'>
           <h3>Sammle Nutzernamen ein...</h3>
           <p class="${likesCount < likersLimit &&
-            "lb-hide"} lb-text">Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur die 80 aus dieser Liste.
+            "lb-hide"} lb-text">Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur max. 80 aus dieser Liste.
             <span class="lb-info" title="Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.">${infoIcon}</span>
           </p>
           <h1><span class='lb-loading'>...</span></h1>
