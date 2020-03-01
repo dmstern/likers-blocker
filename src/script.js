@@ -123,7 +123,7 @@ function addBlockButton() {
     var multiplyer = 1;
     if (lastCharacter === "K") {
       multiplyer = 1000;
-    } else if (multiplyer === "M") {
+    } else if (lastCharacter === "M") {
       multiplyer = 1000000;
     }
 
