@@ -17,7 +17,7 @@ var limitMessage = {
   largeList:
     "Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur max. 80 aus dieser Liste.",
   smallList:
-    "Wir können nur Liker aus dieser Liste blocken. Evtl. werden einige von Twitter ausgeblendet."
+    "Wir können nur Liker aus dieser Liste blocken. <br> Evtl. werden einige von Twitter ausgeblendet."
 };
 
 var topbarSelector = {
