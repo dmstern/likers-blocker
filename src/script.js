@@ -8,6 +8,8 @@ var apiUrlBlock = "https://ichbinhier-twittertools.herokuapp.com/blocklists";
 var urlLengthMax = 2000;
 var collectedUsers = [];
 var reactRoot;
+var likesCount = 0;
+var likersLimit = 80;
 
 var topbarSelector = {
   mobile: "main > div > div > div > div > div > div",
@@ -98,6 +100,11 @@ function closePopup(popup, scrollList) {
 }
 
 function addBlockButton() {
+
+  tryToAccessDOM((likesCountElement) => {
+    likesCount = likesCountElement.textContent;
+  }, "a[href$=likes] > div > span > span");
+  
   tryToAccessDOM(followButton => {
     // prevent multiple blockButtons:
     if (document.querySelector("[data-testid=blockAll")) {
@@ -186,8 +193,8 @@ function addBlockButton() {
       popup.innerHTML = `
         <div class='lb-label lb-collecting'>
           <h3>Sammle Nutzernamen ein...</h3>
-          <p>Für besonders große Listen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden.
-            <span class="lb-info" title="Du kannst die Aktion nach dem Bestätigen einfach mehrfach noch mal ausführen, um mehr Nutzer zu blockieren.">i</span>
+          <p class="${likesCount < likersLimit && 'lb-hide'}">Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur die 80 aus dieser Liste.
+            <span class="lb-info" title="Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.">i</span>
           </p>
           <h1><span class='lb-loading'>...</span></h1>
         </div>
