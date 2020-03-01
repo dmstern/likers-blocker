@@ -17,7 +17,6 @@ body {
 .lb-popup {
   position: fixed;
   width: 440px;
-  height: 250px;
   top: 25%;
   left: 50%;
   margin-left: -220px;

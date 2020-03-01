@@ -280,6 +280,10 @@ function addBlockButton() {
       popup.prepend(closeButton);
       scrollList.classList.add("lb-blur");
 
+      // shrink popup to visible content:
+      var hiddenContentHeight = confirmMessageElement.clientHeight;
+      popup.style.height = `${popup.clientHeight - hiddenContentHeight}px`;
+
       var scrollInterval;
 
       var stopScrolling = function() {
