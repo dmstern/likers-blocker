@@ -14,8 +14,11 @@ var likesCount = 0;
 var likersLimit = 80;
 
 var limitMessage = {
-  largeList:
-    "Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur max. 80 aus dieser Liste.",
+  largeList: `
+    Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur max. 80 aus dieser Liste.
+    <span class="lb-info" title="Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.">
+      ${infoIcon}
+    </span>`,
   smallList:
     "Wir können nur Liker aus dieser Liste blocken. <br> Evtl. werden einige von Twitter ausgeblendet."
 };
@@ -218,8 +221,6 @@ function addBlockButton() {
           <p class="lb-text">${
             limitMessage[isListLarge ? "largeList" : "smallList"]
           }
-            <span class="lb-info ${!isListLarge &&
-              "lb-hide"}" title="Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.">${infoIcon}</span>
           </p>
           <h1><span class='lb-loading'>...</span></h1>
         </div>
