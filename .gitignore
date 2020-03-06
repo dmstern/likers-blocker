@@ -2,4 +2,5 @@ likers-blocker.zip
 *.orig
 *.pem
 *.crx
-
+node_modules
+dist

@@ -63,6 +63,7 @@ body {
 }
 
 .lb-close-button {
+  border: none;
   padding: var(--lb-close-button-padding);
   cursor: pointer;
   position: absolute;

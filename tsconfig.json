@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "lib": ["ES2015", "DOM", "DOM.Iterable"],
+  },
+  "include": ["src/*.ts"]
+}

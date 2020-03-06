@@ -1,0 +1,34 @@
+{
+  "name": "likes-blocker",
+  "version": "1.0.1",
+  "description": "Block all visible likers (and optionally all retweeters) of a tweet on Twitter.",
+  "main": "dist/script.js",
+  "scripts": {
+    "compile": "tsc",
+    "copy": "ncp src dist",
+    "format": "prettier --write src/script.ts src/script.css",
+    "build": "npm run format && npm run compile && npm run copy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmstern/likers-blocker.git"
+  },
+  "keywords": [
+    "block",
+    "likers",
+    "twitter",
+    "tweet",
+    "hatespeech"
+  ],
+  "author": "Daniel Morgenstern <morgenstern.daniel@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dmstern/likers-blocker/issues"
+  },
+  "homepage": "https://github.com/dmstern/likers-blocker#readme",
+  "devDependencies": {
+    "ncp": "^2.0.0",
+    "prettier": "^1.19.1",
+    "typescript": "^3.8.3"
+  }
+}
