@@ -5,9 +5,8 @@
   "main": "dist/script.js",
   "scripts": {
     "compile": "tsc",
-    "copy": "ncp src dist",
     "format": "prettier --write src/script.ts src/script.css",
-    "build": "npm run format && npm run compile && npm run copy"
+    "build": "npm run format && npm run compile"
   },
   "repository": {
     "type": "git",

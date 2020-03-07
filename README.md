@@ -74,13 +74,13 @@ To test the extension locally:
 * Go to `chrome://extensions`
 * Enable the developer mode with the regarding toggle button on the right side
 * Click on "Load unpacked"
-* Select the `dist` folder of the cloned repository
+* Select the `src` folder of the cloned repository
 
 #### Firefox
 
 * Go `about:debugging#/runtime/this-firefox`
 * Click on `Load Temorary Add-On...`
-* Select any file in the `dist` folder of the cloned repository
+* Select any file in the `src` folder of the cloned repository
 
 ---
 

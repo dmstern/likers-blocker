@@ -3,4 +3,4 @@ likers-blocker.zip
 *.pem
 *.crx
 node_modules
-dist
+src/script.js
