@@ -6,14 +6,6 @@ var closeIcon =
 var infoIcon =
   '<svg viewBox="0 0 24 24" class="r-daml9f r-4qtqp9 r-yyyyoo r-1q142lx r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M12 18.042c-.553 0-1-.447-1-1v-5.5c0-.553.447-1 1-1s1 .447 1 1v5.5c0 .553-.447 1-1 1z"></path><circle cx="12" cy="8.042" r="1.25"></circle><path d="M12 22.75C6.072 22.75 1.25 17.928 1.25 12S6.072 1.25 12 1.25 22.75 6.072 22.75 12 17.928 22.75 12 22.75zm0-20C6.9 2.75 2.75 6.9 2.75 12S6.9 21.25 12 21.25s9.25-4.15 9.25-9.25S17.1 2.75 12 2.75z"></path></g></svg>';
 
-var apiUrlBlock = "https://ichbinhier-twittertools.herokuapp.com/blocklists";
-var requestUrl = "";
-var urlLengthMax = 2000;
-var collectedUsers = [];
-var reactRoot;
-var likesCount = 0;
-var likersLimit = 80;
-
 var limitMessage = {
   largeList: `
     Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur max. 80 aus dieser Liste.
@@ -21,16 +13,37 @@ var limitMessage = {
       ${infoIcon}
     </span>`,
   smallList:
-    "Wir können nur Liker aus dieser Liste blocken. <br> Evtl. werden einige von Twitter ausgeblendet.",
+    "Wir können nur Liker aus dieser Liste blocken. <br> Evtl. werden einige von Twitter ausgeblendet."
 };
 
 var topbarSelector = {
   mobile: "main > div > div > div > div > div > div",
-  desktop: "[aria-labelledby=modal-header] > div > div > div > div > div",
+  desktop: "[aria-labelledby=modal-header] > div > div > div > div > div"
 };
 
+interface Options {
+  apiUrlBlock: string;
+  urlLengthMax: number;
+  likersLimit: number;
+}
+
 class LikersBlocker {
-  constructor() {
+  collectedUsers: any[];
+  requestUrl: string;
+  reactRoot: HTMLElement;
+  likesCount: number;
+  apiUrlBlock: string;
+  urlLengthMax: number;
+  likersLimit: number;
+
+  constructor({ apiUrlBlock, urlLengthMax, likersLimit }: Options) {
+    this.collectedUsers = [];
+    this.requestUrl = "";
+    this.likesCount = 0;
+    this.apiUrlBlock = apiUrlBlock;
+    this.urlLengthMax = urlLengthMax;
+    this.likersLimit = likersLimit;
+
     // for when we are on the likes page:
     this.addBlockButton();
 
@@ -42,14 +55,14 @@ class LikersBlocker {
   }
 
   getRoot = () => {
-    if (!reactRoot) {
-      reactRoot = document.querySelector("#react-root");
+    if (!this.reactRoot) {
+      this.reactRoot = document.querySelector("#react-root");
     }
-    return reactRoot;
+    return this.reactRoot;
   };
 
-  debounce = (func: Function, wait, immediate?) => {
-    var timeout;
+  debounce = (func: Function, wait: number, immediate?: boolean) => {
+    var timeout: number;
 
     return function() {
       var context = this;
@@ -71,7 +84,11 @@ class LikersBlocker {
     };
   };
 
-  tryToAccessDOM = (callback, elementToExpectSelector, context = document) => {
+  tryToAccessDOM = (
+    callback: Function,
+    elementToExpectSelector: string,
+    context: HTMLElement | HTMLDocument = document
+  ) => {
     var elementToExpect = null;
     var tryCounter = 0;
     var tryMax = 10;
@@ -101,30 +118,30 @@ class LikersBlocker {
     interval = setInterval(tryIt, 500);
   };
 
-  isMobile = () => {
+  isMobile = (): boolean => {
     return document.documentElement.clientWidth < 699;
   };
 
-  scrapeUsernames = likersList => {
+  scrapeUsernames = (likersList): string[] => {
     var userCells = likersList.querySelectorAll(
       '[data-testid="UserCell"]'
     ) as HTMLCollection;
-    var users = Array.from(userCells);
+    var users: Element[] = Array.from(userCells);
     return users.map(user => {
       var userUrl = user.querySelector("a").href;
       return userUrl.replace("https://twitter.com/", "");
     });
   };
 
-  addUsers = users => {
-    collectedUsers.push(...users);
+  addUsers = (users: string[]): void => {
+    this.collectedUsers.push(...users);
   };
 
-  getUsers = () => {
-    return Array.from(new Set(collectedUsers));
+  getUsers = (): string[] => {
+    return Array.from(new Set(this.collectedUsers));
   };
 
-  closePopup = (popup, scrollList) => {
+  closePopup = (popup: HTMLElement, scrollList: HTMLElement): void => {
     popup.classList.add("lb-hide");
     popup.addEventListener("transitionend", () => {
       popup.remove();
@@ -133,7 +150,8 @@ class LikersBlocker {
     scrollList.classList.remove("lb-blur");
   };
 
-  addBlockButton = () => {
+  addBlockButton = (): void => {
+    // TODO: split this into several functions
     this.tryToAccessDOM(likesCountElement => {
       var likesCountText = likesCountElement.textContent;
       var lastCharacter = likesCountText.slice(-1);
@@ -145,7 +163,7 @@ class LikersBlocker {
         multiplyer = 1000000;
       }
 
-      likesCount =
+      this.likesCount =
         multiplyer === 1
           ? // german number format:
             likesCountText.replace(".", "")
@@ -211,7 +229,7 @@ class LikersBlocker {
         var scrollList =
           topbar.parentNode.parentNode.parentNode.parentNode.children[1]
             .children[0];
-        collectedUsers = [];
+        this.collectedUsers = [];
 
         var animationIterationCounter = 0;
 
@@ -229,7 +247,7 @@ class LikersBlocker {
         popup.classList.add("lb-popup");
         popup.style.background = backgroundColor;
         popup.style.color = highlightColor;
-        var isListLarge = likesCount > likersLimit;
+        var isListLarge = this.likesCount > this.likersLimit;
 
         popup.innerHTML = `
           <div class='lb-label lb-collecting'>
@@ -255,8 +273,8 @@ class LikersBlocker {
 
         // add confirmMessage to dialog:
         var confirmMessage = `
-        <h3> Nutzer gefunden. Alle blockieren?</h3>
-        <p>Evtl. musst du in deinem Browser Popups für twitter.com erlauben.</p>`;
+          <h3> Nutzer gefunden. Alle blockieren?</h3>
+          <p>Evtl. musst du in deinem Browser Popups für twitter.com erlauben.</p>`;
 
         var confirmButton = blockButton.cloneNode(true) as HTMLLinkElement;
         confirmButton.classList.add("lb-confirm-button");
@@ -303,7 +321,7 @@ class LikersBlocker {
 
         checkbox.addEventListener("change", () => {
           var tweetParam = checkbox.checked ? `&tweet_id=${tweetId}` : "";
-          confirmButton.href = `${requestUrl}${tweetParam}`;
+          confirmButton.href = `${this.requestUrl}${tweetParam}`;
         });
 
         confirmButton.addEventListener("click", () => {
@@ -342,7 +360,7 @@ class LikersBlocker {
         var hiddenContentHeight = confirmMessageElement.clientHeight;
         popup.style.height = `${popup.clientHeight - hiddenContentHeight}px`;
 
-        var scrollInterval;
+        var scrollInterval: number;
 
         var stopScrolling = function() {
           clearInterval(scrollInterval);
@@ -362,15 +380,16 @@ class LikersBlocker {
           scrolly.scroll({
             top: scrolly.scrollTop + scrolly.clientHeight,
             left: 0,
-            behavior: "smooth",
+            behavior: "smooth"
           });
 
           this.addUsers(this.scrapeUsernames(scrollList));
 
           var users = this.getUsers();
-          requestUrl = `${apiUrlBlock}?users=${users}`;
-          var reachedUrlLengthMax = requestUrl.length > urlLengthMax - 100;
-          confirmButton.href = requestUrl;
+          this.requestUrl = `${this.apiUrlBlock}?users=${users}`;
+          var reachedUrlLengthMax =
+            this.requestUrl.length > this.urlLengthMax - 100;
+          confirmButton.href = this.requestUrl;
 
           if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
             var confirmHeading = popup.querySelector(".lb-confirm-message h3");
@@ -399,4 +418,8 @@ class LikersBlocker {
   };
 }
 
-new LikersBlocker();
+new LikersBlocker({
+  apiUrlBlock: "https://ichbinhier-twittertools.herokuapp.com/blocklists",
+  urlLengthMax: 2000,
+  likersLimit: 80
+});
