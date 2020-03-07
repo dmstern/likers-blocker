@@ -5,6 +5,7 @@
   "main": "dist/script.js",
   "scripts": {
     "compile": "tsc",
+    "watch": "npm run format && tsc --watch",
     "format": "prettier --write src/script.ts src/script.css",
     "build": "npm run format && npm run compile"
   },
