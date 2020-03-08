@@ -45,14 +45,17 @@ class LikersBlocker {
     this.likersLimit = likersLimit;
 
     // for when we are on the likes page:
-    this.addBlockButton();
+    this.init();
 
     // For every other page: try it on click again:
-    document
-      .querySelector("body")
-      .addEventListener("click", this.addBlockButton);
-    window.addEventListener("resize", this.debounce(this.addBlockButton, 250));
+    document.querySelector("body").addEventListener("click", this.init);
+    window.addEventListener("resize", this.debounce(this.init, 250));
   }
+
+  init = async () => {
+    await this.setUpLikesCounter();
+    await this.setUpBlockButton();
+  };
 
   getRoot = () => {
     if (!this.reactRoot) {
@@ -84,38 +87,36 @@ class LikersBlocker {
     };
   };
 
-  tryToAccessDOM = (
-    callback: Function,
-    elementToExpectSelector: string,
-    context: HTMLElement | HTMLDocument = document
-  ) => {
+  tryToAccessDOM = (elementToExpectSelector: string): Promise<HTMLElement> => {
     var elementToExpect = null;
     var tryCounter = 0;
     var tryMax = 10;
     var interval = undefined;
 
-    function tryIt() {
-      tryCounter++;
+    return new Promise((resolve, reject) => {
+      const tryIt = () => {
+        tryCounter++;
 
-      if (tryCounter >= tryMax || elementToExpect) {
+        if (tryCounter >= tryMax || elementToExpect) {
+          clearInterval(interval);
+        }
+
+        elementToExpect = document.querySelector(elementToExpectSelector);
+
+        if (
+          !elementToExpect ||
+          elementToExpect.style.display === "none" ||
+          elementToExpect.offsetParent === null
+        ) {
+          reject();
+        }
+
         clearInterval(interval);
-      }
+        resolve(elementToExpect);
+      };
 
-      elementToExpect = context.querySelector(elementToExpectSelector);
-
-      if (
-        !elementToExpect ||
-        elementToExpect.style.display === "none" ||
-        elementToExpect.offsetParent === null
-      ) {
-        return;
-      }
-      clearInterval(interval);
-
-      callback(elementToExpect);
-    }
-
-    interval = setInterval(tryIt, 500);
+      interval = setInterval(tryIt, 500);
+    });
   };
 
   isMobile = (): boolean => {
@@ -150,271 +151,266 @@ class LikersBlocker {
     scrollList.classList.remove("lb-blur");
   };
 
-  addBlockButton = (): void => {
-    // TODO: split this into several functions
-    this.tryToAccessDOM(likesCountElement => {
-      var likesCountText = likesCountElement.textContent;
-      var lastCharacter = likesCountText.slice(-1);
+  setUpLikesCounter = async () => {
+    var likesCountElement = await this.tryToAccessDOM("a[href$=likes] > div > span > span");
+    var likesCountText = likesCountElement.textContent;
+    var lastCharacter = likesCountText.slice(-1);
 
-      var multiplyer = 1;
-      if (lastCharacter === "K") {
-        multiplyer = 1000;
-      } else if (lastCharacter === "M") {
-        multiplyer = 1000000;
-      }
+    var multiplyer = 1;
+    if (lastCharacter === "K") {
+      multiplyer = 1000;
+    } else if (lastCharacter === "M") {
+      multiplyer = 1000000;
+    }
 
-      this.likesCount =
-        multiplyer === 1
-          ? // german number format:
-            likesCountText.replace(".", "")
-          : // english number format:
-            parseFloat(likesCountText) * multiplyer;
-    }, "a[href$=likes] > div > span > span");
+    this.likesCount =
+      multiplyer === 1
+        ? // german number format:
+          parseInt(likesCountText.replace(".", ""))
+        : // english number format:
+          parseFloat(likesCountText) * multiplyer;
+  };
 
-    this.tryToAccessDOM(followButton => {
-      // prevent multiple blockButtons:
-      if (document.querySelector("[data-testid=blockAll")) {
-        return;
-      }
+  setUpBlockButton = async () => {
+    var followButton = await this.tryToAccessDOM("[data-testid$=-follow]");
 
-      var viewport = this.isMobile() ? "mobile" : "desktop";
-      var topbar = document.querySelector(topbarSelector[viewport]);
+    // prevent multiple blockButtons:
+    if (document.querySelector("[data-testid=blockAll")) {
+      return;
+    }
 
-      if (!topbar) {
-        return;
-      }
+    var viewport = this.isMobile() ? "mobile" : "desktop";
+    var topbar = document.querySelector(topbarSelector[viewport]);
 
-      var lastChild = topbar.children[topbar.children.length - 1];
-      var lastHasWrongType = lastChild.nodeName !== "DIV";
-      var heading = lastChild.querySelector("div > h2 > span");
-      var headingIsNotLikes =
-        !heading || !heading.innerText.match(/(gefällt|like).*/gi);
+    if (!topbar) {
+      return;
+    }
 
-      var isTopbarFalseHit =
-        topbar.children.length !== 2 ||
-        lastHasWrongType ||
-        !heading ||
-        headingIsNotLikes;
+    var lastChild = topbar.children[topbar.children.length - 1];
+    var lastHasWrongType = lastChild.nodeName !== "DIV";
+    var heading = lastChild.querySelector("div > h2 > span");
+    var headingIsNotLikes =
+      !heading || !heading.innerText.match(/(gefällt|like).*/gi);
 
-      if (isTopbarFalseHit) {
-        return;
-      }
+    var isTopbarFalseHit =
+      topbar.children.length !== 2 ||
+      lastHasWrongType ||
+      !heading ||
+      headingIsNotLikes;
 
-      var tweetId = location.href
-        .replace(/https:\/\/twitter.com\/.*\/status\//g, "")
-        .replace("/likes", "");
+    if (isTopbarFalseHit) {
+      return;
+    }
 
-      var blockButton = document.createElement("a");
-      blockButton.classList.add("lb-block-button", ...followButton.classList);
-      blockButton.dataset.testid = "blockAll";
-      blockButton.innerHTML = followButton.innerHTML;
+    var tweetId = location.href
+      .replace(/https:\/\/twitter.com\/.*\/status\//g, "")
+      .replace("/likes", "");
 
-      var blockButtonLabel = blockButton.querySelector("div > span > span");
-      blockButtonLabel.innerHTML = "Alle Blockieren";
+    var blockButton = document.createElement("a");
+    blockButton.classList.add("lb-block-button", ...followButton.classList);
+    blockButton.dataset.testid = "blockAll";
+    blockButton.innerHTML = followButton.innerHTML;
 
-      topbar.appendChild(blockButton);
+    var blockButtonLabel = blockButton.querySelector("div > span > span");
+    blockButtonLabel.innerHTML = "Alle Blockieren";
 
-      // add blockIcon:
-      var blockIconWrapper = document.createElement("span");
-      blockIconWrapper.innerHTML = blockIcon;
-      blockIconWrapper.style.marginRight = ".3em";
-      blockButton.querySelector("div").prepend(blockIconWrapper);
+    topbar.appendChild(blockButton);
 
-      var highlightColor = getComputedStyle(topbar.querySelector("svg")).color;
-      var backgroundColor = document.querySelector("body").style
-        .backgroundColor;
-      blockIconWrapper.querySelector("svg").style.color = highlightColor;
+    // add blockIcon:
+    var blockIconWrapper = document.createElement("span");
+    blockIconWrapper.innerHTML = blockIcon;
+    blockIconWrapper.style.marginRight = ".3em";
+    blockButton.querySelector("div").prepend(blockIconWrapper);
 
-      blockButton.addEventListener("click", () => {
-        var scrollList =
-          topbar.parentNode.parentNode.parentNode.parentNode.children[1]
-            .children[0];
-        this.collectedUsers = [];
+    var highlightColor = getComputedStyle(topbar.querySelector("svg")).color;
+    var backgroundColor = document.querySelector("body").style.backgroundColor;
+    blockIconWrapper.querySelector("svg").style.color = highlightColor;
 
-        var animationIterationCounter = 0;
+    blockButton.addEventListener("click", () => {
+      var scrollList =
+        topbar.parentNode.parentNode.parentNode.parentNode.children[1]
+          .children[0];
+      this.collectedUsers = [];
 
-        var bioText = document.querySelector(
-          "[data-testid=UserCell] > div > div:nth-child(2) > div:nth-child(2)"
-        );
-        var nameText = document.querySelector(
-          "[data-testid=UserCell] > div > div:nth-child(2) > div > div > a > div > div > div"
-        );
-        var textStyle = Array.from((bioText || nameText).classList);
-        var popupWrapper = document.createElement("div");
-        popupWrapper.classList.add("lb-popup-wrapper", "lb-hide");
-        var popup = document.createElement("div");
-        popupWrapper.appendChild(popup);
-        popup.classList.add("lb-popup");
-        popup.style.background = backgroundColor;
-        popup.style.color = highlightColor;
-        var isListLarge = this.likesCount > this.likersLimit;
+      var animationIterationCounter = 0;
 
-        popup.innerHTML = `
-          <div class='lb-label lb-collecting'>
-            <h3>Sammle Nutzernamen ein...</h3>
-            <p class="lb-text">${
-              limitMessage[isListLarge ? "largeList" : "smallList"]
-            }
-            </p>
-            <h1><span class='lb-loading'>...</span></h1>
-          </div>
-        `;
-        document.querySelector("body").appendChild(popupWrapper);
+      var bioText = document.querySelector(
+        "[data-testid=UserCell] > div > div:nth-child(2) > div:nth-child(2)"
+      );
+      var nameText = document.querySelector(
+        "[data-testid=UserCell] > div > div:nth-child(2) > div > div > a > div > div > div"
+      );
+      var textStyle = Array.from((bioText || nameText).classList);
+      var popupWrapper = document.createElement("div");
+      popupWrapper.classList.add("lb-popup-wrapper", "lb-hide");
+      var popup = document.createElement("div");
+      popupWrapper.appendChild(popup);
+      popup.classList.add("lb-popup");
+      popup.style.background = backgroundColor;
+      popup.style.color = highlightColor;
+      var isListLarge = this.likesCount > this.likersLimit;
 
-        var loadingIndicator = popup.querySelector(
-          ".lb-loading"
-        ) as HTMLElement;
-        loadingIndicator.style.color = highlightColor;
-
-        popup.querySelector(".lb-label").classList.add(...textStyle);
-        setTimeout(() => {
-          popupWrapper.classList.remove("lb-hide");
-        }, 250);
-
-        // add confirmMessage to dialog:
-        var confirmMessage = `
-          <h3> Nutzer gefunden. Alle blockieren?</h3>
-          <p>Evtl. musst du in deinem Browser Popups für twitter.com erlauben.</p>`;
-
-        var confirmButton = blockButton.cloneNode(true) as HTMLLinkElement;
-        confirmButton.classList.add("lb-confirm-button");
-        confirmButton.classList.remove("lb-block-button");
-        confirmButton.querySelector("div > span").remove();
-        var confirmButtonLabel = confirmButton.querySelector(
-          "div > span > span"
-        ) as HTMLElement;
-        confirmButtonLabel.innerText = "OK";
-        confirmButton.target = "_blank";
-
-        var checkbox = document.createElement("input");
-        var label = document.createElement("label");
-        var labelWrapper = document.createElement("div");
-        labelWrapper.classList.add("lb-label-wrapper");
-        labelWrapper.appendChild(label);
-
-        var loadingInfo = popup.querySelector(".lb-label");
-        var confirmMessageElement = loadingInfo.cloneNode() as HTMLElement;
-        confirmMessageElement.classList.remove("lb-collecting");
-        confirmMessageElement.classList.add("lb-confirm-message");
-        confirmMessageElement.innerHTML = confirmMessage;
-        popup.appendChild(confirmMessageElement);
-
-        checkbox.type = "checkbox";
-        checkbox.classList.add("lb-checkbox");
-        confirmMessageElement.appendChild(labelWrapper);
-        label.innerHTML = "<span>Auch alle Retweeter blockieren?</span>";
-        var retweetersNotice = document.createElement("span");
-        retweetersNotice.classList.add("lb-info");
-        retweetersNotice.title =
-          "Beinhaltet nur direkte Retweeter ohne Kommentar";
-        retweetersNotice.innerHTML = infoIcon;
-
-        label.prepend(checkbox);
-        labelWrapper.appendChild(retweetersNotice);
-        confirmMessageElement.appendChild(confirmButton);
-
-        var checkmark = document.createElement("span");
-        checkmark.classList.add("lb-checkmark");
-        loadingInfo.appendChild(checkmark);
-        checkmark.style.background = highlightColor;
-        checkmark.innerHTML = checkmarkIcon;
-
-        checkbox.addEventListener("change", () => {
-          var tweetParam = checkbox.checked ? `&tweet_id=${tweetId}` : "";
-          confirmButton.href = `${this.requestUrl}${tweetParam}`;
-        });
-
-        confirmButton.addEventListener("click", () => {
-          this.closePopup(popupWrapper, scrollList);
-        });
-
-        var loadingIndicator = popup.querySelector(
-          ".lb-loading"
-        ) as HTMLElement;
-        loadingIndicator.addEventListener("animationiteration", () => {
-          animationIterationCounter++;
-
-          // only continue when indicator is on the right side:
-          if (
-            animationIterationCounter % 2 != 0 &&
-            popup.classList.contains("lb-check")
-          ) {
-            popup.classList.add("lb-collected");
+      popup.innerHTML = `
+        <div class='lb-label lb-collecting'>
+          <h3>Sammle Nutzernamen ein...</h3>
+          <p class="lb-text">${
+            limitMessage[isListLarge ? "largeList" : "smallList"]
           }
+          </p>
+          <h1><span class='lb-loading'>...</span></h1>
+        </div>
+      `;
+      document.querySelector("body").appendChild(popupWrapper);
+
+      var loadingIndicator = popup.querySelector(".lb-loading") as HTMLElement;
+      loadingIndicator.style.color = highlightColor;
+
+      popup.querySelector(".lb-label").classList.add(...textStyle);
+      setTimeout(() => {
+        popupWrapper.classList.remove("lb-hide");
+      }, 250);
+
+      // add confirmMessage to dialog:
+      var confirmMessage = `
+        <h3> Nutzer gefunden. Alle blockieren?</h3>
+        <p>Evtl. musst du in deinem Browser Popups für twitter.com erlauben.</p>`;
+
+      var confirmButton = blockButton.cloneNode(true) as HTMLLinkElement;
+      confirmButton.classList.add("lb-confirm-button");
+      confirmButton.classList.remove("lb-block-button");
+      confirmButton.querySelector("div > span").remove();
+      var confirmButtonLabel = confirmButton.querySelector(
+        "div > span > span"
+      ) as HTMLElement;
+      confirmButtonLabel.innerText = "OK";
+      confirmButton.target = "_blank";
+
+      var checkbox = document.createElement("input");
+      var label = document.createElement("label");
+      var labelWrapper = document.createElement("div");
+      labelWrapper.classList.add("lb-label-wrapper");
+      labelWrapper.appendChild(label);
+
+      var loadingInfo = popup.querySelector(".lb-label");
+      var confirmMessageElement = loadingInfo.cloneNode() as HTMLElement;
+      confirmMessageElement.classList.remove("lb-collecting");
+      confirmMessageElement.classList.add("lb-confirm-message");
+      confirmMessageElement.innerHTML = confirmMessage;
+      popup.appendChild(confirmMessageElement);
+
+      checkbox.type = "checkbox";
+      checkbox.classList.add("lb-checkbox");
+      confirmMessageElement.appendChild(labelWrapper);
+      label.innerHTML = "<span>Auch alle Retweeter blockieren?</span>";
+      var retweetersNotice = document.createElement("span");
+      retweetersNotice.classList.add("lb-info");
+      retweetersNotice.title =
+        "Beinhaltet nur direkte Retweeter ohne Kommentar";
+      retweetersNotice.innerHTML = infoIcon;
+
+      label.prepend(checkbox);
+      labelWrapper.appendChild(retweetersNotice);
+      confirmMessageElement.appendChild(confirmButton);
+
+      var checkmark = document.createElement("span");
+      checkmark.classList.add("lb-checkmark");
+      loadingInfo.appendChild(checkmark);
+      checkmark.style.background = highlightColor;
+      checkmark.innerHTML = checkmarkIcon;
+
+      checkbox.addEventListener("change", () => {
+        var tweetParam = checkbox.checked ? `&tweet_id=${tweetId}` : "";
+        confirmButton.href = `${this.requestUrl}${tweetParam}`;
+      });
+
+      confirmButton.addEventListener("click", () => {
+        this.closePopup(popupWrapper, scrollList);
+      });
+
+      var loadingIndicator = popup.querySelector(".lb-loading") as HTMLElement;
+      loadingIndicator.addEventListener("animationiteration", () => {
+        animationIterationCounter++;
+
+        // only continue when indicator is on the right side:
+        if (
+          animationIterationCounter % 2 != 0 &&
+          popup.classList.contains("lb-check")
+        ) {
+          popup.classList.add("lb-collected");
+        }
+      });
+
+      // add closeButton:
+      var closeButton = document.createElement("button") as HTMLButtonElement;
+      closeButton.innerHTML = closeIcon;
+      closeButton.classList.add("lb-close-button");
+      closeButton.title = "Abbrechen";
+      closeButton.style.backgroundColor = highlightColor.replace(")", ", 0.1)");
+      closeButton.style.color = highlightColor;
+      popup.prepend(closeButton);
+      scrollList.classList.add("lb-blur");
+
+      // shrink popup to visible content:
+      var hiddenContentHeight = confirmMessageElement.clientHeight;
+      popup.style.height = `${popup.clientHeight - hiddenContentHeight}px`;
+
+      var scrollInterval: number;
+
+      var stopScrolling = function() {
+        clearInterval(scrollInterval);
+      };
+
+      var scrolly = this.isMobile()
+        ? document.querySelector("html")
+        : scrollList;
+      scrolly.scrollTo(0, 0);
+
+      const scrollDown = () => {
+        var scrollListIsSmall = scrolly.scrollHeight < scrolly.clientHeight * 2;
+        var scrolledToBottom =
+          scrolly.scrollTop >= scrolly.scrollHeight - scrolly.clientHeight;
+
+        scrolly.scroll({
+          top: scrolly.scrollTop + scrolly.clientHeight,
+          left: 0,
+          behavior: "smooth"
         });
 
-        // add closeButton:
-        var closeButton = document.createElement("button") as HTMLButtonElement;
-        closeButton.innerHTML = closeIcon;
-        closeButton.classList.add("lb-close-button");
-        closeButton.title = "Abbrechen";
-        closeButton.style.backgroundColor = highlightColor.replace(
-          ")",
-          ", 0.1)"
-        );
-        closeButton.style.color = highlightColor;
-        popup.prepend(closeButton);
-        scrollList.classList.add("lb-blur");
+        this.addUsers(this.scrapeUsernames(scrollList));
 
-        // shrink popup to visible content:
-        var hiddenContentHeight = confirmMessageElement.clientHeight;
-        popup.style.height = `${popup.clientHeight - hiddenContentHeight}px`;
+        var users = this.getUsers();
+        this.requestUrl = `${this.apiUrlBlock}?users=${users}`;
+        var reachedUrlLengthMax =
+          this.requestUrl.length > this.urlLengthMax - 100;
+        confirmButton.href = this.requestUrl;
 
-        var scrollInterval: number;
-
-        var stopScrolling = function() {
-          clearInterval(scrollInterval);
+        const changeStateToConfirm = () => {
+          var collectingMessage = popup.querySelector(
+            ".lb-label.lb-collecting"
+          ) as HTMLElement;
+          collectingMessage.style.marginTop = `calc(-${collectingMessage.clientHeight}px - 1.5rem)`;
+          popup.classList.add("lb-confirm");
+          scrollList.classList.remove("lb-blur");
         };
 
-        var scrolly = this.isMobile()
-          ? document.querySelector("html")
-          : scrollList;
-        scrolly.scrollTo(0, 0);
-
-        scrollInterval = setInterval(() => {
-          var scrollListIsSmall =
-            scrolly.scrollHeight < scrolly.clientHeight * 2;
-          var scrolledToBottom =
-            scrolly.scrollTop >= scrolly.scrollHeight - scrolly.clientHeight;
-
-          scrolly.scroll({
-            top: scrolly.scrollTop + scrolly.clientHeight,
-            left: 0,
-            behavior: "smooth"
-          });
-
-          this.addUsers(this.scrapeUsernames(scrollList));
-
-          var users = this.getUsers();
-          this.requestUrl = `${this.apiUrlBlock}?users=${users}`;
-          var reachedUrlLengthMax =
-            this.requestUrl.length > this.urlLengthMax - 100;
-          confirmButton.href = this.requestUrl;
-
-          if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
-            var confirmHeading = popup.querySelector(".lb-confirm-message h3");
-            confirmHeading.textContent = `${users.length} ${confirmHeading.textContent}`;
-            stopScrolling();
-            popup.classList.add("lb-check");
-            var checkmark = popup.querySelector(".lb-checkmark");
-
-            checkmark.addEventListener("transitionend", () => {
-              var collectingMessage = popup.querySelector(
-                ".lb-label.lb-collecting"
-              ) as HTMLElement;
-              collectingMessage.style.marginTop = `calc(-${collectingMessage.clientHeight}px - 1.5rem)`;
-              popup.classList.add("lb-confirm");
-              scrollList.classList.remove("lb-blur");
-            });
-          }
-        }, 800);
-
-        closeButton.addEventListener("click", () => {
-          this.closePopup(popupWrapper, scrollList);
+        if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
+          var confirmHeading = popup.querySelector(".lb-confirm-message h3");
+          confirmHeading.textContent = `${users.length} ${confirmHeading.textContent}`;
           stopScrolling();
-        });
+          popup.classList.add("lb-check");
+          var checkmark = popup.querySelector(".lb-checkmark");
+
+          checkmark.addEventListener("transitionend", changeStateToConfirm);
+        }
+      };
+
+      scrollInterval = setInterval(scrollDown, 800);
+
+      closeButton.addEventListener("click", () => {
+        this.closePopup(popupWrapper, scrollList);
+        stopScrolling();
       });
-    }, "[data-testid$=-follow]");
+    });
   };
 }
 
