@@ -47,9 +47,11 @@ If you find a bug or want to suggest new features, [file a new issue](https://gi
 
 Feel free to suggest improvements or to create pull requests!
 
-### Development
+To test the extension locally:
 
-#### Build
+* Clone this repository
+
+### Build
 
 * Install Node.js >= 10.x
 
@@ -63,11 +65,7 @@ npm install
 npm run build
 ```
 
-#### Run
-
-To test the extension locally:
-
-* Clone this repository
+### Run
 
 #### Chrome
 
