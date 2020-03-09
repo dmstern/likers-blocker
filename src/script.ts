@@ -404,15 +404,6 @@ class LikersBlocker {
     var reachedUrlLengthMax = this.requestUrl.length > URL_LENGTH_MAX - 100;
     this.confirmButton.href = this.requestUrl;
 
-    const changeStateToConfirm = () => {
-      var collectingMessage = this.popup.querySelector(
-        ".lb-label.lb-collecting"
-      ) as HTMLElement;
-      collectingMessage.style.marginTop = `calc(-${collectingMessage.clientHeight}px - 1.5rem)`;
-      this.popup.classList.add("lb-confirm");
-      this.scrollList.classList.remove("lb-blur");
-    };
-
     if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
       var confirmHeading = this.popup.querySelector(".lb-confirm-message h3");
       confirmHeading.textContent = `${users.length} ${confirmHeading.textContent}`;
@@ -420,8 +411,17 @@ class LikersBlocker {
       this.popup.classList.add("lb-check");
       var checkmark = this.popup.querySelector(".lb-checkmark");
 
-      checkmark.addEventListener("transitionend", changeStateToConfirm);
+      checkmark.addEventListener("transitionend", this.changeStateToConfirm);
     }
+  };
+
+  changeStateToConfirm = () => {
+    var collectingMessage = this.popup.querySelector(
+      ".lb-label.lb-collecting"
+    ) as HTMLElement;
+    collectingMessage.style.marginTop = `calc(-${collectingMessage.clientHeight}px - 1.5rem)`;
+    this.popup.classList.add("lb-confirm");
+    this.scrollList.classList.remove("lb-blur");
   };
 
   initBlockAction = async () => {
