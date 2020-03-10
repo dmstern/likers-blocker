@@ -1,18 +1,12 @@
 const ICONS = {
-  block: '<svg viewBox="0 0 24 24" class="r-9ilb82 r-4qtqp9 r-yyyyoo r-1q142lx r-1xvli5t r-zso239 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M12 1.25C6.072 1.25 1.25 6.072 1.25 12S6.072 22.75 12 22.75 22.75 17.928 22.75 12 17.928 1.25 12 1.25zm0 1.5c2.28 0 4.368.834 5.982 2.207L4.957 17.982C3.584 16.368 2.75 14.282 2.75 12c0-5.1 4.15-9.25 9.25-9.25zm0 18.5c-2.28 0-4.368-.834-5.982-2.207L19.043 6.018c1.373 1.614 2.207 3.7 2.207 5.982 0 5.1-4.15 9.25-9.25 9.25z"></path></g></svg>',
-  checkmark: '<?xml version="1.0" encoding="UTF-8"?><svg width="45.255mm" height="37.707mm" version="1.1" viewBox="0 0 45.255 37.707" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><metadata><rdf:RDF><cc:Work rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/><dc:title/></cc:Work></rdf:RDF></metadata><g transform="translate(-54.843 -79.398)"><path d="m56.872 99.051 16.455 13.496 24.244-31.185"/></g></svg>',
-  close: '<svg viewBox="0 0 24 24" class="r-13gxpu9 r-4qtqp9 r-yyyyoo r-1q142lx r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g></svg>',
-  info: '<svg viewBox="0 0 24 24" class="r-daml9f r-4qtqp9 r-yyyyoo r-1q142lx r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M12 18.042c-.553 0-1-.447-1-1v-5.5c0-.553.447-1 1-1s1 .447 1 1v5.5c0 .553-.447 1-1 1z"></path><circle cx="12" cy="8.042" r="1.25"></circle><path d="M12 22.75C6.072 22.75 1.25 17.928 1.25 12S6.072 1.25 12 1.25 22.75 6.072 22.75 12 17.928 22.75 12 22.75zm0-20C6.9 2.75 2.75 6.9 2.75 12S6.9 21.25 12 21.25s9.25-4.15 9.25-9.25S17.1 2.75 12 2.75z"></path></g></svg>',
-};
-
-const LIMIT_MESSAGE = {
-  largeList: `
-    Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur max. 80 aus dieser Liste.
-    <span class="lb-info" title="Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.">
-      ${ICONS.info}
-    </span>`,
-  smallList:
-    "Wir können nur Liker aus dieser Liste blocken. <br> Evtl. werden einige von Twitter ausgeblendet."
+  block:
+    '<svg viewBox="0 0 24 24" class="r-9ilb82 r-4qtqp9 r-yyyyoo r-1q142lx r-1xvli5t r-zso239 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M12 1.25C6.072 1.25 1.25 6.072 1.25 12S6.072 22.75 12 22.75 22.75 17.928 22.75 12 17.928 1.25 12 1.25zm0 1.5c2.28 0 4.368.834 5.982 2.207L4.957 17.982C3.584 16.368 2.75 14.282 2.75 12c0-5.1 4.15-9.25 9.25-9.25zm0 18.5c-2.28 0-4.368-.834-5.982-2.207L19.043 6.018c1.373 1.614 2.207 3.7 2.207 5.982 0 5.1-4.15 9.25-9.25 9.25z"></path></g></svg>',
+  checkmark:
+    '<?xml version="1.0" encoding="UTF-8"?><svg width="45.255mm" height="37.707mm" version="1.1" viewBox="0 0 45.255 37.707" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><metadata><rdf:RDF><cc:Work rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/><dc:title/></cc:Work></rdf:RDF></metadata><g transform="translate(-54.843 -79.398)"><path d="m56.872 99.051 16.455 13.496 24.244-31.185"/></g></svg>',
+  close:
+    '<svg viewBox="0 0 24 24" class="r-13gxpu9 r-4qtqp9 r-yyyyoo r-1q142lx r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g></svg>',
+  info:
+    '<svg viewBox="0 0 24 24" class="r-daml9f r-4qtqp9 r-yyyyoo r-1q142lx r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M12 18.042c-.553 0-1-.447-1-1v-5.5c0-.553.447-1 1-1s1 .447 1 1v5.5c0 .553-.447 1-1 1z"></path><circle cx="12" cy="8.042" r="1.25"></circle><path d="M12 22.75C6.072 22.75 1.25 17.928 1.25 12S6.072 1.25 12 1.25 22.75 6.072 22.75 12 17.928 22.75 12 22.75zm0-20C6.9 2.75 2.75 6.9 2.75 12S6.9 21.25 12 21.25s9.25-4.15 9.25-9.25S17.1 2.75 12 2.75z"></path></g></svg>'
 };
 
 const TOPBAR_SELECTOR = {
@@ -48,13 +42,62 @@ const API_URL_BLOCK: string =
 const URL_LENGTH_MAX: number = 2000;
 const LIKERS_LIMIT: number = 80;
 
+interface Labels {
+  ok: string;
+  onlyDirectRetweeters: string;
+  blockRetweeters: any;
+  likesHeading: any;
+  onlyListItems: any;
+  twitterHides: any;
+  repeatBlocking: any;
+  technicalConstraints: any;
+  cancel: string;
+  collectingUsernames: any;
+  blockAll: string;
+  usersFound: string;
+}
+
+const LABELS: { [key: string]: Labels } = {
+  en: {
+    usersFound: "users found. Block all?",
+    blockAll: "Block all",
+    collectingUsernames: "Collecting usernames",
+    cancel: "Cancel",
+    technicalConstraints:
+      "For large like amounts, not all usernames can be collected but only a maximum of 80 users from this list.",
+    repeatBlocking:
+      "You can repeat the block process after the confirmation to block more users.",
+    twitterHides: "Some users may be hidden by Twitter.",
+    onlyListItems: "We can only block users from this list",
+    likesHeading: "like",
+    blockRetweeters: "Also block retweeters?",
+    onlyDirectRetweeters: "Only includes direct retweeters without a comment.",
+    ok: "OK"
+  },
+  de: {
+    usersFound: "Nutzer gefunden. Alle blockieren?",
+    blockAll: "Alle Blockieren",
+    collectingUsernames: "Sammle Nutzernamen ein",
+    cancel: "Abbrechen",
+    technicalConstraints:
+      "Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur max. 80 aus dieser Liste.",
+    repeatBlocking:
+      "Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.",
+    twitterHides: "Evtl. werden einige von Twitter ausgeblendet.",
+    onlyListItems: "Wir können nur Liker aus dieser Liste blocken.",
+    likesHeading: "gefällt",
+    blockRetweeters: "Auch alle Retweeter blockieren?",
+    onlyDirectRetweeters: "Beinhaltet nur direkte Retweeter ohne Kommentar",
+    ok: "OK"
+  }
+};
+
 class LikersBlocker {
   collectedUsers: string[];
   requestUrl: string;
   likesCount: number;
   backgroundColor: string;
   popup: HTMLElement;
-  confirmMessage: string;
   confirmButton: HTMLLinkElement;
   popupWrapper: HTMLDivElement;
   checkbox: HTMLInputElement;
@@ -62,6 +105,7 @@ class LikersBlocker {
   blockButton: HTMLAnchorElement;
   scrollInterval: number;
   topbar: HTMLElement;
+  i18n: Labels;
 
   static run(): void {
     // for when we are on the likes page:
@@ -84,12 +128,25 @@ class LikersBlocker {
     this.requestUrl = "";
     this.likesCount = 0;
     this.backgroundColor = "rgb(255, 255, 255)";
-    this.confirmMessage = `
-    <h3> Nutzer gefunden. Alle blockieren?</h3>
-    <p>Evtl. musst du in deinem Browser Popups für twitter.com erlauben.</p>`;
+    this.i18n = LABELS[this.lang];
 
     this.setUpLikesCounter();
     this.setUpBlockButton();
+  }
+
+  get confirmMessage() {
+    return `<h3> ${this.i18n.usersFound}</h3>`;
+  }
+
+  get limitMessage() {
+    if (this.isListLarge) {
+      return `${this.i18n.technicalConstraints}
+      <span class="lb-info" title="${this.i18n.repeatBlocking}">
+        ${ICONS.info}
+      </span>`;
+    } else {
+      return `${this.i18n.onlyListItems}<br>${this.i18n.twitterHides}`;
+    }
   }
 
   get scrollList() {
@@ -136,7 +193,7 @@ class LikersBlocker {
     this.blockButton.innerHTML = followButton.innerHTML;
 
     var blockButtonLabel = this.blockButton.querySelector("div > span > span");
-    blockButtonLabel.innerHTML = "Alle Blockieren";
+    blockButtonLabel.innerHTML = this.i18n.blockAll;
 
     this.topbar.appendChild(this.blockButton);
 
@@ -164,7 +221,7 @@ class LikersBlocker {
     var closeButton = document.createElement("button") as HTMLButtonElement;
     closeButton.innerHTML = ICONS.close;
     closeButton.classList.add("lb-close-button");
-    closeButton.title = "Abbrechen";
+    closeButton.title = this.i18n.cancel;
     closeButton.style.backgroundColor = this.highlightColor.replace(
       ")",
       ", 0.1)"
@@ -185,15 +242,11 @@ class LikersBlocker {
     this.popup.classList.add("lb-popup");
     this.popup.style.background = this.backgroundColor;
     this.popup.style.color = this.highlightColor;
-    var isListLarge = this.likesCount > LIKERS_LIMIT;
 
     this.popup.innerHTML = `
     <div class='lb-label lb-collecting'>
-      <h3>Sammle Nutzernamen ein...</h3>
-      <p class="lb-text">${
-        LIMIT_MESSAGE[isListLarge ? "largeList" : "smallList"]
-      }
-      </p>
+      <h3>${this.i18n.collectingUsernames}...</h3>
+      <p class="lb-text">${this.limitMessage}</p>
       <h1><span class='lb-loading'>...</span></h1>
     </div>
   `;
@@ -244,6 +297,11 @@ class LikersBlocker {
   isMobile = (): boolean => {
     return document.documentElement.clientWidth < 699;
   };
+
+  get lang() {
+    const language = document.querySelector("html").lang;
+    return language in LABELS ? language : "en";
+  }
 
   scrapeUsernames = (likersList): string[] => {
     var userCells = likersList.querySelectorAll(
@@ -307,7 +365,7 @@ class LikersBlocker {
     var lastHasWrongType = lastChild.nodeName !== "DIV";
     var heading = lastChild.querySelector("div > h2 > span");
     var headingIsNotLikes =
-      !heading || !heading.textContent.match(/(gefällt|like).*/gi);
+      !heading || !heading.textContent.match(this.likesHeading);
 
     var isTopbarFalseHit =
       this.topbar.children.length !== 2 ||
@@ -335,10 +393,10 @@ class LikersBlocker {
     this.checkbox.type = "checkbox";
     this.checkbox.classList.add("lb-checkbox");
     this.confirmMessageElement.appendChild(labelWrapper);
-    label.innerHTML = "<span>Auch alle Retweeter blockieren?</span>";
+    label.innerHTML = `<span>${this.i18n.blockRetweeters}</span>`;
     var retweetersNotice = document.createElement("span");
     retweetersNotice.classList.add("lb-info");
-    retweetersNotice.title = "Beinhaltet nur direkte Retweeter ohne Kommentar";
+    retweetersNotice.title = this.i18n.onlyDirectRetweeters;
     retweetersNotice.innerHTML = ICONS.info;
     label.prepend(this.checkbox);
     labelWrapper.appendChild(retweetersNotice);
@@ -367,6 +425,18 @@ class LikersBlocker {
     return this.popup.querySelector(".lb-label");
   }
 
+  get isListLarge() {
+    return this.likesCount > LIKERS_LIMIT;
+  }
+
+  get likesHeading() {
+    if (this.lang in this.i18n) {
+      return new RegExp(`${this.i18n.likesHeading}.*`, "ig");
+    } else {
+      return "";
+    }
+  }
+
   async createConfirmButton() {
     var blockButton = this.blockButton;
     this.confirmButton = blockButton.cloneNode(true) as HTMLLinkElement;
@@ -376,7 +446,7 @@ class LikersBlocker {
     var confirmButtonLabel = this.confirmButton.querySelector(
       "div > span > span"
     ) as HTMLElement;
-    confirmButtonLabel.innerText = "OK";
+    confirmButtonLabel.innerText = this.i18n.ok;
     this.confirmButton.target = "_blank";
 
     this.confirmButton.addEventListener("click", this.closePopup);
