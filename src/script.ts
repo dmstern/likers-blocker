@@ -96,7 +96,6 @@ class LikersBlocker {
   collectedUsers: string[];
   requestUrl: string;
   likesCount: number;
-  backgroundColor: string;
   popup: HTMLElement;
   confirmButton: HTMLLinkElement;
   popupWrapper: HTMLDivElement;
@@ -127,15 +126,10 @@ class LikersBlocker {
     this.collectedUsers = [];
     this.requestUrl = "";
     this.likesCount = 0;
-    this.backgroundColor = "rgb(255, 255, 255)";
     this.i18n = LABELS[this.lang];
 
     this.setUpLikesCounter();
     this.setUpBlockButton();
-  }
-
-  get confirmMessage() {
-    return `<h3> ${this.i18n.usersFound}</h3>`;
   }
 
   get limitMessage() {
@@ -160,6 +154,10 @@ class LikersBlocker {
 
   get viewport() {
     return this.isMobile() ? "mobile" : "desktop";
+  }
+
+  get backgroundColor() {
+    return document.querySelector("body").style.backgroundColor;
   }
 
   get textStyle() {
@@ -203,7 +201,6 @@ class LikersBlocker {
     blockIconWrapper.style.marginRight = ".3em";
     this.blockButton.querySelector("div").prepend(blockIconWrapper);
 
-    this.backgroundColor = document.querySelector("body").style.backgroundColor;
     blockIconWrapper.querySelector("svg").style.color = this.highlightColor;
 
     this.blockButton.addEventListener("click", async () => {
@@ -388,7 +385,7 @@ class LikersBlocker {
     labelWrapper.appendChild(label);
     this.confirmMessageElement.classList.remove("lb-collecting");
     this.confirmMessageElement.classList.add("lb-confirm-message");
-    this.confirmMessageElement.innerHTML = this.confirmMessage;
+    this.confirmMessageElement.innerHTML = `<h3> ${this.i18n.usersFound}</h3>`;
     this.popup.appendChild(this.confirmMessageElement);
     this.checkbox.type = "checkbox";
     this.checkbox.classList.add("lb-checkbox");
