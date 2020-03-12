@@ -182,6 +182,11 @@ class LikersBlocker {
     return this.popup.querySelector(".lb-label");
   }
 
+  private get popupContainer(): HTMLElement {
+    const modalDialog = document.querySelector("[aria-modal=true]");
+    return ((modalDialog || document.querySelector("body")) as HTMLElement);
+  }
+
   private get scrollList() {
     return this.topbar.parentNode.parentNode.parentNode.parentNode.children[1]
       .children[0];
@@ -230,6 +235,11 @@ class LikersBlocker {
 
     this.popupWrapper.remove();
     this.scrollList.classList.remove("lb-blur");
+
+    // Reset focus on old twitter popup:
+    setTimeout(() => {
+      (this.popupContainer.querySelector("[data-focusable='true']") as HTMLElement).focus();
+    }, 0);
   };
 
   private async createBlockButton() {
@@ -262,7 +272,10 @@ class LikersBlocker {
 
     blockIconWrapper.querySelector("svg").style.color = this.highlightColor;
 
-    this.blockButton.addEventListener("click", this.setUpBlockPopup);
+    this.blockButton.addEventListener("click", () => {
+      this.setUpBlockPopup();
+    });
+
     this.blockButton.addEventListener("keyup", event => {
       if (event.key === "Enter") {
         this.setUpBlockPopup();
@@ -308,6 +321,7 @@ class LikersBlocker {
   private createCloseButton() {
     var closeButton = document.createElement("button") as HTMLButtonElement;
     closeButton.innerHTML = ICONS.close;
+    closeButton.tabIndex = 0;
     closeButton.classList.add("lb-close-button");
     closeButton.title = this.i18n.cancel;
     closeButton.style.backgroundColor = this.highlightColor.replace(
@@ -347,22 +361,40 @@ class LikersBlocker {
     this.popupWrapper.classList.add("lb-popup-wrapper", "lb-hide");
     this.popup = document.createElement("div");
     this.popupWrapper.appendChild(this.popup);
+    this.popup.tabIndex = 0;
+    this.popup.setAttribute("aria-modal", "true");
+    this.popup.setAttribute("aria-labeledby", "lb-popup-heading");
+    this.popup.dataset.focusable = "true";
     this.popup.classList.add("lb-popup");
     this.popup.style.background = this.backgroundColor;
     this.popup.style.color = this.highlightColor;
     this.popup.innerHTML = content;
 
-    document.querySelector("body").appendChild(this.popupWrapper);
+    this.popupContainer.appendChild(this.popupWrapper);
+
+    setTimeout(() => {
+      this.popup.focus();
+    }, 0);
 
     setTimeout(() => {
       this.popupWrapper.classList.remove("lb-hide");
     }, 250);
 
-    document.addEventListener("keyup", event => {
+    document.addEventListener("keydown", event => {
       if (event.key === "Escape") {
         this.stopScrolling();
         this.closePopup();
       }
+
+      // Circle focus in modal popup:
+      setTimeout(() => {
+        if (event.key === "Tab") {
+          var focusIsInPopup = this.popup.matches(":focus-within");
+          if (!focusIsInPopup) {
+            this.popup.focus();
+          }
+        }
+      }, 0);
     });
   }
 
@@ -471,7 +503,7 @@ class LikersBlocker {
   private async setUpBlockPopup() {
     const popupInner = `
       <div class='lb-label lb-collecting'>
-        <h3>${this.i18n.collectingUsernames}...</h3>
+        <h3 id="lb-popup-heading">${this.i18n.collectingUsernames}...</h3>
         <p class="lb-text">${this.limitMessage}</p>
         <h1><span class='lb-loading'>...</span></h1>
       </div>`

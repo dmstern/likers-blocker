@@ -164,6 +164,7 @@ body {
 }
 
 .lb-label.lb-confirm-message {
+  display: none !important;
   opacity: 0;
 }
 
@@ -172,6 +173,7 @@ body {
 }
 
 .lb-confirm .lb-label.lb-confirm-message {
+  display: block !important;
   opacity: 1;
 }
 
