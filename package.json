@@ -4,10 +4,11 @@
   "description": "Block all visible likers (and optionally all retweeters) of a tweet on Twitter.",
   "main": "dist/script.js",
   "scripts": {
-    "compile": "tsc",
-    "watch": "npm run format && tsc --watch",
+    "lint": "tslint src/script.ts",
+    "compile": "npm run lint && tsc",
+    "watch": "npm run format && npm run lint && tsc --watch",
     "format": "prettier --write src/script.ts src/script.css",
-    "build": "npm run format && npm run compile"
+    "build": "npm run format && npm run lint && npm run compile"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "ncp": "^2.0.0",
     "prettier": "^1.19.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "tslint": "^6.1.0"
   }
 }

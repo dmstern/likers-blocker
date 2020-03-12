@@ -17,11 +17,11 @@ const TOPBAR_SELECTOR = {
 function debounce(func: Function, wait: number, immediate?: boolean) {
   var timeout: number;
 
-  return function() {
+  return function () {
     var context = this;
     var args = arguments;
 
-    var later = function() {
+    var later = function () {
       timeout = null;
       if (!immediate) {
         func.apply(context, args);
@@ -43,17 +43,17 @@ const URL_LENGTH_MAX: number = 2000;
 const LIKERS_LIMIT: number = 80;
 
 interface Labels {
-  ok: string;
-  onlyDirectRetweeters: string;
+  blockAll: string;
   blockRetweeters: any;
-  likesHeading: any;
-  onlyListItems: any;
-  twitterHides: any;
-  repeatBlocking: any;
-  technicalConstraints: any;
   cancel: string;
   collectingUsernames: any;
-  blockAll: string;
+  likesHeading: any;
+  ok: string;
+  onlyDirectRetweeters: string;
+  onlyListItems: any;
+  repeatBlocking: any;
+  technicalConstraints: any;
+  twitterHides: any;
   usersFound: string;
 }
 
@@ -93,20 +93,8 @@ const LABELS: { [key: string]: Labels } = {
 };
 
 class LikersBlocker {
-  collectedUsers: string[];
-  requestUrl: string;
-  likesCount: number;
-  popup: HTMLElement;
-  confirmButton: HTMLLinkElement;
-  popupWrapper: HTMLDivElement;
-  checkbox: HTMLInputElement;
-  confirmMessageElement: HTMLElement;
-  blockButton: HTMLAnchorElement;
-  scrollInterval: number;
-  topbar: HTMLElement;
-  i18n: Labels;
 
-  static run(): void {
+  public static run(): void {
     // for when we are on the likes page:
     new LikersBlocker();
 
@@ -122,6 +110,19 @@ class LikersBlocker {
     );
   }
 
+  private blockButton: HTMLAnchorElement;
+  private checkbox: HTMLInputElement;
+  private collectedUsers: string[];
+  private confirmButton: HTMLLinkElement;
+  private confirmMessageElement: HTMLElement;
+  private i18n: Labels;
+  private likesCount: number;
+  private popup: HTMLElement;
+  private popupWrapper: HTMLDivElement;
+  private requestUrl: string;
+  private scrollInterval: number;
+  private topbar: HTMLElement;
+
   constructor() {
     this.collectedUsers = [];
     this.requestUrl = "";
@@ -132,7 +133,42 @@ class LikersBlocker {
     this.setUpBlockButton();
   }
 
-  get limitMessage() {
+  public get lang() {
+    const language = document.querySelector("html").lang;
+    return language in LABELS ? language : "en";
+  }
+
+  public get tweetId() {
+    return location.href
+      .replace(/https:\/\/twitter.com\/.*\/status\//g, "")
+      .replace("/likes", "");
+  }
+
+  public get viewport() {
+    return this.isMobile() ? "mobile" : "desktop";
+  }
+
+  private get backgroundColor() {
+    return document.querySelector("body").style.backgroundColor;
+  }
+
+  private get highlightColor() {
+    return getComputedStyle(this.topbar.querySelector("svg")).color;
+  }
+
+  private get isListLarge() {
+    return this.likesCount > LIKERS_LIMIT;
+  }
+
+  private get likesHeading() {
+    if (this.lang in this.i18n) {
+      return new RegExp(`${this.i18n.likesHeading}.*`, "ig");
+    } else {
+      return "";
+    }
+  }
+
+  private get limitMessage() {
     if (this.isListLarge) {
       return `${this.i18n.technicalConstraints}
       <span class="lb-info" title="${this.i18n.repeatBlocking}">
@@ -143,24 +179,20 @@ class LikersBlocker {
     }
   }
 
-  get scrollList() {
+  private get loadingInfo() {
+    return this.popup.querySelector(".lb-label");
+  }
+
+  private get scrollList() {
     return this.topbar.parentNode.parentNode.parentNode.parentNode.children[1]
       .children[0];
   }
 
-  get highlightColor() {
-    return getComputedStyle(this.topbar.querySelector("svg")).color;
+  private get scrolly() {
+    return this.isMobile() ? document.querySelector("html") : this.scrollList;
   }
 
-  get viewport() {
-    return this.isMobile() ? "mobile" : "desktop";
-  }
-
-  get backgroundColor() {
-    return document.querySelector("body").style.backgroundColor;
-  }
-
-  get textStyle() {
+  private get textStyle() {
     var bioText = document.querySelector(
       "[data-testid=UserCell] > div > div:nth-child(2) > div:nth-child(2)"
     );
@@ -170,11 +202,38 @@ class LikersBlocker {
     return Array.from((bioText || nameText).classList);
   }
 
-  get scrolly() {
-    return this.isMobile() ? document.querySelector("html") : this.scrollList;
+  private get users(): string[] {
+    return Array.from(new Set(this.collectedUsers));
   }
 
-  async createBlockButton() {
+  public isMobile = (): boolean => {
+    return document.documentElement.clientWidth < 699;
+  };
+
+  private addUsers = (users: string[]): void => {
+    this.collectedUsers.push(...users);
+  };
+
+  private changeStateToConfirm = () => {
+    var collectingMessage = this.popup.querySelector(
+      ".lb-label.lb-collecting"
+    ) as HTMLElement;
+    collectingMessage.style.marginTop = `calc(-${collectingMessage.clientHeight}px - 1.5rem)`;
+    this.popup.classList.add("lb-confirm");
+    this.scrollList.classList.remove("lb-blur");
+  };
+
+  private closePopup = (): void => {
+    this.popup.classList.add("lb-hide");
+    this.popup.addEventListener("transitionend", () => {
+      this.popup.remove();
+    });
+
+    this.popupWrapper.remove();
+    this.scrollList.classList.remove("lb-blur");
+  };
+
+  private async createBlockButton() {
     var followButton = await this.tryToAccessDOM("[data-testid$=-follow]");
 
     // prevent multiple blockButtons:
@@ -214,170 +273,7 @@ class LikersBlocker {
     });
   }
 
-  createCloseButton() {
-    var closeButton = document.createElement("button") as HTMLButtonElement;
-    closeButton.innerHTML = ICONS.close;
-    closeButton.classList.add("lb-close-button");
-    closeButton.title = this.i18n.cancel;
-    closeButton.style.backgroundColor = this.highlightColor.replace(
-      ")",
-      ", 0.1)"
-    );
-    closeButton.style.color = this.highlightColor;
-    this.popup.prepend(closeButton);
-    closeButton.addEventListener("click", () => {
-      this.closePopup();
-      this.stopScrolling();
-    });
-  }
-
-  createPopup() {
-    this.popupWrapper = document.createElement("div");
-    this.popupWrapper.classList.add("lb-popup-wrapper", "lb-hide");
-    this.popup = document.createElement("div");
-    this.popupWrapper.appendChild(this.popup);
-    this.popup.classList.add("lb-popup");
-    this.popup.style.background = this.backgroundColor;
-    this.popup.style.color = this.highlightColor;
-
-    this.popup.innerHTML = `
-    <div class='lb-label lb-collecting'>
-      <h3>${this.i18n.collectingUsernames}...</h3>
-      <p class="lb-text">${this.limitMessage}</p>
-      <h1><span class='lb-loading'>...</span></h1>
-    </div>
-  `;
-    document.querySelector("body").appendChild(this.popupWrapper);
-
-    setTimeout(() => {
-      this.popupWrapper.classList.remove("lb-hide");
-    }, 250);
-  }
-
-  createConfirmMessageElement() {
-    this.confirmMessageElement = this.loadingInfo.cloneNode() as HTMLElement;
-    this.confirmMessageElement.classList.add(...this.textStyle);
-  }
-
-  tryToAccessDOM = (elementToExpectSelector: string): Promise<HTMLElement> => {
-    var elementToExpect = null;
-    var tryCounter = 0;
-    var tryMax = 10;
-    var interval = undefined;
-
-    return new Promise((resolve, reject) => {
-      const tryIt = () => {
-        tryCounter++;
-
-        if (tryCounter >= tryMax || elementToExpect) {
-          clearInterval(interval);
-        }
-
-        elementToExpect = document.querySelector(elementToExpectSelector);
-
-        if (
-          !elementToExpect ||
-          elementToExpect.style.display === "none" ||
-          elementToExpect.offsetParent === null
-        ) {
-          return;
-        }
-
-        clearInterval(interval);
-        resolve(elementToExpect);
-      };
-
-      interval = setInterval(tryIt, 500);
-    });
-  };
-
-  isMobile = (): boolean => {
-    return document.documentElement.clientWidth < 699;
-  };
-
-  get lang() {
-    const language = document.querySelector("html").lang;
-    return language in LABELS ? language : "en";
-  }
-
-  scrapeUsernames = (likersList): string[] => {
-    var userCells = likersList.querySelectorAll(
-      '[data-testid="UserCell"]'
-    ) as HTMLCollection;
-    var users: Element[] = Array.from(userCells);
-    return users.map(user => {
-      var userUrl = user.querySelector("a").href;
-      return userUrl.replace("https://twitter.com/", "");
-    });
-  };
-
-  addUsers = (users: string[]): void => {
-    this.collectedUsers.push(...users);
-  };
-
-  getUsers = (): string[] => {
-    return Array.from(new Set(this.collectedUsers));
-  };
-
-  closePopup = (): void => {
-    this.popup.classList.add("lb-hide");
-    this.popup.addEventListener("transitionend", () => {
-      this.popup.remove();
-    });
-
-    this.popupWrapper.remove();
-    this.scrollList.classList.remove("lb-blur");
-  };
-
-  setUpLikesCounter = async () => {
-    var likesCountElement = await this.tryToAccessDOM(
-      "a[href$=likes] > div > span > span"
-    );
-    var likesCountText = likesCountElement.textContent;
-    var lastCharacter = likesCountText.slice(-1);
-
-    var multiplyer = 1;
-    if (lastCharacter === "K") {
-      multiplyer = 1000;
-    } else if (lastCharacter === "M") {
-      multiplyer = 1000000;
-    }
-
-    this.likesCount =
-      multiplyer === 1
-        ? // german number format:
-          parseInt(likesCountText.replace(".", ""))
-        : // english number format:
-          parseFloat(likesCountText) * multiplyer;
-  };
-
-  setUpBlockButton = async () => {
-    this.topbar = await this.tryToAccessDOM(TOPBAR_SELECTOR[this.viewport]);
-
-    if (!this.topbar) {
-      return;
-    }
-
-    var lastChild = this.topbar.children[this.topbar.children.length - 1];
-    var lastHasWrongType = lastChild.nodeName !== "DIV";
-    var heading = lastChild.querySelector("div > h2 > span");
-    var headingIsNotLikes =
-      !heading || !heading.textContent.match(this.likesHeading);
-
-    var isTopbarFalseHit =
-      this.topbar.children.length !== 2 ||
-      lastHasWrongType ||
-      !heading ||
-      headingIsNotLikes;
-
-    if (isTopbarFalseHit) {
-      return;
-    }
-
-    await this.createBlockButton();
-  };
-
-  createCheckbox() {
+  private createCheckbox() {
     this.checkbox = document.createElement("input");
     var label = document.createElement("label");
     var labelWrapper = document.createElement("div");
@@ -400,7 +296,7 @@ class LikersBlocker {
     this.confirmMessageElement.appendChild(this.confirmButton);
   }
 
-  createCheckmark() {
+  private createCheckmark() {
     var checkmark = document.createElement("span");
     checkmark.classList.add("lb-checkmark");
     this.loadingInfo.appendChild(checkmark);
@@ -412,29 +308,24 @@ class LikersBlocker {
     });
   }
 
-  get tweetId() {
-    return location.href
-      .replace(/https:\/\/twitter.com\/.*\/status\//g, "")
-      .replace("/likes", "");
+  private createCloseButton() {
+    var closeButton = document.createElement("button") as HTMLButtonElement;
+    closeButton.innerHTML = ICONS.close;
+    closeButton.classList.add("lb-close-button");
+    closeButton.title = this.i18n.cancel;
+    closeButton.style.backgroundColor = this.highlightColor.replace(
+      ")",
+      ", 0.1)"
+    );
+    closeButton.style.color = this.highlightColor;
+    this.popup.prepend(closeButton);
+    closeButton.addEventListener("click", () => {
+      this.closePopup();
+      this.stopScrolling();
+    });
   }
 
-  get loadingInfo() {
-    return this.popup.querySelector(".lb-label");
-  }
-
-  get isListLarge() {
-    return this.likesCount > LIKERS_LIMIT;
-  }
-
-  get likesHeading() {
-    if (this.lang in this.i18n) {
-      return new RegExp(`${this.i18n.likesHeading}.*`, "ig");
-    } else {
-      return "";
-    }
-  }
-
-  async createConfirmButton() {
+  private async createConfirmButton() {
     var blockButton = this.blockButton;
     this.confirmButton = blockButton.cloneNode(true) as HTMLLinkElement;
     this.confirmButton.classList.add("lb-confirm-button");
@@ -449,47 +340,36 @@ class LikersBlocker {
     this.confirmButton.addEventListener("click", this.closePopup);
   }
 
-  scrollDown = async () => {
-    var scrollListIsSmall =
-      this.scrolly.scrollHeight < this.scrolly.clientHeight * 2;
-    var scrolledToBottom =
-      this.scrolly.scrollTop >=
-      this.scrolly.scrollHeight - this.scrolly.clientHeight;
+  private createConfirmMessageElement() {
+    this.confirmMessageElement = this.loadingInfo.cloneNode() as HTMLElement;
+    this.confirmMessageElement.classList.add(...this.textStyle);
+  }
 
-    this.scrolly.scroll({
-      top: this.scrolly.scrollTop + this.scrolly.clientHeight,
-      left: 0,
-      behavior: "smooth"
-    });
+  private createPopup() {
+    this.popupWrapper = document.createElement("div");
+    this.popupWrapper.classList.add("lb-popup-wrapper", "lb-hide");
+    this.popup = document.createElement("div");
+    this.popupWrapper.appendChild(this.popup);
+    this.popup.classList.add("lb-popup");
+    this.popup.style.background = this.backgroundColor;
+    this.popup.style.color = this.highlightColor;
 
-    this.addUsers(this.scrapeUsernames(this.scrollList));
+    this.popup.innerHTML = `
+    <div class='lb-label lb-collecting'>
+      <h3>${this.i18n.collectingUsernames}...</h3>
+      <p class="lb-text">${this.limitMessage}</p>
+      <h1><span class='lb-loading'>...</span></h1>
+    </div>
+  `;
+    document.querySelector("body").appendChild(this.popupWrapper);
 
-    var users = this.getUsers();
-    this.requestUrl = `${API_URL_BLOCK}?users=${users}`;
-    var reachedUrlLengthMax = this.requestUrl.length > URL_LENGTH_MAX - 100;
-    this.confirmButton.href = this.requestUrl;
+    setTimeout(() => {
+      this.popupWrapper.classList.remove("lb-hide");
+    }, 250);
+  }
 
-    if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
-      var confirmHeading = this.popup.querySelector(".lb-confirm-message h3");
-      confirmHeading.textContent = `${users.length} ${confirmHeading.textContent}`;
-      this.stopScrolling();
-      this.popup.classList.add("lb-check");
-      var checkmark = this.popup.querySelector(".lb-checkmark");
 
-      checkmark.addEventListener("transitionend", this.changeStateToConfirm);
-    }
-  };
-
-  changeStateToConfirm = () => {
-    var collectingMessage = this.popup.querySelector(
-      ".lb-label.lb-collecting"
-    ) as HTMLElement;
-    collectingMessage.style.marginTop = `calc(-${collectingMessage.clientHeight}px - 1.5rem)`;
-    this.popup.classList.add("lb-confirm");
-    this.scrollList.classList.remove("lb-blur");
-  };
-
-  initBlockAction = async () => {
+  private initBlockAction = async () => {
     let animationIterationCounter = 0;
 
     var loadingIndicator = this.popup.querySelector(
@@ -524,20 +404,141 @@ class LikersBlocker {
     this.startScrolling();
   };
 
-  shrinkPopupToVisibleContent() {
+  private scrapeUsernames = (likersList): string[] => {
+    var userCells = likersList.querySelectorAll(
+      '[data-testid="UserCell"]'
+    ) as HTMLCollection;
+    var users: Element[] = Array.from(userCells);
+    return users.map(user => {
+      var userUrl = user.querySelector("a").href;
+      return userUrl.replace("https://twitter.com/", "");
+    });
+  };
+
+  private scrollDown = async () => {
+    var scrollListIsSmall =
+      this.scrolly.scrollHeight < this.scrolly.clientHeight * 2;
+    var scrolledToBottom =
+      this.scrolly.scrollTop >=
+      this.scrolly.scrollHeight - this.scrolly.clientHeight;
+
+    this.scrolly.scroll({
+      top: this.scrolly.scrollTop + this.scrolly.clientHeight,
+      left: 0,
+      behavior: "smooth"
+    });
+
+    this.addUsers(this.scrapeUsernames(this.scrollList));
+
+    this.requestUrl = `${API_URL_BLOCK}?users=${this.users}`;
+    var reachedUrlLengthMax = this.requestUrl.length > URL_LENGTH_MAX - 100;
+    this.confirmButton.href = this.requestUrl;
+
+    if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
+      var confirmHeading = this.popup.querySelector(".lb-confirm-message h3");
+      confirmHeading.textContent = `${this.users.length} ${confirmHeading.textContent}`;
+      this.stopScrolling();
+      this.popup.classList.add("lb-check");
+      var checkmark = this.popup.querySelector(".lb-checkmark");
+
+      checkmark.addEventListener("transitionend", this.changeStateToConfirm);
+    }
+  };
+
+  private setUpBlockButton = async () => {
+    this.topbar = await this.tryToAccessDOM(TOPBAR_SELECTOR[this.viewport]);
+
+    if (!this.topbar) {
+      return;
+    }
+
+    var lastChild = this.topbar.children[this.topbar.children.length - 1];
+    var lastHasWrongType = lastChild.nodeName !== "DIV";
+    var heading = lastChild.querySelector("div > h2 > span");
+    var headingIsNotLikes =
+      !heading || !heading.textContent.match(this.likesHeading);
+
+    var isTopbarFalseHit =
+      this.topbar.children.length !== 2 ||
+      lastHasWrongType ||
+      !heading ||
+      headingIsNotLikes;
+
+    if (isTopbarFalseHit) {
+      return;
+    }
+
+    await this.createBlockButton();
+  };
+
+  private setUpLikesCounter = async () => {
+    var likesCountElement = await this.tryToAccessDOM(
+      "a[href$=likes] > div > span > span"
+    );
+    var likesCountText = likesCountElement.textContent;
+    var lastCharacter = likesCountText.slice(-1);
+
+    var multiplyer = 1;
+    if (lastCharacter === "K") {
+      multiplyer = 1000;
+    } else if (lastCharacter === "M") {
+      multiplyer = 1000000;
+    }
+
+    this.likesCount =
+      multiplyer === 1
+        ? // german number format:
+        parseInt(likesCountText.replace(".", ""))
+        : // english number format:
+        parseFloat(likesCountText) * multiplyer;
+  };
+
+  private shrinkPopupToVisibleContent() {
     var hiddenContentHeight = this.confirmMessageElement.clientHeight;
     this.popup.style.height = `${this.popup.clientHeight -
       hiddenContentHeight}px`;
   }
 
-  startScrolling() {
+  private startScrolling() {
     this.scrollList.classList.add("lb-blur");
     this.scrolly.scrollTo(0, 0);
     this.scrollInterval = setInterval(this.scrollDown, 800);
   }
 
-  stopScrolling = () => {
+  private stopScrolling = () => {
     clearInterval(this.scrollInterval);
+  };
+
+  private tryToAccessDOM = (elementToExpectSelector: string): Promise<HTMLElement> => {
+    var elementToExpect = null;
+    var tryCounter = 0;
+    var tryMax = 10;
+    var interval = undefined;
+
+    return new Promise((resolve, reject) => {
+      const tryIt = () => {
+        tryCounter++;
+
+        if (tryCounter >= tryMax || elementToExpect) {
+          clearInterval(interval);
+        }
+
+        elementToExpect = document.querySelector(elementToExpectSelector);
+
+        if (
+          !elementToExpect ||
+          elementToExpect.style.display === "none" ||
+          elementToExpect.offsetParent === null
+        ) {
+          return;
+        }
+
+        clearInterval(interval);
+        resolve(elementToExpect);
+      };
+
+      interval = setInterval(tryIt, 500);
+    });
   };
 }
 

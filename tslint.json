@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "member-ordering": [
+      true,
+      {
+        "order": "statics-first",
+        "alphabetize": true
+      }
+    ]
+  }
+}
