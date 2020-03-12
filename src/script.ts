@@ -93,7 +93,6 @@ const LABELS: { [key: string]: Labels } = {
 };
 
 class LikersBlocker {
-
   public static run(): void {
     // for when we are on the likes page:
     new LikersBlocker();
@@ -366,8 +365,14 @@ class LikersBlocker {
     setTimeout(() => {
       this.popupWrapper.classList.remove("lb-hide");
     }, 250);
-  }
 
+    document.addEventListener("keyup", event => {
+      if (event.key === "Escape") {
+        this.stopScrolling();
+        this.closePopup();
+      }
+    });
+  }
 
   private initBlockAction = async () => {
     let animationIterationCounter = 0;
@@ -509,7 +514,9 @@ class LikersBlocker {
     clearInterval(this.scrollInterval);
   };
 
-  private tryToAccessDOM = (elementToExpectSelector: string): Promise<HTMLElement> => {
+  private tryToAccessDOM = (
+    elementToExpectSelector: string
+  ): Promise<HTMLElement> => {
     var elementToExpect = null;
     var tryCounter = 0;
     var tryMax = 10;
