@@ -246,6 +246,7 @@ class LikersBlocker {
       ...followButton.classList
     );
     this.blockButton.dataset.testid = "blockAll";
+    this.blockButton.tabIndex = 0;
     this.blockButton.innerHTML = followButton.innerHTML;
 
     var blockButtonLabel = this.blockButton.querySelector("div > span > span");
@@ -261,14 +262,11 @@ class LikersBlocker {
 
     blockIconWrapper.querySelector("svg").style.color = this.highlightColor;
 
-    this.blockButton.addEventListener("click", async () => {
-      this.createPopup();
-      this.createConfirmMessageElement();
-      await this.createConfirmButton();
-      this.createCheckbox();
-      this.createCheckmark();
-      this.createCloseButton();
-      this.initBlockAction();
+    this.blockButton.addEventListener("click", this.setUpBlockPopup);
+    this.blockButton.addEventListener("keyup", event => {
+      if (event.key === "Enter") {
+        this.setUpBlockPopup();
+      }
     });
   }
 
@@ -344,7 +342,7 @@ class LikersBlocker {
     this.confirmMessageElement.classList.add(...this.textStyle);
   }
 
-  private createPopup() {
+  private async createPopup(content) {
     this.popupWrapper = document.createElement("div");
     this.popupWrapper.classList.add("lb-popup-wrapper", "lb-hide");
     this.popup = document.createElement("div");
@@ -352,14 +350,8 @@ class LikersBlocker {
     this.popup.classList.add("lb-popup");
     this.popup.style.background = this.backgroundColor;
     this.popup.style.color = this.highlightColor;
+    this.popup.innerHTML = content;
 
-    this.popup.innerHTML = `
-    <div class='lb-label lb-collecting'>
-      <h3>${this.i18n.collectingUsernames}...</h3>
-      <p class="lb-text">${this.limitMessage}</p>
-      <h1><span class='lb-loading'>...</span></h1>
-    </div>
-  `;
     document.querySelector("body").appendChild(this.popupWrapper);
 
     setTimeout(() => {
@@ -475,6 +467,22 @@ class LikersBlocker {
 
     await this.createBlockButton();
   };
+
+  private async setUpBlockPopup() {
+    const popupInner = `
+      <div class='lb-label lb-collecting'>
+        <h3>${this.i18n.collectingUsernames}...</h3>
+        <p class="lb-text">${this.limitMessage}</p>
+        <h1><span class='lb-loading'>...</span></h1>
+      </div>`
+    this.createPopup(popupInner);
+    this.createConfirmMessageElement();
+    await this.createConfirmButton();
+    this.createCheckbox();
+    this.createCheckmark();
+    this.createCloseButton();
+    this.initBlockAction();
+  }
 
   private setUpLikesCounter = async () => {
     var likesCountElement = await this.tryToAccessDOM(
