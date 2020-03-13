@@ -2,6 +2,7 @@ body {
   --lb-popup-padding: 2rem;
   --lb-close-button-padding: 9px;
   --text-line-height: 19px;
+  --close-button-icon-spacing: 3.75px;
 }
 
 .lb-popup-wrapper {
@@ -68,8 +69,14 @@ body {
   padding: var(--lb-close-button-padding);
   cursor: pointer;
   position: absolute;
-  right: calc(var(--lb-popup-padding) - var(--lb-close-button-padding));
-  top: calc(var(--lb-popup-padding) - var(--lb-close-button-padding));
+  right: calc(
+    var(--lb-popup-padding) - var(--lb-close-button-padding) -
+      var(--close-button-icon-spacing)
+  );
+  top: calc(
+    var(--lb-popup-padding) - var(--lb-close-button-padding) -
+      var(--close-button-icon-spacing)
+  );
   border-radius: 50%;
   z-index: 5000;
   transition: background-color ease 500ms;
@@ -197,6 +204,11 @@ body.lb-legacy-twitter .lb-block-button {
   margin-left: 68%;
 }
 
+.lb-block-button svg {
+  height: 1.2em;
+  width: auto;
+}
+
 .lb-confirm-button {
   position: absolute !important;
   right: 0;
@@ -243,8 +255,6 @@ body.lb-legacy-twitter .lb-block-button {
 
 [class^="lb-"] svg {
   color: inherit;
-  height: 1.2em;
-  width: auto;
   fill: currentColor;
 }
 

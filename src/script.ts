@@ -134,15 +134,19 @@ class LikersBlocker {
     this.setUpBlockButton();
   }
 
-  get isLegacyTwitter() {
+  public get isLegacyTwitter() {
     return this.legacyTwitter;
   }
 
-  set isLegacyTwitter(legacyTwitter) {
+  public set isLegacyTwitter(legacyTwitter) {
     if (legacyTwitter) {
       document.querySelector("body").classList.add("lb-legacy-twitter");
     }
     this.legacyTwitter = legacyTwitter;
+  }
+
+  public get isMobile(): boolean {
+    return document.documentElement.clientWidth < 699;
   }
 
   public get lang() {
@@ -157,7 +161,7 @@ class LikersBlocker {
   }
 
   public get viewport() {
-    return this.isMobile() ? "mobile" : "desktop";
+    return this.isMobile ? "mobile" : "desktop";
   }
 
   private get backgroundColor() {
@@ -209,13 +213,13 @@ class LikersBlocker {
   }
 
   private get scrolly() {
-    return this.isMobile() ? document.querySelector("html") : this.scrollList;
+    return this.isMobile ? document.querySelector("html") : this.scrollList;
   }
 
   private get textStyle(): CSSStyleDeclaration {
     let textElement: HTMLElement;
     let style: any = {};
-    let textStyle: CSSStyleDeclaration;
+    let textElementStyle: CSSStyleDeclaration;
 
     if (this.isLegacyTwitter) {
       textElement = document.querySelector(".js-tweet-text");
@@ -229,9 +233,9 @@ class LikersBlocker {
       textElement = bioText || nameText;
     }
 
-    textStyle = getComputedStyle(textElement);
-    style.color = textStyle.color;
-    style.fontSize = textStyle.fontSize;
+    textElementStyle = getComputedStyle(textElement);
+    style.color = textElementStyle.color;
+    style.font = textElementStyle.font;
 
     return style;
   }
@@ -240,26 +244,16 @@ class LikersBlocker {
     return Array.from(new Set(this.collectedUsers));
   }
 
-  public isMobile = (): boolean => {
-    return document.documentElement.clientWidth < 699;
-  };
-
-  private addUsers = (users: string[]): void => {
-    this.collectedUsers.push(...users);
-  };
-
-  private changeStateToConfirm = () => {
+  private changeStateToConfirm() {
     var collectingMessage = this.popup.querySelector(
       ".lb-label.lb-collecting"
     ) as HTMLElement;
-    collectingMessage.style.marginTop = `calc(-${
-      collectingMessage.clientHeight
-    }px - ${this.isLegacyTwitter ? "1rem" : "1.5rem"})`;
+    collectingMessage.style.marginTop = `calc(-${collectingMessage.clientHeight}px - 1rem)`;
     this.popup.classList.add("lb-confirm");
     this.scrollList.classList.remove("lb-blur");
-  };
+  }
 
-  private closePopup = (): void => {
+  private closePopup(): void {
     this.popup.classList.add("lb-hide");
     this.popup.addEventListener("transitionend", () => {
       this.popup.remove();
@@ -274,8 +268,20 @@ class LikersBlocker {
         "[data-focusable='true']"
       ) as HTMLElement).focus();
     }, 0);
-  };
+  }
 
+  private collectUsers() {
+    let userCells: NodeListOf<HTMLElement> = this.isLegacyTwitter
+      ? this.scrollList.querySelectorAll("a.js-user-profile-link")
+      : this.scrollList.querySelectorAll('[data-testid="UserCell"] a');
+
+    var users: Element[] = Array.from(userCells);
+    var usernames = users.map((userLink: HTMLAnchorElement) => {
+      var userUrl = userLink.href;
+      return userUrl.replace("https://twitter.com/", "");
+    });
+    this.collectedUsers.push(...usernames);
+  }
   private async createBlockButton() {
     let followButton: HTMLElement;
 
@@ -404,7 +410,9 @@ class LikersBlocker {
     confirmButtonLabel.innerText = this.i18n.ok;
     this.confirmButton.target = "_blank";
 
-    this.confirmButton.addEventListener("click", this.closePopup);
+    this.confirmButton.addEventListener("click", () => {
+      this.closePopup();
+    });
   }
 
   private createConfirmMessageElement() {
@@ -454,7 +462,7 @@ class LikersBlocker {
     });
   }
 
-  private initBlockAction = async () => {
+  private async initBlockAction() {
     let animationIterationCounter = 0;
 
     var loadingIndicator = this.popup.querySelector(
@@ -487,21 +495,9 @@ class LikersBlocker {
 
     this.shrinkPopupToVisibleContent();
     this.startScrolling();
-  };
+  }
 
-  private scrapeUsernames = (): string[] => {
-    let userCells: NodeListOf<HTMLElement> = this.isLegacyTwitter
-      ? this.scrollList.querySelectorAll("a.js-user-profile-link")
-      : this.scrollList.querySelectorAll('[data-testid="UserCell"] a');
-
-    var users: Element[] = Array.from(userCells);
-    return users.map((userLink: HTMLAnchorElement) => {
-      var userUrl = userLink.href;
-      return userUrl.replace("https://twitter.com/", "");
-    });
-  };
-
-  private scrollDown = async () => {
+  private async scrollDown() {
     var scrollListIsSmall =
       this.scrolly.scrollHeight < this.scrolly.clientHeight * 2;
     var scrolledToBottom =
@@ -514,7 +510,7 @@ class LikersBlocker {
       behavior: "smooth"
     });
 
-    this.addUsers(this.scrapeUsernames());
+    this.collectUsers();
 
     this.requestUrl = `${API_URL_BLOCK}?users=${this.users}`;
     var reachedUrlLengthMax = this.requestUrl.length > URL_LENGTH_MAX - 100;
@@ -527,9 +523,11 @@ class LikersBlocker {
       this.popup.classList.add("lb-check");
       var checkmark = this.popup.querySelector(".lb-checkmark");
 
-      checkmark.addEventListener("transitionend", this.changeStateToConfirm);
+      checkmark.addEventListener("transitionend", () => {
+        this.changeStateToConfirm();
+      });
     }
-  };
+  }
 
   private setUpBlockButton = async () => {
     let heading: HTMLElement;
@@ -626,16 +624,16 @@ class LikersBlocker {
   private startScrolling() {
     this.scrollList.classList.add("lb-blur");
     this.scrolly.scrollTo(0, 0);
-    this.scrollInterval = setInterval(this.scrollDown, 800);
+    this.scrollInterval = setInterval(() => {
+      this.scrollDown();
+    }, 800);
   }
 
   private stopScrolling = () => {
     clearInterval(this.scrollInterval);
   };
 
-  private tryToAccessDOM = (
-    elementToExpectSelector: string
-  ): Promise<HTMLElement> => {
+  private tryToAccessDOM(selector: string): Promise<HTMLElement> {
     var elementToExpect = null;
     var tryCounter = 0;
     var tryMax = 10;
@@ -649,14 +647,14 @@ class LikersBlocker {
           clearInterval(interval);
         }
 
-        elementToExpect = document.querySelector(elementToExpectSelector);
+        elementToExpect = document.querySelector(selector);
 
         if (
           !elementToExpect ||
           elementToExpect.style.display === "none" ||
           elementToExpect.offsetParent === null
         ) {
-          reject(elementToExpectSelector);
+          reject(selector);
         }
 
         clearInterval(interval);
@@ -665,7 +663,7 @@ class LikersBlocker {
 
       interval = setInterval(tryIt, 500);
     });
-  };
+  }
 }
 
 LikersBlocker.run();
