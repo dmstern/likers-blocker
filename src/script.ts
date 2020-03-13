@@ -17,11 +17,11 @@ const TOPBAR_SELECTOR = {
 function debounce(func: Function, wait: number, immediate?: boolean) {
   var timeout: number;
 
-  return function () {
+  return function() {
     var context = this;
     var args = arguments;
 
-    var later = function () {
+    var later = function() {
       timeout = null;
       if (!immediate) {
         func.apply(context, args);
@@ -115,6 +115,7 @@ class LikersBlocker {
   private confirmButton: HTMLLinkElement;
   private confirmMessageElement: HTMLElement;
   private i18n: Labels;
+  private legacyTwitter: boolean;
   private likesCount: number;
   private popup: HTMLElement;
   private popupWrapper: HTMLDivElement;
@@ -127,9 +128,21 @@ class LikersBlocker {
     this.requestUrl = "";
     this.likesCount = 0;
     this.i18n = LABELS[this.lang];
+    this.isLegacyTwitter = false;
 
     this.setUpLikesCounter();
     this.setUpBlockButton();
+  }
+
+  get isLegacyTwitter() {
+    return this.legacyTwitter;
+  }
+
+  set isLegacyTwitter(legacyTwitter) {
+    if (legacyTwitter) {
+      document.querySelector("body").classList.add("lb-legacy-twitter");
+    }
+    this.legacyTwitter = legacyTwitter;
   }
 
   public get lang() {
@@ -148,7 +161,7 @@ class LikersBlocker {
   }
 
   private get backgroundColor() {
-    return document.querySelector("body").style.backgroundColor;
+    return getComputedStyle(document.querySelector("body")).backgroundColor;
   }
 
   private get highlightColor() {
@@ -184,26 +197,43 @@ class LikersBlocker {
 
   private get popupContainer(): HTMLElement {
     const modalDialog = document.querySelector("[aria-modal=true]");
-    return ((modalDialog || document.querySelector("body")) as HTMLElement);
+    return (modalDialog || document.querySelector("body")) as HTMLElement;
   }
 
-  private get scrollList() {
-    return this.topbar.parentNode.parentNode.parentNode.parentNode.children[1]
-      .children[0];
+  private get scrollList(): HTMLElement {
+    let scrollList = this.isLegacyTwitter
+      ? document.querySelector(".activity-popup-users")
+      : this.topbar.parentNode.parentNode.parentNode.parentNode.children[1]
+          .children[0];
+    return scrollList as HTMLElement;
   }
 
   private get scrolly() {
     return this.isMobile() ? document.querySelector("html") : this.scrollList;
   }
 
-  private get textStyle() {
-    var bioText = document.querySelector(
-      "[data-testid=UserCell] > div > div:nth-child(2) > div:nth-child(2)"
-    );
-    var nameText = document.querySelector(
-      "[data-testid=UserCell] > div > div:nth-child(2) > div > div > a > div > div > div"
-    );
-    return Array.from((bioText || nameText).classList);
+  private get textStyle(): CSSStyleDeclaration {
+    let textElement: HTMLElement;
+    let style: any = {};
+    let textStyle: CSSStyleDeclaration;
+
+    if (this.isLegacyTwitter) {
+      textElement = document.querySelector(".js-tweet-text");
+    } else {
+      var bioText: HTMLElement = document.querySelector(
+        "[data-testid=UserCell] > div > div:nth-child(2) > div:nth-child(2)"
+      );
+      var nameText: HTMLElement = document.querySelector(
+        "[data-testid=UserCell] > div > div:nth-child(2) > div > div > a > div > div > div"
+      );
+      textElement = bioText || nameText;
+    }
+
+    textStyle = getComputedStyle(textElement);
+    style.color = textStyle.color;
+    style.fontSize = textStyle.fontSize;
+
+    return style;
   }
 
   private get users(): string[] {
@@ -222,7 +252,9 @@ class LikersBlocker {
     var collectingMessage = this.popup.querySelector(
       ".lb-label.lb-collecting"
     ) as HTMLElement;
-    collectingMessage.style.marginTop = `calc(-${collectingMessage.clientHeight}px - 1.5rem)`;
+    collectingMessage.style.marginTop = `calc(-${
+      collectingMessage.clientHeight
+    }px - ${this.isLegacyTwitter ? "1rem" : "1.5rem"})`;
     this.popup.classList.add("lb-confirm");
     this.scrollList.classList.remove("lb-blur");
   };
@@ -238,12 +270,26 @@ class LikersBlocker {
 
     // Reset focus on old twitter popup:
     setTimeout(() => {
-      (this.popupContainer.querySelector("[data-focusable='true']") as HTMLElement).focus();
+      (this.popupContainer.querySelector(
+        "[data-focusable='true']"
+      ) as HTMLElement).focus();
     }, 0);
   };
 
   private async createBlockButton() {
-    var followButton = await this.tryToAccessDOM("[data-testid$=-follow]");
+    let followButton: HTMLElement;
+
+    try {
+      followButton = await this.tryToAccessDOM("[data-testid$=-follow]");
+    } catch (error) {
+      try {
+        followButton = await this.tryToAccessDOM(
+          "button.button-text.follow-text"
+        );
+      } catch (e) {
+        return;
+      }
+    }
 
     // prevent multiple blockButtons:
     if (document.querySelector("[data-testid=blockAll")) {
@@ -259,7 +305,9 @@ class LikersBlocker {
     this.blockButton.tabIndex = 0;
     this.blockButton.innerHTML = followButton.innerHTML;
 
-    var blockButtonLabel = this.blockButton.querySelector("div > span > span");
+    var blockButtonLabel = this.isLegacyTwitter
+      ? this.blockButton
+      : this.blockButton.querySelector("div > span > span");
     blockButtonLabel.innerHTML = this.i18n.blockAll;
 
     this.topbar.appendChild(this.blockButton);
@@ -268,7 +316,10 @@ class LikersBlocker {
     var blockIconWrapper = document.createElement("span");
     blockIconWrapper.innerHTML = ICONS.block;
     blockIconWrapper.style.marginRight = ".3em";
-    this.blockButton.querySelector("div").prepend(blockIconWrapper);
+    var blockButtonWrapper = this.isLegacyTwitter
+      ? this.blockButton
+      : this.blockButton.querySelector("div");
+    blockButtonWrapper.prepend(blockIconWrapper);
 
     blockIconWrapper.querySelector("svg").style.color = this.highlightColor;
 
@@ -276,7 +327,7 @@ class LikersBlocker {
       this.setUpBlockPopup();
     });
 
-    this.blockButton.addEventListener("keyup", event => {
+    this.blockButton.addEventListener("keyup", (event) => {
       if (event.key === "Enter") {
         this.setUpBlockPopup();
       }
@@ -341,10 +392,15 @@ class LikersBlocker {
     this.confirmButton = blockButton.cloneNode(true) as HTMLLinkElement;
     this.confirmButton.classList.add("lb-confirm-button");
     this.confirmButton.classList.remove("lb-block-button");
-    this.confirmButton.querySelector("div > span").remove();
-    var confirmButtonLabel = this.confirmButton.querySelector(
-      "div > span > span"
-    ) as HTMLElement;
+
+    if (!this.isLegacyTwitter) {
+      this.confirmButton.querySelector("div > span").remove();
+    }
+
+    var confirmButtonLabel = this.isLegacyTwitter
+      ? this.confirmButton
+      : (this.confirmButton.querySelector("div > span > span") as HTMLElement);
+
     confirmButtonLabel.innerText = this.i18n.ok;
     this.confirmButton.target = "_blank";
 
@@ -353,7 +409,7 @@ class LikersBlocker {
 
   private createConfirmMessageElement() {
     this.confirmMessageElement = this.loadingInfo.cloneNode() as HTMLElement;
-    this.confirmMessageElement.classList.add(...this.textStyle);
+    Object.assign(this.confirmMessageElement.style, this.textStyle);
   }
 
   private async createPopup(content) {
@@ -380,7 +436,7 @@ class LikersBlocker {
       this.popupWrapper.classList.remove("lb-hide");
     }, 250);
 
-    document.addEventListener("keydown", event => {
+    document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         this.stopScrolling();
         this.closePopup();
@@ -405,8 +461,8 @@ class LikersBlocker {
       ".lb-loading"
     ) as HTMLElement;
     loadingIndicator.style.color = this.highlightColor;
-
-    this.popup.querySelector(".lb-label").classList.add(...this.textStyle);
+    var popupLabel = this.popup.querySelector(".lb-label") as HTMLElement;
+    Object.assign(popupLabel.style, this.textStyle);
 
     var loadingIndicator = this.popup.querySelector(
       ".lb-loading"
@@ -433,13 +489,14 @@ class LikersBlocker {
     this.startScrolling();
   };
 
-  private scrapeUsernames = (likersList): string[] => {
-    var userCells = likersList.querySelectorAll(
-      '[data-testid="UserCell"]'
-    ) as HTMLCollection;
+  private scrapeUsernames = (): string[] => {
+    let userCells: NodeListOf<HTMLElement> = this.isLegacyTwitter
+      ? this.scrollList.querySelectorAll("a.js-user-profile-link")
+      : this.scrollList.querySelectorAll('[data-testid="UserCell"] a');
+
     var users: Element[] = Array.from(userCells);
-    return users.map(user => {
-      var userUrl = user.querySelector("a").href;
+    return users.map((userLink: HTMLAnchorElement) => {
+      var userUrl = userLink.href;
       return userUrl.replace("https://twitter.com/", "");
     });
   };
@@ -457,7 +514,7 @@ class LikersBlocker {
       behavior: "smooth"
     });
 
-    this.addUsers(this.scrapeUsernames(this.scrollList));
+    this.addUsers(this.scrapeUsernames());
 
     this.requestUrl = `${API_URL_BLOCK}?users=${this.users}`;
     var reachedUrlLengthMax = this.requestUrl.length > URL_LENGTH_MAX - 100;
@@ -475,25 +532,31 @@ class LikersBlocker {
   };
 
   private setUpBlockButton = async () => {
-    this.topbar = await this.tryToAccessDOM(TOPBAR_SELECTOR[this.viewport]);
+    let heading: HTMLElement;
+
+    try {
+      this.topbar = await this.tryToAccessDOM(TOPBAR_SELECTOR[this.viewport]);
+      var lastChild = this.topbar.children[this.topbar.children.length - 1];
+      heading = lastChild.querySelector("div > h2 > span");
+    } catch (error) {
+      // Legacy Twitter Extensions
+      try {
+        heading = await this.tryToAccessDOM("#activity-popup-dialog-header");
+        this.topbar = heading.parentElement;
+        this.isLegacyTwitter = true;
+      } catch (e) {
+        return;
+      }
+    }
 
     if (!this.topbar) {
       return;
     }
 
-    var lastChild = this.topbar.children[this.topbar.children.length - 1];
-    var lastHasWrongType = lastChild.nodeName !== "DIV";
-    var heading = lastChild.querySelector("div > h2 > span");
     var headingIsNotLikes =
       !heading || !heading.textContent.match(this.likesHeading);
 
-    var isTopbarFalseHit =
-      this.topbar.children.length !== 2 ||
-      lastHasWrongType ||
-      !heading ||
-      headingIsNotLikes;
-
-    if (isTopbarFalseHit) {
+    if (headingIsNotLikes) {
       return;
     }
 
@@ -505,8 +568,8 @@ class LikersBlocker {
       <div class='lb-label lb-collecting'>
         <h3 id="lb-popup-heading">${this.i18n.collectingUsernames}...</h3>
         <p class="lb-text">${this.limitMessage}</p>
-        <h1><span class='lb-loading'>...</span></h1>
-      </div>`
+        <h1 class="lb-loading-wrapper"><span class='lb-loading'>...</span></h1>
+      </div>`;
     this.createPopup(popupInner);
     this.createConfirmMessageElement();
     await this.createConfirmButton();
@@ -517,9 +580,25 @@ class LikersBlocker {
   }
 
   private setUpLikesCounter = async () => {
-    var likesCountElement = await this.tryToAccessDOM(
-      "a[href$=likes] > div > span > span"
-    );
+    var likesCountElement: HTMLElement;
+
+    try {
+      likesCountElement = await this.tryToAccessDOM(
+        "a[href$=likes] > div > span > span"
+      );
+    } catch (error) {
+      try {
+        const likesCounterLink = await this.tryToAccessDOM(
+          "[data-tweet-stat-count].request-favorited-popup"
+        );
+        likesCounterLink.addEventListener("click", () => new LikersBlocker());
+        likesCountElement = likesCounterLink.querySelector("strong");
+        this.isLegacyTwitter = true;
+      } catch (e) {
+        return;
+      }
+    }
+
     var likesCountText = likesCountElement.textContent;
     var lastCharacter = likesCountText.slice(-1);
 
@@ -533,9 +612,9 @@ class LikersBlocker {
     this.likesCount =
       multiplyer === 1
         ? // german number format:
-        parseInt(likesCountText.replace(".", ""))
+          parseInt(likesCountText.replace(".", ""))
         : // english number format:
-        parseFloat(likesCountText) * multiplyer;
+          parseFloat(likesCountText) * multiplyer;
   };
 
   private shrinkPopupToVisibleContent() {
@@ -577,7 +656,7 @@ class LikersBlocker {
           elementToExpect.style.display === "none" ||
           elementToExpect.offsetParent === null
         ) {
-          return;
+          reject(elementToExpectSelector);
         }
 
         clearInterval(interval);
