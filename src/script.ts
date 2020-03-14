@@ -430,6 +430,8 @@ class LikersBlocker {
     this.popup.setAttribute("aria-labeledby", "lb-popup-heading");
     this.popup.dataset.focusable = "true";
     this.popup.classList.add("lb-popup");
+    this.popup.style.top = `${this.scrollList.getBoundingClientRect().top +
+      30}px`;
     this.popup.style.background = this.backgroundColor;
     this.popup.style.color = this.highlightColor;
     this.popup.innerHTML = content;
