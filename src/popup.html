@@ -10,10 +10,10 @@
       font-family: Roboto, Ubuntu, Arial, Helvetica, sans-serif;
       padding: 1.5rem;
       width: 400px;
-      background-color: #1c1d1d;
-      color: #eee;
+      background-color: #e9eaef;
+      color: #3e3d3b;
     }
-    
+
     h1 {
       margin-top: 0;
       font-size: 140%;
@@ -24,17 +24,22 @@
       border-bottom: 1px dashed rgba(120, 120, 120, 0.5);
       margin: 1em 0;
     }
-    
+
     p:last-child {
       margin-bottom: 0;
     }
-    
+
     .lb-logo {
       float: right;
     }
-    
-    .lb-link {
+
+    a {
       color: inherit;
+
+    }
+
+    a:hover {
+      color: #000;
     }
 
     .github-button {
@@ -44,15 +49,13 @@
       margin-right: .5em;
       display: inline-block;
       text-decoration: none;
-      color: #eee;
+      color: inherit;
       transition: all ease 300ms;
     }
 
     .github-button:hover {
-      color: #fff;
-      background-color: #444;
+      background-color: #f8f8f8;
     }
-
   </style>
 </head>
 
@@ -62,13 +65,15 @@
   <p>Blockiere auf einen Schlag alle Leute, die bspw. hassschürende Tweets liken.</p>
 
   <details>
-  <summary>Kurzanleitung</summary>
+    <summary>Kurzanleitung</summary>
     <p>
       <ul>
         <li>Klicke dazu auf einen Tweet und zeige dir die Liste der Liker an.</li>
         <li>Oberhalb der Liste findest du eine Button "Alle Blockieren".</li>
-        <li>Wenn du darauf klickst und die Aktion bestätigst, öffnet sich der Massenblock-Dienst in einem neuen Fenster.</li>
-        <li>Wenn du dort noch nicht angemeldet bist, muss du dich zunächst mit deinem Twitter-Account authentifizieren.</li>
+        <li>Wenn du darauf klickst und die Aktion bestätigst, öffnet sich der Massenblock-Dienst in einem neuen Fenster.
+        </li>
+        <li>Wenn du dort noch nicht angemeldet bist, muss du dich zunächst mit deinem Twitter-Account authentifizieren.
+        </li>
       </ul>
     </p>
   </details>
@@ -85,7 +90,8 @@
       data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-repo-forked"
       data-size="large" aria-label="Fork dmstern/likers-blocker on GitHub">🍴 Fork</a>
   </p>
-  🌍 <a href="https://dmstern.github.io/likers-blocker" class="lb-link" target="_blank">dmstern.github.io/likers-blocker</a>
+  🌍 <a href="https://dmstern.github.io/likers-blocker" class="lb-link"
+    target="_blank">dmstern.github.io/likers-blocker</a>
 </body>
 
 </html>
