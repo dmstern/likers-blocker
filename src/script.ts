@@ -92,6 +92,12 @@ const LABELS: { [key: string]: Labels } = {
   }
 };
 
+interface Window {
+  likersBlocker: LikersBlocker;
+}
+
+let likersBlocker = window.likersBlocker;
+
 class LikersBlocker {
   public static run(): void {
     // for when we are on the likes page:
@@ -123,15 +129,19 @@ class LikersBlocker {
   private scrollInterval: number;
   private topbar: HTMLElement;
 
-  constructor() {
+  private constructor() {
+    delete window.likersBlocker;
+
     this.collectedUsers = [];
     this.requestUrl = "";
     this.likesCount = 0;
     this.i18n = LABELS[this.lang];
-    this.isLegacyTwitter = false;
+    this.isLegacyTwitter = document.getElementById("page-outer") !== null;
 
     this.setUpLikesCounter();
     this.setUpBlockButton();
+
+    window.likersBlocker = this;
   }
 
   public get isLegacyTwitter() {
@@ -283,19 +293,9 @@ class LikersBlocker {
     this.collectedUsers.push(...usernames);
   }
   private async createBlockButton() {
-    let followButton: HTMLElement;
-
-    try {
-      followButton = await this.tryToAccessDOM("[data-testid$=-follow]");
-    } catch (error) {
-      try {
-        followButton = await this.tryToAccessDOM(
-          "button.button-text.follow-text"
-        );
-      } catch (e) {
-        return;
-      }
-    }
+    let followButton: HTMLElement = this.isLegacyTwitter
+      ? await this.tryToAccessDOM("button.button-text.follow-text")
+      : await this.tryToAccessDOM("[data-testid$=-follow]");
 
     // prevent multiple blockButtons:
     if (document.querySelector("[data-testid=blockAll")) {
@@ -532,19 +532,14 @@ class LikersBlocker {
   private setUpBlockButton = async () => {
     let heading: HTMLElement;
 
-    try {
+    if (this.isLegacyTwitter) {
+      heading = await this.tryToAccessDOM("#activity-popup-dialog-header");
+      this.topbar = heading.parentElement;
+      this.isLegacyTwitter = true;
+    } else {
       this.topbar = await this.tryToAccessDOM(TOPBAR_SELECTOR[this.viewport]);
       var lastChild = this.topbar.children[this.topbar.children.length - 1];
       heading = lastChild.querySelector("div > h2 > span");
-    } catch (error) {
-      // Legacy Twitter Extensions
-      try {
-        heading = await this.tryToAccessDOM("#activity-popup-dialog-header");
-        this.topbar = heading.parentElement;
-        this.isLegacyTwitter = true;
-      } catch (e) {
-        return;
-      }
     }
 
     if (!this.topbar) {
@@ -580,21 +575,16 @@ class LikersBlocker {
   private setUpLikesCounter = async () => {
     var likesCountElement: HTMLElement;
 
-    try {
+    if (this.isLegacyTwitter) {
+      const likesCounterLink = await this.tryToAccessDOM(
+        "[data-tweet-stat-count].request-favorited-popup"
+      );
+      likesCounterLink.addEventListener("click", () => new LikersBlocker());
+      likesCountElement = likesCounterLink.querySelector("strong");
+    } else {
       likesCountElement = await this.tryToAccessDOM(
         "a[href$=likes] > div > span > span"
       );
-    } catch (error) {
-      try {
-        const likesCounterLink = await this.tryToAccessDOM(
-          "[data-tweet-stat-count].request-favorited-popup"
-        );
-        likesCounterLink.addEventListener("click", () => new LikersBlocker());
-        likesCountElement = likesCounterLink.querySelector("strong");
-        this.isLegacyTwitter = true;
-      } catch (e) {
-        return;
-      }
     }
 
     var likesCountText = likesCountElement.textContent;
@@ -624,6 +614,7 @@ class LikersBlocker {
   private startScrolling() {
     this.scrollList.classList.add("lb-blur");
     this.scrolly.scrollTo(0, 0);
+    this.collectedUsers = [];
     this.scrollInterval = setInterval(() => {
       this.scrollDown();
     }, 800);
@@ -654,7 +645,7 @@ class LikersBlocker {
           elementToExpect.style.display === "none" ||
           elementToExpect.offsetParent === null
         ) {
-          reject(selector);
+          return;
         }
 
         clearInterval(interval);
