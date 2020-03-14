@@ -167,6 +167,10 @@ body.lb-legacy-twitter .lb-close-button {
   margin-left: 25%;
 }
 
+body.lb-legacy-twitter .lb-checkmark {
+  bottom: -9px;
+}
+
 .lb-loading-wrapper {
   margin: 1rem 0;
 }
