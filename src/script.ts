@@ -286,11 +286,13 @@ class LikersBlocker {
       : this.scrollList.querySelectorAll('[data-testid="UserCell"] a');
 
     var users: Element[] = Array.from(userCells);
-    var usernames = users.map((userLink: HTMLAnchorElement) => {
-      var userUrl = userLink.href;
-      return userUrl.replace("https://twitter.com/", "");
-    });
-    this.collectedUsers.push(...usernames);
+    for (let userLink of users) {
+      let userUrl = (<HTMLAnchorElement>userLink).href;
+
+      if (userUrl.startsWith("https://twitter.com/search?q")) continue;
+
+      this.collectedUsers.push(userUrl.replace("https://twitter.com/", ""));
+    }
   }
   private async createBlockButton() {
     let followButton: HTMLElement = this.isLegacyTwitter
