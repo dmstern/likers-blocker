@@ -245,7 +245,9 @@ class LikersBlocker {
 
     textElementStyle = getComputedStyle(textElement);
     style.color = textElementStyle.color;
-    style.font = textElementStyle.font;
+    style.fontFamily = textElementStyle.fontFamily;
+    style.fontStyle = textElementStyle.fontStyle;
+    style.fontWeight = textElementStyle.fontWeight;
 
     return style;
   }
