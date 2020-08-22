@@ -4,9 +4,9 @@
   "description": "Block all visible likers (and optionally all retweeters) of a tweet on Twitter.",
   "main": "dist/script.js",
   "scripts": {
+    "start": "npm run format && npm run lint && tsc --watch",
     "lint": "tslint src/script.ts",
     "compile": "npm run lint && tsc",
-    "watch": "npm run format && npm run lint && tsc --watch",
     "format": "prettier --write src/script.ts src/script.css",
     "build": "npm run format && npm run lint && npm run compile"
   },
