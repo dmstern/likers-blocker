@@ -5,10 +5,8 @@ const path = require("path");
 var archiver = require("archiver");
 
 // create a file to stream archive data to.
-function createZip() {
-  var output = fs.createWriteStream(
-    path.join(__dirname, "../likers-blocker.zip")
-  );
+function createZip(target, src, isSingleFile) {
+  var output = fs.createWriteStream(target);
   var archive = archiver("zip", {
     zlib: { level: 9 } // Sets the compression level.
   });
@@ -30,12 +28,17 @@ function createZip() {
   // pipe archive data to the file
   archive.pipe(output);
 
-  // append files from a sub-directory, putting its contents at the root of archive
-  archive.directory("src/", false);
+  if (isSingleFile) {
+    archive.file(src, { name: "src.ts" });
+  } else {
+    // append files from a sub-directory, putting its contents at the root of archive
+    archive.directory(src, false);
+  }
 
   // finalize the archive (ie we are done appending files but streams have to finish yet)
   // 'close', 'end' or 'finish' may be fired right after calling this method so register to them beforehand
   archive.finalize();
 }
 
-createZip();
+createZip(path.join(__dirname, "../likers-blocker.zip"), "src/", false);
+createZip(path.join(__dirname, "../src.zip"), "src/script.ts", true);

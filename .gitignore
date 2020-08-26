@@ -1,4 +1,4 @@
-likers-blocker.zip
+*.zip
 *.orig
 *.pem
 *.crx
