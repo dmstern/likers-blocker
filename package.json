@@ -7,8 +7,10 @@
     "start": "npm run format && npm run lint && tsc --watch",
     "lint": "tslint src/script.ts",
     "compile": "npm run lint && tsc",
-    "format": "prettier --write src/script.ts src/script.css",
-    "build": "npm run format && npm run lint && npm run compile"
+    "format": "prettier --write src/script.ts src/script.css src/manifest.json",
+    "build": "npm run format && npm run lint && npm run compile",
+    "version": "npm run build && node util/release.js && npm run format && git add .",
+    "postversion": "node util/zip.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,7 @@
   },
   "homepage": "https://github.com/dmstern/likers-blocker#readme",
   "devDependencies": {
+    "archiver": "^5.0.0",
     "ncp": "^2.0.0",
     "prettier": "^1.19.1",
     "tslint": "^6.1.3",
