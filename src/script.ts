@@ -297,6 +297,7 @@ class LikersBlocker {
       this.collectedUsers.push(userUrl.replace("https://twitter.com/", ""));
     }
   }
+
   private async createBlockButton() {
     let followButton: HTMLElement = this.isLegacyTwitter
       ? await this.tryToAccessDOM("button.button-text.follow-text")
