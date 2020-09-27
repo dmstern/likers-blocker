@@ -64,8 +64,8 @@ body.lb-block-page.many
 body.lb-block-page.many .lb-popup.lb-confirm {
   overflow-y: auto;
   padding-bottom: 2rem;
-  width: 500px;
-  height: 700px;
+  width: 500px !important;
+  height: 700px !important;
 }
 
 .lb-confirm .lb-loading {
