@@ -88,7 +88,7 @@ const LABELS: { [key: string]: Labels } = {
     copied:
       "Copied. Share the link with other persons to share your block list with them.",
     urlLimit:
-      "Due to an URL length limit there may be not all blocked accounts included in the output."
+      "Due to an URL length limit the block list may be divided into several links."
   },
   de: {
     usersFound: "Nutzer gefunden.",
@@ -110,7 +110,7 @@ const LABELS: { [key: string]: Labels } = {
     copied:
       "Kopiert. Teile den Link aus der Zwischenablage mit anderen Personen, um deine Blockliste mit ihnen zu teilen.",
     urlLimit:
-      "Aufgrund einer URL-Längenbeschränkung sind evtl. nicht alle geblockten Accounts in der Ausgabe enthalten."
+      "Aufgrund einer URL-Längenbeschränkung wird die Block-Liste evtl. in mehrere Links aufgeteilt."
   }
 };
 
@@ -165,8 +165,6 @@ class LikersBlocker {
     this.setUpBlockButton();
     this.setUpExportButton();
 
-    document.querySelector("body").classList.remove("lb-no-overlay");
-
     window.likersBlocker = this;
   }
 
@@ -214,7 +212,11 @@ class LikersBlocker {
   }
 
   private get isBlockPage(): boolean {
-    return location.href.endsWith("blocked/all");
+    let isBlockPage = location.href.endsWith("blocked/all");
+    document
+      .querySelector("body")
+      .classList[`${isBlockPage ? "add" : "remove"}`]("lb-block-page");
+    return isBlockPage;
   }
 
   private get isListLarge() {
@@ -260,7 +262,6 @@ class LikersBlocker {
 
     if (!scrollList) {
       scrollList = document.querySelector("html");
-      document.querySelector("body").classList.add("lb-no-overlay");
     }
 
     return scrollList as HTMLElement;
@@ -465,13 +466,6 @@ class LikersBlocker {
       areaWrapper.appendChild(copyButton);
       areaWrapper.appendChild(this.textarea);
 
-      copyButton.addEventListener("click", () => {
-        this.textarea.select();
-        document.execCommand("copy");
-        copyButton.innerHTML = `${ICONS.clipboardCheck} <span>${this.i18n.copied}</span>`;
-        copyButton.style.color = "green";
-      });
-
       return areaWrapper;
     } else {
       var blockButton = this.blockButton;
@@ -604,19 +598,52 @@ class LikersBlocker {
 
     this.collectUsers();
 
-    this.requestUrl = `${API_URL_BLOCK}?users=${this.users}`;
-    var reachedUrlLengthMax = this.requestUrl.length > URL_LENGTH_MAX - 100;
+    var reachedUrlLengthMax;
 
-    if (this.confirmButton) {
-      this.confirmButton.href = this.requestUrl;
-    }
-
-    if (this.textarea) {
-      this.textarea.value = this.requestUrl;
+    if (!this.isBlockPage) {
+      this.requestUrl = `${API_URL_BLOCK}?users=${this.users}`;
+      reachedUrlLengthMax = this.requestUrl.length > URL_LENGTH_MAX - 100;
     }
 
     if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
       console.info("finished collecting!");
+
+      if (this.isBlockPage) {
+        this.requestUrl = `${API_URL_BLOCK}?users=${this.users}`;
+      }
+
+      if (this.confirmButton) {
+        this.confirmButton.href = this.requestUrl;
+      }
+
+      if (this.isBlockPage && this.requestUrl.length > URL_LENGTH_MAX) {
+        this.popup.style.height = "700px";
+        this.popup.style.width = "500px";
+        let requestCount = this.requestUrl.length / URL_LENGTH_MAX;
+        let usersPerRequest = this.users.length / requestCount;
+
+        for (let i = 0; i <= requestCount; i++) {
+          let linkClone = this.textarea.parentNode.cloneNode(true);
+          this.textarea.parentNode.parentNode.appendChild(linkClone);
+          let textarea = linkClone.childNodes.item(1) as HTMLTextAreaElement;
+          let copyButton = textarea.parentElement.querySelector("button");
+          console.log({ copyButton });
+
+          copyButton.addEventListener("click", () => {
+            textarea.select();
+            document.execCommand("copy");
+            copyButton.innerHTML = `${ICONS.clipboardCheck} <span>${this.i18n.copied}</span>`;
+            copyButton.style.color = "green";
+          });
+
+          let requestUrl = `${API_URL_BLOCK}?users=${this.users.slice(
+            usersPerRequest * i,
+            usersPerRequest * (i + 1)
+          )}`;
+          textarea.value = requestUrl;
+        }
+      }
+
       var confirmHeading = this.popup.querySelector(".lb-confirm-message h3");
       confirmHeading.textContent = `${this.users.length} ${confirmHeading.textContent}`;
       this.stopScrolling();
