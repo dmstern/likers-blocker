@@ -215,10 +215,14 @@ class LikersBlocker {
   }
 
   private get isBlockPage(): boolean {
-    let isBlockPage = location.href.endsWith("blocked/all");
+    let isBlockPage =
+      location.href.endsWith("blocked/all") ||
+      location.href.endsWith("settings/content_preferences");
+
     document
       .querySelector("body")
       .classList[`${isBlockPage ? "add" : "remove"}`]("lb-block-page");
+
     return isBlockPage;
   }
 
@@ -734,10 +738,6 @@ class LikersBlocker {
   private setUpExportButton = async () => {
     let isButtonAlreadyAdded = document.querySelector(".lb-btn--export");
 
-    if (!this.isBlockPage) {
-      return;
-    }
-
     if (isButtonAlreadyAdded) {
       return;
     }
@@ -745,6 +745,10 @@ class LikersBlocker {
     let blockedListContainer = await this.tryToAccessDOM("section", true, 3);
 
     if (!blockedListContainer) {
+      return;
+    }
+
+    if (!this.isBlockPage) {
       return;
     }
 
