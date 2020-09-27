@@ -86,7 +86,7 @@ const LABELS: { [key: string]: Labels } = {
     export: "Export",
     copyToShare: "Copy to share block list.",
     copied:
-      "Copied. Share the link with other persons (e.g. via eMail or dm) to share your block list with them.",
+      "Copied. Share the link with other persons to share your block list with them.",
     urlLimit:
       "Due to an URL length limit, the block list may be divided into several links."
   },
@@ -108,7 +108,7 @@ const LABELS: { [key: string]: Labels } = {
     export: "Exportieren",
     copyToShare: "Text kopieren um als Liste teilen.",
     copied:
-      "Kopiert. Teile den Link aus der Zwischenablage mit anderen Personen (E-Mail, DM, etc.), um deine Blockliste mit ihnen zu teilen.",
+      "Kopiert. Teile den Link aus der Zwischenablage mit anderen Personen, um deine Blockliste mit ihnen zu teilen.",
     urlLimit:
       "Aufgrund einer URL-Längenbeschränkung wird die Block-Liste evtl. in mehrere Links aufgeteilt."
   }
