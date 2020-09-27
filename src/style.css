@@ -65,7 +65,12 @@ body.lb-block-page.many
 body.lb-block-page.many .lb-popup.lb-confirm {
   width: 50%;
   height: 700px !important;
-  margin-left: -25%;
+}
+
+@media screen and (min-width: 440px) {
+  body.lb-block-page.many .lb-popup.lb-confirm {
+    margin-left: -25%;
+  }
 }
 
 body.lb-block-page.many .lb-popup.lb-confirm .lb-label.lb-confirm-message {
