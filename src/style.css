@@ -263,7 +263,7 @@ body.lb-legacy-twitter .lb-checkmark {
 .lb-btn--export:hover {
   opacity: 1;
   box-shadow: 0 0 10px #00000077;
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
 .lb-copy-wrapper {
