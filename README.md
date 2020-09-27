@@ -21,23 +21,47 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
 ## Usage
 
-* Once you click on a tweet, there is a link which indicates how many people liked this tweet.
-* Click on that link to get the list of all likers
+### Block likers of a tweet
+
+- Once you click on a tweet, there is a link which indicates how many people liked this tweet.
+- Click on that link to get the list of all likers
 
   ![Screenshot](screenshots/likes.png)
-* Then click on the new button on the top which says "Block all" / "Alle Blockieren".
+
+- Then click on the new button on the top which says "Block all" / "Alle Blockieren".
   ![Screenshot](screenshots/block-all-button.png)
   ![Screenshot](screenshots/collecting-usernames.png)
-* You can also chose to block all retweeters of the tweet (only direct retweeters without comment).
+- You can also chose to block all retweeters of the tweet (only direct retweeters without comment).
   ![Screenshot](screenshots/confirm.png)
-* If you use it for the first time, you will have to authorize the app to access your twitter account.
-* You get a list of all users that are about to be blocked.
-* Confirm and wait for the sucess message.
-* ✔ DONE. All the collected likers of the tweet are blocked. 😇
+- If you use it for the first time, you will have to authorize the app to access your twitter account.
+- You get a list of all users that are about to be blocked.
+- Confirm and wait for the sucess message.
+- ✔ DONE. All the collected likers of the tweet are blocked. 😇
+
+### Share your block list with others
+
+Since Twitter has disabled its ability to import/export block lists, _LikersBlocker_ brings back the feature.
+
+#### Export
+
+- Go to "Settings and privacy" > "Content preferences" > "Blocked accounts"
+- Click on the share button above the list of blocked accounts
+  ![Screenshot](screenshots/likers-blocker-share-block-list-btn.png)
+- Wait a moment until all acocunts from your list are collected
+- Copy and share the block links with other persons to share your block list with them.
+  ![Screenshot](screenshots/likers-blocker-share-block-list.png)
+
+#### Import
+
+- When you receive a block link, just click on it or enter it into the address bar of your browser.
+- If you use it for the first time, you will have to authorize the app to access your twitter account.
+- You get a list of all users that are about to be blocked.
+- Confirm and wait for the sucess message.
+- ✔ DONE. All the collected likers of the tweet are blocked. 😇
 
 ## Constraints
 
-* For big lists of likers (hundrets and more), not *all* likers are blocked, we can only collect those who are visible in the list from twitter.
+- For big lists of likers (hundrets and more), not _all_ likers are blocked, we can only collect those who are visible in the list from twitter.
 
 ## Known Issues and ToDos
 
@@ -49,11 +73,11 @@ Feel free to suggest improvements or to create pull requests!
 
 To test the extension locally:
 
-* Clone this repository
+- Clone this repository
 
 ### Build
 
-* Install Node.js >= 10.x
+- Install Node.js >= 10.x
 
 In the repository directory, run:
 
@@ -69,16 +93,16 @@ npm run build
 
 #### Chrome
 
-* Go to `chrome://extensions`
-* Enable the developer mode with the regarding toggle button on the right side
-* Click on "Load unpacked"
-* Select the `src` folder of the cloned repository
+- Go to `chrome://extensions`
+- Enable the developer mode with the regarding toggle button on the right side
+- Click on "Load unpacked"
+- Select the `src` folder of the cloned repository
 
 #### Firefox
 
-* Go `about:debugging#/runtime/this-firefox`
-* Click on `Load Temorary Add-On...`
-* Select any file in the `src` folder of the cloned repository
+- Go `about:debugging#/runtime/this-firefox`
+- Click on `Load Temorary Add-On...`
+- Select any file in the `src` folder of the cloned repository
 
 ---
 
