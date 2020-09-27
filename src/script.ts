@@ -565,7 +565,7 @@ class LikersBlocker {
     setTimeout(() => {
       copyButton.innerHTML = copyButtonLabel;
       copyButton.style.color = this.textStyle.color;
-    }, 3000);
+    }, 5000);
   }
 
   private async initBlockAction() {
