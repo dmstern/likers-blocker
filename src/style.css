@@ -70,6 +70,10 @@ body.lb-block-page.many .lb-divided-msg {
   display: block;
 }
 
+body.lb-block-page .lb-popup {
+  height: auto !important;
+}
+
 body.lb-block-page.many .lb-popup.lb-confirm {
   width: 50%;
   height: 700px !important;
