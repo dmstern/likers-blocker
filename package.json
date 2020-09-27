@@ -1,6 +1,6 @@
 {
   "name": "likes-blocker",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Block all visible likers (and optionally all retweeters) of a tweet on Twitter.",
   "main": "dist/script.js",
   "scripts": {
