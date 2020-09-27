@@ -85,7 +85,8 @@ const LABELS: { [key: string]: Labels } = {
     ok: "OK",
     export: "Export",
     copyToShare: "Copy to share block list.",
-    copied: "Copied.",
+    copied:
+      "Copied. Share the link with other persons to share your block list with them.",
     urlLimit:
       "Due to an URL length limit there may be not all blocked accounts included in the output."
   },
@@ -106,7 +107,8 @@ const LABELS: { [key: string]: Labels } = {
     ok: "OK",
     export: "Exportieren",
     copyToShare: "Text kopieren um als Liste teilen.",
-    copied: "Kopiert.",
+    copied:
+      "Kopiert. Teile den Link aus der Zwischenablage mit anderen Personen, um deine Blockliste mit ihnen zu teilen.",
     urlLimit:
       "Aufgrund einer URL-Längenbeschränkung sind evtl. nicht alle geblockten Accounts in der Ausgabe enthalten."
   }
