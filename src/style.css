@@ -340,6 +340,8 @@ body.lb-legacy-twitter .lb-block-button {
 .lb-info svg {
   display: block;
   height: inherit;
+  color: unset;
+  fill: currentColor;
 }
 
 a[class*="lb-"] {
