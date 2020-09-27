@@ -563,17 +563,22 @@ class LikersBlocker {
     });
   }
 
-  private handleCopyClick(textarea, copyButton) {
+  private handleCopyClick(
+    textarea: HTMLTextAreaElement,
+    copyButton: HTMLButtonElement
+  ) {
     textarea.select();
     document.execCommand("copy");
     let copyButtonLabel = copyButton.innerHTML;
     copyButton.innerHTML = `${ICONS.clipboardCheck} <span>${this.i18n.copied}</span>`;
     copyButton.style.color = "green";
+    copyButton.setAttribute("disabled", "true");
 
     // Reset button label after a while:
     setTimeout(() => {
       copyButton.innerHTML = copyButtonLabel;
       copyButton.style.color = this.textStyle.color;
+      copyButton.removeAttribute("disabled");
     }, 5000);
   }
 
