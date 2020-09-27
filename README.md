@@ -38,6 +38,10 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 - Confirm and wait for the sucess message.
 - ✔ DONE. All the collected likers of the tweet are blocked. 😇
 
+**Constraints:**
+
+- For big lists of likers (hundrets and more), not _all_ likers are blocked, we can only collect those who are visible in the list from twitter.
+
 ### Share your block list with others
 
 Since Twitter has disabled its ability to import/export block lists, _LikersBlocker_ brings back the feature.
@@ -58,10 +62,6 @@ Since Twitter has disabled its ability to import/export block lists, _LikersBloc
 - You get a list of all users that are about to be blocked.
 - Confirm and wait for the sucess message.
 - ✔ DONE. All the collected likers of the tweet are blocked. 😇
-
-## Constraints
-
-- For big lists of likers (hundrets and more), not _all_ likers are blocked, we can only collect those who are visible in the list from twitter.
 
 ## Known Issues and ToDos
 
