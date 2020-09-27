@@ -467,6 +467,13 @@ class LikersBlocker {
       areaWrapper.appendChild(copyButton);
       areaWrapper.appendChild(this.textarea);
 
+      copyButton.addEventListener("click", () => {
+        this.textarea.select();
+        document.execCommand("copy");
+        copyButton.innerHTML = `${ICONS.clipboardCheck} <span>${this.i18n.copied}</span>`;
+        copyButton.style.color = "green";
+      });
+
       return areaWrapper;
     } else {
       var blockButton = this.blockButton;
@@ -617,9 +624,12 @@ class LikersBlocker {
         this.confirmButton.href = this.requestUrl;
       }
 
+      if (this.textarea) {
+        this.textarea.value = this.requestUrl;
+      }
+
       if (this.isBlockPage && this.requestUrl.length > URL_LENGTH_MAX) {
-        this.popup.style.height = "700px";
-        this.popup.style.width = "500px";
+        document.querySelector("body").classList.add("many");
         let requestCount = this.requestUrl.length / URL_LENGTH_MAX;
         let usersPerRequest = this.users.length / requestCount;
 
