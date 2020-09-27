@@ -86,9 +86,9 @@ const LABELS: { [key: string]: Labels } = {
     export: "Export",
     copyToShare: "Copy to share block list.",
     copied:
-      "Copied. Share the link with other persons to share your block list with them.",
+      "Copied. Share the link with other persons (e.g. via eMail or dm) to share your block list with them.",
     urlLimit:
-      "Due to an URL length limit the block list may be divided into several links."
+      "Due to an URL length limit, the block list may be divided into several links."
   },
   de: {
     usersFound: "Nutzer gefunden.",
@@ -108,7 +108,7 @@ const LABELS: { [key: string]: Labels } = {
     export: "Exportieren",
     copyToShare: "Text kopieren um als Liste teilen.",
     copied:
-      "Kopiert. Teile den Link aus der Zwischenablage mit anderen Personen, um deine Blockliste mit ihnen zu teilen.",
+      "Kopiert. Teile den Link aus der Zwischenablage mit anderen Personen (E-Mail, DM, etc.), um deine Blockliste mit ihnen zu teilen.",
     urlLimit:
       "Aufgrund einer URL-Längenbeschränkung wird die Block-Liste evtl. in mehrere Links aufgeteilt."
   }
@@ -457,6 +457,7 @@ class LikersBlocker {
       let areaWrapper = document.createElement("div");
       let copyButton = document.createElement("button");
 
+      areaWrapper.classList.add("lb-copy-wrapper");
       copyButton.classList.add("lb-copy-button");
       copyButton.style.color = this.textStyle.color;
       copyButton.innerHTML = `${ICONS.clipboardCopy} <span>${this.i18n.copyToShare}</span>`;
@@ -638,7 +639,6 @@ class LikersBlocker {
           this.textarea.parentNode.parentNode.appendChild(linkClone);
           let textarea = linkClone.childNodes.item(1) as HTMLTextAreaElement;
           let copyButton = textarea.parentElement.querySelector("button");
-          console.log({ copyButton });
 
           copyButton.addEventListener("click", () => {
             textarea.select();
