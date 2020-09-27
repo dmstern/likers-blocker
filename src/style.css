@@ -62,12 +62,16 @@ body.lb-block-page.many
   display: none;
 }
 
+.lb-popup .lb-label h3 span:nth-of-type(2) {
+  margin-left: 0.5em;
+}
+
 .lb-divided-msg {
   display: none;
 }
 
 body.lb-block-page.many .lb-divided-msg {
-  display: block;
+  display: inline;
 }
 
 body.lb-block-page .lb-popup {

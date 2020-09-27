@@ -512,11 +512,21 @@ class LikersBlocker {
     Object.assign(this.confirmMessageElement.style, this.textStyle);
     this.confirmMessageElement.classList.remove("lb-collecting");
     this.confirmMessageElement.classList.add("lb-confirm-message");
-    this.confirmMessageElement.innerHTML = `<h3> ${this.i18n.usersFound} ${
-      this.isBlockPage
-        ? `<span class="lb-divided-msg">${this.i18n.divided}</span>`
-        : this.i18n.blockAll + "?"
-    }</h3>`;
+    let heading = document.createElement("h3");
+    let headingContent1 = document.createElement("span");
+    let headingContent2 = document.createElement("span");
+
+    headingContent1.innerHTML = this.i18n.usersFound;
+    headingContent2.innerHTML = this.isBlockPage
+      ? this.i18n.divided
+      : this.i18n.blockAll + "?";
+
+    if (this.isBlockPage) {
+      headingContent2.classList.add("lb-divided-msg");
+    }
+
+    heading.append(headingContent1, headingContent2);
+    this.confirmMessageElement.append(heading);
     this.popup.appendChild(this.confirmMessageElement);
   }
 
@@ -677,8 +687,10 @@ class LikersBlocker {
         }
       }
 
-      var confirmHeading = this.popup.querySelector(".lb-confirm-message h3");
-      confirmHeading.textContent = `${this.users.length} ${confirmHeading.textContent}`;
+      var confirmHeading = this.popup.querySelector(
+        ".lb-confirm-message h3 span"
+      );
+      confirmHeading.innerHTML = `${this.users.length} ${confirmHeading.innerHTML}`;
       this.stopScrolling();
       this.popup.classList.add("lb-check");
       var checkmark = this.popup.querySelector(".lb-checkmark");
