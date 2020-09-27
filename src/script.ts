@@ -63,6 +63,7 @@ interface Labels {
   repeatBlocking: string;
   technicalConstraints: string;
   twitterHides: string;
+  urlLimit: any;
   usersFound: string;
 }
 
@@ -84,7 +85,9 @@ const LABELS: { [key: string]: Labels } = {
     ok: "OK",
     export: "Export",
     copyToShare: "Copy to share block list.",
-    copied: "Copied."
+    copied: "Copied.",
+    urlLimit:
+      "Due to an URL length limit there may be not all blocked accounts included in the output."
   },
   de: {
     usersFound: "Nutzer gefunden.",
@@ -103,7 +106,9 @@ const LABELS: { [key: string]: Labels } = {
     ok: "OK",
     export: "Exportieren",
     copyToShare: "Text kopieren um als Liste teilen.",
-    copied: "Kopiert."
+    copied: "Kopiert.",
+    urlLimit:
+      "Aufgrund einer URL-Längenbeschränkung sind evtl. nicht alle geblockten Accounts in der Ausgabe enthalten."
   }
 };
 
@@ -223,6 +228,9 @@ class LikersBlocker {
   }
 
   private get limitMessage() {
+    if (this.isBlockPage) {
+      return `${this.i18n.urlLimit}`;
+    }
     if (this.isListLarge) {
       return `${this.i18n.technicalConstraints}
       <span class="lb-info" title="${this.i18n.repeatBlocking}">
