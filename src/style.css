@@ -53,7 +53,7 @@ body.lb-block-page .lb-popup-wrapper {
 }
 
 /* Hide textarea template node */
-.lb-popup.lb-confirm .lb-label.lb-confirm-message h3 + div {
+body.lb-block-page .lb-popup.lb-confirm .lb-label.lb-confirm-message h3 + div {
   display: none;
 }
 
