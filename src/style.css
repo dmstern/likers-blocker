@@ -75,14 +75,15 @@ body.lb-block-page.many .lb-popup.lb-confirm {
 
 body.lb-block-page.many .lb-popup.lb-confirm .lb-label.lb-confirm-message {
   margin-top: 3rem;
-  overflow-y: auto;
-  max-height: calc(100% - 3rem);
+  padding-top: 1rem;
   padding-right: 1rem;
+  max-height: calc(100% - 3rem);
+  overflow-y: auto;
 }
 
 body.lb-block-page.many .lb-popup.lb-confirm .lb-label.lb-confirm-message h3 {
   position: fixed;
-  transform: translateY(-230%);
+  transform: translateY(-150%);
 }
 
 .lb-confirm .lb-loading {
