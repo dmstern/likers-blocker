@@ -55,6 +55,7 @@ interface Labels {
   collectingUsernames: string;
   copied: string;
   copyToShare: string;
+  divided: string;
   export: string;
   likesHeading: string;
   ok: string;
@@ -88,7 +89,8 @@ const LABELS: { [key: string]: Labels } = {
     copied:
       "Copied. Share the link with other persons to share your block list with them.",
     urlLimit:
-      "Due to an URL length limit, the block list may be divided into several links."
+      "Due to an URL length limit, the block list may be divided into several links.",
+    divided: "Divided into several links due to URL length limit."
   },
   de: {
     usersFound: "Nutzer gefunden.",
@@ -110,7 +112,8 @@ const LABELS: { [key: string]: Labels } = {
     copied:
       "Kopiert. Teile den Link aus der Zwischenablage mit anderen Personen, um deine Blockliste mit ihnen zu teilen.",
     urlLimit:
-      "Aufgrund einer URL-Längenbeschränkung wird die Block-Liste evtl. in mehrere Links aufgeteilt."
+      "Aufgrund einer URL-Längenbeschränkung wird die Block-Liste evtl. in mehrere Links aufgeteilt.",
+    divided: "In mehrere Links aufgeteilt, weil URL sonst zu lang."
   }
 };
 
@@ -506,7 +509,9 @@ class LikersBlocker {
     this.confirmMessageElement.classList.remove("lb-collecting");
     this.confirmMessageElement.classList.add("lb-confirm-message");
     this.confirmMessageElement.innerHTML = `<h3> ${this.i18n.usersFound} ${
-      this.isBlockPage ? "" : this.i18n.blockAll + "?"
+      this.isBlockPage
+        ? `<span class="lb-divided-msg">${this.i18n.divided}</span>`
+        : this.i18n.blockAll + "?"
     }</h3>`;
     this.popup.appendChild(this.confirmMessageElement);
   }
