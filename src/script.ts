@@ -469,10 +469,7 @@ class LikersBlocker {
       areaWrapper.appendChild(this.textarea);
 
       copyButton.addEventListener("click", () => {
-        this.textarea.select();
-        document.execCommand("copy");
-        copyButton.innerHTML = `${ICONS.clipboardCheck} <span>${this.i18n.copied}</span>`;
-        copyButton.style.color = "green";
+        this.handleCopyClick(this.textarea, copyButton);
       });
 
       return areaWrapper;
@@ -555,6 +552,20 @@ class LikersBlocker {
         }
       }, 0);
     });
+  }
+
+  private handleCopyClick(textarea, copyButton) {
+    textarea.select();
+    document.execCommand("copy");
+    let copyButtonLabel = copyButton.innerHTML;
+    copyButton.innerHTML = `${ICONS.clipboardCheck} <span>${this.i18n.copied}</span>`;
+    copyButton.style.color = "green";
+
+    // Reset button label after a while:
+    setTimeout(() => {
+      copyButton.innerHTML = copyButtonLabel;
+      copyButton.style.color = this.textStyle.color;
+    }, 3000);
   }
 
   private async initBlockAction() {
@@ -641,10 +652,7 @@ class LikersBlocker {
           let copyButton = textarea.parentElement.querySelector("button");
 
           copyButton.addEventListener("click", () => {
-            textarea.select();
-            document.execCommand("copy");
-            copyButton.innerHTML = `${ICONS.clipboardCheck} <span>${this.i18n.copied}</span>`;
-            copyButton.style.color = "green";
+            this.handleCopyClick(textarea, copyButton);
           });
 
           let requestUrl = `${API_URL_BLOCK}?users=${this.users.slice(
