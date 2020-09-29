@@ -62,6 +62,7 @@ interface Labels {
   onlyDirectRetweeters: string;
   onlyListItems: string;
   repeatBlocking: string;
+  takeAMoment: string;
   technicalConstraints: string;
   twitterHides: string;
   urlLimit: any;
@@ -90,6 +91,8 @@ const LABELS: { [key: string]: Labels } = {
       "Copied. Share the link with other persons to share your block list with them.",
     urlLimit:
       "Due to an URL length limit, the block list may be divided into several links.",
+    takeAMoment:
+      "Depending on the number of blocked accounts, this may take a while.",
     divided: "Divided into several links due to URL length limit."
   },
   de: {
@@ -113,6 +116,8 @@ const LABELS: { [key: string]: Labels } = {
       "Kopiert. Teile den Link aus der Zwischenablage mit anderen Personen, um deine Blockliste mit ihnen zu teilen.",
     urlLimit:
       "Aufgrund einer URL-Längenbeschränkung wird die Block-Liste evtl. in mehrere Links aufgeteilt.",
+    takeAMoment:
+      "Abhängig von der Anzahl geblockter Accounts kann das eine Weile dauern.",
     divided: "In mehrere Links aufgeteilt, weil URL sonst zu lang."
   }
 };
@@ -240,7 +245,7 @@ class LikersBlocker {
 
   private get limitMessage() {
     if (this.isBlockPage) {
-      return `${this.i18n.urlLimit}`;
+      return `${this.i18n.takeAMoment} ${this.i18n.urlLimit}`;
     }
     if (this.isListLarge) {
       return `${this.i18n.technicalConstraints}
