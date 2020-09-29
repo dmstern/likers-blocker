@@ -3,4 +3,6 @@
 *.pem
 *.crx
 node_modules
-src/script.js
+src/*.js
+.cache
+*.map
