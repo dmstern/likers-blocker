@@ -1,9 +1,9 @@
 import typescript from "@rollup/plugin-typescript";
 
 export default {
-  input: "src/script.ts",
+  input: "src/index.ts",
   output: {
-    dir: "src",
+    dir: "dist",
     format: "iife"
   },
   plugins: [typescript()]

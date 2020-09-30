@@ -40,5 +40,5 @@ function createZip(target, src, isSingleFile) {
   archive.finalize();
 }
 
-createZip(path.join(__dirname, "../likers-blocker.zip"), "src/", false);
-createZip(path.join(__dirname, "../src.zip"), "src/script.ts", true);
+createZip(path.join(__dirname, "../likers-blocker.zip"), "dist/", false);
+createZip(path.join(__dirname, "../src.zip"), "src", false);

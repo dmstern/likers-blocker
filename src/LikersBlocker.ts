@@ -1,134 +1,14 @@
-const ICONS = {
-  block:
-    '<svg fill="currentColor" viewBox="0 0 24 24" class="r-9ilb82 r-4qtqp9 r-yyyyoo r-1q142lx r-1xvli5t r-zso239 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M12 1.25C6.072 1.25 1.25 6.072 1.25 12S6.072 22.75 12 22.75 22.75 17.928 22.75 12 17.928 1.25 12 1.25zm0 1.5c2.28 0 4.368.834 5.982 2.207L4.957 17.982C3.584 16.368 2.75 14.282 2.75 12c0-5.1 4.15-9.25 9.25-9.25zm0 18.5c-2.28 0-4.368-.834-5.982-2.207L19.043 6.018c1.373 1.614 2.207 3.7 2.207 5.982 0 5.1-4.15 9.25-9.25 9.25z"></path></g></svg>',
-  checkmark:
-    '<?xml version="1.0" encoding="UTF-8"?><svg fill="currentColor" width="45.255mm" height="37.707mm" version="1.1" viewBox="0 0 45.255 37.707" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><metadata><rdf:RDF><cc:Work rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/><dc:title/></cc:Work></rdf:RDF></metadata><g transform="translate(-54.843 -79.398)"><path d="m56.872 99.051 16.455 13.496 24.244-31.185"/></g></svg>',
-  close:
-    '<svg fill="currentColor" viewBox="0 0 24 24" class="r-13gxpu9 r-4qtqp9 r-yyyyoo r-1q142lx r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M13.414 12l5.793-5.793c.39-.39.39-1.023 0-1.414s-1.023-.39-1.414 0L12 10.586 6.207 4.793c-.39-.39-1.023-.39-1.414 0s-.39 1.023 0 1.414L10.586 12l-5.793 5.793c-.39.39-.39 1.023 0 1.414.195.195.45.293.707.293s.512-.098.707-.293L12 13.414l5.793 5.793c.195.195.45.293.707.293s.512-.098.707-.293c.39-.39.39-1.023 0-1.414L13.414 12z"></path></g></svg>',
-  info:
-    '<svg viewBox="0 0 24 24" fill="currentColor" class="r-daml9f r-4qtqp9 r-yyyyoo r-1q142lx r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M12 18.042c-.553 0-1-.447-1-1v-5.5c0-.553.447-1 1-1s1 .447 1 1v5.5c0 .553-.447 1-1 1z"></path><circle cx="12" cy="8.042" r="1.25"></circle><path d="M12 22.75C6.072 22.75 1.25 17.928 1.25 12S6.072 1.25 12 1.25 22.75 6.072 22.75 12 17.928 22.75 12 22.75zm0-20C6.9 2.75 2.75 6.9 2.75 12S6.9 21.25 12 21.25s9.25-4.15 9.25-9.25S17.1 2.75 12 2.75z"></path></g></svg>',
-  share:
-    '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>',
-  clipboardCopy:
-    '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>',
-  clipboardCheck:
-    '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>'
-};
+import { debounce } from "./util";
+import ICONS from "./icons";
+import { Labels, LABELS } from "./labels";
+import settings from "./settings";
 
 const TOPBAR_SELECTOR = {
   mobile: "main > div > div > div > div > div > div",
   desktop: "[aria-labelledby=modal-header] > div > div > div > div > div"
 };
 
-function debounce(func: Function, wait: number, immediate?: boolean) {
-  var timeout: number;
-
-  return function() {
-    var context = this;
-    var args = arguments;
-
-    var later = function() {
-      timeout = null;
-      if (!immediate) {
-        func.apply(context, args);
-      }
-    };
-
-    var callNow = immediate && !timeout;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-    if (callNow) {
-      func.apply(context, args);
-    }
-  };
-}
-
-const API_URL_BLOCK: string =
-  "https://ichbinhier-twittertools.herokuapp.com/blocklists";
-const URL_LENGTH_MAX: number = 2000;
-const LIKERS_LIMIT: number = 80;
-
-interface Labels {
-  blockAll: string;
-  blockRetweeters: string;
-  cancel: string;
-  collectingUsernames: string;
-  copied: string;
-  copyToShare: string;
-  divided: string;
-  export: string;
-  likesHeading: string;
-  ok: string;
-  onlyDirectRetweeters: string;
-  onlyListItems: string;
-  repeatBlocking: string;
-  takeAMoment: string;
-  technicalConstraints: string;
-  twitterHides: string;
-  urlLimit: any;
-  usersFound: string;
-}
-
-const LABELS: { [key: string]: Labels } = {
-  en: {
-    usersFound: "users found.",
-    blockAll: "Block all",
-    collectingUsernames: "Collecting usernames",
-    cancel: "Cancel",
-    technicalConstraints:
-      "For large like amounts, not all usernames can be collected but only a maximum of 80 users from this list.",
-    repeatBlocking:
-      "You can repeat the block process after the confirmation to block more users.",
-    twitterHides: "Some users may be hidden by Twitter.",
-    onlyListItems: "We can only block users from this list",
-    likesHeading: "like",
-    blockRetweeters: "Also block retweeters?",
-    onlyDirectRetweeters: "Only includes direct retweeters without a comment.",
-    ok: "OK",
-    export: "Export",
-    copyToShare: "Copy to share block list.",
-    copied:
-      "Copied. Share the link with other persons to share your block list with them.",
-    urlLimit:
-      "Due to an URL length limit, the block list may be divided into several links.",
-    takeAMoment:
-      "Depending on the number of blocked accounts, this may take a while.",
-    divided: "Divided into several links due to URL length limit."
-  },
-  de: {
-    usersFound: "Nutzer gefunden.",
-    blockAll: "Alle Blockieren",
-    collectingUsernames: "Sammle Nutzernamen ein",
-    cancel: "Abbrechen",
-    technicalConstraints:
-      "Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur max. 80 aus dieser Liste.",
-    repeatBlocking:
-      "Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.",
-    twitterHides: "Evtl. werden einige von Twitter ausgeblendet.",
-    onlyListItems: "Wir können nur Liker aus dieser Liste blocken.",
-    likesHeading: "gefällt",
-    blockRetweeters: "Auch alle Retweeter blockieren?",
-    onlyDirectRetweeters: "Beinhaltet nur direkte Retweeter ohne Kommentar",
-    ok: "OK",
-    export: "Exportieren",
-    copyToShare: "Text kopieren um als Liste teilen.",
-    copied:
-      "Kopiert. Teile den Link aus der Zwischenablage mit anderen Personen, um deine Blockliste mit ihnen zu teilen.",
-    urlLimit:
-      "Aufgrund einer URL-Längenbeschränkung wird die Block-Liste evtl. in mehrere Links aufgeteilt.",
-    takeAMoment:
-      "Abhängig von der Anzahl geblockter Accounts kann das eine Weile dauern.",
-    divided: "In mehrere Links aufgeteilt, weil URL sonst zu lang."
-  }
-};
-
-interface Window {
-  likersBlocker: LikersBlocker;
-}
-
-let likersBlocker = window.likersBlocker;
-
-class LikersBlocker {
+export default class LikersBlocker {
   public static run(): void {
     // for when we are on the likes page:
     new LikersBlocker();
@@ -232,7 +112,7 @@ class LikersBlocker {
   }
 
   private get isListLarge() {
-    return this.likesCount > LIKERS_LIMIT;
+    return this.likesCount > settings.LIKERS_LIMIT;
   }
 
   private get likesHeading() {
@@ -650,15 +530,16 @@ class LikersBlocker {
     var reachedUrlLengthMax;
 
     if (!this.isBlockPage) {
-      this.requestUrl = `${API_URL_BLOCK}?users=${this.users}`;
-      reachedUrlLengthMax = this.requestUrl.length > URL_LENGTH_MAX - 100;
+      this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
+      reachedUrlLengthMax =
+        this.requestUrl.length > settings.URL_LENGTH_MAX - 100;
     }
 
     if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
       console.info("finished collecting!");
 
       if (this.isBlockPage) {
-        this.requestUrl = `${API_URL_BLOCK}?users=${this.users}`;
+        this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
       }
 
       if (this.confirmButton) {
@@ -669,9 +550,12 @@ class LikersBlocker {
         this.textarea.value = this.requestUrl;
       }
 
-      if (this.isBlockPage && this.requestUrl.length > URL_LENGTH_MAX) {
+      if (
+        this.isBlockPage &&
+        this.requestUrl.length > settings.URL_LENGTH_MAX
+      ) {
         document.querySelector("body").classList.add("many");
-        let requestCount = this.requestUrl.length / URL_LENGTH_MAX;
+        let requestCount = this.requestUrl.length / settings.URL_LENGTH_MAX;
         let usersPerRequest = this.users.length / requestCount;
 
         for (let i = 0; i <= requestCount; i++) {
@@ -684,7 +568,7 @@ class LikersBlocker {
             this.handleCopyClick(textarea, copyButton);
           });
 
-          let requestUrl = `${API_URL_BLOCK}?users=${this.users.slice(
+          let requestUrl = `${settings.API_URL_BLOCK}?users=${this.users.slice(
             usersPerRequest * i,
             usersPerRequest * (i + 1)
           )}`;
@@ -885,5 +769,3 @@ class LikersBlocker {
     });
   }
 }
-
-LikersBlocker.run();

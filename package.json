@@ -4,10 +4,11 @@
   "description": "Block all visible likers (and optionally all retweeters) of a tweet on Twitter.",
   "main": "dist/script.js",
   "scripts": {
-    "start": "npm run format && npm run lint && rollup -w --config rollup.config.js",
-    "lint": "tslint src/script.ts",
-    "compile": "npm run lint && rollup --config rollup.config.js",
-    "format": "prettier --write src/script.ts src/script.css src/manifest.json",
+    "start": "npm run copy && npm run format && npm run lint && rollup -w --config rollup.config.js",
+    "lint": "tslint src/*.ts",
+    "compile": "npm run copy && npm run lint && rollup --config rollup.config.js",
+    "copy": "ncp assets dist",
+    "format": "prettier --write src/*.ts assets/*.css assets/manifest.json",
     "build": "npm run format && npm run lint && npm run compile",
     "version": "npm run build && node util/release.js && npm run format && git add .",
     "postversion": "node util/zip.js"
@@ -32,6 +33,7 @@
   "devDependencies": {
     "@rollup/plugin-typescript": "^6.0.0",
     "archiver": "^5.0.0",
+    "mkdirp": "^1.0.4",
     "ncp": "^2.0.0",
     "prettier": "^1.19.1",
     "rollup": "^2.28.2",
