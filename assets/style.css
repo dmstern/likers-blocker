@@ -265,10 +265,10 @@ body.lb-legacy-twitter .lb-checkmark {
   color: inherit !important;
 }
 
+.lb-btn--import,
 .lb-btn--export {
   position: absolute;
   top: -2.5rem;
-  right: 1rem;
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
@@ -279,12 +279,36 @@ body.lb-legacy-twitter .lb-checkmark {
   box-shadow: 0 0 5px #00000033;
   opacity: 0.7;
   color: white;
+  display: block;
+  font-size: 1rem;
+  line-height: 1em;
+  border: none;
 }
 
+.lb-btn--export {
+  right: 1rem;
+}
+
+.lb-btn--import {
+  text-align: center;
+  right: 5rem;
+}
+
+.lb-btn--import svg {
+  margin-top: 0.5em;
+}
+
+.lb-btn--import:hover,
 .lb-btn--export:hover {
   opacity: 1;
   box-shadow: 0 0 10px #00000077;
   transform: scale(1.1);
+}
+
+.lb-btn--import svg,
+.lb-btn--export svg {
+  width: 2rem;
+  height: auto;
 }
 
 .lb-copy-wrapper {
@@ -368,6 +392,8 @@ body.lb-legacy-twitter .lb-block-button {
   fill: currentColor;
 }
 
-a[class*="lb-"] {
+a.lb-close-button,
+a.lb-block-button,
+a.lb-confirm-button {
   background-color: transparent !important;
 }

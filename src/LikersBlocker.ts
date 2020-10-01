@@ -676,6 +676,7 @@ export default class LikersBlocker {
     }
 
     let exportBtn = document.createElement("button");
+    let importBtn = document.createElement("a");
 
     exportBtn.innerHTML = ICONS.share;
     exportBtn.setAttribute("aria-label", browser.i18n.getMessage("ui.export"));
@@ -683,7 +684,16 @@ export default class LikersBlocker {
     exportBtn.classList.add("lb-btn--export");
     exportBtn.style.backgroundColor = this.highlightColor;
 
+    importBtn.innerHTML = ICONS.import;
+    importBtn.setAttribute("aria-label", browser.i18n.getMessage("ui.import"));
+    importBtn.setAttribute("title", browser.i18n.getMessage("ui.import"));
+    importBtn.classList.add("lb-btn--import");
+    importBtn.style.backgroundColor = this.highlightColor;
+    importBtn.href = settings.IMPORT_URL;
+    importBtn.target = "_blank";
+
     blockedListContainer.appendChild(exportBtn);
+    blockedListContainer.appendChild(importBtn);
 
     exportBtn.addEventListener("click", () => {
       this.setUpBlockPopup();

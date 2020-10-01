@@ -91,7 +91,11 @@
     "message": "Exportieren",
     "description": "Title of the export button"
   },
-  "ui.copyToShare": {
+  "ui.import": {
+    "message": "Importieren",
+    "description": "Title of the import button"
+  },
+  "copyToShare": {
     "message": "Text kopieren um als Liste teilen.",
     "description": "Label of the copy to clipboard button."
   },
