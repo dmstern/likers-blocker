@@ -269,15 +269,15 @@ body.lb-legacy-twitter .lb-checkmark {
 .lb-btn--export {
   position: absolute;
   top: -2.5rem;
-  width: 3rem;
+  width: 3.5rem;
+  right: 1rem;
   height: 3rem;
-  border-radius: 50%;
   border: 1px solid #33333333;
   background: white;
   transition: all 200ms ease-in-out;
   cursor: pointer;
   box-shadow: 0 0 5px #00000033;
-  opacity: 0.7;
+  opacity: 0.9;
   color: white;
   display: block;
   font-size: 1rem;
@@ -286,12 +286,15 @@ body.lb-legacy-twitter .lb-checkmark {
 }
 
 .lb-btn--export {
-  right: 1rem;
+  border-bottom-right-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
 }
 
 .lb-btn--import {
   text-align: center;
-  right: 5rem;
+  border-bottom-left-radius: 1.5rem;
+  border-top-left-radius: 1.5rem;
+  transform: translateX(-100%);
 }
 
 .lb-btn--import svg {
@@ -303,6 +306,17 @@ body.lb-legacy-twitter .lb-checkmark {
   opacity: 1;
   box-shadow: 0 0 10px #00000077;
   transform: scale(1.1);
+}
+
+.lb-btn--import:hover {
+  transform: translateX(-100%) scale(1.1);
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.lb-btn--export:hover {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
 }
 
 .lb-btn--import svg,
