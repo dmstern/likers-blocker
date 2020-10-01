@@ -1,4 +1,4 @@
-import { debounce } from "./util";
+import { debounce, tryToAccessDOM } from "./util";
 import ICONS from "./icons";
 import { Labels, LABELS } from "./labels";
 import settings from "./settings";
@@ -241,8 +241,8 @@ export default class LikersBlocker {
 
   private async createBlockButton() {
     let followButton: HTMLElement = this.isLegacyTwitter
-      ? await this.tryToAccessDOM("button.button-text.follow-text")
-      : await this.tryToAccessDOM("[data-testid$=-follow]");
+      ? await tryToAccessDOM("button.button-text.follow-text")
+      : await tryToAccessDOM("[data-testid$=-follow]");
 
     // prevent multiple blockButtons:
     if (document.querySelector("[data-testid=blockAll")) {
@@ -594,11 +594,11 @@ export default class LikersBlocker {
     let heading: HTMLElement;
 
     if (this.isLegacyTwitter) {
-      heading = await this.tryToAccessDOM("#activity-popup-dialog-header");
+      heading = await tryToAccessDOM("#activity-popup-dialog-header");
       this.topbar = heading.parentElement;
       this.isLegacyTwitter = true;
     } else {
-      this.topbar = await this.tryToAccessDOM(TOPBAR_SELECTOR[this.viewport]);
+      this.topbar = await tryToAccessDOM(TOPBAR_SELECTOR[this.viewport]);
       var lastChild = this.topbar.children[this.topbar.children.length - 1];
       heading = lastChild.querySelector("div > h2 > span");
     }
@@ -648,7 +648,7 @@ export default class LikersBlocker {
       return;
     }
 
-    let blockedListContainer = await this.tryToAccessDOM("section", true, 3);
+    let blockedListContainer = await tryToAccessDOM("section", true, 3);
 
     if (!blockedListContainer) {
       return;
@@ -677,13 +677,13 @@ export default class LikersBlocker {
     var likesCountElement: HTMLElement;
 
     if (this.isLegacyTwitter) {
-      const likesCounterLink = await this.tryToAccessDOM(
+      const likesCounterLink = await tryToAccessDOM(
         "[data-tweet-stat-count].request-favorited-popup"
       );
       likesCounterLink.addEventListener("click", () => new LikersBlocker());
       likesCountElement = likesCounterLink.querySelector("strong");
     } else {
-      likesCountElement = await this.tryToAccessDOM(
+      likesCountElement = await tryToAccessDOM(
         "a[href$=likes] > div > span > span"
       );
     }
@@ -724,48 +724,4 @@ export default class LikersBlocker {
   private stopScrolling = () => {
     clearInterval(this.scrollInterval);
   };
-
-  private tryToAccessDOM(
-    selector: string,
-    multiple?: boolean,
-    expectedCount?: number
-  ): Promise<HTMLElement> {
-    var elementToExpect = null;
-    var tryCounter = 0;
-    var tryMax = 10;
-    var interval = undefined;
-
-    return new Promise((resolve, reject) => {
-      const tryIt = () => {
-        tryCounter++;
-
-        if (tryCounter >= tryMax || elementToExpect) {
-          clearInterval(interval);
-        }
-
-        if (multiple) {
-          let elements = document.querySelectorAll(selector);
-
-          if (elements.length >= expectedCount) {
-            elementToExpect = elements.item(elements.length - 1);
-          }
-        } else {
-          elementToExpect = document.querySelector(selector);
-        }
-
-        if (
-          !elementToExpect ||
-          elementToExpect.style.display === "none" ||
-          elementToExpect.offsetParent === null
-        ) {
-          return;
-        }
-
-        clearInterval(interval);
-        resolve(elementToExpect);
-      };
-
-      interval = setInterval(tryIt, 500);
-    });
-  }
 }
