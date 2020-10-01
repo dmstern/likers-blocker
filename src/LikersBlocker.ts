@@ -23,12 +23,12 @@ export default class LikersBlocker {
       debounce(() => new LikersBlocker(), 250)
     );
   }
-
   private blockButton: HTMLAnchorElement;
   private checkbox: HTMLInputElement;
   private collectedUsers: string[];
   private confirmButton: HTMLLinkElement;
   private confirmMessageElement: HTMLElement;
+  private downloadButton: HTMLAnchorElement;
   private legacyTwitter: boolean;
   private likesCount: number;
   private popup: HTMLElement;
@@ -121,9 +121,7 @@ export default class LikersBlocker {
 
   private get limitMessage() {
     if (this.isBlockPage) {
-      return `${browser.i18n.getMessage(
-        "ui.takeAMoment"
-      )} ${browser.i18n.getMessage("ui.urlLimit")}`;
+      return browser.i18n.getMessage("ui.takeAMoment");
     }
     if (this.isListLarge) {
       return `${browser.i18n.getMessage("ui.technicalConstraints")}
@@ -359,6 +357,13 @@ export default class LikersBlocker {
     if (this.isBlockPage) {
       let areaWrapper = document.createElement("div");
       let copyButton = document.createElement("button");
+      this.downloadButton = document.createElement("a");
+      this.downloadButton.classList.add("lb-btn--download");
+      this.downloadButton.setAttribute("download", "blocklist.txt");
+      this.downloadButton.innerHTML = `${
+        ICONS.download
+      } <span>${browser.i18n.getMessage("download")}</span>`;
+      this.downloadButton.style.backgroundColor = this.highlightColor;
 
       areaWrapper.classList.add("lb-copy-wrapper");
       copyButton.classList.add("lb-copy-button");
@@ -372,6 +377,7 @@ export default class LikersBlocker {
 
       areaWrapper.appendChild(copyButton);
       areaWrapper.appendChild(this.textarea);
+      areaWrapper.appendChild(this.downloadButton);
 
       copyButton.addEventListener("click", () => {
         this.handleCopyClick(this.textarea, copyButton);
@@ -554,7 +560,7 @@ export default class LikersBlocker {
       console.info("finished collecting!");
 
       if (this.isBlockPage) {
-        this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
+        this.requestUrl = `${this.users}`;
       }
 
       if (this.confirmButton) {
@@ -565,31 +571,10 @@ export default class LikersBlocker {
         this.textarea.value = this.requestUrl;
       }
 
-      if (
-        this.isBlockPage &&
-        this.requestUrl.length > settings.URL_LENGTH_MAX
-      ) {
-        document.querySelector("body").classList.add("many");
-        let requestCount = this.requestUrl.length / settings.URL_LENGTH_MAX;
-        let usersPerRequest = this.users.length / requestCount;
-
-        for (let i = 0; i <= requestCount; i++) {
-          let linkClone = this.textarea.parentNode.cloneNode(true);
-          this.textarea.parentNode.parentNode.appendChild(linkClone);
-          let textarea = linkClone.childNodes.item(1) as HTMLTextAreaElement;
-          let copyButton = textarea.parentElement.querySelector("button");
-
-          copyButton.addEventListener("click", () => {
-            this.handleCopyClick(textarea, copyButton);
-          });
-
-          let requestUrl = `${settings.API_URL_BLOCK}?users=${this.users.slice(
-            usersPerRequest * i,
-            usersPerRequest * (i + 1)
-          )}`;
-          textarea.value = requestUrl;
-        }
-      }
+      this.downloadButton.setAttribute(
+        "href",
+        "data:text/plain;charset=utf-8," + encodeURIComponent(this.requestUrl)
+      );
 
       var confirmHeading = this.popup.querySelector(
         ".lb-confirm-message h3 span"

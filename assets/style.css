@@ -78,27 +78,25 @@ body.lb-block-page .lb-popup {
   height: auto !important;
 }
 
-body.lb-block-page.many .lb-popup.lb-confirm {
+body.lb-block-page .lb-popup.lb-confirm {
   width: 50%;
   height: 700px !important;
 }
 
 @media screen and (min-width: 440px) {
-  body.lb-block-page.many .lb-popup.lb-confirm {
+  body.lb-block-page .lb-popup.lb-confirm {
     margin-left: -25%;
   }
 }
 
-body.lb-block-page.many .lb-popup.lb-confirm .lb-label.lb-confirm-message {
+body.lb-block-page .lb-popup.lb-confirm .lb-label.lb-confirm-message {
   margin-top: 5rem;
-  padding-right: 1rem;
-  max-height: calc(100% - 1.5rem);
-  overflow-y: auto;
+  padding-right: 0.5rem;
 }
 
-body.lb-block-page.many .lb-popup.lb-confirm .lb-label.lb-confirm-message h3 {
+body.lb-block-page .lb-popup.lb-confirm .lb-label.lb-confirm-message h3 {
   position: fixed;
-  transform: translateY(-150%);
+  transform: translateY(-200%);
 }
 
 .lb-confirm .lb-loading {
@@ -272,7 +270,6 @@ body.lb-legacy-twitter .lb-checkmark {
   width: 3.5rem;
   right: 1rem;
   height: 3rem;
-  border: 1px solid #33333333;
   background: white;
   transition: all 200ms ease-in-out;
   cursor: pointer;
@@ -325,6 +322,37 @@ body.lb-legacy-twitter .lb-checkmark {
   height: auto;
 }
 
+.lb-btn--download {
+  position: absolute;
+  background: white;
+  transition: all 200ms ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 0 5px #00000033;
+  opacity: 0.9;
+  color: white;
+  display: block;
+  font-size: 1rem;
+  line-height: 1em;
+  border: none;
+  border-radius: 1.7em;
+  padding: 0.7em 1.2em;
+  display: flex;
+  text-decoration: none;
+  right: 0.5rem;
+  bottom: -3rem;
+  font-weight: bold;
+}
+
+.lb-btn--download svg {
+  height: 1rem;
+  width: auto;
+  margin-right: 0.2em;
+}
+
+.lb-btn--download span {
+  text-decoration: inherit;
+}
+
 .lb-copy-wrapper {
   margin-bottom: 1em;
 }
@@ -367,7 +395,7 @@ body.lb-legacy-twitter .lb-block-button {
 
 .lb-textarea {
   width: 100%;
-  height: 5rem;
+  height: 32rem;
 }
 
 .lb-checkbox {
