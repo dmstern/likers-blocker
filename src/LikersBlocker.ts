@@ -370,7 +370,7 @@ export default class LikersBlocker {
       copyButton.style.color = this.textStyle.color;
       copyButton.innerHTML = `${
         ICONS.clipboardCopy
-      } <span>${browser.i18n.getMessage("ui.copyToShare")}</span>`;
+      } <span>${browser.i18n.getMessage("ui.copy")}</span>`;
       this.textarea = document.createElement("textarea");
       this.textarea.readOnly = true;
       this.textarea.classList.add("lb-textarea");
@@ -422,12 +422,12 @@ export default class LikersBlocker {
 
     headingContent1.innerHTML = browser.i18n.getMessage("ui.usersFound");
     headingContent2.innerHTML = this.isBlockPage
-      ? browser.i18n.getMessage("ui.divided")
+      ? browser.i18n.getMessage("ui.copyToShare")
       : browser.i18n.getMessage("ui.blockAll") + "?";
 
-    if (this.isBlockPage) {
-      headingContent2.classList.add("lb-divided-msg");
-    }
+    // if (this.isBlockPage) {
+    //   headingContent2.classList.add("lb-divided-msg");
+    // }
 
     heading.append(headingContent1, headingContent2);
     this.confirmMessageElement.append(heading);

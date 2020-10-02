@@ -66,13 +66,13 @@ body.lb-block-page.many
   margin-left: 0.5em;
 }
 
-.lb-divided-msg {
+/* .lb-divided-msg {
   display: none;
 }
 
 body.lb-block-page.many .lb-divided-msg {
   display: inline;
-}
+} */
 
 body.lb-block-page .lb-popup {
   height: auto !important;
