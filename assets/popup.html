@@ -63,6 +63,20 @@
       height: 1em;
     }
 
+    p.links {
+      display: flex;
+    }
+
+    .link {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .link svg {
+      margin-right: 0.5em;
+      display: inline-block;
+    }
+
     .link:not(:first-of-type)::before {
       content: "|";
       opacity: 0.5;
@@ -74,6 +88,21 @@
     .footer {
       margin-top: 2rem;
       opacity: 0.7;
+    }
+
+    li.donation {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      margin-left: -1em;
+    }
+
+    li.donation::before {
+      content: url('data:image/svg+xml;utf8,<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>');
+      height: 1em;
+      width: 1em;
+      display: inline-block;
+      margin-right: 0.5em;
     }
 
     .twitter-link {
@@ -107,7 +136,7 @@
     </p>
   </details>
   <hr>
-  <p>
+  <p class="links">
     <a class="link" target="_blank" href="https://github.com/dmstern/likers-blocker/issues"
       data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-issue-opened"
       data-size="large" aria-label="Issue dmstern/likers-blocker on GitHub"><svg class="w-6 h-6" fill="none"
@@ -134,8 +163,8 @@
         </svg> Support</summary>
       <p>
         <ul>
-          <li><a class="link" href="https://paypal.me/dmstr" target="_blank">paypal.me/dmstr</a><a href="https://patreon.com/danielmorgenstern" target="_blank" class="link">patreon.com/danielmorgenstern</a></li>
-          <li><a href="https://paypal.me/philipkreissel" target="_blank">paypal.me/philipkreissel</a></li>
+          <li class="donation"><a class="link" href="https://paypal.me/dmstr" target="_blank">paypal.me/dmstr</a><a href="https://patreon.com/danielmorgenstern" target="_blank" class="link">patreon.com/danielmorgenstern</a></li>
+          <li class="donation"><a class="link" href="https://paypal.me/philipkreissel" target="_blank">paypal.me/philipkreissel</a></li>
         </ul>
       </p>
     </details>
@@ -144,7 +173,7 @@
 
   <p class="footer">
     <hr>
-    <a href="https://dmstern.github.io/likers-blocker" target="_blank"><svg class="w-6 h-6" fill="none"
+    <a class="link" href="https://dmstern.github.io/likers-blocker" target="_blank"><svg class="w-6 h-6" fill="none"
         stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
