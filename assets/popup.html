@@ -5,21 +5,53 @@
   <meta charset="utf-8">
   <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --color-light: #e9eaef;
+      --color-lighter: #ffffff;
+      --color-dark: #303030;
+      --color-light-dark: #404040;
+    }
+
     body {
-      --background-color: #303030;
-      --background-color--hover: #404040;
-      --color: #e9eaef;
-      --color--hover: #ffffff;
+      --background-color: var(--color-light);
+      --background-color--hover: var(--color-lighter);
+      --color: var(--color-dark);
+      --color--hover: var(--color-light-dark);
     }
 
     @media (prefers-color-scheme: light) {
       body {
-        --background-color: #e9eaef;
-        --background-color--hover: #f8f8f8;
-        --color: #303030;
-        --color--hover: #000000;
+        --background-color: var(--color-light);
+        --background-color--hover: var(--color-lighter);
+        --color: var(--color-dark);
+        --color--hover: var(--color-light-dark);
       }
     }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        --background-color: var(--color-dark);
+        --background-color--hover: var(--color-light-dark);
+        --color: var(--color-light);
+        --color--hover: var(--color-lighter);
+      }
+    }
+
+    /*
+    body {
+      --background-color: var(--color-light);
+      --background-color--hover: var(--color-lighter);
+      --color: var(--color-dark);
+      --color--hover: var(--color-light-dark);
+    }
+
+    body.dark-theme {
+      --background-color: var(--color-dark);
+      --background-color--hover: var(--color-light-dark);
+      --color: var(--color-light);
+      --color--hover: var(--color-lighter);
+    }
+    */
 
     body {
       font-size: 14px;
@@ -101,9 +133,14 @@
       margin-right: 0.5em;
     }
 
-    .footer {
+    footer {
       margin-top: 2rem;
       opacity: 0.7;
+    }
+
+    header {
+      opacity: 0.7;
+      margin-bottom: 2rem;
     }
 
     li.donation {
@@ -130,10 +167,25 @@
     summary:hover {
       cursor: pointer;
     }
+
+    label[for="theme-switcher"] {
+      display: flex;
+      align-items: center;
+    }
+
+    #theme-switcher {
+      margin-right: 0.5em;
+    }
   </style>
 </head>
 
 <body class="dark-theme">
+  <!-- <header>
+    <label for="theme-switcher">
+      <input type="checkbox" checked name="theme-switcher" id="theme-switcher">
+      <span>Dark Theme</span>
+    </label>
+  </header> -->
   <main>
 
     <img src="icon48.png" alt="Logo" class="lb-logo">
