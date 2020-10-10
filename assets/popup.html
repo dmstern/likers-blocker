@@ -6,12 +6,28 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
   <style>
     body {
+      --background-color: #303030;
+      --background-color--hover: #252525;
+      --color: #e9eaef;
+      --color--hover: #ffffff;
+    }
+
+    @media (prefers-color-scheme: light) {
+      body {
+        --background-color: #e9eaef;
+        --background-color--hover: #f8f8f8;
+        --color: #303030;
+        --color--hover: #000000;
+      }
+    }
+
+    body {
       font-size: 14px;
       font-family: Roboto, Ubuntu, Arial, Helvetica, sans-serif;
       padding: 1.5rem;
       width: 400px;
-      background-color: #e9eaef;
-      color: #3e3d3b;
+      background-color: var(--background-color);
+      color: var(--color);
     }
 
     h1 {
@@ -39,7 +55,7 @@
     }
 
     a:hover {
-      color: #000;
+      color: var(--color--hover);
       text-decoration: underline;
     }
 
@@ -55,7 +71,7 @@
     }
 
     .btn:hover {
-      background-color: #f8f8f8;
+      background-color: var(--background-color--hover);
     }
 
     svg.w-6.h-6 {
@@ -97,11 +113,7 @@
       margin-left: -1em;
     }
 
-    li.donation::before {
-      content: url('data:image/svg+xml;utf8,<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>');
-      height: 1em;
-      width: 1em;
-      display: inline-block;
+    li.donation svg {
       margin-right: 0.5em;
     }
 
@@ -114,6 +126,10 @@
       width: 1.5rem !important;
       height: 1.5rem !important;
     }
+
+    summary:hover {
+      cursor: pointer;
+    }
   </style>
 </head>
 
@@ -124,16 +140,14 @@
 
   <details>
     <summary>Kurzanleitung</summary>
-    <p>
-      <ul>
-        <li>Klicke dazu auf einen Tweet und zeige dir die Liste der Liker an.</li>
-        <li>Oberhalb der Liste findest du eine Button "Alle Blockieren".</li>
-        <li>Wenn du darauf klickst und die Aktion bestätigst, öffnet sich der Massenblock-Dienst in einem neuen Fenster.
-        </li>
-        <li>Wenn du dort noch nicht angemeldet bist, muss du dich zunächst mit deinem Twitter-Account authentifizieren.
-        </li>
-      </ul>
-    </p>
+    <ul>
+      <li>Klicke dazu auf einen Tweet und zeige dir die Liste der Liker an.</li>
+      <li>Oberhalb der Liste findest du eine Button "Alle Blockieren".</li>
+      <li>Wenn du darauf klickst und die Aktion bestätigst, öffnet sich der Massenblock-Dienst in einem neuen Fenster.
+      </li>
+      <li>Wenn du dort noch nicht angemeldet bist, muss du dich zunächst mit deinem Twitter-Account authentifizieren.
+      </li>
+    </ul>
   </details>
   <hr>
   <p class="links">
@@ -161,12 +175,23 @@
             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
           </path>
         </svg> Support</summary>
-      <p>
-        <ul>
-          <li class="donation"><a class="link" href="https://paypal.me/dmstr" target="_blank">paypal.me/dmstr</a><a href="https://patreon.com/danielmorgenstern" target="_blank" class="link">patreon.com/danielmorgenstern</a></li>
-          <li class="donation"><a class="link" href="https://paypal.me/philipkreissel" target="_blank">paypal.me/philipkreissel</a></li>
-        </ul>
-      </p>
+      <ul>
+        <li class="donation"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7">
+            </path>
+          </svg><a class="link" href="https://paypal.me/dmstr" target="_blank">paypal.me/dmstr</a><a
+            href="https://patreon.com/danielmorgenstern" target="_blank" class="link">patreon.com/danielmorgenstern</a>
+        </li>
+        <li class="donation"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7">
+            </path>
+          </svg><a class="link" href="https://paypal.me/philipkreissel" target="_blank">paypal.me/philipkreissel</a>
+        </li>
+      </ul>
     </details>
   </p>
 
