@@ -62,8 +62,12 @@
       height: 1em;
     }
 
-    .link:not(:first-of-type) {
-      margin-left: 1em;
+    .link:not(:first-of-type)::before {
+      content: "|";
+      opacity: 0.5;
+      display: inline-block;
+      margin-left: 0.5em;
+      margin-right: 0.5em;
     }
 
     .footer {
@@ -129,8 +133,7 @@
         </svg> Support</summary>
       <p>
         <ul>
-          <li><a href="https://patreon.com/danielmorgenstern" target="_blank">patreon.com/danielmorgenstern</a></li>
-          <li><a href="https://paypal.me/dmstr" target="_blank">paypal.me/dmstr</a></li>
+          <li><a class="link" href="https://paypal.me/dmstr" target="_blank">paypal.me/dmstr</a><a href="https://patreon.com/danielmorgenstern" target="_blank" class="link">patreon.com/danielmorgenstern</a></li>
           <li><a href="https://paypal.me/philipkreissel" target="_blank">paypal.me/philipkreissel</a></li>
         </ul>
       </p>
