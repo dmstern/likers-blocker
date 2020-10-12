@@ -95,8 +95,16 @@
     "message": "Import",
     "description": "Title of the import button"
   },
-  "copyToShare": {
-    "message": "Copy to share block list.",
+  "ui.download": {
+    "message": "Download",
+    "description": "Title of the export button"
+  },
+  "ui.copyToShare": {
+    "message": "Copy or download to share block list.",
+    "description": "Hint in the heading when all blocked accounts are collected to share them."
+  },
+  "ui.copy": {
+    "message": "Copy to clipboard",
     "description": "Label of the copy to clipboard button."
   },
   "ui.copied": {

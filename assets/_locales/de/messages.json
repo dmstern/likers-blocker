@@ -91,12 +91,20 @@
     "message": "Exportieren",
     "description": "Title of the export button"
   },
+  "ui.download": {
+    "message": "Herunterladen",
+    "description": "Title of the export button"
+  },
   "ui.import": {
     "message": "Importieren",
     "description": "Title of the import button"
   },
-  "copyToShare": {
-    "message": "Text kopieren um als Liste teilen.",
+  "ui.copyToShare": {
+    "message": "Text kopieren oder runterladen um als Liste teilen.",
+    "description": "Hint in the heading when all blocked accounts are collected to share them."
+  },
+  "ui.copy": {
+    "message": "In Zwischenablage kopieren",
     "description": "Label of the copy to clipboard button."
   },
   "ui.copied": {
