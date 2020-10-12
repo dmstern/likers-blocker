@@ -1,5 +1,9 @@
 {
-  "popup.extensionDescription": {
+  "extensionName": {
+    "message": "Likers Blocker",
+    "description": "Name of the extension."
+  },
+  "extensionDescription": {
     "message": "block all visible likers or retweeters of a tweet. – say NO to hate speech! ",
     "description": "Describes the extension."
   },
