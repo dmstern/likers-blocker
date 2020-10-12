@@ -260,6 +260,11 @@ body.lb-legacy-twitter .lb-checkmark {
   margin-right: 0px !important;
 }
 
+.lb-block-button *,
+.lb-confirm-button * {
+  color: inherit !important;
+}
+
 .lb-btn--export {
   position: absolute;
   top: -2.5rem;

@@ -8,6 +8,7 @@ interface Labels {
   divided: string;
   export: string;
   likesHeading: string;
+  listHeading: string;
   ok: string;
   onlyDirectRetweeters: string;
   onlyListItems: string;
@@ -32,6 +33,7 @@ const LABELS: { [key: string]: Labels } = {
     twitterHides: "Some users may be hidden by Twitter.",
     onlyListItems: "We can only block users from this list",
     likesHeading: "like",
+    listHeading: "List",
     blockRetweeters: "Also block retweeters?",
     onlyDirectRetweeters: "Only includes direct retweeters without a comment.",
     ok: "OK",
@@ -57,6 +59,7 @@ const LABELS: { [key: string]: Labels } = {
     twitterHides: "Evtl. werden einige von Twitter ausgeblendet.",
     onlyListItems: "Wir können nur Liker aus dieser Liste blocken.",
     likesHeading: "gefällt",
+    listHeading: "List",
     blockRetweeters: "Auch alle Retweeter blockieren?",
     onlyDirectRetweeters: "Beinhaltet nur direkte Retweeter ohne Kommentar",
     ok: "OK",

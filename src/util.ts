@@ -24,7 +24,8 @@ function debounce(func: Function, wait: number, immediate?: boolean) {
 function tryToAccessDOM(
   selector: string,
   multiple?: boolean,
-  expectedCount?: number
+  expectedCount?: number,
+  context?: HTMLElement
 ): Promise<HTMLElement> {
   var elementToExpect = null;
   var tryCounter = 0;
@@ -40,13 +41,17 @@ function tryToAccessDOM(
       }
 
       if (multiple) {
-        let elements = document.querySelectorAll(selector);
+        let elements = context
+          ? context.querySelectorAll(selector)
+          : document.querySelectorAll(selector);
 
         if (elements.length >= expectedCount) {
           elementToExpect = elements.item(elements.length - 1);
         }
       } else {
-        elementToExpect = document.querySelector(selector);
+        elementToExpect = context
+          ? context.querySelector(selector)
+          : document.querySelector(selector);
       }
 
       if (

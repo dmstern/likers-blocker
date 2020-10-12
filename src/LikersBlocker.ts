@@ -115,12 +115,8 @@ export default class LikersBlocker {
     return this.likesCount > settings.LIKERS_LIMIT;
   }
 
-  private get likesHeading() {
-    if (this.lang in this.i18n) {
-      return new RegExp(`${this.i18n.likesHeading}.*`, "ig");
-    } else {
-      return "";
-    }
+  private get isTweetPage(): boolean {
+    return location.href.includes("status");
   }
 
   private get limitMessage() {
@@ -242,7 +238,12 @@ export default class LikersBlocker {
   private async createBlockButton() {
     let followButton: HTMLElement = this.isLegacyTwitter
       ? await tryToAccessDOM("button.button-text.follow-text")
-      : await tryToAccessDOM("[data-testid$=-follow]");
+      : await tryToAccessDOM(
+          "[role=button] [role=button]",
+          false,
+          1,
+          this.scrollList
+        );
 
     // prevent multiple blockButtons:
     if (document.querySelector("[data-testid=blockAll")) {
@@ -257,6 +258,8 @@ export default class LikersBlocker {
     this.blockButton.dataset.testid = "blockAll";
     this.blockButton.tabIndex = 0;
     this.blockButton.innerHTML = followButton.innerHTML;
+    this.blockButton.style.color = this.highlightColor;
+    this.blockButton.style.borderColor = this.highlightColor;
 
     var blockButtonLabel = this.isLegacyTwitter
       ? this.blockButton
@@ -607,14 +610,15 @@ export default class LikersBlocker {
       return;
     }
 
-    var headingIsNotLikes =
-      !heading || !heading.textContent.match(this.likesHeading);
+    var shouldDisplayOnThisPage = heading?.textContent.match(
+      new RegExp(`(${this.i18n.likesHeading}|${this.i18n.listHeading}).*`, "ig")
+    );
 
-    if (headingIsNotLikes) {
+    if (!shouldDisplayOnThisPage.length) {
       return;
     }
 
-    await this.createBlockButton();
+    this.createBlockButton();
   };
 
   private async setUpBlockPopup() {
@@ -629,7 +633,7 @@ export default class LikersBlocker {
     this.createConfirmMessageElement();
     let confirmButton = this.createConfirmButton();
 
-    if (!this.isBlockPage) {
+    if (this.isTweetPage) {
       let checkbox = this.createCheckbox();
       this.confirmMessageElement.appendChild(checkbox);
     }
