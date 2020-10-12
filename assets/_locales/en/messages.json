@@ -38,5 +38,73 @@
   "contact": {
     "message": "Contact",
     "description": "label of the contact link"
+  },
+  "blockAll": {
+    "message": "Block all",
+    "description": "Label for the Block all button"
+  },
+  "usersFound": {
+    "message": "users found.",
+    "description": "Message how many users have been collected."
+  },
+  "collectingUsernames": {
+    "message": "Collecting usernames",
+    "description": "Message that tells the user that the tool is collecting users from a list."
+  },
+  "cancel": {
+    "message": "Cancel",
+    "description": "Label for the cancel button"
+  },
+  "technicalConstraints": {
+    "message": "For large like amounts, not all usernames can be collected but only a maximum of 80 users from this list.",
+    "description": "Message that is shown if the list is large and not all users may be collected."
+  },
+  "repeatBlocking": {
+    "message": "You can repeat the block process after the confirmation to block more users.",
+    "description": "Hint for the user to workaround the user amount limit."
+  },
+  "twitterHides": {
+    "message": "Some users may be hidden by Twitter.",
+    "description": "Message that is shown during or after collecting that tells the user that some users may hidden."
+  },
+  "onlyListItems": {
+    "message": "We can only block users from this list",
+    "description": "Message that tells the user, that only accounts that occur in the list can be blocked."
+  },
+  "blockRetweeters": {
+    "message": "Also block retweeters?",
+    "description": "Label of the checkbox where the user can chose to also block retweeters of the liked tweet."
+  },
+  "onlyDirectRetweeters": {
+    "message": "Only includes direct retweeters without a comment.",
+    "description": "Title (tooltip) of the retweeters checkbox"
+  },
+  "ok": {
+    "message": "OK",
+    "description": "Label of the OK button"
+  },
+  "export": {
+    "message": "Export",
+    "description": "Title of the export button"
+  },
+  "copyToShare": {
+    "message": "Copy to share block list.",
+    "description": "Label of the copy to clipboard button."
+  },
+  "copied": {
+    "message": "Copied. Share the link with other persons to share your block list with them.",
+    "description": "Message that tells the user that the content of the block list has been copied to clipboard."
+  },
+  "urlLimit": {
+    "message": "Due to an URL length limit, the block list may be divided into several links.",
+    "description": "Info that tells the user that the block list may be divided into several links."
+  },
+  "takeAMoment": {
+    "message": "Depending on the number of blocked accounts, this may take a while.",
+    "description": "Info that the collection of blocked accounts to export them may take long."
+  },
+  "divided": {
+    "message": "Divided into several links due to URL length limit.",
+    "description": "Message that is shown after the collection of blocked account to export them if the list was divided into several links."
   }
 }

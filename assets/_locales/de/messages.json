@@ -38,5 +38,73 @@
   "contact": {
     "message": "Kontakt",
     "description": "label of the contact link"
+  },
+  "blockAll": {
+    "message": "Alle Blockieren",
+    "description": "Label for the Block all button"
+  },
+  "usersFound": {
+    "message": "Nutzer gefunden.",
+    "description": "Message how many users have been collected."
+  },
+  "collectingUsernames": {
+    "message": "Sammle Nutzernamen ein",
+    "description": "Message that tells the user that the tool is collecting users from a list."
+  },
+  "cancel": {
+    "message": "Abbrechen",
+    "description": "Label for the cancel button"
+  },
+  "technicalConstraints": {
+    "message": "Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur max. 80 aus dieser Liste.",
+    "description": "Message that is shown if the list is large and not all users may be collected."
+  },
+  "repeatBlocking": {
+    "message": "Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.",
+    "description": "Hint for the user to workaround the user amount limit."
+  },
+  "twitterHides": {
+    "message": "Evtl. werden einige von Twitter ausgeblendet.",
+    "description": "Message that is shown during or after collecting that tells the user that some users may hidden."
+  },
+  "onlyListItems": {
+    "message": "Wir können nur Liker aus dieser Liste blocken.",
+    "description": "Message that tells the user, that only accounts that occur in the list can be blocked."
+  },
+  "blockRetweeters": {
+    "message": "Auch alle Retweeter blockieren?",
+    "description": "Label of the checkbox where the user can chose to also block retweeters of the liked tweet."
+  },
+  "onlyDirectRetweeters": {
+    "message": "Beinhaltet nur direkte Retweeter ohne Kommentar",
+    "description": "Title (tooltip) of the retweeters checkbox"
+  },
+  "ok": {
+    "message": "OK",
+    "description": "Label of the OK button"
+  },
+  "export": {
+    "message": "Exportieren",
+    "description": "Title of the export button"
+  },
+  "copyToShare": {
+    "message": "Text kopieren um als Liste teilen.",
+    "description": "Label of the copy to clipboard button."
+  },
+  "copied": {
+    "message": "Kopiert. Teile den Link aus der Zwischenablage mit anderen Personen, um deine Blockliste mit ihnen zu teilen.",
+    "description": "Message that tells the user that the content of the block list has been copied to clipboard."
+  },
+  "urlLimit": {
+    "message": "Aufgrund einer URL-Längenbeschränkung wird die Block-Liste evtl. in mehrere Links aufgeteilt.",
+    "description": "Info that tells the user that the block list may be divided into several links."
+  },
+  "takeAMoment": {
+    "message": "Abhängig von der Anzahl geblockter Accounts kann das eine Weile dauern.",
+    "description": "Info that the collection of blocked accounts to export them may take long."
+  },
+  "divided": {
+    "message": "In mehrere Links aufgeteilt, weil URL sonst zu lang.",
+    "description": "Message that is shown after the collection of blocked account to export them if the list was divided into several links."
   }
 }
