@@ -114,20 +114,20 @@ export default class LikersBlocker {
   private get limitMessage() {
     if (this.isBlockPage) {
       return `${browser.i18n.getMessage(
-        "takeAMoment"
-      )} ${browser.i18n.getMessage("urlLimit")}`;
+        "ui.takeAMoment"
+      )} ${browser.i18n.getMessage("ui.urlLimit")}`;
     }
     if (this.isListLarge) {
-      return `${browser.i18n.getMessage("technicalConstraints")}
+      return `${browser.i18n.getMessage("ui.technicalConstraints")}
       <span class="lb-info" title="${browser.i18n.getMessage(
-        "repeatBlocking"
+        "ui.repeatBlocking"
       )}">
         ${ICONS.info}
       </span>`;
     } else {
       return `${browser.i18n.getMessage(
-        "onlyListItems"
-      )}<br>${browser.i18n.getMessage("twitterHides")}`;
+        "ui.onlyListItems"
+      )}<br>${browser.i18n.getMessage("ui.twitterHides")}`;
     }
   }
 
@@ -262,7 +262,7 @@ export default class LikersBlocker {
     var blockButtonLabel = this.isLegacyTwitter
       ? this.blockButton
       : this.blockButton.querySelector("div > span > span");
-    blockButtonLabel.innerHTML = browser.i18n.getMessage("blockAll");
+    blockButtonLabel.innerHTML = browser.i18n.getMessage("ui.blockAll");
 
     this.topbar.appendChild(this.blockButton);
 
@@ -297,12 +297,12 @@ export default class LikersBlocker {
     this.checkbox.type = "checkbox";
     this.checkbox.classList.add("lb-checkbox");
     label.innerHTML = `<span>${browser.i18n.getMessage(
-      "blockRetweeters"
+      "ui.blockRetweeters"
     )}</span>`;
     label.prepend(this.checkbox);
     var retweetersNotice = document.createElement("span");
     retweetersNotice.classList.add("lb-info");
-    retweetersNotice.title = browser.i18n.getMessage("onlyDirectRetweeters");
+    retweetersNotice.title = browser.i18n.getMessage("ui.onlyDirectRetweeters");
     retweetersNotice.innerHTML = ICONS.info;
     labelWrapper.appendChild(retweetersNotice);
     return labelWrapper;
@@ -334,7 +334,7 @@ export default class LikersBlocker {
     closeButton.innerHTML = ICONS.close;
     closeButton.tabIndex = 0;
     closeButton.classList.add("lb-close-button");
-    closeButton.title = browser.i18n.getMessage("cancel");
+    closeButton.title = browser.i18n.getMessage("ui.cancel");
     closeButton.style.backgroundColor = this.highlightColor.replace(
       ")",
       ", 0.1)"
@@ -357,7 +357,7 @@ export default class LikersBlocker {
       copyButton.style.color = this.textStyle.color;
       copyButton.innerHTML = `${
         ICONS.clipboardCopy
-      } <span>${browser.i18n.getMessage("copyToShare")}</span>`;
+      } <span>${browser.i18n.getMessage("ui.copyToShare")}</span>`;
       this.textarea = document.createElement("textarea");
       this.textarea.readOnly = true;
       this.textarea.classList.add("lb-textarea");
@@ -386,7 +386,7 @@ export default class LikersBlocker {
             "div > span > span"
           ) as HTMLElement);
 
-      confirmButtonLabel.innerText = browser.i18n.getMessage("ok");
+      confirmButtonLabel.innerText = browser.i18n.getMessage("ui.ok");
       this.confirmButton.target = "_blank";
 
       this.confirmButton.addEventListener("click", () => {
@@ -406,10 +406,10 @@ export default class LikersBlocker {
     let headingContent1 = document.createElement("span");
     let headingContent2 = document.createElement("span");
 
-    headingContent1.innerHTML = browser.i18n.getMessage("usersFound");
+    headingContent1.innerHTML = browser.i18n.getMessage("ui.usersFound");
     headingContent2.innerHTML = this.isBlockPage
-      ? browser.i18n.getMessage("divided")
-      : browser.i18n.getMessage("blockAll") + "?";
+      ? browser.i18n.getMessage("ui.divided")
+      : browser.i18n.getMessage("ui.blockAll") + "?";
 
     if (this.isBlockPage) {
       headingContent2.classList.add("lb-divided-msg");
@@ -472,7 +472,7 @@ export default class LikersBlocker {
     let copyButtonLabel = copyButton.innerHTML;
     copyButton.innerHTML = `${
       ICONS.clipboardCheck
-    } <span>${browser.i18n.getMessage("copied")}</span>`;
+    } <span>${browser.i18n.getMessage("ui.copied")}</span>`;
     copyButton.style.color = "green";
     copyButton.setAttribute("disabled", "true");
 
@@ -627,7 +627,7 @@ export default class LikersBlocker {
     const popupInner = `
       <div class='lb-label lb-collecting'>
         <h3 id="lb-popup-heading">${browser.i18n.getMessage(
-          "collectingUsernames"
+          "ui.collectingUsernames"
         )}...</h3>
         <p class="lb-text">${this.limitMessage}</p>
         <h1 class="lb-loading-wrapper"><span class='lb-loading'>...</span></h1>
@@ -669,8 +669,8 @@ export default class LikersBlocker {
     let exportBtn = document.createElement("button");
 
     exportBtn.innerHTML = ICONS.share;
-    exportBtn.setAttribute("aria-label", browser.i18n.getMessage("export"));
-    exportBtn.setAttribute("title", browser.i18n.getMessage("export"));
+    exportBtn.setAttribute("aria-label", browser.i18n.getMessage("ui.export"));
+    exportBtn.setAttribute("title", browser.i18n.getMessage("ui.export"));
     exportBtn.classList.add("lb-btn--export");
     exportBtn.style.backgroundColor = this.highlightColor;
 
