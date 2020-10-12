@@ -3,7 +3,6 @@
 *.pem
 *.crx
 node_modules
-src/*.js
 .cache
 *.map
 dist

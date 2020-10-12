@@ -1,0 +1,42 @@
+{
+  "extensionDescription": {
+    "message": "Blockiere auf einen Schlag alle Leute, die bspw. hassschürende Tweets liken oder retweeten.",
+    "description": "Describes the extension."
+  },
+  "usage": {
+    "message": "Kurzanleitung",
+    "description": "Label of the usage guide"
+  },
+  "usageStep1": {
+    "message": "Klicke dazu auf einen Tweet und zeige dir die Liste der Liker an.",
+    "description": "Usage guide step 1"
+  },
+  "usageStep2": {
+    "message": "Oberhalb der Liste findest du eine Button \"Alle Blockieren\".",
+    "description": "Usage guide step 2"
+  },
+  "usageStep3": {
+    "message": "Wenn du darauf klickst und die Aktion bestätigst, öffnet sich der Massenblock-Dienst in einem neuen Fenster.",
+    "description": "Usage guide step 3"
+  },
+  "usageStep4": {
+    "message": "Wenn du dort noch nicht angemeldet bist, muss du dich zunächst mit deinem Twitter-Account authentifizieren.",
+    "description": "Usage guide step 4"
+  },
+  "like": {
+    "message": "Gefällt mir",
+    "description": "Label for the donate button"
+  },
+  "donate": {
+    "message": "Schön, dass dir unsere Arbeit gefällt! 😊<br /> Wir machen das in unserer Freizeit. Das Tool ist und bleibt kostenlos und werbefrei. Vielleicht möchtest du uns ein kleines Trinkgeld als Motivation da lassen?",
+    "description": "text that encourages the user to donate"
+  },
+  "reportBug": {
+    "message": "Fehler melden",
+    "description": "Label for the report bug button "
+  },
+  "contact": {
+    "message": "Kontakt",
+    "description": "label of the contact link"
+  }
+}

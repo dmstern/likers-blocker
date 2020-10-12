@@ -1,0 +1,42 @@
+{
+  "extensionDescription": {
+    "message": "block all visible likers or retweeters of a tweet. – say NO to hate speech! ",
+    "description": "Describes the extension."
+  },
+  "usage": {
+    "message": "Usage",
+    "description": "Label of the usage guide"
+  },
+  "usageStep1": {
+    "message": "Once you click on a tweet, there is a link which indicates how many people liked this tweet. Click on that link to get the list of all likers.",
+    "description": "Usage guide step 1"
+  },
+  "usageStep2": {
+    "message": "Then click on the new button on the top which says \"Block all\".",
+    "description": "Usage guide step 2"
+  },
+  "usageStep3": {
+    "message": "All visible users are being collected. You can chose to block also direct retweeters and then confirm it with the OK Button.",
+    "description": "Usage guide step 3"
+  },
+  "usageStep4": {
+    "message": "The list of users that are about to be blocked opens in new tab. You can still abort, exclude certain users or confirm the block action. If you use it for the first time, you will have to authorize the app to access your twitter account.",
+    "description": "Usage guide step 4"
+  },
+  "like": {
+    "message": "Like",
+    "description": "Label for the donate button"
+  },
+  "donate": {
+    "message": "Glad that you appreciate our work! 😊<br /> We do this in our free time. This tool is and remains free for everyone and free from ads. Would you consider to donate a little tip?",
+    "description": "text that encourages the user to donate"
+  },
+  "reportBug": {
+    "message": "Report bug",
+    "description": "Label for the report bug button "
+  },
+  "contact": {
+    "message": "Contact",
+    "description": "label of the contact link"
+  }
+}
