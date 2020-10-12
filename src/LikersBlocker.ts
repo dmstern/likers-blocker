@@ -107,8 +107,16 @@ export default class LikersBlocker {
     return this.likesCount > settings.LIKERS_LIMIT;
   }
 
-  private get isTweetPage(): boolean {
+  private get isListPage(): boolean {
     return location.href.includes("status");
+  }
+
+  private get isTweetPage(): boolean {
+    return (
+      location.href.includes("list") &&
+      (location.href.endsWith("members") ||
+        location.href.endsWith("subscribers"))
+    );
   }
 
   private get limitMessage() {
@@ -614,7 +622,8 @@ export default class LikersBlocker {
       return;
     }
 
-    var shouldDisplayOnThisPage = this.isBlockPage || this.isTweetPage;
+    var shouldDisplayOnThisPage =
+      this.isBlockPage || this.isTweetPage || this.isListPage;
 
     if (!shouldDisplayOnThisPage) {
       return;
