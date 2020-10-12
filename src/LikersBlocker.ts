@@ -530,7 +530,7 @@ export default class LikersBlocker {
 
     this.collectUsers();
 
-    var reachedUrlLengthMax;
+    var reachedUrlLengthMax: boolean;
 
     if (!this.isBlockPage) {
       this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
