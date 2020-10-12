@@ -9,6 +9,13 @@ function localizeUI() {
   });
 }
 
+function alignRightButton() {
+  const rightButton = document.querySelector(".btn.issue");
+  const leftButton = rightButton.parentElement.children[0];
+  rightButton.style.left = getComputedStyle(leftButton).width;
+}
+
 (function() {
   localizeUI();
+  alignRightButton();
 })();
