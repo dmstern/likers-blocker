@@ -362,7 +362,7 @@ export default class LikersBlocker {
       this.downloadButton.setAttribute("download", "blocklist.txt");
       this.downloadButton.innerHTML = `${
         ICONS.download
-      } <span>${browser.i18n.getMessage("download")}</span>`;
+      } <span>${browser.i18n.getMessage("ui.download")}</span>`;
       this.downloadButton.style.backgroundColor = this.highlightColor;
 
       areaWrapper.classList.add("lb-copy-wrapper");
