@@ -108,15 +108,15 @@ export default class LikersBlocker {
   }
 
   private get isListPage(): boolean {
-    return location.href.includes("status");
-  }
-
-  private get isTweetPage(): boolean {
     return (
       location.href.includes("list") &&
       (location.href.endsWith("members") ||
         location.href.endsWith("subscribers"))
     );
+  }
+
+  private get isTweetPage(): boolean {
+    return location.href.includes("status");
   }
 
   private get limitMessage() {
