@@ -540,6 +540,11 @@ export default class LikersBlocker {
       this.scrolly.scrollTop >=
       this.scrolly.scrollHeight - this.scrolly.clientHeight;
 
+    console.log(
+      this.scrolly.scrollTop,
+      this.scrolly.scrollHeight - this.scrolly.clientHeight
+    );
+
     this.scrolly.scroll({
       top: this.scrolly.scrollTop + this.scrolly.clientHeight,
       left: 0,
@@ -571,10 +576,12 @@ export default class LikersBlocker {
         this.textarea.value = this.requestUrl;
       }
 
-      this.downloadButton.setAttribute(
-        "href",
-        "data:text/plain;charset=utf-8," + encodeURIComponent(this.requestUrl)
-      );
+      if (this.downloadButton) {
+        this.downloadButton.setAttribute(
+          "href",
+          "data:text/plain;charset=utf-8," + encodeURIComponent(this.requestUrl)
+        );
+      }
 
       var confirmHeading = this.popup.querySelector(
         ".lb-confirm-message h3 span"
