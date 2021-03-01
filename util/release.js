@@ -4,13 +4,13 @@ const fs = require("fs");
 const path = require("path");
 
 function adaptManifestVersion() {
-  const package = require("../package.json");
-  const manifest = require("../src/manifest.json");
+  const package = require(path.resolve(__dirname, "../package.json"));
+  const manifest = require(path.resolve(__dirname, "../assets/manifest.json"));
 
   let version = package.version;
   manifest.version = version;
   fs.writeFileSync(
-    path.join(__dirname, "../src/manifest.json"),
+    path.resolve(__dirname, "../assets/manifest.json"),
     JSON.stringify(manifest)
   );
 }
