@@ -10,7 +10,7 @@
     "copy": "ncp assets dist",
     "format": "prettier --write src/*.ts assets/*.css assets/manifest.json",
     "build": "npm run format && npm run lint && npm run compile",
-    "version": "npm run build && node util/release.js && npm run format && git add .",
+    "version": "npm run build && node util/release.js && npm run format && npm run copy && git add .",
     "postversion": "node util/zip.js"
   },
   "repository": {
