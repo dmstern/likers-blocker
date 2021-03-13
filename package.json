@@ -32,7 +32,8 @@
   "homepage": "https://github.com/dmstern/likers-blocker#readme",
   "devDependencies": {
     "@rollup/plugin-typescript": "^6.0.0",
-    "@types/firefox-webext-browser": "^78.0.1",
+    "@types/chrome": "0.0.133",
+    "@types/firefox-webext-browser": "^82.0.0",
     "archiver": "^5.0.0",
     "mkdirp": "^1.0.4",
     "ncp": "^2.0.0",
