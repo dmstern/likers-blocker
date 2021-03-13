@@ -1,5 +1,7 @@
 "use strict";
 
+var browser = browser || chrome;
+
 function localizeUI() {
   const labelNodes = document.querySelectorAll("[data-label]");
   labelNodes.forEach((element) => {
