@@ -42,6 +42,12 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
 - For big lists of likers (hundrets and more), not _all_ likers are blocked, we can only collect those who are visible in the list from twitter.
 
+### Block all members of a list
+
+- Click on a list of twitter users
+- Click on the number of members
+- Proceed with point three above ("Block all")
+
 ### Share your block list with others
 
 Since Twitter has disabled its ability to import/export block lists, _LikersBlocker_ brings back the feature.
