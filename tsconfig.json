@@ -6,5 +6,9 @@
     "module": "es2015",
     "moduleResolution": "node",
   },
-  "include": ["src/*.ts"]
+  "include": ["src/*.ts"],
+  "types": [
+    //(various types, e.g. jquery, core-js),
+    "chrome"
+  ]
 }

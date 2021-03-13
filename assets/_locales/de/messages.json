@@ -7,107 +7,107 @@
     "message": "Blockiere auf einen Schlag alle Leute, die bspw. hassschürende Tweets liken oder retweeten.",
     "description": "Describes the extension."
   },
-  "popup.usage": {
+  "popup_usage": {
     "message": "Kurzanleitung",
     "description": "Label of the usage guide"
   },
-  "popup.usageStep1": {
+  "popup_usageStep1": {
     "message": "Klicke dazu auf einen Tweet und zeige dir die Liste der Liker an.",
     "description": "Usage guide step 1"
   },
-  "popup.usageStep2": {
+  "popup_usageStep2": {
     "message": "Oberhalb der Liste findest du eine Button \"Alle Blockieren\".",
     "description": "Usage guide step 2"
   },
-  "popup.usageStep3": {
+  "popup_usageStep3": {
     "message": "Wenn du darauf klickst und die Aktion bestätigst, öffnet sich der Massenblock-Dienst in einem neuen Fenster.",
     "description": "Usage guide step 3"
   },
-  "popup.usageStep4": {
+  "popup_usageStep4": {
     "message": "Wenn du dort noch nicht angemeldet bist, muss du dich zunächst mit deinem Twitter-Account authentifizieren.",
     "description": "Usage guide step 4"
   },
-  "popup.like": {
+  "popup_like": {
     "message": "Gefällt mir",
     "description": "Label for the donate button"
   },
-  "popup.donate": {
+  "popup_donate": {
     "message": "Schön, dass dir unsere Arbeit gefällt! 😊<br /> Wir machen das in unserer Freizeit. Das Tool ist und bleibt kostenlos und werbefrei. Vielleicht möchtest du uns ein kleines Trinkgeld als Motivation da lassen?",
     "description": "text that encourages the user to donate"
   },
-  "popup.reportBug": {
+  "popup_reportBug": {
     "message": "Fehler melden",
     "description": "Label for the report bug button "
   },
-  "popup.contact": {
+  "popup_contact": {
     "message": "Kontakt",
     "description": "label of the contact link"
   },
-  "ui.blockAll": {
+  "ui_blockAll": {
     "message": "Alle Blockieren",
     "description": "Label for the Block all button"
   },
-  "ui.usersFound": {
+  "ui_usersFound": {
     "message": "Nutzer gefunden.",
     "description": "Message how many users have been collected."
   },
-  "ui.collectingUsernames": {
+  "ui_collectingUsernames": {
     "message": "Sammle Nutzernamen ein",
     "description": "Message that tells the user that the tool is collecting users from a list."
   },
-  "ui.cancel": {
+  "ui_cancel": {
     "message": "Abbrechen",
     "description": "Label for the cancel button"
   },
-  "ui.technicalConstraints": {
+  "ui_technicalConstraints": {
     "message": "Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden, sondern nur max. 80 aus dieser Liste.",
     "description": "Message that is shown if the list is large and not all users may be collected."
   },
-  "ui.repeatBlocking": {
+  "ui_repeatBlocking": {
     "message": "Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.",
     "description": "Hint for the user to workaround the user amount limit."
   },
-  "ui.twitterHides": {
+  "ui_twitterHides": {
     "message": "Evtl. werden einige von Twitter ausgeblendet.",
     "description": "Message that is shown during or after collecting that tells the user that some users may hidden."
   },
-  "ui.onlyListItems": {
+  "ui_onlyListItems": {
     "message": "Wir können nur Liker aus dieser Liste blocken.",
     "description": "Message that tells the user, that only accounts that occur in the list can be blocked."
   },
-  "ui.blockRetweeters": {
+  "ui_blockRetweeters": {
     "message": "Auch alle Retweeter blockieren?",
     "description": "Label of the checkbox where the user can chose to also block retweeters of the liked tweet."
   },
-  "ui.onlyDirectRetweeters": {
+  "ui_onlyDirectRetweeters": {
     "message": "Beinhaltet nur direkte Retweeter ohne Kommentar",
     "description": "Title (tooltip) of the retweeters checkbox"
   },
-  "ui.ok": {
+  "ui_ok": {
     "message": "OK",
     "description": "Label of the OK button"
   },
-  "ui.export": {
+  "ui_export": {
     "message": "Exportieren",
     "description": "Title of the export button"
   },
-  "ui.copyToShare": {
+  "ui_copyToShare": {
     "message": "Text kopieren um als Liste teilen.",
     "description": "Label of the copy to clipboard button."
   },
-  "ui.copied": {
+  "ui_copied": {
     "message": "Kopiert. Teile den Link aus der Zwischenablage mit anderen Personen, um deine Blockliste mit ihnen zu teilen.",
     "description": "Message that tells the user that the content of the block list has been copied to clipboard."
   },
-  "ui.urlLimit": {
+  "ui_urlLimit": {
     "message": "Aufgrund einer URL-Längenbeschränkung wird die Block-Liste evtl. in mehrere Links aufgeteilt.",
     "description": "Info that tells the user that the block list may be divided into several links."
   },
-  "ui.takeAMoment": {
+  "ui_takeAMoment": {
     "message": "Abhängig von der Anzahl geblockter Accounts kann das eine Weile dauern.",
     "description": "Info that the collection of blocked accounts to export them may take long."
   },
-  "ui.divided": {
+  "ui_divided": {
     "message": "In mehrere Links aufgeteilt, weil URL sonst zu lang.",
     "description": "Message that is shown after the collection of blocked account to export them if the list was divided into several links."
   }
