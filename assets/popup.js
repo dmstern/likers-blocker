@@ -9,6 +9,13 @@ function localizeUI() {
     const msg = browser.i18n.getMessage(messageName);
     element.innerHTML = msg;
   });
+
+  const hrefNodes = document.querySelectorAll("[data-href]");
+  hrefNodes.forEach((element) => {
+    const messageName = element.dataset.href;
+    const msg = browser.i18n.getMessage(messageName);
+    element.setAttribute("href", msg);
+  });
 }
 
 function alignRightButton() {
