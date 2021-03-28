@@ -1,4 +1,4 @@
-import {debounce, tryToAccessDOM} from "./util";
+import { debounce, tryToAccessDOM } from "./util";
 import Icons from "./icons";
 import settings from "./settings";
 
