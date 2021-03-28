@@ -83,7 +83,7 @@ To test the extension locally:
 
 ### Build
 
-- Install Node.js >= 10.x
+- Install Node.js 14.x
 
 In the repository directory, run:
 
