@@ -1,0 +1,9 @@
+// For configuration documentation see http://romefrontend.dev/#project-configuration
+name: "likers-blocker"
+lint: {
+	ignore: [
+		".vscode/*"
+		"rollup.config.js"
+]
+}
+root: true

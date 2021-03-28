@@ -1,118 +1,118 @@
 {
-  "extensionName": {
-    "message": "Likers Blocker",
-    "description": "Name of the extension."
-  },
-  "extensionDescription": {
-    "message": "block all visible likers or retweeters of a tweet. – say NO to hate speech! ",
-    "description": "Describes the extension."
-  },
-  "popup_usage": {
-    "message": "Usage",
-    "description": "Label of the usage guide"
-  },
-  "popup_usageStep1": {
-    "message": "Once you click on a tweet, there is a link which indicates how many people liked this tweet. Click on that link to get the list of all likers.",
-    "description": "Usage guide step 1"
-  },
-  "popup_usageStep2": {
-    "message": "Then click on the new button on the top which says \"Block all\".",
-    "description": "Usage guide step 2"
-  },
-  "popup_usageStep3": {
-    "message": "All visible users are being collected. You can chose to block also direct retweeters and then confirm it with the OK Button.",
-    "description": "Usage guide step 3"
-  },
-  "popup_usageStep4": {
-    "message": "The list of users that are about to be blocked opens in new tab. You can still abort, exclude certain users or confirm the block action. If you use it for the first time, you will have to authorize the app to access your twitter account.",
-    "description": "Usage guide step 4"
-  },
-  "popup_like": {
-    "message": "Like",
-    "description": "Label for the donate button"
-  },
-  "popup_donate": {
-    "message": "Glad that you appreciate our work! 😊<br /> We do this in our free time. This tool is and remains free for everyone and free from ads. Would you consider to donate a little tip?",
-    "description": "text that encourages the user to donate"
-  },
-  "popup_reportBug": {
-    "message": "Report bug",
-    "description": "Label for the report bug button "
-  },
-  "popup_contact": {
-    "message": "Contact",
-    "description": "label of the contact link"
-  },
-  "popup_tweet": {
-    "message": "https://twitter.com/share?text=With the LikersBlocker by @d_mstern and @pkreissel you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier",
-    "description": "href for the tweet button"
-  },
-  "ui_blockAll": {
-    "message": "Block all",
-    "description": "Label for the Block all button"
-  },
-  "ui_usersFound": {
-    "message": "users found.",
-    "description": "Message how many users have been collected."
-  },
-  "ui_collectingUsernames": {
-    "message": "Collecting usernames",
-    "description": "Message that tells the user that the tool is collecting users from a list."
-  },
-  "ui_cancel": {
-    "message": "Cancel",
-    "description": "Label for the cancel button"
-  },
-  "ui_technicalConstraints": {
-    "message": "For large like amounts, not all usernames can be collected but only a maximum of 80 users from this list.",
-    "description": "Message that is shown if the list is large and not all users may be collected."
-  },
-  "ui_repeatBlocking": {
-    "message": "You can repeat the block process after the confirmation to block more users.",
-    "description": "Hint for the user to workaround the user amount limit."
-  },
-  "ui_twitterHides": {
-    "message": "Some users may be hidden by Twitter.",
-    "description": "Message that is shown during or after collecting that tells the user that some users may hidden."
-  },
-  "ui_onlyListItems": {
-    "message": "We can only block users from this list",
-    "description": "Message that tells the user, that only accounts that occur in the list can be blocked."
-  },
-  "ui_blockRetweeters": {
-    "message": "Also block retweeters?",
-    "description": "Label of the checkbox where the user can chose to also block retweeters of the liked tweet."
-  },
-  "ui_onlyDirectRetweeters": {
-    "message": "Only includes direct retweeters without a comment.",
-    "description": "Title (tooltip) of the retweeters checkbox"
-  },
-  "ui_ok": {
-    "message": "OK",
-    "description": "Label of the OK button"
-  },
-  "ui_export": {
-    "message": "Export",
-    "description": "Title of the export button"
-  },
-  "ui_copyToShare": {
-    "message": "Copy to share block list.",
-    "description": "Label of the copy to clipboard button."
-  },
-  "ui_copied": {
-    "message": "Copied. Share the link with other persons to share your block list with them.",
-    "description": "Message that tells the user that the content of the block list has been copied to clipboard."
-  },
-  "ui_urlLimit": {
-    "message": "Due to an URL length limit, the block list may be divided into several links.",
-    "description": "Info that tells the user that the block list may be divided into several links."
-  },
-  "ui_takeAMoment": {
-    "message": "Depending on the number of blocked accounts, this may take a while.",
-    "description": "Info that the collection of blocked accounts to export them may take long."
-  },
-  "ui_divided": {
-    "message": "Divided into several links due to URL length limit.",
-    "description": "Message that is shown after the collection of blocked account to export them if the list was divided into several links."
-  }
+	"extensionName": {
+		"message": "Likers Blocker",
+		"description": "Name of the extension."
+	},
+	"extensionDescription": {
+		"message": "block all visible likers or retweeters of a tweet. – say NO to hate speech! ",
+		"description": "Describes the extension."
+	},
+	"popup_usage": {
+		"message": "Usage",
+		"description": "Label of the usage guide"
+	},
+	"popup_usageStep1": {
+		"message": "Once you click on a tweet, there is a link which indicates how many people liked this tweet. Click on that link to get the list of all likers.",
+		"description": "Usage guide step 1"
+	},
+	"popup_usageStep2": {
+		"message": "Then click on the new button on the top which says \"Block all\".",
+		"description": "Usage guide step 2"
+	},
+	"popup_usageStep3": {
+		"message": "All visible users are being collected. You can chose to block also direct retweeters and then confirm it with the OK Button.",
+		"description": "Usage guide step 3"
+	},
+	"popup_usageStep4": {
+		"message": "The list of users that are about to be blocked opens in new tab. You can still abort, exclude certain users or confirm the block action. If you use it for the first time, you will have to authorize the app to access your twitter account.",
+		"description": "Usage guide step 4"
+	},
+	"popup_like": {
+		"message": "Like",
+		"description": "Label for the donate button"
+	},
+	"popup_donate": {
+		"message": "Glad that you appreciate our work! 😊<br /> We do this in our free time. This tool is and remains free for everyone and free from ads. Would you consider to donate a little tip?",
+		"description": "text that encourages the user to donate"
+	},
+	"popup_reportBug": {
+		"message": "Report bug",
+		"description": "Label for the report bug button "
+	},
+	"popup_contact": {
+		"message": "Contact",
+		"description": "label of the contact link"
+	},
+	"popup_tweet": {
+		"message": "https://twitter.com/share?text=With the LikersBlocker by @d_mstern and @pkreissel you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier",
+		"description": "href for the tweet button"
+	},
+	"ui_blockAll": {
+		"message": "Block all",
+		"description": "Label for the Block all button"
+	},
+	"ui_usersFound": {
+		"message": "users found.",
+		"description": "Message how many users have been collected."
+	},
+	"ui_collectingUsernames": {
+		"message": "Collecting usernames",
+		"description": "Message that tells the user that the tool is collecting users from a list."
+	},
+	"ui_cancel": {
+		"message": "Cancel",
+		"description": "Label for the cancel button"
+	},
+	"ui_technicalConstraints": {
+		"message": "For large like amounts, not all usernames can be collected but only a maximum of 80 users from this list.",
+		"description": "Message that is shown if the list is large and not all users may be collected."
+	},
+	"ui_repeatBlocking": {
+		"message": "You can repeat the block process after the confirmation to block more users.",
+		"description": "Hint for the user to workaround the user amount limit."
+	},
+	"ui_twitterHides": {
+		"message": "Some users may be hidden by Twitter.",
+		"description": "Message that is shown during or after collecting that tells the user that some users may hidden."
+	},
+	"ui_onlyListItems": {
+		"message": "We can only block users from this list",
+		"description": "Message that tells the user, that only accounts that occur in the list can be blocked."
+	},
+	"ui_blockRetweeters": {
+		"message": "Also block retweeters?",
+		"description": "Label of the checkbox where the user can chose to also block retweeters of the liked tweet."
+	},
+	"ui_onlyDirectRetweeters": {
+		"message": "Only includes direct retweeters without a comment.",
+		"description": "Title (tooltip) of the retweeters checkbox"
+	},
+	"ui_ok": {
+		"message": "OK",
+		"description": "Label of the OK button"
+	},
+	"ui_export": {
+		"message": "Export",
+		"description": "Title of the export button"
+	},
+	"ui_copyToShare": {
+		"message": "Copy to share block list.",
+		"description": "Label of the copy to clipboard button."
+	},
+	"ui_copied": {
+		"message": "Copied. Share the link with other persons to share your block list with them.",
+		"description": "Message that tells the user that the content of the block list has been copied to clipboard."
+	},
+	"ui_urlLimit": {
+		"message": "Due to an URL length limit, the block list may be divided into several links.",
+		"description": "Info that tells the user that the block list may be divided into several links."
+	},
+	"ui_takeAMoment": {
+		"message": "Depending on the number of blocked accounts, this may take a while.",
+		"description": "Info that the collection of blocked accounts to export them may take long."
+	},
+	"ui_divided": {
+		"message": "Divided into several links due to URL length limit.",
+		"description": "Message that is shown after the collection of blocked account to export them if the list was divided into several links."
+	}
 }
