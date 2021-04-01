@@ -1,6 +1,7 @@
 import {debounce, tryToAccessDOM} from "./util";
 import Icons from "./icons";
 import settings from "./settings";
+import TextStyle from "./TextStyle";
 
 // rome-ignore lint/js/noUndeclaredVariables
 const client = browser || chrome;
@@ -163,9 +164,9 @@ export default class LikersBlocker {
 		return this.isMobile ? document.querySelector("html") : this.scrollList;
 	}
 
-	private get textStyle(): CSSStyleDeclaration {
+	private get textStyle(): TextStyle {
 		let textElement: HTMLElement;
-		let style: CSSStyleDeclaration = new CSSStyleDeclaration();
+		let style: TextStyle;
 		let textElementStyle: CSSStyleDeclaration;
 
 		if (this.isLegacyTwitter) {
@@ -185,10 +186,7 @@ export default class LikersBlocker {
 		}
 
 		textElementStyle = getComputedStyle(textElement);
-		style.color = textElementStyle.color;
-		style.fontFamily = textElementStyle.fontFamily;
-		style.fontStyle = textElementStyle.fontStyle;
-		style.fontWeight = textElementStyle.fontWeight;
+		style = new TextStyle(textElementStyle);
 
 		return style;
 	}
