@@ -42,16 +42,22 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
 - For big lists of likers (hundrets and more), not _all_ likers are blocked, we can only collect those who are visible in the list from twitter.
 
+### Block all members of a list
+
+- Click on a list of twitter users
+- Click on the number of members
+- Proceed with point three above ("Block all")
+
 ### Share your block list with others
 
 Since Twitter has disabled its ability to import/export block lists, _LikersBlocker_ brings back the feature.
 
 #### Export
 
-- Go to "Settings and privacy" > "Content preferences" > "Blocked accounts"
+- Go to "Settings and privacy" > "Content preferences" > "Blocked accounts" (Or just go to https://twitter.com/settings/blocked/all)
 - Click on the share button above the list of blocked accounts
   ![Screenshot](screenshots/likers-blocker-share-block-list-btn.png)
-- Wait a moment until all acocunts from your list are collected
+- Wait a moment until all acocunts from your list are collected (make sure to leave the tab in the foreground to avoid stoping the automatic down scrolling)
 - Copy and share the block links with other persons to share your block list with them.
   ![Screenshot](screenshots/likers-blocker-share-block-list.png)
 
@@ -77,7 +83,7 @@ To test the extension locally:
 
 ### Build
 
-- Install Node.js >= 10.x
+- Install Node.js 14.x
 
 In the repository directory, run:
 

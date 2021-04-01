@@ -1,10 +1,19 @@
 {
-  "compilerOptions": {
-    "lib": ["ES2015", "DOM", "DOM.Iterable"],
-    "target": "ES6",
-    "downlevelIteration": true,
-    "module": "es2015",
-    "moduleResolution": "node",
-  },
-  "include": ["src/*.ts"]
+	"compilerOptions": {
+		"lib": [
+			"ES2015",
+			"DOM",
+			"DOM.Iterable"
+		],
+		"target": "ES6",
+		"downlevelIteration": true,
+		"module": "es2015",
+		"moduleResolution": "node"
+	},
+	"include": [
+		"src/*.ts"
+	],
+	"types": [
+		"chrome"
+	]
 }
