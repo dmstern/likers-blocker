@@ -240,6 +240,9 @@ export default class LikersBlocker {
 
 			this.collectedUsers.push(userUrl.replace("https://twitter.com/", ""));
 		}
+
+		let userCounter = (document.querySelector(".lb-user-counter") as HTMLElement);
+		userCounter.innerText = `${this.collectedUsers.length}`;
 	}
 
 	private async createBlockButton() {
@@ -657,7 +660,7 @@ export default class LikersBlocker {
 			<div class='lb-label lb-collecting'>
 				<h3 id="lb-popup-heading">${client.i18n.getMessage(
 			"ui_collectingUsernames",
-		)}...</h3>
+		)}... <span class="lb-user-counter"></span></h3>
 				<p class="lb-text">${this.limitMessage}</p>
 				<h1 class="lb-loading-wrapper"><span class='lb-loading'>...</span></h1>
 			</div>`;
