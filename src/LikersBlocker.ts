@@ -123,7 +123,7 @@ export default class LikersBlocker {
 
 	private get limitMessage() {
 		if (this.isBlockPage) {
-			return browser.i18n.getMessage("ui_takeAMoment");
+			return client.i18n.getMessage("ui_takeAMoment");
 		}
 		if (this.isListLarge) {
 			return `${client.i18n.getMessage("ui_technicalConstraints")}
@@ -371,7 +371,7 @@ export default class LikersBlocker {
 			this.downloadButton = document.createElement("a");
 			this.downloadButton.classList.add("lb-btn--download");
 			this.downloadButton.setAttribute("download", "blocklist.txt");
-			this.downloadButton.innerHTML = `${Icons.download} <span>${browser.i18n.getMessage(
+			this.downloadButton.innerHTML = `${Icons.download} <span>${client.i18n.getMessage(
 				"ui_download",
 			)}</span>`;
 			this.downloadButton.style.backgroundColor = this.highlightColor;
@@ -700,8 +700,8 @@ export default class LikersBlocker {
 		exportBtn.style.backgroundColor = this.highlightColor;
 
 		importBtn.innerHTML = Icons.import;
-		importBtn.setAttribute("aria-label", browser.i18n.getMessage("ui_import"));
-		importBtn.setAttribute("title", browser.i18n.getMessage("ui_import"));
+		importBtn.setAttribute("aria-label", client.i18n.getMessage("ui_import"));
+		importBtn.setAttribute("title", client.i18n.getMessage("ui_import"));
 		importBtn.classList.add("lb-btn--import");
 		importBtn.style.backgroundColor = this.highlightColor;
 		importBtn.href = settings.IMPORT_URL;
