@@ -149,12 +149,20 @@ export default class LikersBlocker {
 	}
 
 	private get scrollList(): HTMLElement {
-		let scrollList = this.isLegacyTwitter
-			? document.querySelector(".activity-popup-users")
-			: (((((this.topbar?.parentNode)?.parentNode)?.parentNode)?.parentNode)?.children)[1].children[0];
+		let fallbackScrollList = document.querySelector("html");
+		let defaultScrollList = ((((((this.topbar?.parentNode)?.parentNode)?.parentNode)?.parentNode)?.children)[1].children[0] as HTMLElement);
+		let scrollList: HTMLElement;
+
+		if (this.isBlockPage) {
+			scrollList = fallbackScrollList;
+		} else {
+			scrollList = this.isLegacyTwitter
+				? document.querySelector(".activity-popup-users")
+				: defaultScrollList;
+		}
 
 		if (!scrollList) {
-			scrollList = document.querySelector("html");
+			scrollList = fallbackScrollList;
 		}
 
 		return (scrollList as HTMLElement);
