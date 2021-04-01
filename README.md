@@ -54,7 +54,7 @@ Since Twitter has disabled its ability to import/export block lists, _LikersBloc
 
 #### Export
 
-- Go to "Settings and privacy" > "Content preferences" > "Blocked accounts"
+- Go to "Settings and privacy" > "Content preferences" > "Blocked accounts" (Or just go to https://twitter.com/settings/blocked/all)
 - Click on the share button above the list of blocked accounts
   ![Screenshot](screenshots/likers-blocker-share-block-list-btn.png)
 - Wait a moment until all acocunts from your list are collected
