@@ -250,7 +250,7 @@ export default class LikersBlocker {
 		}
 
 		let userCounter = (document.querySelector(".lb-user-counter") as HTMLElement);
-		userCounter.innerText = `${this.collectedUsers.length}`;
+		userCounter.innerText = `${this.users.length}`;
 	}
 
 	private async createBlockButton() {
