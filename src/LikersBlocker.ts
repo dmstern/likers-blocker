@@ -150,12 +150,12 @@ export default class LikersBlocker {
 
 	private get scrollList(): HTMLElement {
 		let fallbackScrollList = document.querySelector("html");
-		let defaultScrollList = ((((((this.topbar?.parentNode)?.parentNode)?.parentNode)?.parentNode)?.children)[1].children[0] as HTMLElement);
 		let scrollList: HTMLElement;
 
 		if (this.isBlockPage) {
 			scrollList = fallbackScrollList;
 		} else {
+			let defaultScrollList = ((((((this.topbar?.parentNode)?.parentNode)?.parentNode)?.parentNode)?.children)[1].children[0] as HTMLElement);
 			scrollList = this.isLegacyTwitter
 				? document.querySelector(".activity-popup-users")
 				: defaultScrollList;
