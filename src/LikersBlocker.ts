@@ -575,61 +575,67 @@ export default class LikersBlocker {
 		}
 
 		if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
-			console.info("finished collecting!");
-
-			if (this.isBlockPage) {
-				this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
-			}
-
-			if (this.confirmButton) {
-				this.confirmButton.href = this.requestUrl;
-			}
-
-			if (this.textarea) {
-				this.textarea.value = this.requestUrl;
-			}
-
-			if (this.isBlockPage && this.requestUrl.length > settings.URL_LENGTH_MAX) {
-				document.querySelector("body").classList.add("many");
-				let requestCount = this.requestUrl.length / settings.URL_LENGTH_MAX;
-				let usersPerRequest = this.users.length / requestCount;
-
-				for (let i = 0; i <= requestCount; i++) {
-					let linkClone = this.textarea.parentNode.cloneNode(true);
-					this.textarea.parentNode.parentNode.appendChild(linkClone);
-					let textarea = (linkClone.childNodes.item(1) as HTMLTextAreaElement);
-					let copyButton = textarea.parentElement.querySelector("button");
-
-					copyButton.addEventListener(
-						"click",
-						() => {
-							this.handleCopyClick(textarea, copyButton);
-						},
-					);
-
-					let requestUrl = `${settings.API_URL_BLOCK}?users=${this.users.slice(
-						usersPerRequest * i,
-						usersPerRequest * (i + 1),
-					)}`;
-					textarea.value = requestUrl;
-				}
-			}
-
-			const confirmHeading = this.popup.querySelector(
-				".lb-confirm-message h3 span",
+			console.info(
+				"finished collecting!",
+				{scrolledToBottom, scrollListIsSmall, reachedUrlLengthMax},
 			);
-			confirmHeading.innerHTML = `${this.users.length} ${confirmHeading.innerHTML}`;
-			this.stopScrolling();
-			this.popup.classList.add("lb-check");
-			const checkmark = this.popup.querySelector(".lb-checkmark");
-
-			checkmark.addEventListener(
-				"transitionend",
-				() => {
-					this.changeStateToConfirm();
-				},
-			);
+			this.finishCollecting();
 		}
+	}
+
+	private finishCollecting(): void {
+		if (this.isBlockPage) {
+			this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
+		}
+
+		if (this.confirmButton) {
+			this.confirmButton.href = this.requestUrl;
+		}
+
+		if (this.textarea) {
+			this.textarea.value = this.requestUrl;
+		}
+
+		if (this.isBlockPage && this.requestUrl.length > settings.URL_LENGTH_MAX) {
+			document.querySelector("body").classList.add("many");
+			let requestCount = this.requestUrl.length / settings.URL_LENGTH_MAX;
+			let usersPerRequest = this.users.length / requestCount;
+
+			for (let i = 0; i <= requestCount; i++) {
+				let linkClone = this.textarea.parentNode.cloneNode(true);
+				this.textarea.parentNode.parentNode.appendChild(linkClone);
+				let textarea = (linkClone.childNodes.item(1) as HTMLTextAreaElement);
+				let copyButton = textarea.parentElement.querySelector("button");
+
+				copyButton.addEventListener(
+					"click",
+					() => {
+						this.handleCopyClick(textarea, copyButton);
+					},
+				);
+
+				let requestUrl = `${settings.API_URL_BLOCK}?users=${this.users.slice(
+					usersPerRequest * i,
+					usersPerRequest * (i + 1),
+				)}`;
+				textarea.value = requestUrl;
+			}
+		}
+
+		const confirmHeading = this.popup.querySelector(
+			".lb-confirm-message h3 span",
+		);
+		confirmHeading.innerHTML = `${this.users.length} ${confirmHeading.innerHTML}`;
+		this.stopScrolling();
+		this.popup.classList.add("lb-check");
+		const checkmark = this.popup.querySelector(".lb-checkmark");
+
+		checkmark.addEventListener(
+			"transitionend",
+			() => {
+				this.changeStateToConfirm();
+			},
+		);
 	}
 
 	private setUpBlockButton = async () => {
