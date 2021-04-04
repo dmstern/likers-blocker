@@ -338,19 +338,18 @@ export default class LikersBlocker {
 		checkmark.innerHTML = Icons.checkmark;
 
 		if (this.checkbox) {
-			this.checkbox.addEventListener(
-				"change",
-				() => {
-					let tweetParam: string;
-					if (this.checkbox.checked) {
-						tweetParam = `&tweet_id=${this.tweetId}`;
-					}
+			this.checkbox.addEventListener("change", this.handleIncludeRetweetersCheckboxChange);
+		}
+	}
 
-					if (this.confirmButton) {
-						this.confirmButton.href = `${this.requestUrl}${tweetParam}`;
-					}
-				},
-			);
+	handleIncludeRetweetersCheckboxChange = () => {
+		let tweetParam: string;
+		if (this.checkbox.checked) {
+			tweetParam = `&tweet_id=${this.tweetId}`;
+		}
+
+		if (this.confirmButton) {
+			this.confirmButton.href = `${this.requestUrl}${tweetParam}`;
 		}
 	}
 
@@ -482,25 +481,24 @@ export default class LikersBlocker {
 			250,
 		);
 
-		document.addEventListener(
-			"keydown",
-			(event) => {
-				if (event.key === "Escape") {
-					this.stopScrolling();
-					this.closePopup();
-				}
-
-				const circleTabInModalPopup = () => {
-					const focusIsInPopup = this.popup.matches(":focus-within");
-					if (event.key === "Tab" && !focusIsInPopup) {
-						this.popup.focus();
-					}
-				};
-
-				setTimeout(circleTabInModalPopup, 0);
-			},
-		);
+		document.addEventListener("keydown", this.handleKeydown,);
 	}
+
+	private handleKeydown = (event: KeyboardEvent) => {
+		if (event.key === "Escape") {
+			this.stopScrolling();
+			this.closePopup();
+		}
+
+		const circleTabInModalPopup = () => {
+			const focusIsInPopup = this.popup.matches(":focus-within");
+			if (event.key === "Tab" && !focusIsInPopup) {
+				this.popup.focus();
+			}
+		};
+
+		setTimeout(circleTabInModalPopup, 0);
+	};
 
 	private handleCopyClick(
 		textarea: HTMLTextAreaElement,
