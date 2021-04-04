@@ -33,6 +33,7 @@ export default class LikersBlocker {
 	private confirmMessageElement: HTMLElement;
 	private legacyTwitter: boolean;
 	private likesCount: number;
+	private largeList: boolean;
 	private popup: HTMLElement;
 	private popupWrapper: HTMLElement;
 	private requestUrl: string;
@@ -106,7 +107,7 @@ export default class LikersBlocker {
 	}
 
 	private get isListLarge() {
-		return this.likesCount > settings.LIKERS_LIMIT;
+		return this.largeList || this.likesCount > settings.LIKERS_LIMIT;
 	}
 
 	private get isListPage(): boolean {
@@ -742,21 +743,12 @@ export default class LikersBlocker {
 		}
 
 		const likesCountText = likesCountElement.textContent;
-		const lastCharacter = likesCountText.slice(-1);
+		const chars = likesCountText.split("");
+		this.largeList = chars.some((char) => isNaN(Number(char)));
 
-		let multiplier = 1;
-		if (lastCharacter === "K") {
-			multiplier = 1_000;
-		} else if (lastCharacter === "M") {
-			multiplier = 1_000_000;
+		if (!this.largeList) {
+			this.likesCount = parseInt(likesCountText);
 		}
-
-		this.likesCount =
-			multiplier === 1
-				? // german number format:
-					parseInt(likesCountText.replace(".", ""), 10)
-				: // english number format:
-					parseFloat(likesCountText) * multiplier;
 	};
 
 	private shrinkPopupToVisibleContent() {
