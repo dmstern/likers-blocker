@@ -503,7 +503,7 @@ export default class LikersBlocker {
 					}
 				};
 
-				setTimeout(circleTabInModalPopup,	0);
+				setTimeout(circleTabInModalPopup, 0);
 			},
 		);
 	}
