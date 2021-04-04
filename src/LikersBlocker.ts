@@ -34,6 +34,7 @@ export default class LikersBlocker {
 	private confirmMessageElement: HTMLElement;
 	private legacyTwitter: boolean;
 	private likesCount: number;
+	private largeList: boolean;
 	private popup: HTMLElement;
 	private popupWrapper: HTMLElement;
 	private requestUrl: string;
@@ -107,7 +108,7 @@ export default class LikersBlocker {
 	}
 
 	private get isListLarge() {
-		return this.likesCount > settings.LIKERS_LIMIT;
+		return this.largeList || this.likesCount > settings.LIKERS_LIMIT;
 	}
 
 	private get isListPage(): boolean {
@@ -587,42 +588,48 @@ export default class LikersBlocker {
 		}
 
 		if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
-			console.info("finished collecting!");
-
-			if (this.isBlockPage) {
-				this.requestUrl = `${this.users}`;
-			}
-
-			if (this.confirmButton) {
-				this.confirmButton.href = this.requestUrl;
-			}
-
-			if (this.textarea) {
-				this.textarea.value = this.requestUrl;
-			}
-
-			if (this.downloadButton) {
-				this.downloadButton.setAttribute(
-					"href",
-					`data:text/plain;charset=utf-8,${encodeURIComponent(this.requestUrl)}`,
-				);
-			}
-
-			const confirmHeading = this.popup.querySelector(
-				".lb-confirm-message h3 span",
+			console.info(
+				"finished collecting!",
+				{scrolledToBottom, scrollListIsSmall, reachedUrlLengthMax},
 			);
-			confirmHeading.innerHTML = `${this.users.length} ${confirmHeading.innerHTML}`;
-			this.stopScrolling();
-			this.popup.classList.add("lb-check");
-			const checkmark = this.popup.querySelector(".lb-checkmark");
+			this.finishCollecting();
+		}
+	}
 
-			checkmark.addEventListener(
-				"transitionend",
-				() => {
-					this.changeStateToConfirm();
-				},
+	private finishCollecting(): void {
+		if (this.isBlockPage) {
+			this.requestUrl = `${this.users}`;
+		}
+
+		if (this.confirmButton) {
+			this.confirmButton.href = this.requestUrl;
+		}
+
+		if (this.textarea) {
+			this.textarea.value = this.requestUrl;
+		}
+
+		if (this.downloadButton) {
+			this.downloadButton.setAttribute(
+				"href",
+				`data:text/plain;charset=utf-8,${encodeURIComponent(this.requestUrl)}`,
 			);
 		}
+
+		const confirmHeading = this.popup.querySelector(
+			".lb-confirm-message h3 span",
+		);
+		confirmHeading.innerHTML = `${this.users.length} ${confirmHeading.innerHTML}`;
+		this.stopScrolling();
+		this.popup.classList.add("lb-check");
+		const checkmark = this.popup.querySelector(".lb-checkmark");
+
+		checkmark.addEventListener(
+			"transitionend",
+			() => {
+				this.changeStateToConfirm();
+			},
+		);
 	}
 
 	private setUpBlockButton = async () => {
@@ -739,21 +746,12 @@ export default class LikersBlocker {
 		}
 
 		const likesCountText = likesCountElement.textContent;
-		const lastCharacter = likesCountText.slice(-1);
+		const chars = likesCountText.split("");
+		this.largeList = chars.some((char) => isNaN(Number(char)));
 
-		let multiplyer = 1;
-		if (lastCharacter === "K") {
-			multiplyer = 1_000;
-		} else if (lastCharacter === "M") {
-			multiplyer = 1_000_000;
+		if (!this.largeList) {
+			this.likesCount = parseInt(likesCountText);
 		}
-
-		this.likesCount =
-			multiplyer === 1
-				? // german number format:
-					parseInt(likesCountText.replace(".", ""))
-				: // english number format:
-					parseFloat(likesCountText) * multiplyer;
 	};
 
 	private shrinkPopupToVisibleContent() {
