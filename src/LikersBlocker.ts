@@ -496,18 +496,14 @@ export default class LikersBlocker {
 					this.closePopup();
 				}
 
-				// Circle focus in modal popup:
-				setTimeout(
-					() => {
-						if (event.key === "Tab") {
-							const focusIsInPopup = this.popup.matches(":focus-within");
-							if (!focusIsInPopup) {
-								this.popup.focus();
-							}
-						}
-					},
-					0,
-				);
+				const circleTabInModalPopup = () => {
+					const focusIsInPopup = this.popup.matches(":focus-within");
+					if (event.key === "Tab" && !focusIsInPopup) {
+						this.popup.focus();
+					}
+				};
+
+				setTimeout(circleTabInModalPopup,	0);
 			},
 		);
 	}
