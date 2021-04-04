@@ -748,7 +748,7 @@ export default class LikersBlocker {
 		this.likesCount =
 			multiplyer === 1
 				? // german number format:
-					parseInt(likesCountText.replace(".", ""))
+					parseInt(likesCountText.replace(".", ""), 10)
 				: // english number format:
 					parseFloat(likesCountText) * multiplyer;
 	};
