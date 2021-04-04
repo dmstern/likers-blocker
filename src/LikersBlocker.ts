@@ -744,19 +744,19 @@ export default class LikersBlocker {
 		const likesCountText = likesCountElement.textContent;
 		const lastCharacter = likesCountText.slice(-1);
 
-		let multiplyer = 1;
+		let multiplier = 1;
 		if (lastCharacter === "K") {
-			multiplyer = 1_000;
+			multiplier = 1_000;
 		} else if (lastCharacter === "M") {
-			multiplyer = 1_000_000;
+			multiplier = 1_000_000;
 		}
 
 		this.likesCount =
-			multiplyer === 1
+			multiplier === 1
 				? // german number format:
 					parseInt(likesCountText.replace(".", ""), 10)
 				: // english number format:
-					parseFloat(likesCountText) * multiplyer;
+					parseFloat(likesCountText) * multiplier;
 	};
 
 	private shrinkPopupToVisibleContent() {
