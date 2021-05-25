@@ -226,7 +226,7 @@ export default class LikersBlocker {
 		this.scrollList.classList.remove("lb-blur");
 
 		// Reset focus on old twitter popup:
-		setTimeout(
+		window.setTimeout(
 			() => {
 				(this.popupContainer.querySelector("[data-focusable='true']") as HTMLElement).focus();
 			},
@@ -338,7 +338,10 @@ export default class LikersBlocker {
 		checkmark.innerHTML = Icons.checkmark;
 
 		if (this.checkbox) {
-			this.checkbox.addEventListener("change", this.handleIncludeRetweetersCheckboxChange);
+			this.checkbox.addEventListener(
+				"change",
+				this.handleIncludeRetweetersCheckboxChange,
+			);
 		}
 	}
 
@@ -351,7 +354,7 @@ export default class LikersBlocker {
 		if (this.confirmButton) {
 			this.confirmButton.href = `${this.requestUrl}${tweetParam}`;
 		}
-	}
+	};
 
 	private createCloseButton() {
 		const closeButton = (document.createElement("button") as HTMLButtonElement);
@@ -467,21 +470,21 @@ export default class LikersBlocker {
 		this.popup.style.color = this.highlightColor;
 		this.popup.innerHTML = content;
 
-		setTimeout(
+		window.setTimeout(
 			() => {
 				this.popup.focus();
 			},
 			0,
 		);
 
-		setTimeout(
+		window.setTimeout(
 			() => {
 				this.popupWrapper.classList.remove("lb-hide");
 			},
 			250,
 		);
 
-		document.addEventListener("keydown", this.handleKeydown,);
+		document.addEventListener("keydown", this.handleKeydown);
 	}
 
 	private handleKeydown = (event: KeyboardEvent) => {
@@ -497,7 +500,7 @@ export default class LikersBlocker {
 			}
 		};
 
-		setTimeout(circleTabInModalPopup, 0);
+		window.setTimeout(circleTabInModalPopup, 0);
 	};
 
 	private handleCopyClick(
@@ -514,7 +517,7 @@ export default class LikersBlocker {
 		copyButton.setAttribute("disabled", "true");
 
 		// Reset button label after a while:
-		setTimeout(
+		window.setTimeout(
 			() => {
 				copyButton.innerHTML = copyButtonLabel;
 				copyButton.style.color = this.textStyle.color;
@@ -758,7 +761,7 @@ export default class LikersBlocker {
 		this.scrollList.classList.add("lb-blur");
 		this.scrolly.scrollTo(0, 0);
 		this.collectedUsers = [];
-		this.scrollInterval = setInterval(
+		this.scrollInterval = window.setInterval(
 			() => {
 				this.scrollDown();
 			},
