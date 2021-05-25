@@ -15,9 +15,11 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
 ## Installation
 
-[![Firefox](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Firefox_logo%2C_2019.svg/68px-Firefox_logo%2C_2019.svg.png) Install Extension for Mozilla Firefox](https://addons.mozilla.org/firefox/addon/likers-blocker/)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Firefox_logo%2C_2019.svg/68px-Firefox_logo%2C_2019.svg.png" width="64" height="auto" alt="Firefox"> Install Extension for Mozilla Firefox](https://addons.mozilla.org/firefox/addon/likers-blocker/)
 
-[![Chrome](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Chrome_icon_%28September_2014%29.svg/64px-Google_Chrome_icon_%28September_2014%29.svg.png) Install Extension for Google Chrome](https://chrome.google.com/webstore/detail/melnbpmfhaejmcpfflfjmchondkpmkcj/)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Chrome_icon_%28September_2014%29.svg/64px-Google_Chrome_icon_%28September_2014%29.svg.png" width="64" height="auto" alt="Chrome"> Install Extension for Google Chrome](https://chrome.google.com/webstore/detail/melnbpmfhaejmcpfflfjmchondkpmkcj/)
+
+[<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Opera_2015_icon.svg/150px-Opera_2015_icon.svg.png" width="64" height="auto" alt="Opera"> Install Add-On for Opera](https://addons.opera.com/de/extensions/details/likers-blocker/)
 
 ## Usage
 
