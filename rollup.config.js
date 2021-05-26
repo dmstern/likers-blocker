@@ -5,14 +5,7 @@ export default {
   input: "src/index.ts",
   output: {
     dir: "dist",
-    format: "iife",
+    format: "iife"
   },
-  plugins: [
-    typescript(),
-    terser({
-      mangle: {
-        properties: true,
-      },
-    }),
-  ],
+  plugins: [typescript(), terser()]
 };
