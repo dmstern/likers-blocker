@@ -96,7 +96,11 @@
 		"description": "Title of the export button"
 	},
 	"ui_copyToShare": {
-		"message": "Copy to share block list.",
+		"message": "Copy or download to share block list.",
+		"description": "Hint in the heading when all blocked accounts are collected to share them."
+	},
+	"ui_copy": {
+		"message": "Copy to clipboard",
 		"description": "Label of the copy to clipboard button."
 	},
 	"ui_copied": {
@@ -114,5 +118,13 @@
 	"ui_divided": {
 		"message": "Divided into several links due to URL length limit.",
 		"description": "Message that is shown after the collection of blocked account to export them if the list was divided into several links."
+	},
+	"ui_import": {
+		"message": "Import",
+		"description": "Title of the import button"
+	},
+	"ui_download": {
+		"message": "Download",
+		"description": "Title of the export button"
 	}
 }

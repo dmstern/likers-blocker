@@ -13,7 +13,7 @@
     },
     {
       "type": "npm",
-      "script": "format",
+      "script": "test",
       "problemMatcher": []
     },
     {

@@ -66,39 +66,37 @@ body.lb-block-page.many
   margin-left: 0.5em;
 }
 
-.lb-divided-msg {
+/* .lb-divided-msg {
   display: none;
 }
 
 body.lb-block-page.many .lb-divided-msg {
   display: inline;
-}
+} */
 
 body.lb-block-page .lb-popup {
   height: auto !important;
 }
 
-body.lb-block-page.many .lb-popup.lb-confirm {
+body.lb-block-page .lb-popup.lb-confirm {
   width: 50%;
   height: 700px !important;
 }
 
 @media screen and (min-width: 440px) {
-  body.lb-block-page.many .lb-popup.lb-confirm {
+  body.lb-block-page .lb-popup.lb-confirm {
     margin-left: -25%;
   }
 }
 
-body.lb-block-page.many .lb-popup.lb-confirm .lb-label.lb-confirm-message {
+body.lb-block-page .lb-popup.lb-confirm .lb-label.lb-confirm-message {
   margin-top: 5rem;
-  padding-right: 1rem;
-  max-height: calc(100% - 1.5rem);
-  overflow-y: auto;
+  padding-right: 0.5rem;
 }
 
-body.lb-block-page.many .lb-popup.lb-confirm .lb-label.lb-confirm-message h3 {
+body.lb-block-page .lb-popup.lb-confirm .lb-label.lb-confirm-message h3 {
   position: fixed;
-  transform: translateY(-150%);
+  transform: translateY(-200%);
 }
 
 .lb-confirm .lb-loading {
@@ -265,26 +263,94 @@ body.lb-legacy-twitter .lb-checkmark {
   color: inherit !important;
 }
 
+.lb-btn--import,
 .lb-btn--export {
   position: absolute;
   top: -2.5rem;
+  width: 3.5rem;
   right: 1rem;
-  width: 3rem;
   height: 3rem;
-  border-radius: 50%;
-  border: 1px solid #33333333;
   background: white;
   transition: all 200ms ease-in-out;
   cursor: pointer;
   box-shadow: 0 0 5px #00000033;
-  opacity: 0.7;
+  opacity: 0.9;
   color: white;
+  display: block;
+  font-size: 1rem;
+  line-height: 1em;
+  border: none;
 }
 
+.lb-btn--export {
+  border-bottom-right-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+}
+
+.lb-btn--import {
+  text-align: center;
+  border-bottom-left-radius: 1.5rem;
+  border-top-left-radius: 1.5rem;
+  transform: translateX(-100%);
+}
+
+.lb-btn--import svg {
+  margin-top: 0.5em;
+}
+
+.lb-btn--import:hover,
 .lb-btn--export:hover {
   opacity: 1;
   box-shadow: 0 0 10px #00000077;
   transform: scale(1.1);
+}
+
+.lb-btn--import:hover {
+  transform: translateX(-100%) scale(1.1);
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.lb-btn--export:hover {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.lb-btn--import svg,
+.lb-btn--export svg {
+  width: 2rem;
+  height: auto;
+}
+
+.lb-btn--download {
+  position: absolute;
+  background: white;
+  transition: all 200ms ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 0 5px #00000033;
+  opacity: 0.9;
+  color: white;
+  display: block;
+  font-size: 1rem;
+  line-height: 1em;
+  border: none;
+  border-radius: 1.7em;
+  padding: 0.7em 1.2em;
+  display: flex;
+  text-decoration: none;
+  right: 0.5rem;
+  bottom: -3rem;
+  font-weight: bold;
+}
+
+.lb-btn--download svg {
+  height: 1rem;
+  width: auto;
+  margin-right: 0.2em;
+}
+
+.lb-btn--download span {
+  text-decoration: inherit;
 }
 
 .lb-copy-wrapper {
@@ -329,7 +395,7 @@ body.lb-legacy-twitter .lb-block-button {
 
 .lb-textarea {
   width: 100%;
-  height: 5rem;
+  height: 32rem;
 }
 
 .lb-checkbox {
@@ -368,6 +434,8 @@ body.lb-legacy-twitter .lb-block-button {
   fill: currentColor;
 }
 
-a[class*="lb-"] {
+a.lb-close-button,
+a.lb-block-button,
+a.lb-confirm-button {
   background-color: transparent !important;
 }

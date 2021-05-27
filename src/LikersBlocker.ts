@@ -30,6 +30,7 @@ export default class LikersBlocker {
 	private checkbox: HTMLInputElement;
 	private collectedUsers: Array<string>;
 	private confirmButton: HTMLLinkElement;
+	private downloadButton: HTMLAnchorElement;
 	private confirmMessageElement: HTMLElement;
 	private legacyTwitter: boolean;
 	private likesCount: number;
@@ -124,9 +125,7 @@ export default class LikersBlocker {
 
 	private get limitMessage() {
 		if (this.isBlockPage) {
-			return `${client.i18n.getMessage("ui_takeAMoment")} ${client.i18n.getMessage(
-				"ui_urlLimit",
-			)}`;
+			return client.i18n.getMessage("ui_takeAMoment");
 		}
 		if (this.isListLarge) {
 			return `${client.i18n.getMessage("ui_technicalConstraints")}
@@ -381,12 +380,19 @@ export default class LikersBlocker {
 		if (this.isBlockPage) {
 			let areaWrapper = document.createElement("div");
 			let copyButton = document.createElement("button");
+			this.downloadButton = document.createElement("a");
+			this.downloadButton.classList.add("lb-btn--download");
+			this.downloadButton.setAttribute("download", "blocklist.txt");
+			this.downloadButton.innerHTML = `${Icons.download} <span>${client.i18n.getMessage(
+				"ui_download",
+			)}</span>`;
+			this.downloadButton.style.backgroundColor = this.highlightColor;
 
 			areaWrapper.classList.add("lb-copy-wrapper");
 			copyButton.classList.add("lb-copy-button");
 			copyButton.style.color = this.textStyle.color;
 			copyButton.innerHTML = `${Icons.clipboardCopy} <span>${client.i18n.getMessage(
-				"ui_copyToShare",
+				"ui_copy",
 			)}</span>`;
 			this.textarea = document.createElement("textarea");
 			this.textarea.readOnly = true;
@@ -394,6 +400,7 @@ export default class LikersBlocker {
 
 			areaWrapper.appendChild(copyButton);
 			areaWrapper.appendChild(this.textarea);
+			areaWrapper.appendChild(this.downloadButton);
 
 			copyButton.addEventListener(
 				"click",
@@ -442,12 +449,12 @@ export default class LikersBlocker {
 
 		headingContent1.innerHTML = client.i18n.getMessage("ui_usersFound");
 		headingContent2.innerHTML = this.isBlockPage
-			? client.i18n.getMessage("ui_divided")
+			? client.i18n.getMessage("ui_copyToShare")
 			: `${client.i18n.getMessage("ui_blockAll")}?`;
 
-		if (this.isBlockPage) {
-			headingContent2.classList.add("lb-divided-msg");
-		}
+		// if (this.isBlockPage) {
+		// 	headingContent2.classList.add("lb-divided-msg");
+		// }
 
 		heading.append(headingContent1, headingContent2);
 		this.confirmMessageElement.append(heading);
@@ -560,6 +567,11 @@ export default class LikersBlocker {
 			this.scrolly.scrollTop >=
 			this.scrolly.scrollHeight - this.scrolly.clientHeight;
 
+		console.log(
+			this.scrolly.scrollTop,
+			this.scrolly.scrollHeight - this.scrolly.clientHeight,
+		);
+
 		this.scrolly.scroll({
 			top: this.scrolly.scrollTop + this.scrolly.clientHeight,
 			left: 0,
@@ -587,7 +599,7 @@ export default class LikersBlocker {
 
 	private finishCollecting(): void {
 		if (this.isBlockPage) {
-			this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
+			this.requestUrl = `${this.users}`;
 		}
 
 		if (this.confirmButton) {
@@ -598,30 +610,11 @@ export default class LikersBlocker {
 			this.textarea.value = this.requestUrl;
 		}
 
-		if (this.isBlockPage && this.requestUrl.length > settings.URL_LENGTH_MAX) {
-			document.querySelector("body").classList.add("many");
-			let requestCount = this.requestUrl.length / settings.URL_LENGTH_MAX;
-			let usersPerRequest = this.users.length / requestCount;
-
-			for (let i = 0; i <= requestCount; i++) {
-				let linkClone = this.textarea.parentNode.cloneNode(true);
-				this.textarea.parentNode.parentNode.appendChild(linkClone);
-				let textarea = (linkClone.childNodes.item(1) as HTMLTextAreaElement);
-				let copyButton = textarea.parentElement.querySelector("button");
-
-				copyButton.addEventListener(
-					"click",
-					() => {
-						this.handleCopyClick(textarea, copyButton);
-					},
-				);
-
-				let requestUrl = `${settings.API_URL_BLOCK}?users=${this.users.slice(
-					usersPerRequest * i,
-					usersPerRequest * (i + 1),
-				)}`;
-				textarea.value = requestUrl;
-			}
+		if (this.downloadButton) {
+			this.downloadButton.setAttribute(
+				"href",
+				`data:text/plain;charset=utf-8,${encodeURIComponent(this.requestUrl)}`,
+			);
 		}
 
 		const confirmHeading = this.popup.querySelector(
@@ -711,6 +704,7 @@ export default class LikersBlocker {
 		}
 
 		let exportBtn = document.createElement("button");
+		let importBtn = document.createElement("a");
 
 		exportBtn.innerHTML = Icons.share;
 		exportBtn.setAttribute("aria-label", client.i18n.getMessage("ui_export"));
@@ -718,7 +712,16 @@ export default class LikersBlocker {
 		exportBtn.classList.add("lb-btn--export");
 		exportBtn.style.backgroundColor = this.highlightColor;
 
+		importBtn.innerHTML = Icons.import;
+		importBtn.setAttribute("aria-label", client.i18n.getMessage("ui_import"));
+		importBtn.setAttribute("title", client.i18n.getMessage("ui_import"));
+		importBtn.classList.add("lb-btn--import");
+		importBtn.style.backgroundColor = this.highlightColor;
+		importBtn.href = settings.IMPORT_URL;
+		importBtn.target = "_blank";
+
 		blockedListContainer.appendChild(exportBtn);
+		blockedListContainer.appendChild(importBtn);
 
 		exportBtn.addEventListener(
 			"click",
