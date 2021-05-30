@@ -3,7 +3,6 @@ import Icons from "./icons";
 import settings from "./settings";
 import TextStyle from "./TextStyle";
 
-// rome-ignore lint/js/noUndeclaredVariables
 const client = browser || chrome;
 
 const TOPBAR_SELECTOR = {

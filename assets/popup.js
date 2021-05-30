@@ -1,5 +1,4 @@
 "use strict";
-// rome-ignore lint/js/noUndeclaredVariables
 const client = browser || chrome;
 
 function localizeUI() {
