@@ -5,7 +5,7 @@
 			"DOM",
 			"DOM.Iterable"
 		],
-		"target": "ES6",
+		"target": "ES2017",
 		"downlevelIteration": true,
 		"module": "es2015",
 		"moduleResolution": "node"
