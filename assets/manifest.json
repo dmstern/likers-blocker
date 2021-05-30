@@ -22,6 +22,7 @@
 	],
 	"permissions": [
 		"https://twitter.com/*",
+		"https://api.twitter.com/*",
 		"https://ichbinhier-twittertools.herokuapp.com/blocklists",
 		"clipboardRead",
 		"clipboardWrite"
