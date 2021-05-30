@@ -234,25 +234,25 @@ export default class LikersBlocker {
 		);
 	}
 
-	private collectUsers() {
-		// rome-ignore lint/js/noUndeclaredVariables
-		let userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
-			? this.scrollList.querySelectorAll("a.js-user-profile-link")
-			: this.scrollList.querySelectorAll(
-					'[data-testid="UserCell"] > div > div > div > div > a',
-				);
+	// private collectUsers() {
+	// 	// rome-ignore lint/js/noUndeclaredVariables
+	// 	let userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
+	// 		? this.scrollList.querySelectorAll("a.js-user-profile-link")
+	// 		: this.scrollList.querySelectorAll(
+	// 				'[data-testid="UserCell"] > div > div > div > div > a',
+	// 			);
 
-		let users: Array<HTMLAnchorElement> = Array.from(userCells);
+	// 	let users: Array<HTMLAnchorElement> = Array.from(userCells);
 
-		for (let userLink of users) {
-			let userUrl = userLink.href;
+	// 	for (let userLink of users) {
+	// 		let userUrl = userLink.href;
 
-			this.collectedUsers.push(userUrl.replace("https://twitter.com/", ""));
-		}
+	// 		this.collectedUsers.push(userUrl.replace("https://twitter.com/", ""));
+	// 	}
 
-		let userCounter = (document.querySelector(".lb-user-counter") as HTMLElement);
-		userCounter.innerText = `${this.users.length}`;
-	}
+	// 	let userCounter = (document.querySelector(".lb-user-counter") as HTMLElement);
+	// 	userCounter.innerText = `${this.users.length}`;
+	// }
 
 	private async createBlockButton() {
 		let followButton: HTMLElement = this.isLegacyTwitter
@@ -372,7 +372,7 @@ export default class LikersBlocker {
 			"click",
 			() => {
 				this.closePopup();
-				this.stopScrolling();
+				// this.stopScrolling();
 			},
 		);
 	}
@@ -489,7 +489,7 @@ export default class LikersBlocker {
 
 	private handleKeydown = (event: KeyboardEvent) => {
 		if (event.key === "Escape") {
-			this.stopScrolling();
+			// this.stopScrolling();
 			this.closePopup();
 		}
 
@@ -550,40 +550,40 @@ export default class LikersBlocker {
 		loadingIndicator.addEventListener("animationiteration", checkAnimationState);
 
 		this.shrinkPopupToVisibleContent();
-		this.startScrolling();
+		// this.startScrolling();
 	}
 
-	private async scrollDown() {
-		const scrollListIsSmall =
-			this.scrolly.scrollHeight < this.scrolly.clientHeight * 2;
-		const scrolledToBottom =
-			this.scrolly.scrollTop >=
-			this.scrolly.scrollHeight - this.scrolly.clientHeight;
+	// private async scrollDown() {
+	// 	const scrollListIsSmall =
+	// 		this.scrolly.scrollHeight < this.scrolly.clientHeight * 2;
+	// 	const scrolledToBottom =
+	// 		this.scrolly.scrollTop >=
+	// 		this.scrolly.scrollHeight - this.scrolly.clientHeight;
 
-		this.scrolly.scroll({
-			top: this.scrolly.scrollTop + this.scrolly.clientHeight,
-			left: 0,
-			behavior: "smooth",
-		});
+	// 	this.scrolly.scroll({
+	// 		top: this.scrolly.scrollTop + this.scrolly.clientHeight,
+	// 		left: 0,
+	// 		behavior: "smooth",
+	// 	});
 
-		this.collectUsers();
+	// 	// this.collectUsers();
 
-		let reachedUrlLengthMax: boolean;
+	// 	let reachedUrlLengthMax: boolean;
 
-		if (!this.isBlockPage) {
-			this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
-			reachedUrlLengthMax =
-				this.requestUrl.length > settings.URL_LENGTH_MAX - 100;
-		}
+	// 	if (!this.isBlockPage) {
+	// 		this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
+	// 		reachedUrlLengthMax =
+	// 			this.requestUrl.length > settings.URL_LENGTH_MAX - 100;
+	// 	}
 
-		if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
-			console.info(
-				"finished collecting!",
-				{scrolledToBottom, scrollListIsSmall, reachedUrlLengthMax},
-			);
-			this.finishCollecting();
-		}
-	}
+	// 	if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
+	// 		console.info(
+	// 			"finished collecting!",
+	// 			{scrolledToBottom, scrollListIsSmall, reachedUrlLengthMax},
+	// 		);
+	// 		this.finishCollecting();
+	// 	}
+	// }
 
 	private finishCollecting(): void {
 		if (this.isBlockPage) {
@@ -628,7 +628,7 @@ export default class LikersBlocker {
 			".lb-confirm-message h3 span",
 		);
 		confirmHeading.innerHTML = `${this.users.length} ${confirmHeading.innerHTML}`;
-		this.stopScrolling();
+		// this.stopScrolling();
 		this.popup.classList.add("lb-check");
 		const checkmark = this.popup.querySelector(".lb-checkmark");
 
@@ -692,8 +692,10 @@ export default class LikersBlocker {
 		this.createCloseButton();
 		this.initBlockAction();
 
-		const data = await API.getLikers(this.tweetId);
-		console.log({data});
+		const response = await API.getLikers(this.tweetId);
+		this.collectedUsers = response.data;
+		this.finishCollecting();
+		console.log({response});
 	}
 
 	private setUpExportButton = async () => {
@@ -760,19 +762,19 @@ export default class LikersBlocker {
 		this.popup.style.height = `${this.popup.clientHeight - hiddenContentHeight}px`;
 	}
 
-	private startScrolling() {
-		this.scrollList.classList.add("lb-blur");
-		this.scrolly.scrollTo(0, 0);
-		this.collectedUsers = [];
-		this.scrollInterval = window.setInterval(
-			() => {
-				this.scrollDown();
-			},
-			800,
-		);
-	}
+	// private startScrolling() {
+	// 	this.scrollList.classList.add("lb-blur");
+	// 	this.scrolly.scrollTo(0, 0);
+	// 	this.collectedUsers = [];
+	// 	this.scrollInterval = window.setInterval(
+	// 		() => {
+	// 			this.scrollDown();
+	// 		},
+	// 		800,
+	// 	);
+	// }
 
-	private stopScrolling = () => {
-		clearInterval(this.scrollInterval);
-	};
+	// private stopScrolling = () => {
+	// 	clearInterval(this.scrollInterval);
+	// };
 }
