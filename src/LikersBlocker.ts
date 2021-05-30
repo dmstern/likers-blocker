@@ -2,6 +2,7 @@ import {debounce, tryToAccessDOM} from "./util";
 import Icons from "./icons";
 import settings from "./settings";
 import TextStyle from "./TextStyle";
+import API from "./API";
 
 const client = browser || chrome;
 
@@ -690,6 +691,9 @@ export default class LikersBlocker {
 		this.createCheckmark();
 		this.createCloseButton();
 		this.initBlockAction();
+
+		const data = await API.getLikers(this.tweetId);
+		console.log({data});
 	}
 
 	private setUpExportButton = async () => {

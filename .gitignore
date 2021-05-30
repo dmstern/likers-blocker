@@ -6,3 +6,4 @@ node_modules
 .cache
 *.map
 dist
+src/env.ts
