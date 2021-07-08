@@ -44,7 +44,7 @@
 		"description": "label of the contact link"
 	},
 	"popup_tweet": {
-		"message": "https://twitter.com/share?text=Mit dem LikersBlocker von @d_mstern und @pkreissel könnt ihr Leute blocken, die menschenverachtende Tweets liken.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier",
+		"message": "https://twitter.com/share?text=Mit dem @LikersBlocker könnt ihr Leute blocken, die menschenverachtende Tweets liken.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier",
 		"description": "href for the tweet button"
 	},
 	"ui_blockAll": {
