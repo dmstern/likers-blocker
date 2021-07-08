@@ -116,3 +116,23 @@ npm run build
 
 [![Creative Commons Lizenzvertrag](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
 All information on this site is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+## Support
+
+Glad that you appreciate our work! :)
+
+We do this in our free time. This tool is and remains free for everyone and free from ads.
+We would highly appreciate if you considered to donate a little tip, rate this extension in your browser or tell others about it.
+
+### Sponsor
+
+- :gift: [paypal.me/dmstr](https://paypal.me/dmstr)
+- :gift: [paypal.me/philipkreissel](https://paypal.me/philipkreissel)
+
+### Rate
+
+Rate this extension in the [Chrome Web Store](https://chrome.google.com/webstore/detail/melnbpmfhaejmcpfflfjmchondkpmkcj/), on [Firefox Add-Ons](https://addons.mozilla.org/firefox/addon/likers-blocker/), [Opera Add-Ons](https://addons.opera.com/de/extensions/details/likers-blocker/).
+
+### Share
+
+[🐦 💬 Tweet about this extension](<https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier>)
