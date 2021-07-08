@@ -1,6 +1,5 @@
 "use strict";
-// rome-ignore lint/js/noUndeclaredVariables
-const client = browser || chrome;
+const client = typeof browser === "undefined" ? chrome : browser;
 
 function localizeUI() {
 	const labelNodes = document.querySelectorAll("[data-label]");

@@ -3,8 +3,7 @@ import Icons from "./icons";
 import settings from "./settings";
 import TextStyle from "./TextStyle";
 
-// rome-ignore lint/js/noUndeclaredVariables
-const client = browser || chrome;
+const client = typeof browser === "undefined" ? chrome : browser;
 
 const TOPBAR_SELECTOR = {
 	mobile: "main > div > div > div > div > div > div",
