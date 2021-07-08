@@ -31,7 +31,7 @@ body.lb-block-page .lb-popup-wrapper {
   box-shadow: 0 8px 41px 22px #2f2f2fa3;
   border: 1px solid rgba(120, 120, 120, 0.3);
   padding: var(--lb-popup-padding);
-  padding-bottom: 4rem;
+  padding-bottom: 4.5rem;
   opacity: 0.8;
   filter: none;
   overflow: hidden;
@@ -74,12 +74,36 @@ body.lb-block-page.many
 .lb-footer__inner {
   display: flex;
   justify-content: flex-end;
-  padding: 0.5rem 2rem;
+  padding: 0 2rem;
+  margin: 1em 0;
+  list-style: none;
 }
 
-.lb-popup .icon--twitter {
+.lb-footer__item {
+  margin-left: 1em;
+}
+
+.lb-footer__item a {
+  transition: all 200ms ease;
+}
+
+.lb-footer__item a,
+.lb-footer__item a:visited {
+  color: rgba(80, 80, 80, 0.4);
+}
+
+.lb-footer__item a:hover {
+  color: unset;
+  transform: scale(1.3);
+}
+
+.lb-popup a:hover.icon--twitter {
+  color: #1DA1F2;
+}
+
+.lb-footer__item svg {
   height: 1.5rem;
-  fill: #1DA1F2;
+  width: auto;
 }
 
 .lb-popup .lb-label h3 span:nth-of-type(2) {

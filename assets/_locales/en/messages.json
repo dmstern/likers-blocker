@@ -39,6 +39,18 @@
 		"message": "Report bug",
 		"description": "Label for the report bug button "
 	},
+	"popup_tip": {
+		"message": "Tip us a coffee",
+		"description": "Label for the donation button"
+	},
+	"popup_share": {
+		"message": "Spread the world",
+		"description": "Label for the share button"
+	},
+	"popup_follow": {
+		"message": "Follow us on twitter",
+		"description": "Label for the follow button"
+	},
 	"popup_contact": {
 		"message": "Contact",
 		"description": "label of the contact link"

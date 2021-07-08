@@ -697,11 +697,32 @@ export default class LikersBlocker {
 	private createFooter() {
 		const footer = document.createElement("footer");
 		footer.innerHTML = `
-			<div class="lb-footer__inner">
-				<a href="https://twitter.com/LikersBlocker" target="_blank" title="Follow us on Twitter">${Icons.twitter}</a>
-			</div>
+			<ul class="lb-footer__inner">
+				<li class="lb-footer__item">
+					<a href="https://github.com/dmstern/likers-blocker#sponsor" target="_blank" title="${client.i18n.getMessage(
+			"popup_tip",
+		)}">${Icons.gift}</a>
+				</li>
+				<li class="lb-footer__item">
+					<a href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank" title="${client.i18n.getMessage(
+			"popup_reportBug",
+		)}">${Icons.issue}</a>
+				</li>
+				<li class="lb-footer__item">
+					<a href="https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier" target="_blank" title="${client.i18n.getMessage(
+			"popup_share",
+		)}">${Icons.share}</a>
+				</li>
+				<li class="lb-footer__item">
+					<a href="https://twitter.com/LikersBlocker" class="icon--twitter" target="_blank" title="${client.i18n.getMessage(
+			"popup_follow",
+		)}">${Icons.twitter}</a>
+				</li>
+			</ul>
 			`;
+
 		footer.style.backgroundColor = this.backgroundColor;
+		footer.style.color = this.highlightColor;
 		this.popup.appendChild(footer);
 	}
 

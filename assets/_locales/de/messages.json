@@ -39,6 +39,18 @@
 		"message": "Fehler melden",
 		"description": "Label for the report bug button "
 	},
+	"popup_tip": {
+		"message": "Spendiere uns einen Kaffee",
+		"description": "Label for the donation button"
+	},
+	"popup_share": {
+		"message": "Erzähle es weiter",
+		"description": "Label for the share button"
+	},
+	"popup_follow": {
+		"message": "Folge uns auf twitter",
+		"description": "Label for the follow button"
+	},
 	"popup_contact": {
 		"message": "Kontakt",
 		"description": "label of the contact link"
