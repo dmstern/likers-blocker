@@ -690,7 +690,19 @@ export default class LikersBlocker {
 
 		this.createCheckmark();
 		this.createCloseButton();
+		this.createFooter();
 		this.initBlockAction();
+	}
+
+	private createFooter() {
+		const footer = document.createElement("footer");
+		footer.innerHTML = `
+			<div class="lb-footer__inner">
+				<a href="https://twitter.com/LikersBlocker" target="_blank" title="Follow us on Twitter">${Icons.twitter}</a>
+			</div>
+			`;
+		footer.style.backgroundColor = this.backgroundColor;
+		this.popup.appendChild(footer);
 	}
 
 	private setUpExportButton = async () => {

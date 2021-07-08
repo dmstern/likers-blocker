@@ -31,6 +31,7 @@ body.lb-block-page .lb-popup-wrapper {
   box-shadow: 0 8px 41px 22px #2f2f2fa3;
   border: 1px solid rgba(120, 120, 120, 0.3);
   padding: var(--lb-popup-padding);
+  padding-bottom: 4rem;
   opacity: 0.8;
   filter: none;
   overflow: hidden;
@@ -60,6 +61,25 @@ body.lb-block-page.many
   h3
   + div {
   display: none;
+}
+
+.lb-popup footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 1px solid rgba(128,128,128,0.5);
+}
+
+.lb-footer__inner {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem 2rem;
+}
+
+.lb-popup .icon--twitter {
+  height: 1.5rem;
+  fill: #1DA1F2;
 }
 
 .lb-popup .lb-label h3 span:nth-of-type(2) {
