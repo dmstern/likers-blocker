@@ -126,8 +126,8 @@ We would highly appreciate if you considered to donate a little tip, rate this e
 
 ### Sponsor
 
-- :gift: [paypal.me/dmstr](https://paypal.me/dmstr)
-- :gift: [paypal.me/philipkreissel](https://paypal.me/philipkreissel)
+- 🎁 [paypal.me/dmstr](https://paypal.me/dmstr)
+- 🎁 [paypal.me/philipkreissel](https://paypal.me/philipkreissel)
 
 ### Rate
 
@@ -136,3 +136,9 @@ Rate this extension in the [Chrome Web Store](https://chrome.google.com/webstore
 ### Share
 
 [🐦 💬 Tweet about this extension](<https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier>)
+
+### Follow us on Twitter
+
+* [![Likers Blocker](./assets/icon32.png) @LikersBlocker](https://twitter.com/LikersBlocker)
+* [![Philip Kreißel](./img/pkreissel.png) @pkreissel](https://twitter.com/pkreissel) (Backend)
+* [![Daniel Morgenstern](./img/d_mstern.png) @d_mstern](https://twitter.com/pkreissel) (Frontend)
