@@ -139,6 +139,6 @@ Rate this extension in the [Chrome Web Store](https://chrome.google.com/webstore
 
 ### Follow us on Twitter
 
-* [![Likers Blocker](./assets/icon32.png) @LikersBlocker](https://twitter.com/LikersBlocker)
-* [![Philip Kreißel](./img/pkreissel.png) @pkreissel](https://twitter.com/pkreissel) (Backend)
-* [![Daniel Morgenstern](./img/d_mstern.png) @d_mstern](https://twitter.com/d_mstern) (Frontend)
+- [![Likers Blocker](./assets/icon32.png) @LikersBlocker](https://twitter.com/LikersBlocker)
+- [![Philip Kreißel](./img/pkreissel.png) @pkreissel](https://twitter.com/pkreissel) (Backend)
+- [![Daniel Morgenstern](./img/d_mstern.png) @d_mstern](https://twitter.com/d_mstern) (Frontend)
