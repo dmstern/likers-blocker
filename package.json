@@ -8,7 +8,7 @@
     "build": "npm run copy && npm run test && rollup --config rollup.config.js",
     "test": "rome check --apply",
     "copy": "ncp assets dist",
-    "version": "npm run build && node util/release.js && npm run copy && git add .",
+    "version": "npm run build && node util/release.js && npm run test && npm run copy && git add .",
     "postversion": "node util/zip.js"
   },
   "repository": {
