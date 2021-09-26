@@ -238,15 +238,15 @@ export default class LikersBlocker {
 		let userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
 			? this.scrollList.querySelectorAll("a.js-user-profile-link")
 			: this.scrollList.querySelectorAll(
-					'[data-testid="UserCell"] > div > div > div > div > a',
+					'[data-testid="UserCell"] > div > div > div > a',
 				);
 
 		let users: Array<HTMLAnchorElement> = Array.from(userCells);
 
 		for (let userLink of users) {
-			let userUrl = userLink.href;
-
-			this.collectedUsers.push(userUrl.replace("https://twitter.com/", ""));
+			const userUrl = userLink.href;
+			const userHandle = userUrl.replace("https://twitter.com/", "");
+			this.collectedUsers.push(userHandle);
 		}
 
 		let userCounter = (document.querySelector(".lb-user-counter") as HTMLElement);
