@@ -238,7 +238,7 @@ export default class LikersBlocker {
 		let userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
 			? this.scrollList.querySelectorAll("a.js-user-profile-link")
 			: this.scrollList.querySelectorAll(
-					'[data-testid="UserCell"] > div > div > div > a',
+					'[data-testid="UserCell"] a[aria-hidden="true"]',
 				);
 
 		let users: Array<HTMLAnchorElement> = Array.from(userCells);
@@ -797,7 +797,7 @@ export default class LikersBlocker {
 			() => {
 				this.scrollDown();
 			},
-			800,
+			1_600,
 		);
 	}
 
