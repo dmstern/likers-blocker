@@ -577,7 +577,7 @@ export default class LikersBlocker {
 			behavior: "smooth",
 		});
 
-		this.collectUsers();
+		await this.collectUsers();
 
 		let reachedUrlLengthMax: boolean;
 
