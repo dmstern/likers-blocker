@@ -67,7 +67,6 @@ export default class LikersBlocker {
 		this.legacyTwitter = legacyTwitter;
 	}
 
-
 	public get tweetId() {
 		return location.href.replace(/https:\/\/twitter.com\/.*\/status\//g, "").replace(
 			"/likes",
@@ -203,8 +202,8 @@ export default class LikersBlocker {
 		let userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
 			? (await this.getScrollList()).querySelectorAll("a.js-user-profile-link")
 			: (await this.getScrollList()).querySelectorAll(
-				'[data-testid="UserCell"] a[aria-hidden="true"]',
-			);
+					'[data-testid="UserCell"] a[aria-hidden="true"]',
+				);
 
 		let users: Array<HTMLAnchorElement> = Array.from(userCells);
 
@@ -222,11 +221,11 @@ export default class LikersBlocker {
 		let followButton: HTMLElement = this.isLegacyTwitter
 			? await tryToAccessDOM("button.button-text.follow-text")
 			: await tryToAccessDOM(
-				"[role=button] [role=button]",
-				false,
-				1,
-				await this.getScrollList(),
-			);
+					"[role=button] [role=button]",
+					false,
+					1,
+					await this.getScrollList(),
+				);
 
 		// prevent multiple blockButtons:
 		if (document.querySelector("[data-testid=blockAll]")) {
@@ -707,9 +706,7 @@ export default class LikersBlocker {
 			return;
 		}
 
-		let blockedListContainer = await tryToAccessDOM(
-			"section", true, 3
-		);
+		let blockedListContainer = await tryToAccessDOM("section", true, 3);
 
 		if (!blockedListContainer) {
 			return;

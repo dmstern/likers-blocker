@@ -25,7 +25,7 @@ export default class TwitterPage {
 		return (
 			location.href.includes("list") &&
 			(location.href.endsWith("members") ||
-				location.href.endsWith("subscribers"))
+			location.href.endsWith("subscribers"))
 		);
 	}
 
@@ -45,5 +45,4 @@ export default class TwitterPage {
 	static get viewport() {
 		return this.isMobile ? "mobile" : "desktop";
 	}
-
 }
