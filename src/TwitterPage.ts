@@ -20,4 +20,30 @@ export default class TwitterPage {
 
 		return isBlockPage;
 	}
+
+	static get isListPage(): boolean {
+		return (
+			location.href.includes("list") &&
+			(location.href.endsWith("members") ||
+				location.href.endsWith("subscribers"))
+		);
+	}
+
+	static get isTweetPage(): boolean {
+		return location.href.includes("status");
+	}
+
+	static get popupContainer(): HTMLElement {
+		const modalDialog = (document.querySelector("[aria-modal=true]") as HTMLElement);
+		return modalDialog || (document.querySelector("body") as HTMLElement);
+	}
+
+	static get isMobile(): boolean {
+		return document.documentElement.clientWidth < 699;
+	}
+
+	static get viewport() {
+		return this.isMobile ? "mobile" : "desktop";
+	}
+
 }

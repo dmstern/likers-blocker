@@ -67,9 +67,6 @@ export default class LikersBlocker {
 		this.legacyTwitter = legacyTwitter;
 	}
 
-	public get isMobile(): boolean {
-		return document.documentElement.clientWidth < 699;
-	}
 
 	public get tweetId() {
 		return location.href.replace(/https:\/\/twitter.com\/.*\/status\//g, "").replace(
@@ -78,24 +75,8 @@ export default class LikersBlocker {
 		);
 	}
 
-	public get viewport() {
-		return this.isMobile ? "mobile" : "desktop";
-	}
-
 	private get isListLarge() {
 		return this.largeList || this.likesCount > settings.LIKERS_LIMIT;
-	}
-
-	static get isListPage(): boolean {
-		return (
-			location.href.includes("list") &&
-			(location.href.endsWith("members") ||
-				location.href.endsWith("subscribers"))
-		);
-	}
-
-	static get isTweetPage(): boolean {
-		return location.href.includes("status");
 	}
 
 	private get limitMessage() {
@@ -118,11 +99,6 @@ export default class LikersBlocker {
 
 	private get loadingInfo() {
 		return this.popup.querySelector(".lb-label");
-	}
-
-	private static get popupContainer(): HTMLElement {
-		const modalDialog = (document.querySelector("[aria-modal=true]") as HTMLElement);
-		return modalDialog || (document.querySelector("body") as HTMLElement);
 	}
 
 	private getScrollableParent(element: HTMLElement): HTMLElement {
@@ -156,7 +132,7 @@ export default class LikersBlocker {
 	}
 
 	private get scrolly(): Promise<HTMLElement> {
-		return this.isMobile
+		return TwitterPage.isMobile
 			? new Promise((resolve) => resolve(document.querySelector("html")))
 			: this.getScrollList();
 	}
@@ -216,7 +192,7 @@ export default class LikersBlocker {
 		// Reset focus on old twitter popup:
 		window.setTimeout(
 			() => {
-				(LikersBlocker.popupContainer.querySelector("[data-focusable='true']") as HTMLElement).focus();
+				(TwitterPage.popupContainer.querySelector("[data-focusable='true']") as HTMLElement).focus();
 			},
 			0,
 		);
@@ -406,12 +382,12 @@ export default class LikersBlocker {
 				: (this.confirmButton.querySelector("div > span > span") as HTMLElement);
 
 			confirmButtonLabel.innerText = client.i18n.getMessage("ui_ok");
-			this.confirmButton.target = "_blank";
+			this.confirmButton.setAttribute("target", "_blank");
 
 			this.confirmButton.addEventListener(
 				"click",
-				() => {
-					this.closePopup();
+				async () => {
+					await this.closePopup();
 				},
 			);
 
@@ -444,7 +420,7 @@ export default class LikersBlocker {
 
 	private async createPopup(content) {
 		this.popupWrapper = document.createElement("div");
-		LikersBlocker.popupContainer.appendChild(this.popupWrapper);
+		TwitterPage.popupContainer.appendChild(this.popupWrapper);
 		this.popupWrapper.classList.add("lb-popup-wrapper", "lb-hide");
 		this.popup = document.createElement("div");
 		this.popupWrapper.appendChild(this.popup);
@@ -476,10 +452,10 @@ export default class LikersBlocker {
 		document.addEventListener("keydown", this.handleKeydown);
 	}
 
-	private handleKeydown = (event: KeyboardEvent) => {
+	private handleKeydown = async (event: KeyboardEvent) => {
 		if (event.key === "Escape") {
 			this.stopScrolling();
-			this.closePopup();
+			await this.closePopup();
 		}
 
 		const circleTabInModalPopup = () => {
@@ -539,7 +515,7 @@ export default class LikersBlocker {
 		loadingIndicator.addEventListener("animationiteration", checkAnimationState);
 
 		this.shrinkPopupToVisibleContent();
-		this.startScrolling();
+		await this.startScrolling();
 	}
 
 	private async scrollDown() {
@@ -628,8 +604,8 @@ export default class LikersBlocker {
 
 		checkmark.addEventListener(
 			"transitionend",
-			() => {
-				this.changeStateToConfirm();
+			async () => {
+				await this.changeStateToConfirm();
 			},
 		);
 	}
@@ -646,7 +622,7 @@ export default class LikersBlocker {
 			this.isLegacyTwitter = true;
 			this.topbar = heading.parentElement;
 		} else {
-			this.topbar = await tryToAccessDOM(TOPBAR_SELECTOR[this.viewport]);
+			this.topbar = await tryToAccessDOM(TOPBAR_SELECTOR[TwitterPage.viewport]);
 		}
 
 		return this.topbar;
@@ -655,8 +631,8 @@ export default class LikersBlocker {
 	private async setUpBlockButton() {
 		const shouldDisplayOnThisPage =
 			TwitterPage.isBlockPage ||
-			LikersBlocker.isTweetPage ||
-			LikersBlocker.isListPage;
+			TwitterPage.isTweetPage ||
+			TwitterPage.isListPage;
 
 		if (!shouldDisplayOnThisPage) {
 			return;
@@ -679,7 +655,7 @@ export default class LikersBlocker {
 		this.createConfirmMessageElement();
 		let confirmButton = this.createConfirmButton();
 
-		if (LikersBlocker.isTweetPage) {
+		if (TwitterPage.isTweetPage) {
 			let checkbox = this.createCheckbox();
 			this.confirmMessageElement.appendChild(checkbox);
 		}
