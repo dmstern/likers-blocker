@@ -58,9 +58,11 @@ function tryToAccessDOM(
 				elementToExpect.style.display === "none" ||
 				elementToExpect.offsetParent === null
 			) {
+				// nothing found yet, try once more:
 				return;
 			}
 
+			// element found, clear interval and resolve promise:
 			clearInterval(interval);
 			resolve(elementToExpect);
 		}
