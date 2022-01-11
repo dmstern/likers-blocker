@@ -23,7 +23,6 @@
 	"permissions": [
 		"https://twitter.com/*",
 		"https://ichbinhier-twittertools.herokuapp.com/blocklists",
-		"clipboardRead",
 		"clipboardWrite"
 	],
 	"manifest_version": 2,
