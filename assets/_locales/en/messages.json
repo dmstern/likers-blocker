@@ -4,7 +4,7 @@
 		"description": "Name of the extension."
 	},
 	"extensionDescription": {
-		"message": "block all visible likers or retweeters of a tweet. – say NO to hate speech! ",
+		"message": "block all visible likers or retweeters of a tweet.",
 		"description": "Describes the extension."
 	},
 	"popup_usage": {

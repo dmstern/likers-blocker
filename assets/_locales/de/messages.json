@@ -4,7 +4,7 @@
 		"description": "Name of the extension."
 	},
 	"extensionDescription": {
-		"message": "Blockiere auf einen Schlag alle Leute, die bspw. hassschürende Tweets liken oder retweeten.",
+		"message": "Blockiert Accounts, die hassschürende Tweets liken oder retweeten.",
 		"description": "Describes the extension."
 	},
 	"popup_usage": {
