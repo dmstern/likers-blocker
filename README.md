@@ -15,11 +15,13 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
 ## Installation
 
-[<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Firefox_logo%2C_2019.svg/68px-Firefox_logo%2C_2019.svg.png" width="64" height="auto" alt="Firefox"> Install Extension for Mozilla Firefox](https://addons.mozilla.org/firefox/addon/likers-blocker/)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Firefox_logo%2C_2019.svg/68px-Firefox_logo%2C_2019.svg.png" width="64" height="auto" alt="Firefox"> Install for Mozilla Firefox](https://addons.mozilla.org/firefox/addon/likers-blocker/)
 
-[<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Chrome_icon_%28September_2014%29.svg/64px-Google_Chrome_icon_%28September_2014%29.svg.png" width="64" height="auto" alt="Chrome"> Install Extension for Google Chrome](https://chrome.google.com/webstore/detail/melnbpmfhaejmcpfflfjmchondkpmkcj/)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Chrome_icon_%28September_2014%29.svg/64px-Google_Chrome_icon_%28September_2014%29.svg.png" width="64" height="auto" alt="Chrome"> Install for Google Chrome](https://chrome.google.com/webstore/detail/melnbpmfhaejmcpfflfjmchondkpmkcj/)
 
-[<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Opera_2015_icon.svg/150px-Opera_2015_icon.svg.png" width="64" height="auto" alt="Opera"> Install Add-On for Opera](https://addons.opera.com/de/extensions/details/likers-blocker/)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Opera_2015_icon.svg/150px-Opera_2015_icon.svg.png" width="64" height="auto" alt="Opera"> Install for Opera](https://addons.opera.com/de/extensions/details/likers-blocker/)
+
+[<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Microsoft_Edge_logo_%282019%29.svg/96px-Microsoft_Edge_logo_%282019%29.svg.png" width="64" height="auto" alt="Edge">Install for Microsoft Edge](https://chrome.google.com/webstore/detail/melnbpmfhaejmcpfflfjmchondkpmkcj/) (You can install Chrome extensions in Edge, it's basically the same browser)
 
 ## Usage
 
@@ -139,6 +141,8 @@ Rate this extension in the [Chrome Web Store](https://chrome.google.com/webstore
 
 ### Follow us on Twitter
 
-- [![Likers Blocker](./assets/icon32.png) @LikersBlocker](https://twitter.com/LikersBlocker)
-- [![Philip Kreißel](./img/pkreissel.png) @pkreissel](https://twitter.com/pkreissel) (Backend)
-- [![Daniel Morgenstern](./img/d_mstern.png) @d_mstern](https://twitter.com/d_mstern) (Frontend)
+[![Likers Blocker](https://pbs.twimg.com/profile_images/1397331928928378880/3O3zY4bh_bigger.png)  @LikersBlocker](https://twitter.com/LikersBlocker)
+
+[![Philip Kreißel](https://pbs.twimg.com/profile_images/1427346761291599879/XZ6AgKyH_bigger.jpg)  @pkreissel](https://twitter.com/pkreissel) (Backend)
+
+[![Daniel Morgenstern](https://pbs.twimg.com/profile_images/1445063182721196040/xuuufhWo_bigger.jpg)  @d_mstern](https://twitter.com/d_mstern) (Frontend)
