@@ -3,6 +3,7 @@ import Icons from "./icons";
 import settings from "./settings";
 import TextStyle from "./TextStyle";
 import TwitterPage from "./TwitterPage";
+import LocalStorage from "./LocalStorage";
 
 const client = typeof browser === "undefined" ? chrome : browser;
 
@@ -282,6 +283,7 @@ export default class LikersBlocker {
 		labelWrapper.classList.add("lb-label-wrapper");
 		labelWrapper.appendChild(label);
 		this.checkbox.type = "checkbox";
+		this.checkbox.checked = LocalStorage.includeRetweeters;
 		this.checkbox.classList.add("lb-checkbox");
 		label.innerHTML = `<span>${client.i18n.getMessage("ui_blockRetweeters")}</span>`;
 		label.prepend(this.checkbox);
@@ -313,6 +315,8 @@ export default class LikersBlocker {
 		if (this.checkbox.checked) {
 			tweetParam = `&tweet_id=${this.tweetId}`;
 		}
+
+		LocalStorage.includeRetweeters = this.checkbox.checked;
 
 		if (this.confirmButton) {
 			this.confirmButton.href = `${this.requestUrl}${tweetParam}`;
