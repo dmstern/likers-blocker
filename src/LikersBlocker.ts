@@ -197,8 +197,8 @@ export default class LikersBlocker {
 		let userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
 			? (await this.getScrollList()).querySelectorAll("a.js-user-profile-link")
 			: (await this.getScrollList()).querySelectorAll(
-					'[data-testid="UserCell"] a[aria-hidden="true"]',
-				);
+				'[data-testid="UserCell"] a[aria-hidden="true"]',
+			);
 
 		let users: Array<HTMLAnchorElement> = Array.from(userCells);
 
@@ -216,11 +216,11 @@ export default class LikersBlocker {
 		let followButton: HTMLElement = this.isLegacyTwitter
 			? await tryToAccessDOM("button.button-text.follow-text")
 			: await tryToAccessDOM(
-					"[role=button] [role=button]",
-					false,
-					1,
-					await this.getScrollList(),
-				);
+				"[role=button] [role=button]",
+				false,
+				1,
+				await this.getScrollList(),
+			);
 
 		// prevent multiple blockButtons:
 		if (document.querySelector("[data-testid=blockAll]")) {
@@ -586,8 +586,8 @@ export default class LikersBlocker {
 		console.table({
 			scrollTop: scrolly.scrollTop,
 			compareToScrollTop: scrolly.scrollHeight -
-			scrolly.clientHeight -
-			allowanceOffset,
+				scrolly.clientHeight -
+				allowanceOffset,
 			scrollHeight: scrolly.scrollHeight,
 			clientHeight: scrolly.clientHeight,
 		});
@@ -674,7 +674,6 @@ export default class LikersBlocker {
 		);
 
 		if (confirmHeading) {
-			console.log("add length to heading");
 			confirmHeading.innerHTML = `${this.users.length} ${confirmHeading.innerHTML}`;
 		}
 
@@ -753,27 +752,43 @@ export default class LikersBlocker {
 		await this.initBlockAction();
 	}
 
+	private getBadgeClass(linkModifier) {
+		const badgeTypes = {
+			follow: LocalStorage.hideBadgeFollow,
+			share: LocalStorage.hideBadgeShare,
+			donate: LocalStorage.hideBadgeDonate,
+		};
+
+		const allBadgedDone = Object.values(badgeTypes).every(value => value);
+		if (allBadgedDone) {
+			return;
+		}
+
+		const badgeType = Object.entries(badgeTypes).find(([key, value]) => !value)[0];
+		return linkModifier === badgeType ? "lb-footer__link--show-badge" : "";
+	}
+
 	private async createFooter() {
 		const footer = document.createElement("footer");
 		footer.innerHTML = `
 			<ul class="lb-footer__inner">
 				<li class="lb-footer__item">
-					<a href="https://github.com/dmstern/likers-blocker#sponsor" target="_blank" title="${client.i18n.getMessage(
+					<a class="lb-footer__link lb-footer__link--donate ${this.getBadgeClass("donate")}" href="https://github.com/dmstern/likers-blocker#sponsor" target="_blank" title="${client.i18n.getMessage(
 			"popup_tip",
 		)}">${Icons.gift}</a>
 				</li>
 				<li class="lb-footer__item">
-					<a href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank" title="${client.i18n.getMessage(
+					<a class="lb-footer__link lb-footer__item--report ${this.getBadgeClass("report")}" href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank" title="${client.i18n.getMessage(
 			"popup_reportBug",
 		)}">${Icons.issue}</a>
 				</li>
 				<li class="lb-footer__item">
-					<a href="https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier" target="_blank" title="${client.i18n.getMessage(
+					<a class="lb-footer__link lb-footer__link--share ${this.getBadgeClass("share")}" href="https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier" target="_blank" title="${client.i18n.getMessage(
 			"popup_share",
 		)}">${Icons.share}</a>
 				</li>
 				<li class="lb-footer__item">
-					<a href="https://twitter.com/LikersBlocker" class="icon--twitter" target="_blank" title="${client.i18n.getMessage(
+					<a class="icon--twitter lb-footer__link lb-footer__link--follow ${this.getBadgeClass("follow")}" href="https://twitter.com/LikersBlocker" target="_blank" title="${client.i18n.getMessage(
 			"popup_follow",
 		)}">${Icons.twitter}</a>
 				</li>
@@ -783,6 +798,31 @@ export default class LikersBlocker {
 		footer.style.backgroundColor = TwitterPage.backgroundColor;
 		footer.style.color = TwitterPage.highlightColor;
 		this.popup.appendChild(footer);
+
+		footer.querySelectorAll(".lb-footer__link.lb-footer__link--show-badge").forEach(link => {
+			link.addEventListener("click", (event) => {
+
+				const classPrefix = "lb-footer__link--";
+				const link = (event.target as HTMLElement).closest("a");
+				const classes = Array.from(link.classList);
+				const modifierClass = classes.find(className => className.startsWith(classPrefix));
+				const badgeType = modifierClass.replace(classPrefix, "");
+
+				link.classList.remove("lb-footer__link--show-badge");
+
+				switch (badgeType) {
+					case "follow" :
+						LocalStorage.hideBadgeFollow = true;
+						break;
+					case "share" :
+						LocalStorage.hideBadgeShare = true;
+						break;
+					case "donate" :
+						LocalStorage.hideBadgeDonate = true;
+						break;
+				}
+			});
+		})
 	}
 
 	private setUpExportButton = async () => {

@@ -151,6 +151,24 @@ body.lb-block-page {
   }
 }
 
+.lb-footer__link {
+  &::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    display: none;
+    position: absolute;
+    background: red;
+    border-radius: 50%;
+    top: 16px;
+    opacity: .8;
+  }
+
+  &--show-badge::after {
+    display: block;
+  }
+}
+
 .lb-divided-msg {
   display: none;
 }
