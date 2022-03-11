@@ -643,9 +643,10 @@ export default class LikersBlocker {
 		const checkmark = this.popup.querySelector(".lb-checkmark");
 
 		checkmark.addEventListener(
-			"transitionend",
-			async () => {
-				await this.changeStateToConfirm();
+			"transitionend",() => {
+				checkmark.addEventListener("transitionend", async () => {
+					await this.changeStateToConfirm();
+				});
 			},
 		);
 	}
