@@ -7,7 +7,7 @@
     "start": "npm run copy && rollup -w --config rollup.config.js",
     "build": "npm run copy && rollup --config rollup.config.js",
     "copy": "ncp assets dist",
-    "version": "npm run build && node util/release.js && npm run test && npm run copy && git add .",
+    "version": "npm run build && node util/release.js && npm run copy && git add .",
     "postversion": "node util/zip.js"
   },
   "repository": {
