@@ -752,7 +752,7 @@ export default class LikersBlocker {
 		await this.initBlockAction();
 	}
 
-	private getBadgeClass(linkModifier) {
+	private static getBadgeClass(linkModifier) {
 		const badgeTypes = {
 			follow: LocalStorage.hideBadgeFollow,
 			share: LocalStorage.hideBadgeShare,
@@ -773,22 +773,22 @@ export default class LikersBlocker {
 		footer.innerHTML = `
 			<ul class="lb-footer__inner">
 				<li class="lb-footer__item">
-					<a class="lb-footer__link lb-footer__link--donate ${this.getBadgeClass("donate")}" href="https://github.com/dmstern/likers-blocker#sponsor" target="_blank" title="${client.i18n.getMessage(
+					<a class="lb-footer__link lb-footer__link--donate ${LikersBlocker.getBadgeClass("donate")}" href="https://github.com/dmstern/likers-blocker#donate" target="_blank" title="${client.i18n.getMessage(
 			"popup_tip",
 		)}">${Icons.gift}</a>
 				</li>
 				<li class="lb-footer__item">
-					<a class="lb-footer__link lb-footer__item--report ${this.getBadgeClass("report")}" href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank" title="${client.i18n.getMessage(
+					<a class="lb-footer__link lb-footer__item--report ${LikersBlocker.getBadgeClass("report")}" href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank" title="${client.i18n.getMessage(
 			"popup_reportBug",
 		)}">${Icons.issue}</a>
 				</li>
 				<li class="lb-footer__item">
-					<a class="lb-footer__link lb-footer__link--share ${this.getBadgeClass("share")}" href="https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier" target="_blank" title="${client.i18n.getMessage(
+					<a class="lb-footer__link lb-footer__link--share ${LikersBlocker.getBadgeClass("share")}" href="https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier" target="_blank" title="${client.i18n.getMessage(
 			"popup_share",
 		)}">${Icons.share}</a>
 				</li>
 				<li class="lb-footer__item">
-					<a class="icon--twitter lb-footer__link lb-footer__link--follow ${this.getBadgeClass("follow")}" href="https://twitter.com/LikersBlocker" target="_blank" title="${client.i18n.getMessage(
+					<a class="icon--twitter lb-footer__link lb-footer__link--follow ${LikersBlocker.getBadgeClass("follow")}" href="https://twitter.com/LikersBlocker" target="_blank" title="${client.i18n.getMessage(
 			"popup_follow",
 		)}">${Icons.twitter}</a>
 				</li>
