@@ -75,6 +75,10 @@
 		"message": "Cancel",
 		"description": "Label for the cancel button"
 	},
+	"ui_finish": {
+		"message": "This is fine, thanks.",
+		"description": "Label for the finish button"
+	},
 	"ui_technicalConstraints": {
 		"message": "For large like amounts, not all usernames can be collected.",
 		"description": "Message that is shown if the list is large and not all users may be collected."

@@ -338,6 +338,26 @@ export default class LikersBlocker {
 		);
 	}
 
+	private async createFinishButton() {
+		const finishButton = (document.createElement("button") as HTMLButtonElement);
+		finishButton.innerHTML = Icons.forward;
+		finishButton.tabIndex = 0;
+		finishButton.classList.add("lb-finish-button");
+		finishButton.title = client.i18n.getMessage("ui_finish");
+		finishButton.style.backgroundColor = TwitterPage.highlightColor.replace(
+			")",
+			", 0.1)",
+		);
+		finishButton.style.color = TwitterPage.highlightColor;
+		this.popup.append(finishButton);
+		finishButton.addEventListener(
+			"click",
+			() => {
+				this.finishCollecting();
+			},
+		);
+	}
+
 	private createConfirmButton() {
 		let areaWrapper = document.createElement("div");
 		let copyButton = document.createElement("button");
@@ -682,6 +702,7 @@ export default class LikersBlocker {
 
 		await this.createCheckmark();
 		await this.createCloseButton();
+		await this.createFinishButton();
 		await this.createFooter();
 		await this.initBlockAction();
 	}

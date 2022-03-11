@@ -24,7 +24,7 @@ body.lb-block-page .lb-popup-wrapper {
 .lb-popup {
 	position: fixed;
 	width: 500px;
-	height: 240px;
+	height: 270px;
 	top: 25%;
 	left: 50%;
 	transform: translateX(-50%);
@@ -130,7 +130,7 @@ body.lb-block-page.many .lb-popup.lb-confirm {
 }
 
 body.many .lb-popup.lb-confirm .lb-label.lb-confirm-message {
-	margin-top: 5rem;
+	margin-top: 5.5rem;
 	padding-right: 1rem;
 	max-height: calc(100% - 1.5rem);
 	overflow-y: auto;
@@ -164,6 +164,26 @@ body:not(.lb-block-page) .lb-blur {
 	padding: var(--lb-close-button-padding);
 	cursor: pointer;
 	position: absolute;
+	left: calc(
+		var(--lb-popup-padding) - var(--lb-close-button-padding) -
+		var(--close-button-icon-spacing)
+	);
+	top: calc(
+		var(--lb-popup-padding) - var(--lb-close-button-padding) -
+		var(--close-button-icon-spacing)
+	);
+	border-radius: 50%;
+	z-index: 5000;
+	transition: background-color ease 500ms;
+}
+
+.lb-finish-button {
+	border: none;
+	padding: var(--lb-close-button-padding);
+	cursor: pointer;
+	position: absolute;
+	width: 42px;
+	height: 42px;
 	right: calc(
 		var(--lb-popup-padding) - var(--lb-close-button-padding) -
 		var(--close-button-icon-spacing)
@@ -182,13 +202,19 @@ body.lb-legacy-twitter .lb-close-button {
 	height: 39px;
 }
 
-.lb-close-button svg {
+.lb-close-button svg,
+.lb-finish-button svg {
 	width: 1.5em;
 	height: 1.5em;
 	color: inherit !important;
 }
 
-.lb-close-button:not(:hover) {
+.lb-finish-button svg {
+	margin-top: 2px;
+}
+
+.lb-close-button:not(:hover),
+.lb-finish-button:not(:hover) {
 	background-color: transparent !important;
 }
 
@@ -209,9 +235,13 @@ body.lb-legacy-twitter .lb-close-button {
 }
 
 .lb-label h3 {
-	margin-top: 0;
+	margin-top: -3px;
 	margin-bottom: 1em;
 	color: inherit;
+}
+
+.lb-label h3:first-of-type {
+	margin-left: 2rem;
 }
 
 @keyframes swipe {
@@ -241,7 +271,7 @@ body.lb-legacy-twitter .lb-close-button {
 .lb-checkmark {
 	width: 20px;
 	height: 20px;
-	background: #559730;
+	color: #559730;
 	border-radius: 50%;
 	display: block;
 	position: absolute;
@@ -252,14 +282,8 @@ body.lb-legacy-twitter .lb-close-button {
 }
 
 .lb-checkmark svg {
-	fill: none;
-	stroke: white;
-	color: transparent !important;
-	stroke-width: 8;
-	width: 50% !important;
-	height: 50% !important;
-	margin-top: 25%;
-	margin-left: 25%;
+	width: 1.5rem;
+	height: auto;
 }
 
 body.lb-legacy-twitter .lb-checkmark {

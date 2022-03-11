@@ -75,6 +75,10 @@
 		"message": "Abbrechen",
 		"description": "Label for the cancel button"
 	},
+	"ui_finish": {
+		"message": "Danke, reicht.",
+		"description": "Label for the finish button"
+	},
 	"ui_technicalConstraints": {
 		"message": "Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden.",
 		"description": "Message that is shown if the list is large and not all users may be collected."
