@@ -194,7 +194,6 @@ export default class LikersBlocker {
 	}
 
 	private async collectUsers() {
-		// rome-ignore lint/js/noUndeclaredVariables
 		let userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
 			? (await this.getScrollList()).querySelectorAll("a.js-user-profile-link")
 			: (await this.getScrollList()).querySelectorAll(
