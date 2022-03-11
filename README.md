@@ -133,7 +133,7 @@ We would highly appreciate if you considered donating a little tip, rate this ex
 
 ### Share
 
-[🐦 💬 Tweet about this extension](<https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier>)
+[🐦 Tweet about this extension](<https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier>) and tell your friends! 
 
 ### Follow us on Twitter
 
