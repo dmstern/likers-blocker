@@ -134,5 +134,13 @@
 	"ui_confirmButtonLabel": {
 		"message": "Blockiere Teil",
 		"description": "The block button label for blocking each portion of accounts in large lists."
+	},
+	"ichbinhier_heading": {
+		"message": "Folgende User blockieren?",
+		"description": "The heading of block confirmation page"
+	},
+	"ichbinhier_blockButtonLabel": {
+		"message": "Blockieren",
+		"description": "The label of the block button on the confirmation page"
 	}
 }

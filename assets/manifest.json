@@ -10,7 +10,8 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"https://twitter.com/*"
+				"https://twitter.com/*",
+				"https://ichbinhier-twittertools.herokuapp.com/blocklists?users=*"
 			],
 			"js": [
 				"index.js"

@@ -1,4 +1,5 @@
 import LikersBlocker from "./LikersBlocker";
+import ConfirmationPage from "./ConfirmationPage";
 
 declare global {
 	interface Window {
@@ -7,3 +8,4 @@ declare global {
 }
 
 LikersBlocker.run();
+new ConfirmationPage();

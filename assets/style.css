@@ -477,3 +477,9 @@ body:not(.lb-block-page) .lb-textarea {
 a[class*="lb-"] {
 	background-color: transparent !important;
 }
+
+.btn.btn-danger {
+	position: absolute;
+	top: 106px;
+	left: 1100px;
+}
