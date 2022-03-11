@@ -297,31 +297,46 @@ export default class LikersBlocker {
 		checkmark.innerHTML = Icons.checkmark;
 
 		if (this.checkbox) {
-			this.checkbox.addEventListener("change", () => {
-				this.addIncludeRetweetersParam(this.checkbox.checked);
-			});
+			this.checkbox.addEventListener(
+				"change",
+				() => {
+					this.addIncludeRetweetersParam(this.checkbox.checked);
+				},
+			);
 		}
 	}
 
 	addIncludeRetweetersParam = (shouldIncludeRetweeters) => {
 		LocalStorage.includeRetweeters = shouldIncludeRetweeters;
 
-		const confirmButtons: HTMLLinkElement[] = Array.from(document.querySelectorAll(".lb-confirm-button")).map(button => button as HTMLLinkElement);
-		const textareas: HTMLTextAreaElement[] = Array.from(document.querySelectorAll(".lb-textarea")).map(button => button as HTMLTextAreaElement);
-		const linkIncludesRetweeters = confirmButtons.every(button => button.href.includes("tweet_id="));
+		const confirmButtons: Array<HTMLLinkElement> = Array.from(
+			document.querySelectorAll(".lb-confirm-button"),
+		).map((button) => (button as HTMLLinkElement));
+		const textareas: Array<HTMLTextAreaElement> = Array.from(
+			document.querySelectorAll(".lb-textarea"),
+		).map((button) => (button as HTMLTextAreaElement));
+		const linkIncludesRetweeters = confirmButtons.every((button) =>
+			button.href.includes("tweet_id=")
+		);
 
 		if (shouldIncludeRetweeters === linkIncludesRetweeters) {
 			return;
 		}
 
 		const getRequestUrl = (currentValue: string): string => {
-			const blocklistUrl = linkIncludesRetweeters ? currentValue.split("&")[0] : currentValue;
-			const includeRetweetersParam = linkIncludesRetweeters ? "" : `&tweet_id=${this.tweetId}`;
+			const blocklistUrl = linkIncludesRetweeters
+				? currentValue.split("&")[0]
+				: currentValue;
+			const includeRetweetersParam = linkIncludesRetweeters
+				? ""
+				: `&tweet_id=${this.tweetId}`;
 			return `${blocklistUrl}${includeRetweetersParam}`;
-		}
+		};
 
-		confirmButtons.forEach(button => button.href = getRequestUrl(button.href));
-		textareas.forEach(textarea => textarea.value = getRequestUrl(textarea.value));
+		confirmButtons.forEach((button) => button.href = getRequestUrl(button.href));
+		textareas.forEach((textarea) =>
+			textarea.value = getRequestUrl(textarea.value)
+		);
 	};
 
 	private async createCloseButton() {
@@ -347,7 +362,7 @@ export default class LikersBlocker {
 
 	private async createFinishButton() {
 		const finishButton = (document.createElement("button") as HTMLButtonElement);
-		finishButton.innerHTML = Icons.forward;
+		finishButton.innerHTML = `${Icons.forward}${Icons.smile}`;
 		finishButton.tabIndex = 0;
 		finishButton.classList.add("lb-finish-button");
 		finishButton.title = client.i18n.getMessage("ui_finish");
@@ -357,12 +372,22 @@ export default class LikersBlocker {
 		);
 		finishButton.style.color = TwitterPage.highlightColor;
 		this.popup.append(finishButton);
+
 		finishButton.addEventListener(
 			"click",
 			() => {
-				finishButton.innerHTML = Icons.smile;
-				finishButton.disabled = true;
-				this.finishCollecting();
+				finishButton.classList.add("lb-finish-button--active");
+				const finishButtonIcon = finishButton.querySelector("svg");
+				finishButtonIcon.addEventListener(
+					"transitionend",
+					() => {
+						finishButton.disabled = true;
+						this.finishCollecting();
+					},
+					{
+						once: true,
+					},
+				);
 			},
 		);
 	}
@@ -645,6 +670,7 @@ export default class LikersBlocker {
 		);
 
 		if (confirmHeading) {
+			console.log("add length to heading");
 			confirmHeading.innerHTML = `${this.users.length} ${confirmHeading.innerHTML}`;
 		}
 

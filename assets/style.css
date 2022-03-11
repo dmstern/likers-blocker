@@ -210,15 +210,43 @@ body.lb-legacy-twitter .lb-close-button {
 
 .lb-finish-button svg {
 	margin-top: 2px;
+	opacity: 1;
+	visibility: visible;
+	transition:
+		left 300ms ease-in-out,
+		transform 1600ms ease-in-out 300ms,
+		opacity 800ms ease-in-out 1200ms,
+		visibility 800ms ease-in-out 1200ms;
+	position: absolute;
+	top: 8px;
+	left: 11px;
+	transform-origin: 50% 50%;
 }
 
-.lb-finish-button:active svg,
-.lb-finish-button:focus svg {
+.lb-finish-button svg:nth-child(2) {
+	opacity: 0;
+	visibility: hidden;
+}
+
+.lb-finish-button--active svg:nth-child(1) {
+	opacity: 0;
+	visibility: hidden;
+}
+
+.lb-finish-button--active svg:nth-child(2) {
+	opacity: 1;
+	visibility: visible;
+}
+
+.lb-finish-button--active svg {
 	color: #559730 !important;
+	transform: rotate(6turn);
+	left: 15px;
 }
 
 .lb-close-button:not(:hover),
-.lb-finish-button:not(:hover) {
+.lb-finish-button:not(:hover),
+.lb-finish-button--active {
 	background-color: transparent !important;
 }
 
