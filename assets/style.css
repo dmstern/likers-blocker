@@ -289,7 +289,7 @@ body.lb-legacy-twitter .lb-close-button {
 	bottom: -8px;
 	transform: scale(1);
 	opacity: 0;
-	transition: opacity 600ms ease-in-out, transform 1000ms cubic-bezier(0.66, 0.47, 0.2, 1.89) 400ms;
+	transition: opacity 600ms ease-in-out, transform 800ms cubic-bezier(0.66, 0.47, 0.2, 1.89) 400ms;
 }
 
 .lb-checkmark svg {
