@@ -177,6 +177,11 @@ body:not(.lb-block-page) .lb-blur {
 	transition: background-color ease 500ms;
 }
 
+body.lb-legacy-twitter .lb-close-button {
+	width: 39px;
+	height: 39px;
+}
+
 .lb-finish-button {
 	border: none;
 	padding: var(--lb-close-button-padding);
@@ -194,12 +199,12 @@ body:not(.lb-block-page) .lb-blur {
 	);
 	border-radius: 50%;
 	z-index: 5000;
-	transition: background-color ease 500ms;
+	transition: background-color ease 500ms, opacity ease 1000ms;
 }
 
-body.lb-legacy-twitter .lb-close-button {
-	width: 39px;
-	height: 39px;
+.lb-confirm .lb-finish-button {
+	opacity: 0;
+	visibility: hidden;
 }
 
 .lb-close-button svg,
@@ -211,6 +216,11 @@ body.lb-legacy-twitter .lb-close-button {
 
 .lb-finish-button svg {
 	margin-top: 2px;
+}
+
+.lb-finish-button:active svg,
+.lb-finish-button:focus svg {
+	color: #559730 !important;
 }
 
 .lb-close-button:not(:hover),

@@ -353,6 +353,8 @@ export default class LikersBlocker {
 		finishButton.addEventListener(
 			"click",
 			() => {
+				finishButton.innerHTML = Icons.smile;
+				finishButton.disabled = true;
 				this.finishCollecting();
 			},
 		);
