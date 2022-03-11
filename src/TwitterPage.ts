@@ -9,6 +9,10 @@ export default class TwitterPage {
 		).color;
 	}
 
+	static get twitterBrandColor() {
+		return getComputedStyle(document.querySelector("a[href='/compose/tweet']")).backgroundColor;
+	}
+
 	static get isBlockPage(): boolean {
 		let isBlockPage =
 			location.href.endsWith("blocked/all") ||

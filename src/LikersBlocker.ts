@@ -76,20 +76,14 @@ export default class LikersBlocker {
 	}
 
 	private get isListLarge() {
-		return this.largeList || this.likesCount > settings.LIKERS_LIMIT;
+		return this.largeList || this.likesCount > settings.SMALL_LIST_LIMIT;
 	}
 
 	private get limitMessage() {
-		if (TwitterPage.isBlockPage) {
+		if (TwitterPage.isBlockPage || this.isListLarge) {
 			return `${client.i18n.getMessage("ui_takeAMoment")} ${client.i18n.getMessage(
 				"ui_urlLimit",
 			)}`;
-		}
-		if (this.isListLarge) {
-			return `${client.i18n.getMessage("ui_technicalConstraints")}
-			<span class="lb-info" title="${client.i18n.getMessage("ui_repeatBlocking")}">
-				${Icons.info}
-			</span>`;
 		} else {
 			return `${client.i18n.getMessage("ui_onlyListItems")}<br>${client.i18n.getMessage(
 				"ui_twitterHides",
@@ -169,6 +163,7 @@ export default class LikersBlocker {
 	}
 
 	private async changeStateToConfirm() {
+		console.debug("changeStateToConfirm()");
 		const collectingMessage = (this.popup.querySelector(
 			".lb-label.lb-collecting",
 		) as HTMLElement);
@@ -299,7 +294,6 @@ export default class LikersBlocker {
 		const checkmark = document.createElement("span");
 		checkmark.classList.add("lb-checkmark");
 		this.loadingInfo.appendChild(checkmark);
-		checkmark.style.background = TwitterPage.highlightColor;
 		checkmark.innerHTML = Icons.checkmark;
 
 		if (this.checkbox) {
@@ -345,32 +339,30 @@ export default class LikersBlocker {
 	}
 
 	private createConfirmButton() {
-		if (TwitterPage.isBlockPage) {
-			let areaWrapper = document.createElement("div");
-			let copyButton = document.createElement("button");
+		let areaWrapper = document.createElement("div");
+		let copyButton = document.createElement("button");
 
-			areaWrapper.classList.add("lb-copy-wrapper");
-			copyButton.classList.add("lb-copy-button");
-			copyButton.style.color = this.textStyle.color;
-			copyButton.innerHTML = `${Icons.clipboardCopy} <span>${client.i18n.getMessage(
-				"ui_copyToShare",
-			)}</span>`;
-			this.textarea = document.createElement("textarea");
-			this.textarea.readOnly = true;
-			this.textarea.classList.add("lb-textarea");
+		areaWrapper.classList.add("lb-copy-wrapper");
+		copyButton.classList.add("lb-copy-button");
+		copyButton.style.color = this.textStyle.color;
+		copyButton.innerHTML = `${Icons.clipboardCopy} <span>${client.i18n.getMessage(
+			"ui_copyToShare",
+		)}</span>`;
+		this.textarea = document.createElement("textarea");
+		this.textarea.readOnly = true;
+		this.textarea.classList.add("lb-textarea");
 
-			areaWrapper.appendChild(copyButton);
-			areaWrapper.appendChild(this.textarea);
+		areaWrapper.appendChild(copyButton);
+		areaWrapper.appendChild(this.textarea);
 
-			copyButton.addEventListener(
-				"click",
-				() => {
-					this.handleCopyClick(this.textarea, copyButton);
-				},
-			);
+		copyButton.addEventListener(
+			"click",
+			() => {
+				this.handleCopyClick(this.textarea, copyButton);
+			},
+		);
 
-			return areaWrapper;
-		} else {
+		if (!TwitterPage.isBlockPage) {
 			const blockButton = this.blockButton;
 			this.confirmButton = (blockButton.cloneNode(true) as HTMLLinkElement);
 			this.confirmButton.classList.add("lb-confirm-button");
@@ -394,8 +386,10 @@ export default class LikersBlocker {
 				},
 			);
 
-			return this.confirmButton;
+			areaWrapper.appendChild(this.confirmButton);
 		}
+
+		return areaWrapper;
 	}
 
 	private createConfirmMessageElement() {
@@ -408,13 +402,12 @@ export default class LikersBlocker {
 		let headingContent2 = document.createElement("span");
 
 		headingContent1.innerHTML = client.i18n.getMessage("ui_usersFound");
-		headingContent2.innerHTML = TwitterPage.isBlockPage
-			? client.i18n.getMessage("ui_divided")
-			: `${client.i18n.getMessage("ui_blockAll")}?`;
+		headingContent2.innerHTML =
+			TwitterPage.isBlockPage || this.isListLarge
+				? client.i18n.getMessage("ui_divided")
+				: `${client.i18n.getMessage("ui_blockAll")}?`;
 
-		if (TwitterPage.isBlockPage) {
-			headingContent2.classList.add("lb-divided-msg");
-		}
+		headingContent2.classList.add("lb-divided-msg");
 
 		heading.append(headingContent1, headingContent2);
 		this.confirmMessageElement.append(heading);
@@ -517,15 +510,17 @@ export default class LikersBlocker {
 
 		loadingIndicator.addEventListener("animationiteration", checkAnimationState);
 
-		this.shrinkPopupToVisibleContent();
 		await this.startScrolling();
 	}
 
 	private async scrollDown() {
+		console.debug("scrollDown()");
 		const scrolly = await this.scrolly;
+		const allowanceOffset = 50;
 		const scrollListIsSmall = scrolly.scrollHeight < scrolly.clientHeight * 2;
 		const scrolledToBottom =
-			scrolly.scrollTop >= scrolly.scrollHeight - scrolly.clientHeight;
+			scrolly.scrollTop >=
+			scrolly.scrollHeight - scrolly.clientHeight - allowanceOffset;
 
 		scrolly.scroll({
 			top: scrolly.scrollTop + scrolly.clientHeight,
@@ -533,23 +528,23 @@ export default class LikersBlocker {
 			behavior: "smooth",
 		});
 
+		console.table({
+			scrollTop: scrolly.scrollTop,
+			compareToScrollTop: scrolly.scrollHeight -
+			scrolly.clientHeight -
+			allowanceOffset,
+			scrollHeight: scrolly.scrollHeight,
+			clientHeight: scrolly.clientHeight,
+		});
+
 		await this.collectUsers();
 
-		let reachedUrlLengthMax: boolean;
-
-		if (!TwitterPage.isBlockPage) {
-			this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
-			reachedUrlLengthMax =
-				this.requestUrl.length > settings.URL_LENGTH_MAX - 100;
-		}
-
-		if (scrolledToBottom || scrollListIsSmall || reachedUrlLengthMax) {
+		if (scrolledToBottom || scrollListIsSmall) {
 			console.info(
 				"finished collecting!",
 				{
 					scrolledToBottom,
 					scrollListIsSmall,
-					reachedUrlLengthMax,
 				},
 			);
 			this.finishCollecting();
@@ -557,9 +552,8 @@ export default class LikersBlocker {
 	}
 
 	private finishCollecting(): void {
-		if (TwitterPage.isBlockPage) {
-			this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
-		}
+		console.debug("finishCollecting()");
+		this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
 
 		if (this.confirmButton) {
 			this.confirmButton.href = this.requestUrl;
@@ -569,10 +563,7 @@ export default class LikersBlocker {
 			this.textarea.value = this.requestUrl;
 		}
 
-		if (
-			TwitterPage.isBlockPage &&
-			this.requestUrl.length > settings.URL_LENGTH_MAX
-		) {
+		if (this.requestUrl.length > settings.URL_LENGTH_MAX) {
 			document.querySelector("body").classList.add("many");
 			let requestCount = this.requestUrl.length / settings.URL_LENGTH_MAX;
 			let usersPerRequest = this.users.length / requestCount;
@@ -580,8 +571,18 @@ export default class LikersBlocker {
 			for (let i = 0; i <= requestCount; i++) {
 				let linkClone = this.textarea.parentNode.cloneNode(true);
 				this.textarea.parentNode.parentNode.appendChild(linkClone);
-				let textarea = (linkClone.childNodes.item(1) as HTMLTextAreaElement);
-				let copyButton = textarea.parentElement.querySelector("button");
+				const textarea = (linkClone.childNodes.item(1) as HTMLTextAreaElement);
+
+				const copyButton = (textarea.parentElement.querySelector(
+					".lb-copy-button",
+				) as HTMLButtonElement);
+				const confirmButton = (textarea.parentElement.querySelector(
+					".lb-confirm-button",
+				) as HTMLLinkElement);
+				const requestUrl = `${settings.API_URL_BLOCK}?users=${this.users.slice(
+					usersPerRequest * i,
+					usersPerRequest * (i + 1),
+				)}`;
 
 				copyButton.addEventListener(
 					"click",
@@ -590,18 +591,32 @@ export default class LikersBlocker {
 					},
 				);
 
-				textarea.value = `${settings.API_URL_BLOCK}?users=${this.users.slice(
-					usersPerRequest * i,
-					usersPerRequest * (i + 1),
-				)}`;
+				textarea.value = requestUrl;
+
+				if (confirmButton) {
+					confirmButton.href = requestUrl;
+					(confirmButton.querySelector("div > span > span") as HTMLSpanElement).innerText = `${client.i18n.getMessage(
+						"ui_confirmButtonLabel",
+					)} ${i + 1}`;
+				}
 			}
+
+			// Remove original after cloning:
+			this.textarea.parentNode.parentNode.removeChild(
+				document.querySelector(".lb-copy-wrapper"),
+			);
 		}
+
+		this.stopScrolling();
 
 		const confirmHeading = this.popup.querySelector(
 			".lb-confirm-message h3 span",
 		);
-		confirmHeading.innerHTML = `${this.users.length} ${confirmHeading.innerHTML}`;
-		this.stopScrolling();
+
+		if (confirmHeading) {
+			confirmHeading.innerHTML = `${this.users.length} ${confirmHeading.innerHTML}`;
+		}
+
 		this.popup.classList.add("lb-check");
 		const checkmark = this.popup.querySelector(".lb-checkmark");
 
@@ -726,7 +741,7 @@ export default class LikersBlocker {
 		exportBtn.setAttribute("aria-label", client.i18n.getMessage("ui_export"));
 		exportBtn.setAttribute("title", client.i18n.getMessage("ui_export"));
 		exportBtn.classList.add("lb-btn--export");
-		exportBtn.style.backgroundColor = TwitterPage.highlightColor;
+		exportBtn.style.backgroundColor = TwitterPage.twitterBrandColor;
 
 		blockedListContainer.appendChild(exportBtn);
 
@@ -762,11 +777,6 @@ export default class LikersBlocker {
 		}
 	};
 
-	private shrinkPopupToVisibleContent() {
-		const hiddenContentHeight = this.confirmMessageElement.clientHeight;
-		this.popup.style.height = `${this.popup.clientHeight - hiddenContentHeight}px`;
-	}
-
 	private async startScrolling() {
 		(await this.getScrollList()).classList.add("lb-blur");
 		(await this.scrolly).scrollTo(0, 0);
@@ -780,6 +790,7 @@ export default class LikersBlocker {
 	}
 
 	private stopScrolling = () => {
+		console.debug("stopScrolling()");
 		clearInterval(this.scrollInterval);
 	};
 }

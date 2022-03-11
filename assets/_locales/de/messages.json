@@ -108,7 +108,7 @@
 		"description": "Title of the export button"
 	},
 	"ui_copyToShare": {
-		"message": "Text kopieren um als Liste teilen.",
+		"message": "Link kopieren um als Liste teilen.",
 		"description": "Label of the copy to clipboard button."
 	},
 	"ui_copied": {
@@ -116,7 +116,7 @@
 		"description": "Message that tells the user that the content of the block list has been copied to clipboard."
 	},
 	"ui_urlLimit": {
-		"message": "Aufgrund einer URL-Längenbeschränkung wird die Block-Liste evtl. in mehrere Links aufgeteilt.",
+		"message": "Aufgrund einer technischen URL-Längenbeschränkung wird die Block-Liste evtl. in mehrere Links aufgeteilt.",
 		"description": "Info that tells the user that the block list may be divided into several links."
 	},
 	"ui_takeAMoment": {
@@ -126,5 +126,9 @@
 	"ui_divided": {
 		"message": "In mehrere Links aufgeteilt, weil URL sonst zu lang.",
 		"description": "Message that is shown after the collection of blocked account to export them if the list was divided into several links."
+	},
+	"ui_confirmButtonLabel": {
+		"message": "Blockiere Teil",
+		"description": "The block button label for blocking each portion of accounts in large lists."
 	}
 }
