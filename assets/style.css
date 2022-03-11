@@ -56,11 +56,6 @@ body.lb-block-page .lb-popup-wrapper {
 	height: 260px;
 }
 
-/* Hide textarea template node */
-body.many .lb-popup.lb-confirm .lb-label.lb-confirm-message h3 + div {
-	display: none;
-}
-
 .lb-popup footer {
 	position: absolute;
 	bottom: 0;
@@ -116,13 +111,12 @@ body.many .lb-divided-msg {
 	display: inline;
 }
 
-body.lb-block-page .lb-popup {
+body.many .lb-popup {
 	height: auto;
 }
 
 body.many .lb-popup.lb-confirm {
 	width: 700px;
-	height: 600px;
 }
 
 body.lb-block-page.many .lb-popup.lb-confirm {
@@ -244,12 +238,17 @@ body.lb-legacy-twitter .lb-close-button {
 	align-items: center;
 }
 
+.lb-label-wrapper {
+	margin-top: .6rem;
+}
+
 .lb-label h3 {
 	margin-top: -3px;
 	margin-bottom: 1em;
 	color: inherit;
 }
 
+/* Left part of the heading */
 .lb-label h3:first-of-type {
 	margin-left: 2rem;
 }
