@@ -35,8 +35,8 @@ body {
       filter: blur(2px);
     }
 
-    .lb-copy-button {
-      max-width: 280px;
+    .lb-copy-button span {
+      max-width: 240px;
     }
 
     .lb-textarea {
@@ -479,8 +479,8 @@ body.lb-legacy-twitter {
 
   svg {
     height: 1em;
-    width: auto;
     margin-right: 0.5em;
+    transform: translateY(2px);
   }
 }
 
