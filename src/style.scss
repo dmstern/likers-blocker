@@ -268,16 +268,16 @@ body.lb-legacy-twitter {
   transition: background-color ease 500ms, opacity ease 1000ms;
 
   svg {
-    width: 1.5em;
-    height: 1.5em;
+    width: 1.8em;
+    height: 1.8em;
     color: $color_4 !important;
     margin-top: 2px;
     opacity: 1;
     visibility: visible;
     transition: left 300ms ease-in-out, transform 1600ms ease-in-out 300ms, opacity 800ms ease-in-out 1200ms, visibility 800ms ease-in-out 1200ms;
     position: absolute;
-    top: 8px;
-    left: 11px;
+    top: 6px;
+    left: 10px;
     transform-origin: 50% 50%;
 
     &:nth-child(2) {
