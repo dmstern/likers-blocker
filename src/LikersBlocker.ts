@@ -398,9 +398,16 @@ export default class LikersBlocker {
 		areaWrapper.classList.add("lb-copy-wrapper");
 		copyButton.classList.add("lb-copy-button");
 		copyButton.style.color = this.textStyle.color;
-		copyButton.innerHTML = `${Icons.clipboardCopy} <span>${client.i18n.getMessage(
-			"ui_copyToShare",
-		)}</span>`;
+		copyButton.innerHTML = `
+			<span class="lb-copy-button__content">
+				<span>${Icons.clipboardCopy}</span>
+				<span class="lb-copy-button__label">${client.i18n.getMessage("ui_copyToShare")}</span>
+			</span>
+			<span class="lb-copy-button__content">
+				<span>${Icons.clipboardCheck}</span>
+				<span class="lb-copy-button__label">${client.i18n.getMessage("ui_copied")}</span>
+			</span>
+		`;
 		this.textarea = document.createElement("textarea");
 		this.textarea.readOnly = true;
 		this.textarea.classList.add("lb-textarea");
@@ -523,18 +530,13 @@ export default class LikersBlocker {
 	) {
 		textarea.select();
 		document.execCommand("copy");
-		let copyButtonLabel = copyButton.innerHTML;
-		copyButton.innerHTML = `${Icons.clipboardCheck} <span>${client.i18n.getMessage(
-			"ui_copied",
-		)}</span>`;
-		copyButton.style.color = "green";
+		copyButton.classList.add("lb-copy-button--active");
 		copyButton.setAttribute("disabled", "true");
 
 		// Reset button label after a while:
 		window.setTimeout(
 			() => {
-				copyButton.innerHTML = copyButtonLabel;
-				copyButton.style.color = this.textStyle.color;
+				copyButton.classList.remove("lb-copy-button--active");
 				copyButton.removeAttribute("disabled");
 			},
 			5_000,

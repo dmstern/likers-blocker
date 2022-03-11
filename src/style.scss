@@ -1,9 +1,9 @@
-$color_1: rgba(128, 128, 128, 0.6);
+$color-gray: rgba(128, 128, 128, 0.6);
 $color_2: unset;
-$color_3: #1DA1F2;
+$color-brand: #1DA1F2;
 $color_4: inherit;
-$color_5: #559730;
-$color_6: white;
+$color-success: #559730;
+$color-snow: white;
 $background-color_1: transparent;
 
 /* Left part of the heading */
@@ -33,10 +33,6 @@ body {
   &:not(.lb-block-page) {
     .lb-blur {
       filter: blur(2px);
-    }
-
-    .lb-copy-button span {
-      max-width: 240px;
     }
 
     .lb-textarea {
@@ -70,7 +66,7 @@ body.lb-block-page {
 .lb-popup {
   position: fixed;
   width: 500px;
-  height: 270px;
+  height: 275px;
   top: 25%;
   left: 50%;
   transform: translateX(-50%);
@@ -105,7 +101,7 @@ body.lb-block-page {
 
   a {
     &:hover.icon--twitter {
-      color: $color_3;
+      color: $color-brand;
     }
   }
 
@@ -122,7 +118,6 @@ body.lb-block-page {
 
 .lb-popup.lb-confirm {
   opacity: 1;
-  height: 260px;
 }
 
 .lb-footer__inner {
@@ -138,10 +133,10 @@ body.lb-block-page {
 
   a {
     transition: all 200ms ease;
-    color: $color_1;
+    color: $color-gray;
 
     &:visited {
-      color: $color_1;
+      color: $color-gray;
     }
 
     &:hover {
@@ -308,7 +303,7 @@ body.lb-legacy-twitter {
       visibility: visible;
     }
 
-    color: $color_5 !important;
+    color: $color-success !important;
     transform: rotate(6turn);
     left: 15px;
   }
@@ -363,7 +358,7 @@ body.lb-legacy-twitter {
 .lb-checkmark {
   width: 20px;
   height: 20px;
-  color: $color_5;
+  color: $color-success;
   border-radius: 50%;
   display: block;
   position: absolute;
@@ -451,7 +446,7 @@ body.lb-legacy-twitter {
   cursor: pointer;
   box-shadow: 0 0 5px #00000033;
   opacity: 0.7;
-  color: $color_6;
+  color: $color-snow;
 
   &:hover {
     opacity: 1;
@@ -479,13 +474,17 @@ body.lb-legacy-twitter {
   background: transparent;
   border: none;
   font-size: 1rem;
-  display: flex;
-  line-height: 2rem;
-  align-items: baseline;
+  padding: 0;
+  margin-left: -5px;
+  height: 3em;
 
-  span {
+  &__label {
     text-align: left;
     line-height: 1em;
+
+    body:not(.lb-block-page) & {
+      max-width: 270px;
+    }
   }
 
   &:not([disabled]) {
@@ -496,6 +495,40 @@ body.lb-legacy-twitter {
     height: 1em;
     margin-right: 0.5em;
     transform: translateY(2px);
+  }
+
+  &__content {
+    display: flex;
+    align-items: baseline;
+    transition: all 500ms ease-in-out;
+    position: absolute;
+    top: 0;
+
+    &:first-of-type {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    &:last-of-type {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  &--active {
+    color: $color-success !important;
+  }
+
+  &--active &__content {
+    &:first-of-type {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    &:last-of-type {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 }
 
