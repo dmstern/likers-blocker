@@ -42,10 +42,6 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 - Confirm and wait for the sucess message.
 - ✔ DONE. All the collected likers of the tweet are blocked. 😇
 
-**Constraints:**
-
-- For big lists of likers (hundrets and more), not _all_ likers are blocked, we can only collect those who are visible in the list from twitter.
-
 ### Block all members of a list
 
 - Click on a list of twitter users
@@ -124,12 +120,12 @@ All information on this site is licensed under the [Creative Commons Attribution
 Glad that you appreciate our work! :)
 
 We do this in our free time. This tool is and remains free for everyone and free from ads.
-We would highly appreciate if you considered to donate a little tip, rate this extension in your browser or tell others about it.
+We would highly appreciate if you considered donating a little tip, rate this extension in your browser or tell others about it.
 
-### Sponsor
+### Donate
 
-- 🎁 [paypal.me/dmstr](https://paypal.me/dmstr)
-- 🎁 [paypal.me/philipkreissel](https://paypal.me/philipkreissel)
+- 💝 [paypal.me/dmstr](https://paypal.me/dmstr)
+- 💝 [paypal.me/philipkreissel](https://paypal.me/philipkreissel)
 
 ### Rate
 
