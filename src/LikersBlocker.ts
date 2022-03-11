@@ -617,6 +617,7 @@ export default class LikersBlocker {
 		}
 
 		if (this.requestUrl.length > settings.URL_LENGTH_MAX) {
+			console.info("list is large");
 			document.querySelector("body").classList.add("many");
 			let requestCount = this.requestUrl.length / settings.URL_LENGTH_MAX;
 			let usersPerRequest = this.users.length / requestCount;
@@ -660,7 +661,9 @@ export default class LikersBlocker {
 			);
 		}
 
-		this.addIncludeRetweetersParam(this.checkbox.checked);
+		if (this.checkbox) {
+			this.addIncludeRetweetersParam(this.checkbox.checked);
+		}
 
 		this.stopScrolling();
 
