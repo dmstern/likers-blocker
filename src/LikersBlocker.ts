@@ -297,24 +297,31 @@ export default class LikersBlocker {
 		checkmark.innerHTML = Icons.checkmark;
 
 		if (this.checkbox) {
-			this.checkbox.addEventListener(
-				"change",
-				this.handleIncludeRetweetersCheckboxChange,
-			);
+			this.checkbox.addEventListener("change", () => {
+				this.addIncludeRetweetersParam(this.checkbox.checked);
+			});
 		}
 	}
 
-	handleIncludeRetweetersCheckboxChange = () => {
-		let tweetParam: string;
-		if (this.checkbox.checked) {
-			tweetParam = `&tweet_id=${this.tweetId}`;
+	addIncludeRetweetersParam = (shouldIncludeRetweeters) => {
+		LocalStorage.includeRetweeters = shouldIncludeRetweeters;
+
+		const confirmButtons: HTMLLinkElement[] = Array.from(document.querySelectorAll(".lb-confirm-button")).map(button => button as HTMLLinkElement);
+		const textareas: HTMLTextAreaElement[] = Array.from(document.querySelectorAll(".lb-textarea")).map(button => button as HTMLTextAreaElement);
+		const linkIncludesRetweeters = confirmButtons.every(button => button.href.includes("tweet_id="));
+
+		if (shouldIncludeRetweeters === linkIncludesRetweeters) {
+			return;
 		}
 
-		LocalStorage.includeRetweeters = this.checkbox.checked;
-
-		if (this.confirmButton) {
-			this.confirmButton.href = `${this.requestUrl}${tweetParam}`;
+		const getRequestUrl = (currentValue: string): string => {
+			const blocklistUrl = linkIncludesRetweeters ? currentValue.split("&")[0] : currentValue;
+			const includeRetweetersParam = linkIncludesRetweeters ? "" : `&tweet_id=${this.tweetId}`;
+			return `${blocklistUrl}${includeRetweetersParam}`;
 		}
+
+		confirmButtons.forEach(button => button.href = getRequestUrl(button.href));
+		textareas.forEach(textarea => textarea.value = getRequestUrl(textarea.value));
 	};
 
 	private async createCloseButton() {
@@ -629,6 +636,8 @@ export default class LikersBlocker {
 			);
 		}
 
+		this.addIncludeRetweetersParam(this.checkbox.checked);
+
 		this.stopScrolling();
 
 		const confirmHeading = this.popup.querySelector(
@@ -701,8 +710,8 @@ export default class LikersBlocker {
 		let confirmButton = this.createConfirmButton();
 
 		if (TwitterPage.isTweetPage) {
-			let checkbox = this.createCheckbox();
-			this.confirmMessageElement.appendChild(checkbox);
+			let checkboxWrapper = this.createCheckbox();
+			this.confirmMessageElement.appendChild(checkboxWrapper);
 		}
 
 		this.confirmMessageElement.appendChild(confirmButton);
