@@ -129,13 +129,15 @@ We would highly appreciate if you considered donating a little tip, rate this ex
 
 ### Rate
 
-Rate this extension in the [Chrome Web Store](https://chrome.google.com/webstore/detail/melnbpmfhaejmcpfflfjmchondkpmkcj/), on [Firefox Add-Ons](https://addons.mozilla.org/firefox/addon/likers-blocker/), [Opera Add-Ons](https://addons.opera.com/de/extensions/details/likers-blocker/).
+⭐⭐⭐⭐⭐ Rate this extension in the [Chrome Web Store](https://chrome.google.com/webstore/detail/melnbpmfhaejmcpfflfjmchondkpmkcj/), on [Firefox Add-Ons](https://addons.mozilla.org/firefox/addon/likers-blocker/), [Opera Add-Ons](https://addons.opera.com/de/extensions/details/likers-blocker/).
 
 ### Share
 
 [🐦 💬 Tweet about this extension](<https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier>)
 
 ### Follow us on Twitter
+
+💬 Don't miss version updates or bugfixes and join the conversation!
 
 [![Likers Blocker](https://pbs.twimg.com/profile_images/1397331928928378880/3O3zY4bh_bigger.png)  @LikersBlocker](https://twitter.com/LikersBlocker)
 
