@@ -88,6 +88,13 @@ body.lb-block-page {
   line-height: var(--text-line-height);
   outline: none;
 
+  @media (max-width: 440px) {
+    margin-left: 0;
+    left: 0;
+    width: 100% !important;
+  }
+
+
   footer {
     position: absolute;
     bottom: 0;
@@ -400,6 +407,14 @@ body.lb-legacy-twitter {
 .lb-block-button {
   margin-right: 0 !important;
 
+  @media (min-width: 620px) AND (max-width: 698px) {
+    margin-right: 6px !important;
+  }
+
+  @media (max-width: 621px) {
+    margin-right: 3px !important;
+  }
+
   * {
     color: $color_4 !important;
   }
@@ -516,24 +531,4 @@ a[class*="lb-"] {
   position: absolute;
   top: 106px;
   left: 1100px;
-}
-
-@media (max-width: 440px) {
-  .lb-popup {
-    margin-left: 0;
-    left: 0;
-    width: 100% !important;
-  }
-}
-
-@media (max-width: 621px) {
-  .lb-block-button {
-    margin-right: 3px !important;
-  }
-}
-
-@media (min-width: 620px) AND (max-width: 698px) {
-  .lb-block-button {
-    margin-right: 6px !important;
-  }
 }
