@@ -130,7 +130,7 @@ body.lb-block-page {
 
         h3 {
           position: fixed;
-          transform: translateY(-150%);
+          transform: translateY(-45px);
         }
       }
     }
@@ -258,10 +258,6 @@ body.lb-legacy-twitter {
     height: 39px;
   }
 
-  .lb-checkmark {
-    bottom: -9px;
-  }
-
   .lb-block-button {
     margin-left: 68%;
   }
@@ -361,50 +357,21 @@ body.lb-legacy-twitter {
   margin-top: .6rem;
 }
 
-.lb-loading-wrapper {
-  margin: 1rem 0;
-}
-
-.lb-loading {
-  display: block;
-  animation: swipe 1600ms ease-in-out alternate infinite;
-  opacity: 1;
-  transition: opacity 300ms ease;
-
-  .lb-collected & {
-    opacity: 0;
-    animation-play-state: paused;
-  }
-
-  .lb-confirm & {
-    animation-play-state: paused;
-    opacity: 0;
-    letter-spacing: 0;
-  }
-}
-
 .lb-checkmark {
-  width: 20px;
-  height: 20px;
-  color: $color-success;
-  border-radius: 50%;
+  color: $color-snow;
   display: block;
   position: absolute;
-  right: 3px;
-  bottom: -8px;
-  transform: scale(1);
+  right: 5px;
+  top: 50%;
+  transform: scale(1) translateY(-50%);
+  transform-origin: 50% 0;
   opacity: 0;
-  transition: opacity 600ms ease-in-out, transform 800ms cubic-bezier(0.66, 0.47, 0.2, 1.89) 400ms;
+  transition: opacity 600ms ease-in-out, transform 600ms cubic-bezier(0.66, 0.47, 0.2, 1.89) 400ms;
+  width: 1.2rem;
+  height: auto;
 
-  svg {
-    width: 1.5rem;
-    height: auto;
-  }
-}
-
-.lb-collected {
-  .lb-checkmark {
-    transform: scale(1.5);
+  .lb-collected & {
+    transform: scale(1.2) translateY(-50%);
     opacity: 1;
   }
 }
@@ -596,6 +563,37 @@ body.lb-legacy-twitter {
     height: inherit;
     color: $color_2;
     fill: currentColor;
+  }
+}
+
+.lb-progress-bar {
+  width: 100%;
+  padding: 1rem 0;
+
+  &__inner {
+    position: relative;
+    width: 0;
+    min-width: calc(1em);
+    display: block;
+    border-radius: 4px;
+    transition: width 500ms ease-in-out;
+    color: $color-snow;
+    padding: 5px;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  &__label {
+    line-height: 1em;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: transform 500ms ease-in-out;
+    transform: translateX(0);
+    display: block;
+
+    .lb-check & {
+      transform: translateX(-2rem);
+    }
   }
 }
 

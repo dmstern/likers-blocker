@@ -168,7 +168,7 @@ export default class LikersBlocker {
 		const collectingMessage = (this.popup.querySelector(
 			".lb-label.lb-collecting",
 		) as HTMLElement);
-		collectingMessage.style.marginTop = `calc(-${collectingMessage.clientHeight}px - 1rem)`;
+		collectingMessage.style.marginTop = `-${collectingMessage.clientHeight}px`;
 		this.popup.classList.add("lb-confirm");
 		(await this.getScrollList()).classList.remove("lb-blur");
 	}
@@ -211,6 +211,10 @@ export default class LikersBlocker {
 
 		let userCounter = (document.querySelector(".lb-user-counter") as HTMLElement);
 		userCounter.innerText = `${this.users.length}`;
+
+		const progressInPercent = Math.ceil((this.users.length / this.likesCount) * 100);
+		document.querySelector(".lb-progress-bar__label").innerHTML = `${progressInPercent}%`;
+		(document.querySelector(".lb-progress-bar__inner") as HTMLElement).style.width = `${progressInPercent}%`;
 	}
 
 	private async createBlockButton() {
@@ -280,6 +284,11 @@ export default class LikersBlocker {
 		this.checkbox.type = "checkbox";
 		this.checkbox.checked = LocalStorage.includeRetweeters;
 		this.checkbox.classList.add("lb-checkbox");
+
+		this.checkbox.addEventListener("change", () => {
+			this.addIncludeRetweetersParam(this.checkbox.checked);
+		});
+
 		label.innerHTML = `<span>${client.i18n.getMessage("ui_blockRetweeters")}</span>`;
 		label.prepend(this.checkbox);
 		const retweetersNotice = document.createElement("span");
@@ -288,22 +297,6 @@ export default class LikersBlocker {
 		retweetersNotice.innerHTML = Icons.info;
 		labelWrapper.appendChild(retweetersNotice);
 		return labelWrapper;
-	}
-
-	private async createCheckmark() {
-		const checkmark = document.createElement("span");
-		checkmark.classList.add("lb-checkmark");
-		this.loadingInfo.appendChild(checkmark);
-		checkmark.innerHTML = Icons.checkmark;
-
-		if (this.checkbox) {
-			this.checkbox.addEventListener(
-				"change",
-				() => {
-					this.addIncludeRetweetersParam(this.checkbox.checked);
-				},
-			);
-		}
 	}
 
 	addIncludeRetweetersParam = (shouldIncludeRetweeters) => {
@@ -538,27 +531,8 @@ export default class LikersBlocker {
 	}
 
 	private async initBlockAction() {
-		let animationIterationCounter = 0;
-
-		let loadingIndicator = (this.popup.querySelector(".lb-loading") as HTMLElement);
-		loadingIndicator.style.color = TwitterPage.highlightColor;
 		const popupLabel = (this.popup.querySelector(".lb-label") as HTMLElement);
 		Object.assign(popupLabel.style, this.textStyle);
-
-		const checkAnimationState = () => {
-			animationIterationCounter++;
-
-			// only continue when indicator is on the right side:
-			if (
-				animationIterationCounter % 2 !== 0 &&
-				this.popup.classList.contains("lb-check")
-			) {
-				this.popup.classList.add("lb-collected");
-			}
-		};
-
-		loadingIndicator.addEventListener("animationiteration", checkAnimationState);
-
 		await this.startScrolling();
 	}
 
@@ -676,20 +650,11 @@ export default class LikersBlocker {
 			confirmHeading.innerHTML = `${this.users.length} ${confirmHeading.innerHTML}`;
 		}
 
-		this.popup.classList.add("lb-check");
-		const checkmark = this.popup.querySelector(".lb-checkmark");
-
-		checkmark.addEventListener(
-			"transitionend",
-			() => {
-				checkmark.addEventListener(
-					"transitionend",
-					async () => {
-						await this.changeStateToConfirm();
-					},
-				);
-			},
-		);
+		this.popup.classList.add("lb-check", "lb-collected");
+		setTimeout(
+			async () => {
+				await this.changeStateToConfirm();
+			}, 1200);
 	}
 
 	private async getTopbar() {
@@ -730,7 +695,12 @@ export default class LikersBlocker {
 			"ui_collectingUsernames",
 		)}... <span class="lb-user-counter"></span></h3>
 				<p class="lb-text">${this.limitMessage}</p>
-				<h1 class="lb-loading-wrapper"><span class='lb-loading'>...</span></h1>
+				<div class="lb-progress-bar">
+					<div class="lb-progress-bar__inner" style="background-color: ${TwitterPage.highlightColor}">
+						<span class="lb-progress-bar__label">0%</span>
+						${Icons.checkmark}
+					</div>
+				</div>
 			</div>`;
 
 		await this.createPopup(popupInner);
@@ -744,7 +714,6 @@ export default class LikersBlocker {
 
 		this.confirmMessageElement.appendChild(confirmButton);
 
-		await this.createCheckmark();
 		await this.createCloseButton();
 		await this.createFinishButton();
 		await this.createFooter();
@@ -876,11 +845,8 @@ export default class LikersBlocker {
 
 		const likesCountText = likesCountElement.textContent;
 		const chars = likesCountText.split("");
-		this.largeList = chars.some((char) => isNaN(Number(char)));
-
-		if (!this.largeList) {
-			this.likesCount = parseInt(likesCountText);
-		}
+		this.likesCount = parseInt(chars.filter((char) => !isNaN(Number(char))).join(""));
+		console.log(this.likesCount);
 	};
 
 	private async startScrolling() {
