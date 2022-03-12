@@ -358,7 +358,7 @@ body.lb-legacy-twitter {
 }
 
 .lb-checkmark {
-  color: $color-snow;
+  color: currentColor;
   display: block;
   position: absolute;
   right: 5px;
@@ -577,7 +577,7 @@ body.lb-legacy-twitter {
     display: block;
     border-radius: 4px;
     transition: width 500ms ease-in-out;
-    color: $color-snow;
+    color: currentColor;
     padding: 5px;
     text-align: right;
     white-space: nowrap;

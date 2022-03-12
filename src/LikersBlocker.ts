@@ -133,30 +133,7 @@ export default class LikersBlocker {
 	}
 
 	private get textStyle(): TextStyle {
-		let textElement: HTMLElement;
-		let style: TextStyle;
-		let textElementStyle: CSSStyleDeclaration;
-
-		if (this.isLegacyTwitter) {
-			textElement = document.querySelector(".js-tweet-text");
-		} else {
-			const bioText: HTMLElement = document.querySelector(
-				"[data-testid=UserCell] > div > div:nth-child(2) > div:nth-child(2)",
-			);
-			const nameText: HTMLElement = document.querySelector(
-				"[data-testid=UserCell] > div > div:nth-child(2) > div > div > a > div > div > div",
-			);
-			textElement = bioText || nameText;
-		}
-
-		if (!textElement) {
-			textElement = document.querySelector("span");
-		}
-
-		textElementStyle = getComputedStyle(textElement);
-		style = new TextStyle(textElementStyle);
-
-		return style;
+		return TwitterPage.getTextStyle(this.isLegacyTwitter);
 	}
 
 	private get users(): Array<string> {
@@ -695,7 +672,7 @@ export default class LikersBlocker {
 			"ui_collectingUsernames",
 		)}... <span class="lb-user-counter"></span></h3>
 				<p class="lb-text">${this.limitMessage}</p>
-				<div class="lb-progress-bar">
+				<div class="lb-progress-bar" style="color: ${TwitterPage.backgroundColor}">
 					<div class="lb-progress-bar__inner" style="background-color: ${TwitterPage.highlightColor}">
 						<span class="lb-progress-bar__label">0%</span>
 						${Icons.checkmark}

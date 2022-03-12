@@ -1,3 +1,5 @@
+import TextStyle from "./TextStyle";
+
 export default class TwitterPage {
 	static get backgroundColor() {
 		return getComputedStyle(document.querySelector("body")).backgroundColor;
@@ -23,6 +25,33 @@ export default class TwitterPage {
 		);
 
 		return isBlockPage;
+	}
+
+	static getTextStyle(isLegacyTwitter): TextStyle {
+		let textElement: HTMLElement;
+		let style: TextStyle;
+		let textElementStyle: CSSStyleDeclaration;
+
+		if (isLegacyTwitter) {
+			textElement = document.querySelector(".js-tweet-text");
+		} else {
+			const bioText: HTMLElement = document.querySelector(
+				"[data-testid=UserCell] > div > div:nth-child(2) > div:nth-child(2)",
+			);
+			const nameText: HTMLElement = document.querySelector(
+				"[data-testid=UserCell] > div > div:nth-child(2) > div > div > a > div > div > div",
+			);
+			textElement = bioText || nameText;
+		}
+
+		if (!textElement) {
+			textElement = document.querySelector("span");
+		}
+
+		textElementStyle = getComputedStyle(textElement);
+		style = new TextStyle(textElementStyle);
+
+		return style;
 	}
 
 	static get isListPage(): boolean {
