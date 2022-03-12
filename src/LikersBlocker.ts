@@ -608,6 +608,8 @@ export default class LikersBlocker {
 	private finishCollecting(): void {
 		console.debug("finishCollecting()");
 		this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
+		const listIsLarge = this.requestUrl.length > settings.URL_LENGTH_MAX;
+		document.querySelector("body").classList.toggle("many", listIsLarge);
 
 		if (this.confirmButton) {
 			this.confirmButton.href = this.requestUrl;
@@ -617,9 +619,8 @@ export default class LikersBlocker {
 			this.textarea.value = this.requestUrl;
 		}
 
-		if (this.requestUrl.length > settings.URL_LENGTH_MAX) {
+		if (listIsLarge) {
 			console.info("list is large");
-			document.querySelector("body").classList.add("many");
 			let requestCount = this.requestUrl.length / settings.URL_LENGTH_MAX;
 			let usersPerRequest = this.users.length / requestCount;
 
