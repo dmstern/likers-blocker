@@ -207,12 +207,6 @@ body.lb-block-page.many {
 }
 
 .lb-confirm {
-  .lb-loading {
-    animation-play-state: paused;
-    opacity: 0;
-    letter-spacing: 0;
-  }
-
   .lb-finish-button {
     opacity: 0;
     visibility: hidden;
@@ -367,11 +361,26 @@ body.lb-legacy-twitter {
   margin-top: .6rem;
 }
 
+.lb-loading-wrapper {
+  margin: 1rem 0;
+}
+
 .lb-loading {
   display: block;
   animation: swipe 1600ms ease-in-out alternate infinite;
   opacity: 1;
   transition: opacity 300ms ease;
+
+  .lb-collected & {
+    opacity: 0;
+    animation-play-state: paused;
+  }
+
+  .lb-confirm & {
+    animation-play-state: paused;
+    opacity: 0;
+    letter-spacing: 0;
+  }
 }
 
 .lb-checkmark {
@@ -393,16 +402,7 @@ body.lb-legacy-twitter {
   }
 }
 
-.lb-loading-wrapper {
-  margin: 1rem 0;
-}
-
 .lb-collected {
-  .lb-loading {
-    opacity: 0;
-    animation-play-state: paused;
-  }
-
   .lb-checkmark {
     transform: scale(1.5);
     opacity: 1;
