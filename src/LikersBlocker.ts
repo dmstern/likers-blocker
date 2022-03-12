@@ -4,6 +4,7 @@ import settings from "./settings";
 import TextStyle from "./TextStyle";
 import TwitterPage from "./TwitterPage";
 import LocalStorage from "./LocalStorage";
+import icons from "./icons";
 
 const client = typeof browser === "undefined" ? chrome : browser;
 
@@ -652,6 +653,15 @@ export default class LikersBlocker {
 					(confirmButton.querySelector("div > span > span") as HTMLSpanElement).innerText = `${client.i18n.getMessage(
 						"ui_confirmButtonLabel",
 					)} ${i + 1}`;
+
+					const iconWrapper = document.createElement("span");
+					iconWrapper.innerHTML = icons.check;
+					confirmButton.querySelector("div > span").prepend(iconWrapper);
+
+					confirmButton.addEventListener("click", (event) => {
+						const confirmButton = (event.target as HTMLElement).closest("a");
+						confirmButton.classList.add("lb-confirm-button--clicked");
+					});
 				}
 			}
 
