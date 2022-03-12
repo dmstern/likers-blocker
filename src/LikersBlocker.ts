@@ -14,6 +14,7 @@ const TOPBAR_SELECTOR = {
 };
 
 export default class LikersBlocker {
+	private progressInPercent: number;
 	public static run(): void {
 		// for when we are on the likes page:
 		new LikersBlocker();
@@ -49,6 +50,7 @@ export default class LikersBlocker {
 		this.collectedUsers = [];
 		this.requestUrl = "";
 		this.likesCount = 0;
+		this.progressInPercent = 0;
 		this.isLegacyTwitter = document.getElementById("page-outer") !== null;
 
 		this.setUpLikesCounter();
@@ -189,9 +191,9 @@ export default class LikersBlocker {
 		let userCounter = (document.querySelector(".lb-user-counter") as HTMLElement);
 		userCounter.innerText = `${this.users.length}`;
 
-		const progressInPercent = Math.ceil((this.users.length / this.likesCount) * 100);
-		document.querySelector(".lb-progress-bar__label").innerHTML = `${progressInPercent}%`;
-		(document.querySelector(".lb-progress-bar__inner") as HTMLElement).style.width = `${progressInPercent}%`;
+		this.progressInPercent = Math.ceil((this.users.length / this.likesCount) * 100);
+		document.querySelector(".lb-progress-bar__label").innerHTML = `${this.progressInPercent}%`;
+		(document.querySelector(".lb-progress-bar__inner") as HTMLElement).style.width = `${this.progressInPercent}%`;
 	}
 
 	private async createBlockButton() {
@@ -530,7 +532,7 @@ export default class LikersBlocker {
 
 		await this.collectUsers();
 
-		if (scrolledToBottom || scrollListIsSmall) {
+		if (scrolledToBottom || scrollListIsSmall || this.progressInPercent === 100) {
 			console.info(
 				"finished collecting!",
 				{
