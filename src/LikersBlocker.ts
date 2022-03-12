@@ -15,6 +15,8 @@ const TOPBAR_SELECTOR = {
 
 export default class LikersBlocker {
 	private progressInPercent: number;
+	private scrollTop: number;
+	private uiIdleCounter: number;
 	public static run(): void {
 		// for when we are on the likes page:
 		new LikersBlocker();
@@ -51,6 +53,7 @@ export default class LikersBlocker {
 		this.requestUrl = "";
 		this.likesCount = 0;
 		this.progressInPercent = 0;
+		this.uiIdleCounter = 0;
 		this.isLegacyTwitter = document.getElementById("page-outer") !== null;
 
 		this.setUpLikesCounter();
@@ -354,6 +357,7 @@ export default class LikersBlocker {
 					"transitionend",
 					() => {
 						finishButton.disabled = true;
+						this.popup.classList.remove("lb-popup--has-warning");
 						this.finishCollecting();
 					},
 					{
@@ -518,17 +522,27 @@ export default class LikersBlocker {
 	private async scrollDown() {
 		console.debug("scrollDown()");
 		const scrolly = await this.scrolly;
-		const allowanceOffset = 50;
 		const scrollListIsSmall = scrolly.scrollHeight < scrolly.clientHeight * 2;
-		const scrolledToBottom =
-			scrolly.scrollTop >=
-			scrolly.scrollHeight - scrolly.clientHeight - allowanceOffset;
+		const scrollTop = Math.ceil(scrolly.scrollTop) ;
+		const compareHeight = scrolly.scrollHeight - scrolly.clientHeight;
+		const scrolledToBottom = scrollTop >= compareHeight;
 
 		scrolly.scroll({
 			top: scrolly.scrollTop + scrolly.clientHeight,
 			left: 0,
 			behavior: "smooth",
 		});
+
+		if (scrollTop === this.scrollTop) {
+			this.uiIdleCounter++;
+
+			if (this.uiIdleCounter > 3 && !LocalStorage.hideIdleWarning) {
+			  console.warn("UI is hanging. User interaction is needed.");
+			  this.createIdleWarning();
+			}
+		}
+
+		this.scrollTop = scrollTop;
 
 		await this.collectUsers();
 
@@ -835,7 +849,7 @@ export default class LikersBlocker {
 			async () => {
 				await this.scrollDown();
 			},
-			1_600,
+			settings.SCROLL_INTERVAL,
 		);
 	}
 
@@ -843,4 +857,44 @@ export default class LikersBlocker {
 		console.debug("stopScrolling()");
 		clearInterval(this.scrollInterval);
 	};
+
+	private createIdleWarning() {
+		if (Array.from(this.popup.classList).includes("lb-popup--has-warning")) {
+			return;
+		}
+
+		const warning = document.createElement("div");
+		warning.classList.add("lb-warning");
+		warning.innerHTML= `
+			<h4 class="lb-warning__heading">${icons.warn}<span>${client.i18n.getMessage("ui_warningHeading")}</span></h4>
+			<span class="lb-warning__text">${client.i18n.getMessage("ui_warningText")}</span>
+			<div class="lb-warning__buttons">
+				<button class="lb-warning__button lb-warning__button--ok">${client.i18n.getMessage("ui_ok")}</button>
+				<button class="lb-warning__button lb-warning__button--hide">${client.i18n.getMessage("ui_doNotShowAgain")}</button>
+			</div>
+		`;
+
+		this.popup.append(warning);
+		this.popup.classList.add("lb-popup--has-warning");
+
+		warning.style.color = this.textStyle.color;
+		warning.style.fontFamily = this.textStyle.fontFamily;
+		warning.style.fontStyle = this.textStyle.fontStyle;
+		warning.style.fontWeight = this.textStyle.fontWeight;
+
+		this.popup.querySelectorAll(".lb-warning__button").forEach(button => {
+			button.addEventListener("click", () => {
+				this.popup.classList.remove("lb-popup--has-warning");
+				this.uiIdleCounter = 0;
+
+				warning.addEventListener("transitionend", () => {
+					this.popup.removeChild(warning);
+				});
+			});
+		});
+
+		this.popup.querySelector(".lb-warning__button--hide").addEventListener("click", () => {
+			LocalStorage.hideIdleWarning = true;
+		});
+	}
 }

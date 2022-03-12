@@ -135,6 +135,18 @@
 		"message": "Block part",
 		"description": "The block button label for blocking each portion of accounts in large lists."
 	},
+	"ui_warningHeading": {
+		"message": "Seems like your UI is hanging.",
+		"description": "The heading of the warning popup when the UI is hanging."
+	},
+	"ui_warningText": {
+		"message": "Maybe you have change the browser window. Please click OK or scroll with your mouse wheel to continue the user collection process.",
+		"description": "The main text of the UI hanging warning which tells the user what to do to continue the scroll process."
+	},
+	"ui_doNotShowAgain": {
+		"message": "Don't show again",
+		"description": "Button label for do not show again"
+	},
 	"ichbinhier_heading": {
 		"message": "Block following users?",
 		"description": "The heading of block confirmation page"

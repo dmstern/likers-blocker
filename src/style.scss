@@ -3,26 +3,10 @@ $color_2: unset;
 $color-brand: #1DA1F2;
 $color_4: inherit;
 $color-success: #559730;
-$color-snow: white;
-$background-color_1: transparent;
-
-/* Left part of the heading */
-@keyframes swipe {
-  0% {
-    letter-spacing: -8px;
-    transform: translateX(0);
-  }
-  16% {
-    transform: translateX(0);
-  }
-  50% {
-    letter-spacing: 10px;
-  }
-  100% {
-    letter-spacing: -8px;
-    transform: translateX(calc(100% - 16px));
-  }
-}
+$color-warning: #ec7613;
+$color-warning--darker: #653208;
+$color-snow: #ffffff;
+$background-color--transparent: transparent;
 
 body {
   --lb-popup-padding: 2rem;
@@ -112,6 +96,12 @@ body.lb-block-page {
           margin-left: 0.5em;
         }
       }
+    }
+  }
+
+  &--has-warning {
+    .lb-label {
+      filter: blur(5px);
     }
   }
 
@@ -248,7 +238,7 @@ body.lb-block-page.many {
   }
 
   &:not(:hover) {
-    background-color: $background-color_1 !important;
+    background-color: $background-color--transparent !important;
   }
 }
 
@@ -296,7 +286,7 @@ body.lb-legacy-twitter {
   }
 
   &:not(:hover) {
-    background-color: $background-color_1 !important;
+    background-color: $background-color--transparent !important;
   }
 }
 
@@ -317,7 +307,7 @@ body.lb-legacy-twitter {
     left: 15px;
   }
 
-  background-color: $background-color_1 !important;
+  background-color: $background-color--transparent !important;
 }
 
 .lb-label {
@@ -597,10 +587,66 @@ body.lb-legacy-twitter {
   }
 }
 
-a[class*="lb-"] {
-  background-color: $background-color_1 !important;
+.lb-warning {
+  position: absolute;
+  top: 3rem;
+  background-color: $color-snow;
+  width: 80%;
+  left: 6%;
+  border-radius: 10px;
+  color: $color-warning;
+  border: 2px solid $color-warning;
+  text-align: center;
+  padding: 1.4rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 500ms ease-in-out;
+
+  .lb-popup--has-warning & {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__heading {
+    color: $color-warning;
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    line-height: 1em;
+
+    svg {
+      height: 1.2em;
+    }
+  }
+
+  &__text {
+    color: $color-warning;
+  }
+
+  &__buttons {
+    display: flex;
+  }
+
+  &__button {
+    color: $color-warning;
+    display: block;
+    margin: 1em auto 0;
+    padding: 6px 1rem;
+    border: 1px solid $color-warning;
+    border-radius: 14px;
+    font-weight: bold;
+    font-family: inherit;
+    background-color: $background-color--transparent;
+  }
 }
 
+a[class*="lb-"] {
+  background-color: $background-color--transparent !important;
+}
+
+//==============================
+// Confirmation page:
+//==============================
 .btn.btn-danger {
   position: absolute;
   top: 106px;

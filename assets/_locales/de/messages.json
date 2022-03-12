@@ -135,6 +135,18 @@
 		"message": "Blockiere Teil",
 		"description": "The block button label for blocking each portion of accounts in large lists."
 	},
+	"ui_warningHeading": {
+		"message": "Sieht aus, als hat sich die Oberfläche aufgehängt.",
+		"description": "The heading of the warning popup when the UI is hanging."
+	},
+	"ui_warningText": {
+		"message": "Das kann passieren, wenn du das Browser-Fenster wechselst. Bitte klicke OK oder scrolle ein bisschen mit dem Mausrad, um den Einsammel-Prozess forzusetzen.",
+		"description": "The main text of the UI hanging warning which tells the user what to do to continue the scroll process."
+	},
+	"ui_doNotShowAgain": {
+		"message": "Nicht mehr anzeigen",
+		"description": "Button label for do not show again"
+	},
 	"ichbinhier_heading": {
 		"message": "Folgende User blockieren?",
 		"description": "The heading of block confirmation page"

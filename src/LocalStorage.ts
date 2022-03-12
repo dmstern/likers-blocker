@@ -3,6 +3,7 @@ const keys = {
 	hideBadgeShare: "lb.hide-badge.share",
 	hideBadgeDonate: "lb.hide-badge.donate",
 	hideBadgeFollow: "lb.hide-badge.follow",
+	hideIdleWarning: "lb.hide-idle-warning",
 };
 
 export default class LocalStorage {
@@ -37,5 +38,13 @@ export default class LocalStorage {
 
 	static set hideBadgeFollow(value: boolean) {
 		localStorage.setItem(keys.hideBadgeFollow, String(value));
+	}
+
+	static get hideIdleWarning(): boolean {
+		return localStorage.getItem(keys.hideIdleWarning) === "true";
+	}
+
+	static set hideIdleWarning(value: boolean) {
+		localStorage.setItem(keys.hideIdleWarning, String(value));
 	}
 }
