@@ -577,15 +577,6 @@ export default class LikersBlocker {
 			behavior: "smooth",
 		});
 
-		console.table({
-			scrollTop: scrolly.scrollTop,
-			compareToScrollTop: scrolly.scrollHeight -
-				scrolly.clientHeight -
-				allowanceOffset,
-			scrollHeight: scrolly.scrollHeight,
-			clientHeight: scrolly.clientHeight,
-		});
-
 		await this.collectUsers();
 
 		if (scrolledToBottom || scrollListIsSmall) {
