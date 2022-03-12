@@ -114,6 +114,27 @@ body.lb-block-page {
       }
     }
   }
+
+  body.many & {
+    height: auto;
+
+    &.lb-confirm {
+      width: 700px;
+      top: 150px;
+
+      .lb-label.lb-confirm-message {
+        margin-top: 5.5rem;
+        padding-right: 1rem;
+        max-height: calc(100vh - 440px);
+        overflow-y: auto;
+
+        h3 {
+          position: fixed;
+          transform: translateY(-150%);
+        }
+      }
+    }
+  }
 }
 
 .lb-popup.lb-confirm {
@@ -176,26 +197,6 @@ body.lb-block-page {
 body.many {
   .lb-divided-msg {
     display: inline;
-  }
-
-  .lb-popup {
-    height: auto;
-  }
-
-  .lb-popup.lb-confirm {
-    width: 700px;
-
-    .lb-label.lb-confirm-message {
-      margin-top: 5.5rem;
-      padding-right: 1rem;
-      max-height: calc(100% - 1.5rem);
-      overflow-y: auto;
-
-      h3 {
-        position: fixed;
-        transform: translateY(-150%);
-      }
-    }
   }
 }
 

@@ -485,8 +485,6 @@ export default class LikersBlocker {
 		this.popup.setAttribute("aria-labeledby", "lb-popup-heading");
 		this.popup.dataset.focusable = "true";
 		this.popup.classList.add("lb-popup");
-		this.popup.style.top = `${(await this.getScrollList()).getBoundingClientRect().top +
-		30}px`;
 		this.popup.style.background = TwitterPage.backgroundColor;
 		this.popup.style.color = TwitterPage.highlightColor;
 		this.popup.innerHTML = content;
