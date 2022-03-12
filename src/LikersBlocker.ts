@@ -463,12 +463,7 @@ export default class LikersBlocker {
 		let headingContent2 = document.createElement("span");
 
 		headingContent1.innerHTML = client.i18n.getMessage("ui_usersFound");
-		headingContent2.innerHTML =
-			TwitterPage.isBlockPage || this.isListLarge
-				? client.i18n.getMessage("ui_divided")
-				: `${client.i18n.getMessage("ui_blockAll")}?`;
-
-		headingContent2.classList.add("lb-divided-msg");
+		headingContent2.innerHTML = `${client.i18n.getMessage("ui_blockAll")}?`;
 
 		heading.append(headingContent1, headingContent2);
 		this.confirmMessageElement.append(heading);
@@ -623,6 +618,10 @@ export default class LikersBlocker {
 			console.info("list is large");
 			let requestCount = this.requestUrl.length / settings.URL_LENGTH_MAX;
 			let usersPerRequest = this.users.length / requestCount;
+
+			const headingContent2 = document.querySelector(".lb-confirm-message > h3 > span:last-of-type");
+			headingContent2.innerHTML = client.i18n.getMessage("ui_divided");
+			headingContent2.classList.add("lb-divided-msg");
 
 			for (let i = 0; i <= requestCount; i++) {
 				let linkClone = this.textarea.parentNode.cloneNode(true);
