@@ -823,7 +823,6 @@ export default class LikersBlocker {
 		const likesCountText = likesCountElement.textContent;
 		const chars = likesCountText.split("");
 		this.likesCount = parseInt(chars.filter((char) => !isNaN(Number(char))).join(""));
-		console.log(this.likesCount);
 	};
 
 	private async startScrolling() {
