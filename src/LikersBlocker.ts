@@ -15,7 +15,6 @@ const TOPBAR_SELECTOR = {
 
 export default class LikersBlocker {
 	private progressInPercent: number;
-	private uiIdleCounter: number;
 	private lastCollectedUserCount: number;
 	public static run(): void {
 		// for when we are on the likes page:
@@ -53,7 +52,6 @@ export default class LikersBlocker {
 		this.requestUrl = "";
 		this.likesCount = 0;
 		this.progressInPercent = 0;
-		this.uiIdleCounter = 0;
 		this.isLegacyTwitter = document.getElementById("page-outer") !== null;
 
 		this.setUpLikesCounter();
@@ -195,11 +193,7 @@ export default class LikersBlocker {
 		userCounter.innerText = `${this.users.length}`;
 
 		if (document.hasFocus() && this.users.length === this.lastCollectedUserCount) {
-			this.uiIdleCounter++;
-
-			if (this.uiIdleCounter > 3) {
-				this.createIdleWarning();
-			}
+		  	this.createIdleWarning();
 		}
 
 		this.progressInPercent = Math.ceil((this.users.length / this.likesCount) * 100);
@@ -883,7 +877,6 @@ export default class LikersBlocker {
 		this.popup.querySelectorAll(".lb-warning__button").forEach(button => {
 			button.addEventListener("click", () => {
 				this.popup.classList.remove("lb-popup--has-warning");
-				this.uiIdleCounter = 0;
 
 				warning.addEventListener("transitionend", () => {
 					this.popup.removeChild(warning);
