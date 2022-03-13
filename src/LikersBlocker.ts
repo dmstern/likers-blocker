@@ -15,8 +15,8 @@ const TOPBAR_SELECTOR = {
 
 export default class LikersBlocker {
 	private progressInPercent: number;
-	private scrollTop: number;
 	private uiIdleCounter: number;
+	private lastCollectedUserCount: number;
 	public static run(): void {
 		// for when we are on the likes page:
 		new LikersBlocker();
@@ -194,9 +194,18 @@ export default class LikersBlocker {
 		let userCounter = (document.querySelector(".lb-user-counter") as HTMLElement);
 		userCounter.innerText = `${this.users.length}`;
 
+		if (document.hasFocus() && this.users.length === this.lastCollectedUserCount) {
+			this.uiIdleCounter++;
+
+			if (this.uiIdleCounter > 3) {
+				this.createIdleWarning();
+			}
+		}
+
 		this.progressInPercent = Math.ceil((this.users.length / this.likesCount) * 100);
 		document.querySelector(".lb-progress-bar__label").innerHTML = `${this.progressInPercent}%`;
 		(document.querySelector(".lb-progress-bar__inner") as HTMLElement).style.width = `${this.progressInPercent}%`;
+		this.lastCollectedUserCount = this.users.length;
 	}
 
 	private async createBlockButton() {
@@ -532,17 +541,6 @@ export default class LikersBlocker {
 			left: 0,
 			behavior: "smooth",
 		});
-
-		if (scrollTop === this.scrollTop) {
-			this.uiIdleCounter++;
-
-			if (this.uiIdleCounter > 3 && !LocalStorage.hideIdleWarning) {
-			  console.warn("UI is hanging. User interaction is needed.");
-			  this.createIdleWarning();
-			}
-		}
-
-		this.scrollTop = scrollTop;
 
 		await this.collectUsers();
 
