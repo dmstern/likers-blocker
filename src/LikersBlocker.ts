@@ -38,7 +38,6 @@ export default class LikersBlocker {
 	private confirmButton: HTMLLinkElement;
 	private confirmMessageElement: HTMLElement;
 	private legacyTwitter: boolean;
-	private likesCount: number;
 	private largeList: boolean;
 	private popup: HTMLElement;
 	private popupWrapper: HTMLElement;
@@ -48,20 +47,16 @@ export default class LikersBlocker {
 	private topbar: HTMLElement;
 
 	private constructor() {
-		window.likersBlocker = undefined;
-
 		this.collectedUsers = [];
 		this.requestUrl = "";
-		this.likesCount = 0;
 		this.progressInPercent = 0;
 		this.uiIdleCounter = 0;
 		this.isLegacyTwitter = document.getElementById("page-outer") !== null;
 
-		this.setUpLikesCounter();
 		this.setUpBlockButton();
 		this.setUpExportButton();
 
-		window.likersBlocker = this;
+		console.log("construct");
 	}
 
 	public get isLegacyTwitter() {
@@ -82,8 +77,8 @@ export default class LikersBlocker {
 		);
 	}
 
-	private get isListLarge() {
-		return this.largeList || this.likesCount > settings.SMALL_LIST_LIMIT;
+	private isListLarge = async () => {
+		return this.largeList || (await this.getLikesCount()) > settings.SMALL_LIST_LIMIT;
 	}
 
 	private get limitMessage() {
@@ -203,7 +198,8 @@ export default class LikersBlocker {
 			}
 		}
 
-		this.progressInPercent = Math.ceil((this.users.length / this.likesCount) * 100);
+		console.log("percent", (await this.getLikesCount()));
+		this.progressInPercent = Math.ceil((this.users.length / (await this.getLikesCount())) * 100);
 		document.querySelector(".lb-progress-bar__label").innerHTML = `${this.progressInPercent}%`;
 		(document.querySelector(".lb-progress-bar__inner") as HTMLElement).style.width = `${this.progressInPercent}%`;
 		this.lastCollectedUserCount = this.users.length;
@@ -820,7 +816,8 @@ export default class LikersBlocker {
 		);
 	};
 
-	private setUpLikesCounter = async () => {
+	getLikesCount = async () => {
+		console.log("setUpLikesCounter");
 		let likesCountElement: HTMLElement;
 
 		if (this.isLegacyTwitter) {
@@ -837,7 +834,7 @@ export default class LikersBlocker {
 
 		const likesCountText = likesCountElement.textContent;
 		const chars = likesCountText.split("");
-		this.likesCount = parseInt(chars.filter((char) => !isNaN(Number(char))).join(""));
+		return parseInt(chars.filter((char) => !isNaN(Number(char))).join(""));
 	};
 
 	private async startScrolling() {
