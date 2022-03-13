@@ -198,7 +198,7 @@ export default class LikersBlocker {
 		if (document.hasFocus() && this.users.length === this.lastCollectedUserCount) {
 			this.uiIdleCounter++;
 
-			if (this.uiIdleCounter > 3) {
+			if (this.uiIdleCounter > settings.TIMES_TO_SCROLL_TO_BOTTOM) {
 				this.createIdleWarning();
 			}
 		}
