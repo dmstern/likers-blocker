@@ -556,6 +556,16 @@ body.lb-legacy-twitter {
   }
 }
 
+@keyframes load {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(91%);
+  }
+}
+
 .lb-progress-bar {
   width: 100%;
   padding: 1rem 0;
@@ -571,6 +581,12 @@ body.lb-legacy-twitter {
     padding: 5px;
     text-align: right;
     white-space: nowrap;
+
+    .lb-block-page .lb-collecting & {
+      text-align: center;
+      width: 50%;
+      animation: load 1200ms ease-in-out infinite alternate;
+    }
   }
 
   &__label {
@@ -580,6 +596,11 @@ body.lb-legacy-twitter {
     transition: transform 500ms ease-in-out;
     transform: translateX(0);
     display: block;
+
+    .lb-block-page & {
+      opacity: 0;
+      visibility: hidden;
+    }
 
     .lb-check & {
       transform: translateX(-2rem);
