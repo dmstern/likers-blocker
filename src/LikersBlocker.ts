@@ -75,7 +75,7 @@ export default class LikersBlocker {
 	}
 
 	private isListLarge = async () => {
-		return (await this.getLikesCount()) > settings.SMALL_LIST_LIMIT;
+		return (await this.getTotalUsersCount()) > settings.SMALL_LIST_LIMIT;
 	}
 
 	private get limitMessage() {
@@ -198,7 +198,7 @@ export default class LikersBlocker {
 			}
 		}
 
-		this.progressInPercent = Math.ceil((this.users.length / (await this.getLikesCount())) * 100);
+		this.progressInPercent = Math.ceil((this.users.length / (await this.getTotalUsersCount())) * 100);
 		document.querySelector(".lb-progress-bar__label").innerHTML = `${this.progressInPercent}%`;
 		(document.querySelector(".lb-progress-bar__inner") as HTMLElement).style.width = `${this.progressInPercent}%`;
 		this.lastCollectedUserCount = this.users.length;
@@ -815,22 +815,22 @@ export default class LikersBlocker {
 		);
 	};
 
-	getLikesCount = async () => {
-		let likesCountElement: HTMLElement;
+	getTotalUsersCount = async () => {
+		let usersCountElement: HTMLElement;
 
 		if (this.isLegacyTwitter) {
 			const likesCounterLink = await tryToAccessDOM(
 				"[data-tweet-stat-count].request-favorited-popup",
 			);
 			likesCounterLink.addEventListener("click", () => new LikersBlocker());
-			likesCountElement = likesCounterLink.querySelector("strong");
+			usersCountElement = likesCounterLink.querySelector("strong");
 		} else {
-			likesCountElement = await tryToAccessDOM(
-				"a[href$=likes] > div > span > span",
-			);
+			usersCountElement = TwitterPage.isListPage
+				? await tryToAccessDOM(`a[href$="${TwitterPage.isListPage}"] span span`)
+				: await tryToAccessDOM("a[href$=likes] > div > span > span");
 		}
 
-		const likesCountText = likesCountElement.textContent;
+		const likesCountText = usersCountElement.textContent;
 		const chars = likesCountText.split("");
 		return parseInt(chars.filter((char) => !isNaN(Number(char))).join(""));
 	};

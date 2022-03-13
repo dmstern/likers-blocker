@@ -54,12 +54,16 @@ export default class TwitterPage {
 		return style;
 	}
 
-	static get isListPage(): boolean {
-		return (
-			location.href.includes("list") &&
-			(location.href.endsWith("members") ||
-			location.href.endsWith("subscribers"))
-		);
+	static get isListPage(): boolean | ListAccounts {
+		const pathParts = location.href.split("/");
+		const lastPathPart = pathParts[pathParts.length - 1];
+
+		if (location.href.includes("list") &&
+			(location.href.endsWith(ListAccounts.followers) || location.href.endsWith(ListAccounts.members))) {
+			return ListAccounts[lastPathPart];
+		}
+
+		return false;
 	}
 
 	static get isTweetPage(): boolean {
@@ -78,4 +82,9 @@ export default class TwitterPage {
 	static get viewport() {
 		return this.isMobile ? "mobile" : "desktop";
 	}
+}
+
+enum ListAccounts {
+	members = "members",
+	followers = "followers",
 }
