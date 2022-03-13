@@ -53,7 +53,10 @@ export default class LikersBlocker {
 		this.isLegacyTwitter = document.getElementById("page-outer") !== null;
 
 		this.setUpBlockButton();
-		this.setUpExportButton();
+
+		if (TwitterPage.isBlockPage) {
+			this.setUpExportButton();
+		}
 	}
 
 	public get isLegacyTwitter() {
@@ -666,7 +669,7 @@ export default class LikersBlocker {
 		const shouldDisplayOnThisPage =
 			TwitterPage.isBlockPage ||
 			TwitterPage.isTweetPage ||
-			TwitterPage.isListPage;
+			await TwitterPage.isListPage();
 
 		if (!shouldDisplayOnThisPage) {
 			return;
@@ -825,8 +828,9 @@ export default class LikersBlocker {
 			likesCounterLink.addEventListener("click", () => new LikersBlocker());
 			usersCountElement = likesCounterLink.querySelector("strong");
 		} else {
-			usersCountElement = TwitterPage.isListPage
-				? await tryToAccessDOM(`a[href$="${TwitterPage.isListPage}"] span span`)
+			const isListPage = await TwitterPage.isListPage();
+			usersCountElement = isListPage
+				? await tryToAccessDOM(`a[href$="${isListPage}"] span span`)
 				: await tryToAccessDOM("a[href$=likes] > div > span > span");
 		}
 

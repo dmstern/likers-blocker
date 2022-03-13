@@ -54,16 +54,20 @@ export default class TwitterPage {
 		return style;
 	}
 
-	static get isListPage(): boolean | ListAccounts {
-		const pathParts = location.href.split("/");
-		const lastPathPart = pathParts[pathParts.length - 1];
+	static async isListPage(): Promise<ListAccounts | boolean> {
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				const pathParts = location.href.split("/");
+				const lastPathPart = pathParts[pathParts.length - 1];
 
-		if (location.href.includes("list") &&
-			(location.href.endsWith(ListAccounts.followers) || location.href.endsWith(ListAccounts.members))) {
-			return ListAccounts[lastPathPart];
-		}
+				if (location.href.includes("list") &&
+					(location.href.endsWith(ListAccounts.followers) || location.href.endsWith(ListAccounts.members))) {
+					resolve(ListAccounts[lastPathPart]);
+				}
 
-		return false;
+				return resolve(false);
+			}, 1000);
+		});
 	}
 
 	static get isTweetPage(): boolean {
