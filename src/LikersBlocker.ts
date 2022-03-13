@@ -55,8 +55,6 @@ export default class LikersBlocker {
 
 		this.setUpBlockButton();
 		this.setUpExportButton();
-
-		console.log("construct");
 	}
 
 	public get isLegacyTwitter() {
@@ -198,7 +196,6 @@ export default class LikersBlocker {
 			}
 		}
 
-		console.log("percent", (await this.getLikesCount()));
 		this.progressInPercent = Math.ceil((this.users.length / (await this.getLikesCount())) * 100);
 		document.querySelector(".lb-progress-bar__label").innerHTML = `${this.progressInPercent}%`;
 		(document.querySelector(".lb-progress-bar__inner") as HTMLElement).style.width = `${this.progressInPercent}%`;
@@ -817,7 +814,6 @@ export default class LikersBlocker {
 	};
 
 	getLikesCount = async () => {
-		console.log("setUpLikesCounter");
 		let likesCountElement: HTMLElement;
 
 		if (this.isLegacyTwitter) {
