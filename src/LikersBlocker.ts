@@ -858,7 +858,7 @@ export default class LikersBlocker {
 	};
 
 	private createIdleWarning() {
-		if (Array.from(this.popup.classList).includes("lb-popup--has-warning")) {
+		if (LocalStorage.hideIdleWarning || Array.from(this.popup.classList).includes("lb-popup--has-warning")) {
 			return;
 		}
 
