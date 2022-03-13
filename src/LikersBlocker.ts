@@ -187,10 +187,13 @@ export default class LikersBlocker {
 		let userCounter = (document.querySelector(".lb-user-counter") as HTMLElement);
 		userCounter.innerText = `${this.users.length}`;
 
+		// Increase allowance for larger lists to avoid false-positive warnings:
+		const idleCounterAllowance =  settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.users.length / 500);
+
 		if (document.hasFocus() && this.users.length === this.lastCollectedUserCount) {
 			this.uiIdleCounter++;
 
-			if (this.uiIdleCounter > settings.TIMES_TO_SCROLL_TO_BOTTOM) {
+			if (this.uiIdleCounter > idleCounterAllowance && this.progressInPercent < 90) {
 				this.createIdleWarning();
 			}
 		}
