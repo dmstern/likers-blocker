@@ -38,7 +38,6 @@ export default class LikersBlocker {
 	private confirmButton: HTMLLinkElement;
 	private confirmMessageElement: HTMLElement;
 	private legacyTwitter: boolean;
-	private largeList: boolean;
 	private popup: HTMLElement;
 	private popupWrapper: HTMLElement;
 	private requestUrl: string;
@@ -76,7 +75,7 @@ export default class LikersBlocker {
 	}
 
 	private isListLarge = async () => {
-		return this.largeList || (await this.getLikesCount()) > settings.SMALL_LIST_LIMIT;
+		return (await this.getLikesCount()) > settings.SMALL_LIST_LIMIT;
 	}
 
 	private get limitMessage() {
