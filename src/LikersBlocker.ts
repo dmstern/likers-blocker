@@ -17,6 +17,7 @@ export default class LikersBlocker {
 	private progressInPercent: number;
 	private uiIdleCounter: number;
 	private lastCollectedUserCount: number;
+
 	public static run(): void {
 		// for when we are on the likes page:
 		new LikersBlocker();
@@ -532,7 +533,7 @@ export default class LikersBlocker {
 		console.debug("scrollDown()");
 		const scrolly = await this.scrolly;
 		const scrollListIsSmall = scrolly.scrollHeight < scrolly.clientHeight * 2;
-		const scrollTop = Math.ceil(scrolly.scrollTop) ;
+		const scrollTop = Math.ceil(scrolly.scrollTop);
 		const compareHeight = scrolly.scrollHeight - scrolly.clientHeight;
 		const scrolledToBottom = scrollTop >= compareHeight;
 
@@ -863,7 +864,7 @@ export default class LikersBlocker {
 
 		const warning = document.createElement("div");
 		warning.classList.add("lb-warning");
-		warning.innerHTML= `
+		warning.innerHTML = `
 			<h4 class="lb-warning__heading">${icons.warn}<span>${client.i18n.getMessage("ui_warningHeading")}</span></h4>
 			<span class="lb-warning__text">${client.i18n.getMessage("ui_warningText")}</span>
 			<div class="lb-warning__buttons">
