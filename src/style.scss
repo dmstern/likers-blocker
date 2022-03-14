@@ -601,7 +601,7 @@ body.lb-legacy-twitter {
 		line-height: 1em;
 		font-weight: bold;
 		font-size: 1rem;
-		transition: all 500ms ease-in-out;
+		transition: transform 500ms ease-in-out;
 		transform: translateX(0);
 		display: block;
 
@@ -612,7 +612,6 @@ body.lb-legacy-twitter {
 
 		.lb-check & {
 			transform: translateX(-2rem);
-			opacity: 0;
 		}
 	}
 }
