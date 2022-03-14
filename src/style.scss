@@ -155,7 +155,9 @@ body.lb-block-page {
 	}
 
 	&__item {
-		position: relative;
+		&:nth-child(1) {
+			flex-grow: 1;
+		}
 
 		svg {
 			height: 1.5rem;
@@ -164,10 +166,11 @@ body.lb-block-page {
 	}
 
 	&__link {
-		display: block;
+		display: inline-block;
 		transition: all 200ms ease;
 		color: $color-gray;
 		padding: 0.5rem;
+		position: relative;
 
 		&:visited {
 			color: $color-gray;
