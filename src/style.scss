@@ -584,7 +584,7 @@ body.lb-legacy-twitter {
 		min-width: calc(1em);
 		display: block;
 		border-radius: 4px;
-		transition: width 500ms ease-in-out;
+		transition: all 500ms ease-in-out;
 		color: currentColor;
 		padding: 5px;
 		text-align: right;
@@ -594,6 +594,10 @@ body.lb-legacy-twitter {
 			text-align: center;
 			width: 50%;
 			animation: load 1200ms ease-in-out infinite alternate;
+		}
+
+		.lb-check & {
+			min-width: 4rem;
 		}
 	}
 
