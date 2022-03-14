@@ -5,8 +5,7 @@ function localizeUI() {
 	const labelNodes = document.querySelectorAll("[data-label]");
 	labelNodes.forEach((element) => {
 		const messageName = element.dataset.label;
-		const msg = client.i18n.getMessage(messageName);
-		element.innerHTML = msg;
+		element.innerHTML = client.i18n.getMessage(messageName);
 	});
 
 	const hrefNodes = document.querySelectorAll("[data-href]");
@@ -23,7 +22,7 @@ function alignRightButton() {
 	rightButton.style.left = getComputedStyle(leftButton).width;
 }
 
-(function() {
+(function () {
 	localizeUI();
 	alignRightButton();
 })();
