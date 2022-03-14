@@ -50,6 +50,7 @@ export default class LikersBlocker {
 		this.requestUrl = "";
 		this.progressInPercent = 0;
 		this.uiIdleCounter = 0;
+		this.lastCollectedUserCount = [];
 		this.isLegacyTwitter = document.getElementById("page-outer") !== null;
 
 		this.setUpBlockButton().then();
@@ -199,11 +200,15 @@ export default class LikersBlocker {
 
 		// Increase allowance for larger lists to avoid false-positive warnings:
 		const idleCounterAllowance = settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.users.length / 500);
+		const totalUserCount = await this.getTotalUsersCount();
+		const probablyAlmostReadyThreshold = totalUserCount < 100 ? 80 : 90;
 
-		if (document.hasFocus() && this.users.length === this.lastCollectedUserCount) {
+		console.table(this.lastCollectedUserCount);
+
+		if (document.hasFocus() && this.lastCollectedUserCount.at(-1) === this.lastCollectedUserCount.at(-2)) {
 			this.uiIdleCounter++;
 
-			if (this.uiIdleCounter > idleCounterAllowance && this.progressInPercent < 90) {
+			if (this.uiIdleCounter > idleCounterAllowance && this.progressInPercent < probablyAlmostReadyThreshold) {
 				this.createIdleWarning();
 			}
 		}
@@ -211,7 +216,7 @@ export default class LikersBlocker {
 		this.progressInPercent = Math.ceil((this.users.length / (await this.getTotalUsersCount())) * 100);
 		document.querySelector(".lb-progress-bar__label").innerHTML = `${this.progressInPercent}%`;
 		(document.querySelector(".lb-progress-bar__inner") as HTMLElement).style.width = `${this.progressInPercent}%`;
-		this.lastCollectedUserCount = this.users.length;
+		this.lastCollectedUserCount.push(this.users.length);
 	}
 
 	private async createBlockButton() {
@@ -564,9 +569,12 @@ export default class LikersBlocker {
 		}
 	}
 
+	private get hasStateChangedToConfirm(): boolean {
+		return Array.from(this.popup.classList).some(className => className === "lb-confirm");
+	}
+
 	private finishCollecting(): void {
-		const stateChangedToConfirm = Array.from(this.popup.classList).some(className => className === "lb-confirm");
-		if (stateChangedToConfirm) {
+		if (this.hasStateChangedToConfirm) {
 			return;
 		}
 
@@ -875,7 +883,7 @@ export default class LikersBlocker {
 	};
 
 	private createIdleWarning() {
-		if (LocalStorage.hideIdleWarning || Array.from(this.popup.classList).includes("lb-popup--has-warning")) {
+		if (LocalStorage.hideIdleWarning || Array.from(this.popup.classList).includes("lb-popup--has-warning") || this.hasStateChangedToConfirm) {
 			return;
 		}
 

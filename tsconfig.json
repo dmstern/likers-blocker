@@ -3,7 +3,8 @@
 		"lib": [
 			"ES2015",
 			"DOM",
-			"DOM.Iterable"
+			"DOM.Iterable",
+			"ESNext.Array"
 		],
 		"target": "ES6",
 		"downlevelIteration": true,
