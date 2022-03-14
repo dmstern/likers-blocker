@@ -54,6 +54,7 @@ export default class LikersBlocker {
 
 		this.setUpBlockButton();
 		this.setUpExportButton();
+		LocalStorage.storePackageVersion();
 	}
 
 	public get isLegacyTwitter() {

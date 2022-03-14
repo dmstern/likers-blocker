@@ -1,12 +1,23 @@
+import Package from "./Package";
+
 const keys = {
 	retweeters: "lb.include-retweeters",
-	hideBadgeShare: "lb.hide-badge.share",
-	hideBadgeDonate: "lb.hide-badge.donate",
-	hideBadgeFollow: "lb.hide-badge.follow",
-	hideIdleWarning: "lb.hide-idle-warning",
+	hideBadgeShare: `lb.${Package.version}.hide-badge.share`,
+	hideBadgeDonate: `lb.${Package.version}.hide-badge.donate`,
+	hideBadgeFollow: `lb.${Package.version}.hide-badge.follow`,
+	hideIdleWarning: `lb.${Package.version}.hide-idle-warning`,
+	packageVersion: "lb.packageVersion",
 };
 
 export default class LocalStorage {
+	static get packageVersion(): string {
+		return localStorage.getItem(keys.packageVersion);
+	}
+
+	static storePackageVersion(): void {
+		localStorage.setItem(keys.packageVersion, Package.version);
+	}
+
 	static get includeRetweeters(): boolean {
 		const storedValue = localStorage.getItem(keys.retweeters);
 		return storedValue === "true";

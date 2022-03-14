@@ -3,6 +3,7 @@ import {terser} from "rollup-plugin-terser";
 import sass from 'rollup-plugin-sass';
 import prettier from "rollup-plugin-prettier";
 import copy from 'rollup-plugin-copy'
+import json from '@rollup/plugin-json';
 
 const targetFolder = "dist";
 
@@ -25,5 +26,6 @@ export default {
 		copy({
 			targets: [{src: "assets/*", dest: targetFolder}],
 		}),
+		json(),
 	],
 };
