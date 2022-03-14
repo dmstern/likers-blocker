@@ -136,7 +136,7 @@
 		"description": "The block button label for blocking each portion of accounts in large lists."
 	},
 	"ui_warningHeading": {
-		"message": "Seems like your UI is hanging.",
+		"message": "Oops! Seems like your UI is hanging.",
 		"description": "The heading of the warning popup when the UI is hanging."
 	},
 	"ui_warningText": {
