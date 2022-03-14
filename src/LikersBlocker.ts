@@ -179,11 +179,15 @@ export default class LikersBlocker {
 	}
 
 	private async collectUsers() {
-		let userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
+		const userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
 			? (await this.getScrollList()).querySelectorAll("a.js-user-profile-link")
 			: (await this.getScrollList()).querySelectorAll(
 				'[data-testid="UserCell"] a[aria-hidden="true"]',
 			);
+		// Increase allowance for larger lists to avoid false-positive warnings:
+		const idleCounterAllowance = settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.users.length / 500);
+		const totalUserCount = await this.getTotalUsersCount();
+		const probablyAlmostReadyThreshold = totalUserCount < 100 ? 80 : 90;
 
 		let users: Array<HTMLAnchorElement> = Array.from(userCells);
 
@@ -198,13 +202,6 @@ export default class LikersBlocker {
 			userCounter.innerText = `${this.users.length}`;
 		}
 
-		// Increase allowance for larger lists to avoid false-positive warnings:
-		const idleCounterAllowance = settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.users.length / 500);
-		const totalUserCount = await this.getTotalUsersCount();
-		const probablyAlmostReadyThreshold = totalUserCount < 100 ? 80 : 90;
-
-		console.table(this.lastCollectedUserCount);
-
 		if (document.hasFocus() && this.lastCollectedUserCount.at(-1) === this.lastCollectedUserCount.at(-2)) {
 			this.uiIdleCounter++;
 
@@ -213,7 +210,7 @@ export default class LikersBlocker {
 			}
 		}
 
-		this.progressInPercent = Math.ceil((this.users.length / (await this.getTotalUsersCount())) * 100);
+		this.progressInPercent = Math.ceil((this.users.length / (totalUserCount)) * 100);
 		document.querySelector(".lb-progress-bar__label").innerHTML = `${this.progressInPercent}%`;
 		(document.querySelector(".lb-progress-bar__inner") as HTMLElement).style.width = `${this.progressInPercent}%`;
 		this.lastCollectedUserCount.push(this.users.length);
