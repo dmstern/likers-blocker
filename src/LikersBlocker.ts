@@ -639,9 +639,10 @@ export default class LikersBlocker {
 	private async setUpBlockPopup() {
 		const popupInner = `
 			<div class="lb-label lb-collecting">
-				<h3 id="lb-popup-heading">${client.i18n.getMessage(
-					"ui_collectingUsernames,"
-				)}... <span class="lb-user-counter"></span></h3>
+				<h3 id="lb-popup-heading">
+					${client.i18n.getMessage("ui_collectingUsernames")}...
+					<span class="lb-user-counter"></span>
+				</h3>
 				<p class="lb-text">${await this.getLimitMessage()}</p>
 				<div class="lb-progress-bar" style="color: ${TwitterPage.backgroundColor}">
 					<div class="lb-progress-bar__inner" style="background-color: ${TwitterPage.highlightColor}">
