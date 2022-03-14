@@ -6,9 +6,7 @@ export default class TwitterPage {
 	}
 
 	static get highlightColor() {
-		return window.getComputedStyle(
-			document.querySelector("a[href='/home'] svg"),
-		).color;
+		return window.getComputedStyle(document.querySelector("a[href='/home'] svg")).color;
 	}
 
 	static get twitterBrandColor() {
@@ -18,15 +16,12 @@ export default class TwitterPage {
 	static async isBlockPage(): Promise<boolean> {
 		return new Promise((resolve) => {
 			setTimeout(() => {
-
 				let isBlockPage =
 					location.href.endsWith("blocked/all") ||
 					location.href.endsWith("settings/content_preferences") ||
 					location.href.endsWith("settings/mute_and_block");
 
-				document.querySelector("body").classList[`${isBlockPage ? "add" : "remove"}`](
-					"lb-block-page",
-				);
+				document.querySelector("body").classList[`${isBlockPage ? "add" : "remove"}`]("lb-block-page");
 
 				resolve(isBlockPage);
 			}, 0);
@@ -42,10 +37,10 @@ export default class TwitterPage {
 			textElement = document.querySelector(".js-tweet-text");
 		} else {
 			const bioText: HTMLElement = document.querySelector(
-				"[data-testid=UserCell] > div > div:nth-child(2) > div:nth-child(2)",
+				"[data-testid=UserCell] > div > div:nth-child(2) > div:nth-child(2)"
 			);
 			const nameText: HTMLElement = document.querySelector(
-				"[data-testid=UserCell] > div > div:nth-child(2) > div > div > a > div > div > div",
+				"[data-testid=UserCell] > div > div:nth-child(2) > div > div > a > div > div > div"
 			);
 			textElement = bioText || nameText;
 		}
@@ -66,8 +61,11 @@ export default class TwitterPage {
 				const pathParts = location.href.split("/");
 				const lastPathPart = pathParts[pathParts.length - 1];
 
-				if (location.href.includes("list") &&
-					(location.href.endsWith(ListAccounts.followers) || location.href.endsWith(ListAccounts.members))) {
+				if (
+					location.href.includes("list") &&
+					(location.href.endsWith(ListAccounts.followers) ||
+						location.href.endsWith(ListAccounts.members))
+				) {
 					resolve(ListAccounts[lastPathPart]);
 				}
 
@@ -81,7 +79,7 @@ export default class TwitterPage {
 	}
 
 	static get popupContainer(): HTMLElement {
-		const modalDialog = (document.querySelector("[aria-modal=true]") as HTMLElement);
+		const modalDialog = document.querySelector("[aria-modal=true]") as HTMLElement;
 		return modalDialog || (document.querySelector("body") as HTMLElement);
 	}
 

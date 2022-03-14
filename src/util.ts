@@ -1,10 +1,10 @@
 function debounce(func: Function, wait: number, immediate?: boolean) {
 	let timeout: number;
 
-	return function(...args) {
+	return function (...args) {
 		let context = this;
 
-		let later = function() {
+		let later = function () {
 			timeout = null;
 			if (!immediate) {
 				func.apply(context, args);
@@ -24,7 +24,7 @@ function tryToAccessDOM(
 	selector: string,
 	multiple?: boolean,
 	expectedCount?: number,
-	context?: HTMLElement,
+	context?: HTMLElement
 ): Promise<HTMLElement> {
 	let elementToExpect = null;
 	let tryCounter = 0;
@@ -48,9 +48,7 @@ function tryToAccessDOM(
 					elementToExpect = elements.item(elements.length - 1);
 				}
 			} else {
-				elementToExpect = context
-					? context.querySelector(selector)
-					: document.querySelector(selector);
+				elementToExpect = context ? context.querySelector(selector) : document.querySelector(selector);
 			}
 
 			if (
@@ -71,4 +69,4 @@ function tryToAccessDOM(
 	});
 }
 
-export {debounce, tryToAccessDOM};
+export { debounce, tryToAccessDOM };

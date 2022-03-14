@@ -7,7 +7,7 @@ export default class ConfirmationPage {
 			heading.innerHTML = client.i18n.getMessage("ichbinhier_heading");
 		}
 
-		const blockButton = (document.querySelector(".btn.btn-danger") as HTMLInputElement);
+		const blockButton = document.querySelector(".btn.btn-danger") as HTMLInputElement;
 		if (blockButton) {
 			blockButton.value = client.i18n.getMessage("ichbinhier_blockButtonLabel");
 		}
