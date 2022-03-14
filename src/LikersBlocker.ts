@@ -203,15 +203,17 @@ export default class LikersBlocker {
 			}
 		}
 
-		this.progressInPercent = Math.ceil((this.users.length / totalUserCount) * 100);
-		const progressBarLabel = document.querySelector(".lb-progress-bar__label");
-		const progressBar = document.querySelector(".lb-progress-bar__inner") as HTMLElement;
+		if (totalUserCount > 0) {
+			this.progressInPercent = Math.ceil((this.users.length / totalUserCount) * 100);
+			const progressBarLabel = document.querySelector(".lb-progress-bar__label");
+			const progressBar = document.querySelector(".lb-progress-bar__inner") as HTMLElement;
 
-		if (progressBarLabel) {
-			progressBarLabel.innerHTML = `${this.progressInPercent}%`;
-		}
-		if (progressBar) {
-			progressBar.style.width = `${this.progressInPercent}%`;
+			if (progressBarLabel) {
+				progressBarLabel.innerHTML = `${this.progressInPercent}%`;
+			}
+			if (progressBar) {
+				progressBar.style.width = `${this.progressInPercent}%`;
+			}
 		}
 
 		this.lastCollectedUserCount.push(this.users.length);
@@ -782,24 +784,35 @@ export default class LikersBlocker {
 		});
 	}
 
-	getTotalUsersCount = async () => {
-		let usersCountElement: HTMLElement;
+	async getTotalUsersCount(): Promise<number> {
+		function parseCountFromElement(countElement: HTMLElement): number {
+			const likesCountText = countElement.textContent;
+			const chars = likesCountText.split("");
+			return parseInt(chars.filter((char) => !isNaN(Number(char))).join(""));
+		}
+
+		if(await TwitterPage.isBlockPage()) {
+			return -1;
+		}
 
 		if (this.isLegacyTwitter) {
 			const likesCounterLink = await tryToAccessDOM("[data-tweet-stat-count].request-favorited-popup");
 			likesCounterLink.addEventListener("click", () => new LikersBlocker());
-			usersCountElement = likesCounterLink.querySelector("strong");
-		} else {
-			const isListPage = await TwitterPage.isListPage();
-			usersCountElement = isListPage
-				? await tryToAccessDOM(`a[href$="${isListPage}"] span span`)
-				: await tryToAccessDOM("a[href$=likes] > div > span > span");
+			return parseCountFromElement(likesCounterLink.querySelector("strong"));
 		}
 
-		const likesCountText = usersCountElement.textContent;
-		const chars = likesCountText.split("");
-		return parseInt(chars.filter((char) => !isNaN(Number(char))).join(""));
-	};
+		const isListPage = await TwitterPage.isListPage();
+		if (isListPage) {
+			return parseCountFromElement(await tryToAccessDOM(`a[href$="${isListPage}"] span span`));
+		}
+
+		const usersCountElement = await tryToAccessDOM("a[href$=likes] > div > span > span");
+		if (usersCountElement) {
+			return parseCountFromElement(usersCountElement);
+		}
+
+		return -1;
+	}
 
 	private async startScrolling() {
 		(await this.getScrollList()).classList.add("lb-blur");

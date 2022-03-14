@@ -25,18 +25,20 @@ function tryToAccessDOM(
 	multiple?: boolean,
 	expectedCount?: number,
 	context?: HTMLElement
-): Promise<HTMLElement> {
-	let elementToExpect = null;
+): Promise<HTMLElement | null> {
+	let elementToExpect: HTMLElement = null;
 	let tryCounter = 0;
 	let tryMax = 10;
-	let interval = undefined;
+	let interval: NodeJS.Timeout = undefined;
 
-	return new Promise((resolve) => {
+	return new Promise((resolve, reject) => {
 		function tryIt() {
 			tryCounter++;
 
-			if (tryCounter >= tryMax || elementToExpect) {
+			// Nothing found, clear interval and reject promise:
+			if (tryCounter >= tryMax) {
 				clearInterval(interval);
+				resolve(null);
 			}
 
 			if (multiple) {
@@ -45,24 +47,21 @@ function tryToAccessDOM(
 					: document.querySelectorAll(selector);
 
 				if (elements.length >= expectedCount) {
-					elementToExpect = elements.item(elements.length - 1);
+					elementToExpect = elements.item(elements.length - 1) as HTMLElement;
 				}
 			} else {
 				elementToExpect = context ? context.querySelector(selector) : document.querySelector(selector);
 			}
 
 			if (
-				!elementToExpect ||
-				elementToExpect.style.display === "none" ||
-				elementToExpect.offsetParent === null
+				elementToExpect &&
+				elementToExpect.style.display !== "none" &&
+				elementToExpect.offsetParent !== null
 			) {
-				// nothing found yet, try once more:
-				return;
+				// element found, clear interval and resolve promise:
+				clearInterval(interval);
+				resolve(elementToExpect);
 			}
-
-			// element found, clear interval and resolve promise:
-			clearInterval(interval);
-			resolve(elementToExpect);
 		}
 
 		interval = setInterval(tryIt, 500);
