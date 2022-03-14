@@ -14,7 +14,7 @@ const keys = {
 
 const values = {
 	hide: "true",
-	today: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+	today: parseInt(`${date.getFullYear()}${date.getMonth()}${date.getDate()}`),
 };
 
 export default class LocalStorage {
@@ -63,16 +63,17 @@ export default class LocalStorage {
 		localStorage.setItem(keys.hideIdleWarning, String(value));
 	}
 
-	static get installedNewReleaseDate(): string {
-		return localStorage.getItem(keys.installedNewReleaseDate);
+	static get installedNewReleaseDate(): number {
+		const dateFromStorage = parseInt(localStorage.getItem(keys.installedNewReleaseDate));
+		return Number.isNaN(dateFromStorage) ? values.today : dateFromStorage;
 	}
 
-	static set installedNewReleaseDate(value: string) {
+	static set installedNewReleaseDate(value: number) {
 		localStorage.setItem(keys.installedNewReleaseDate, String(value));
 	}
 
 	static get isNewRelease(): boolean {
-		return LocalStorage.installedNewReleaseDate === values.today;
+		return values.today < LocalStorage.installedNewReleaseDate + 3;
 	}
 
 	static storePackageVersion(): void {
