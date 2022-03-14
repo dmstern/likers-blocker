@@ -1,5 +1,4 @@
 import LikersBlocker from "./LikersBlocker";
-import IchBinHier from "./IchBinHier";
 import "./style.scss";
 
 declare global {
@@ -9,4 +8,3 @@ declare global {
 }
 
 LikersBlocker.run();
-new IchBinHier();

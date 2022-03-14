@@ -1,0 +1,47 @@
+.block-button {
+	position: absolute;
+	top: 0;
+	left: 50%;
+}
+
+.container a[href^="https://api.twitter.com"] button {
+	display: block;
+	margin-bottom: 2rem;
+}
+
+.container {
+	max-width: 1000px;
+}
+
+main .container {
+	margin-top: 30px;
+	margin-bottom: 50px;
+}
+
+nav.navbar .nav-item:last-child {
+	align-self: flex-end;
+	margin-left: auto;
+}
+
+svg.w-6.h-6 {
+	width: auto;
+	height: 1em;
+}
+
+.navbar .nav-link {
+	display: flex;
+	align-items: center;
+}
+
+.navbar .nav-link svg {
+	margin-right: 10px;
+}
+
+a.nav-link svg {
+	transform: scale(1);
+	transition: transform 200ms;
+}
+
+a.nav-link:hover svg {
+	transform: scale(1.1);
+}

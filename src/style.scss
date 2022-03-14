@@ -724,17 +724,3 @@ body.lb-legacy-twitter {
 a[class*="lb-"] {
 	background-color: $background-color--transparent !important;
 }
-
-//==============================
-// Confirmation page:
-//==============================
-.btn.btn-danger {
-	position: absolute;
-	top: 106px;
-	left: 50%;
-}
-
-.container a[href^="https://api.twitter.com"] button {
-	display: block;
-	margin-bottom: 2rem;
-}
