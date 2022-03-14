@@ -28,7 +28,6 @@
 	},
 	"homepage": "https://github.com/dmstern/likers-blocker#readme",
 	"devDependencies": {
-		"@rollup/plugin-json": "^4.1.0",
 		"@rollup/plugin-typescript": "^6.1.0",
 		"@types/chrome": "^0.0.179",
 		"@types/firefox-webext-browser": "^82.0.1",

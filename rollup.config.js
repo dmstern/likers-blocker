@@ -1,9 +1,8 @@
 import typescript from "@rollup/plugin-typescript";
-import {terser} from "rollup-plugin-terser";
-import sass from 'rollup-plugin-sass';
+import { terser } from "rollup-plugin-terser";
+import sass from "rollup-plugin-sass";
 import prettier from "rollup-plugin-prettier";
-import copy from 'rollup-plugin-copy'
-import json from '@rollup/plugin-json';
+import copy from "rollup-plugin-copy";
 
 const targetFolder = "dist";
 
@@ -11,7 +10,7 @@ export default {
 	input: "src/index.ts",
 	output: {
 		dir: targetFolder,
-		format: "iife"
+		format: "iife",
 	},
 	plugins: [
 		typescript(),
@@ -24,8 +23,7 @@ export default {
 			singleQuote: false,
 		}),
 		copy({
-			targets: [{src: "assets/*", dest: targetFolder}],
+			targets: [{ src: "assets/*", dest: targetFolder }],
 		}),
-		json(),
 	],
 };

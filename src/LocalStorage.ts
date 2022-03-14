@@ -1,11 +1,11 @@
-import Package from "./Package";
+const client = typeof browser === "undefined" ? chrome : browser;
 
 const keys = {
 	retweeters: "lb.include-retweeters",
-	hideBadgeShare: `lb.${Package.version}.hide-badge.share`,
-	hideBadgeDonate: `lb.${Package.version}.hide-badge.donate`,
-	hideBadgeFollow: `lb.${Package.version}.hide-badge.follow`,
-	hideIdleWarning: `lb.${Package.version}.hide-idle-warning`,
+	hideBadgeShare: `lb.${client.runtime.getManifest().version}.hide-badge.share`,
+	hideBadgeDonate: `lb.${client.runtime.getManifest().version}.hide-badge.donate`,
+	hideBadgeFollow: `lb.${client.runtime.getManifest().version}.hide-badge.follow`,
+	hideIdleWarning: `lb.${client.runtime.getManifest().version}.hide-idle-warning`,
 	packageVersion: "lb.packageVersion",
 };
 
@@ -56,6 +56,6 @@ export default class LocalStorage {
 	}
 
 	static storePackageVersion(): void {
-		localStorage.setItem(keys.packageVersion, Package.version);
+		localStorage.setItem(keys.packageVersion, client.runtime.getManifest().version);
 	}
 }
