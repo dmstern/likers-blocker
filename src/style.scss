@@ -577,6 +577,7 @@ body.lb-legacy-twitter {
 .lb-progress-bar {
 	width: 100%;
 	padding: 1rem 0;
+	color: $color-snow;
 
 	&__inner {
 		position: relative;
@@ -623,7 +624,6 @@ body.lb-legacy-twitter {
 .lb-warning {
 	position: absolute;
 	top: 3rem;
-	background-color: $color-snow;
 	width: 80%;
 	left: 6%;
 	border-radius: 10px;

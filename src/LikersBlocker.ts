@@ -689,7 +689,7 @@ export default class LikersBlocker {
 					<span class="lb-user-counter"></span>
 				</h3>
 				<p class="lb-text">${await this.getLimitMessage()}</p>
-				<div class="lb-progress-bar" style="color: ${TwitterPage.backgroundColor}">
+				<div class="lb-progress-bar">
 					<div class="lb-progress-bar__inner" style="background-color: ${TwitterPage.highlightColor}">
 						<span class="lb-progress-bar__label">0%</span>
 						${Icons.checkmark}
@@ -838,6 +838,7 @@ export default class LikersBlocker {
 		}
 
 		const warning = document.createElement("div");
+		warning.style.backgroundColor = TwitterPage.backgroundColor;
 		warning.classList.add("lb-warning");
 		warning.innerHTML = `
 			<h4 class="lb-warning__heading">${icons.warn}<span>${client.i18n.getMessage(

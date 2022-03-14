@@ -5,11 +5,11 @@ export default class TwitterPage {
 		return getComputedStyle(document.querySelector("body")).backgroundColor;
 	}
 
-	static get highlightColor() {
+	static get twitterBrandColor() {
 		return window.getComputedStyle(document.querySelector("a[href='/home'] svg")).color;
 	}
 
-	static get twitterBrandColor() {
+	static get highlightColor() {
 		return getComputedStyle(document.querySelector("a[href='/compose/tweet']")).backgroundColor;
 	}
 
