@@ -514,9 +514,10 @@ export default class LikersBlocker {
 		copyButton: HTMLButtonElement,
 	) {
 		textarea.select();
-		document.execCommand("copy");
-		copyButton.classList.add("lb-copy-button--active");
-		copyButton.setAttribute("disabled", "true");
+		navigator.clipboard.writeText(textarea.value).then(() => {
+			copyButton.classList.add("lb-copy-button--active");
+			copyButton.setAttribute("disabled", "true");
+		});
 
 		// Reset button label after a while:
 		window.setTimeout(
