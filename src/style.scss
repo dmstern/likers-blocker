@@ -201,11 +201,27 @@ body.lb-block-page {
 		&--new-release {
 			opacity: 0;
 			visibility: hidden;
+			color: $color-warning;
+
+			&:visited {
+				color: $color-warning;
+			}
 
 			&.sparkle {
-				opacity: 0.8;
+				opacity: 1;
 				visibility: visible;
-				animation: rainbow 20000ms ease infinite;
+
+				svg path {
+					animation: rainbow 15s linear infinite alternate;
+
+					&:nth-child(1) {
+						animation-delay: 1s;
+					}
+
+					&:nth-child(3) {
+						animation-delay: 2s;
+					}
+				}
 			}
 		}
 	}
