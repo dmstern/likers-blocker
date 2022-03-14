@@ -53,10 +53,7 @@ export default class LikersBlocker {
 		this.isLegacyTwitter = document.getElementById("page-outer") !== null;
 
 		this.setUpBlockButton();
-
-		if (TwitterPage.isBlockPage) {
-			this.setUpExportButton();
-		}
+		this.setUpExportButton();
 	}
 
 	public get isLegacyTwitter() {
@@ -81,8 +78,8 @@ export default class LikersBlocker {
 		return (await this.getTotalUsersCount()) > settings.SMALL_LIST_LIMIT;
 	}
 
-	private get limitMessage() {
-		if (TwitterPage.isBlockPage || this.isListLarge) {
+	private async limitMessage() {
+		if ((await TwitterPage.isBlockPage()) || this.isListLarge) {
 			return `${client.i18n.getMessage("ui_takeAMoment")} ${client.i18n.getMessage(
 				"ui_urlLimit",
 			)}`;
@@ -111,7 +108,7 @@ export default class LikersBlocker {
 		let fallbackScrollList = document.querySelector("html");
 		let scrollList: HTMLElement;
 
-		if (TwitterPage.isBlockPage) {
+		if (await TwitterPage.isBlockPage()) {
 			scrollList = fallbackScrollList;
 		} else {
 			let defaultScrollList = this.getScrollableParent(await this.getTopbar());
@@ -191,7 +188,7 @@ export default class LikersBlocker {
 		userCounter.innerText = `${this.users.length}`;
 
 		// Increase allowance for larger lists to avoid false-positive warnings:
-		const idleCounterAllowance =  settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.users.length / 500);
+		const idleCounterAllowance = settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.users.length / 500);
 
 		if (document.hasFocus() && this.users.length === this.lastCollectedUserCount) {
 			this.uiIdleCounter++;
@@ -376,7 +373,7 @@ export default class LikersBlocker {
 		);
 	}
 
-	private createConfirmButton() {
+	private async createConfirmButton() {
 		let areaWrapper = document.createElement("div");
 		let copyButton = document.createElement("button");
 
@@ -407,7 +404,7 @@ export default class LikersBlocker {
 			},
 		);
 
-		if (!TwitterPage.isBlockPage) {
+		if (!(await TwitterPage.isBlockPage())) {
 			const blockButton = this.blockButton;
 			this.confirmButton = (blockButton.cloneNode(true) as HTMLLinkElement);
 			this.confirmButton.classList.add("lb-confirm-button");
@@ -667,7 +664,7 @@ export default class LikersBlocker {
 
 	private async setUpBlockButton() {
 		const shouldDisplayOnThisPage =
-			TwitterPage.isBlockPage ||
+			(await TwitterPage.isBlockPage()) ||
 			TwitterPage.isTweetPage ||
 			await TwitterPage.isListPage();
 
@@ -684,7 +681,7 @@ export default class LikersBlocker {
 				<h3 id="lb-popup-heading">${client.i18n.getMessage(
 			"ui_collectingUsernames",
 		)}... <span class="lb-user-counter"></span></h3>
-				<p class="lb-text">${this.limitMessage}</p>
+				<p class="lb-text">${await (this.limitMessage())}</p>
 				<div class="lb-progress-bar" style="color: ${TwitterPage.backgroundColor}">
 					<div class="lb-progress-bar__inner" style="background-color: ${TwitterPage.highlightColor}">
 						<span class="lb-progress-bar__label">0%</span>
@@ -695,7 +692,7 @@ export default class LikersBlocker {
 
 		await this.createPopup(popupInner);
 		this.createConfirmMessageElement();
-		let confirmButton = this.createConfirmButton();
+		let confirmButton = await this.createConfirmButton();
 
 		if (TwitterPage.isTweetPage) {
 			let checkboxWrapper = this.createCheckbox();
@@ -783,7 +780,11 @@ export default class LikersBlocker {
 		})
 	}
 
-	private setUpExportButton = async () => {
+	private async setUpExportButton() {
+		if (!await TwitterPage.isBlockPage()) {
+			return;
+		}
+
 		let isButtonAlreadyAdded = document.querySelector(".lb-btn--export");
 
 		if (isButtonAlreadyAdded) {
@@ -796,7 +797,7 @@ export default class LikersBlocker {
 			return;
 		}
 
-		if (!TwitterPage.isBlockPage) {
+		if (!(await TwitterPage.isBlockPage())) {
 			return;
 		}
 

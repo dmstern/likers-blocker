@@ -15,16 +15,22 @@ export default class TwitterPage {
 		return getComputedStyle(document.querySelector("a[href='/compose/tweet']")).backgroundColor;
 	}
 
-	static get isBlockPage(): boolean {
-		let isBlockPage =
-			location.href.endsWith("blocked/all") ||
-			location.href.endsWith("settings/content_preferences");
+	static async isBlockPage(): Promise<boolean> {
+		return new Promise((resolve) => {
+			setTimeout(() => {
 
-		document.querySelector("body").classList[`${isBlockPage ? "add" : "remove"}`](
-			"lb-block-page",
-		);
+				let isBlockPage =
+					location.href.endsWith("blocked/all") ||
+					location.href.endsWith("settings/content_preferences") ||
+					location.href.endsWith("settings/mute_and_block");
 
-		return isBlockPage;
+				document.querySelector("body").classList[`${isBlockPage ? "add" : "remove"}`](
+					"lb-block-page",
+				);
+
+				resolve(isBlockPage);
+			}, 1000);
+		});
 	}
 
 	static getTextStyle(isLegacyTwitter): TextStyle {
