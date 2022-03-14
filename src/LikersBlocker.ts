@@ -1,10 +1,10 @@
 import { debounce, tryToAccessDOM } from "./util";
 import Icons from "./icons";
+import icons from "./icons";
 import settings from "./settings";
 import TextStyle from "./TextStyle";
 import TwitterPage from "./TwitterPage";
 import LocalStorage from "./LocalStorage";
-import icons from "./icons";
 
 const client = typeof browser === "undefined" ? chrome : browser;
 
@@ -77,7 +77,7 @@ export default class LikersBlocker {
 		return (await this.getTotalUsersCount()) > settings.SMALL_LIST_LIMIT;
 	};
 
-	private async limitMessage() {
+	private async getLimitMessage() {
 		if ((await TwitterPage.isBlockPage()) || this.isListLarge) {
 			return `${client.i18n.getMessage("ui_takeAMoment")} ${client.i18n.getMessage("ui_urlLimit")}`;
 		} else {
@@ -640,9 +640,9 @@ export default class LikersBlocker {
 		const popupInner = `
 			<div class="lb-label lb-collecting">
 				<h3 id="lb-popup-heading">${client.i18n.getMessage(
-					"ui_collectingUsernames"
+					"ui_collectingUsernames,"
 				)}... <span class="lb-user-counter"></span></h3>
-				<p class="lb-text">${await this.limitMessage()}</p>
+				<p class="lb-text">${await this.getLimitMessage()}</p>
 				<div class="lb-progress-bar" style="color: ${TwitterPage.backgroundColor}">
 					<div class="lb-progress-bar__inner" style="background-color: ${TwitterPage.highlightColor}">
 						<span class="lb-progress-bar__label">0%</span>
@@ -791,7 +791,7 @@ export default class LikersBlocker {
 			return parseInt(chars.filter((char) => !isNaN(Number(char))).join(""));
 		}
 
-		if(await TwitterPage.isBlockPage()) {
+		if (await TwitterPage.isBlockPage()) {
 			return -1;
 		}
 
