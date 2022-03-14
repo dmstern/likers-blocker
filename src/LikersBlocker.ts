@@ -17,21 +17,6 @@ export default class LikersBlocker {
 	private progressInPercent: number;
 	private uiIdleCounter: number;
 	private readonly lastCollectedUserCount: number[];
-
-	public static run(): void {
-		// for when we are on the likes page:
-		new LikersBlocker();
-
-		// For every other page: try it on click again:
-		document.querySelector("body").addEventListener("click", () => new LikersBlocker());
-
-		// Create a new one on resize due to changed viewport:
-		window.addEventListener(
-			"resize",
-			debounce(() => new LikersBlocker(), 250)
-		);
-	}
-
 	private blockButton: HTMLAnchorElement;
 	private checkbox: HTMLInputElement;
 	private collectedUsers: Array<string>;
@@ -73,6 +58,113 @@ export default class LikersBlocker {
 		return location.href.replace(/https:\/\/twitter.com\/.*\/status\//g, "").replace("/likes", "");
 	}
 
+	private get loadingInfo() {
+		return this.popup.querySelector(".lb-label");
+	}
+
+	private get scrolly(): Promise<HTMLElement> {
+		return TwitterPage.isMobile
+			? new Promise((resolve) => resolve(document.querySelector("html")))
+			: this.getScrollList();
+	}
+
+	private get textStyle(): TextStyle {
+		return TwitterPage.getTextStyle(this.isLegacyTwitter);
+	}
+
+	private get users(): Array<string> {
+		return Array.from(new Set(this.collectedUsers));
+	}
+
+	private get hasStateChangedToConfirm(): boolean {
+		return Array.from(this.popup.classList).some((className) => className === "lb-confirm");
+	}
+
+	public static run(): void {
+		// for when we are on the likes page:
+		new LikersBlocker();
+
+		// For every other page: try it on click again:
+		document.querySelector("body").addEventListener("click", () => new LikersBlocker());
+
+		// Create a new one on resize due to changed viewport:
+		window.addEventListener(
+			"resize",
+			debounce(() => new LikersBlocker(), 250),
+		);
+	}
+
+	private static getBadgeClass(linkModifier) {
+		const badgeTypes = {
+			follow: LocalStorage.hideBadgeFollow,
+			share: LocalStorage.hideBadgeShare,
+			donate: LocalStorage.hideBadgeDonate,
+		};
+
+		const allBadgedDone = Object.values(badgeTypes).every((value) => value);
+		if (allBadgedDone) {
+			return;
+		}
+
+		const badgeType = Object.entries(badgeTypes).find(([, value]) => !value)[0];
+		return linkModifier === badgeType ? "lb-footer__link--show-badge" : "";
+	}
+
+	async getTotalUsersCount(): Promise<number> {
+		function parseCountFromElement(countElement: HTMLElement): number {
+			const likesCountText = countElement.textContent;
+			const chars = likesCountText.split("");
+			return parseInt(chars.filter((char) => !isNaN(Number(char))).join(""));
+		}
+
+		if (await TwitterPage.isBlockPage()) {
+			return -1;
+		}
+
+		if (this.isLegacyTwitter) {
+			const likesCounterLink = await tryToAccessDOM("[data-tweet-stat-count].request-favorited-popup");
+			likesCounterLink.addEventListener("click", () => new LikersBlocker());
+			return parseCountFromElement(likesCounterLink.querySelector("strong"));
+		}
+
+		const isListPage = await TwitterPage.isListPage();
+		if (isListPage) {
+			return parseCountFromElement(await tryToAccessDOM(`a[href$="${isListPage}"] span span`));
+		}
+
+		const usersCountElement = await tryToAccessDOM("a[href$=likes] > div > span > span");
+		if (usersCountElement) {
+			return parseCountFromElement(usersCountElement);
+		}
+
+		return -1;
+	}
+
+	private addIncludeRetweetersParam(shouldIncludeRetweeters) {
+		LocalStorage.includeRetweeters = shouldIncludeRetweeters;
+
+		const confirmButtons: Array<HTMLLinkElement> = Array.from(
+			document.querySelectorAll(".lb-confirm-button"),
+		).map((button) => button as HTMLLinkElement);
+		const textareas: Array<HTMLTextAreaElement> = Array.from(
+			document.querySelectorAll(".lb-textarea"),
+		).map((button) => button as HTMLTextAreaElement);
+		const linkIncludesRetweeters = confirmButtons.every((button) => button.href.includes("tweet_id="));
+
+		if (shouldIncludeRetweeters === linkIncludesRetweeters) {
+			return;
+		}
+
+		const getRequestUrl = (currentValue: string): string => {
+			const blocklistUrl = linkIncludesRetweeters ? currentValue.split("&")[0] : currentValue;
+			const includeRetweetersParam = linkIncludesRetweeters ? "" : `&tweet_id=${this.tweetId}`;
+			return `${blocklistUrl}${includeRetweetersParam}`;
+		};
+
+		confirmButtons.forEach((button) => (button.href = getRequestUrl(button.href)));
+		textareas.forEach((textarea) => (textarea.value = getRequestUrl(textarea.value)));
+	};
+
 	private isListLarge = async () => {
 		return (await this.getTotalUsersCount()) > settings.SMALL_LIST_LIMIT;
 	};
@@ -85,10 +177,6 @@ export default class LikersBlocker {
 				"ui_twitterHides"
 			)}`;
 		}
-	}
-
-	private get loadingInfo() {
-		return this.popup.querySelector(".lb-label");
 	}
 
 	private getScrollableParent(element: HTMLElement): HTMLElement {
@@ -124,20 +212,6 @@ export default class LikersBlocker {
 		}
 
 		return scrollList as HTMLElement;
-	}
-
-	private get scrolly(): Promise<HTMLElement> {
-		return TwitterPage.isMobile
-			? new Promise((resolve) => resolve(document.querySelector("html")))
-			: this.getScrollList();
-	}
-
-	private get textStyle(): TextStyle {
-		return TwitterPage.getTextStyle(this.isLegacyTwitter);
-	}
-
-	private get users(): Array<string> {
-		return Array.from(new Set(this.collectedUsers));
 	}
 
 	private async changeStateToConfirm() {
@@ -289,31 +363,6 @@ export default class LikersBlocker {
 		labelWrapper.appendChild(retweetersNotice);
 		return labelWrapper;
 	}
-
-	addIncludeRetweetersParam = (shouldIncludeRetweeters) => {
-		LocalStorage.includeRetweeters = shouldIncludeRetweeters;
-
-		const confirmButtons: Array<HTMLLinkElement> = Array.from(
-			document.querySelectorAll(".lb-confirm-button")
-		).map((button) => button as HTMLLinkElement);
-		const textareas: Array<HTMLTextAreaElement> = Array.from(
-			document.querySelectorAll(".lb-textarea")
-		).map((button) => button as HTMLTextAreaElement);
-		const linkIncludesRetweeters = confirmButtons.every((button) => button.href.includes("tweet_id="));
-
-		if (shouldIncludeRetweeters === linkIncludesRetweeters) {
-			return;
-		}
-
-		const getRequestUrl = (currentValue: string): string => {
-			const blocklistUrl = linkIncludesRetweeters ? currentValue.split("&")[0] : currentValue;
-			const includeRetweetersParam = linkIncludesRetweeters ? "" : `&tweet_id=${this.tweetId}`;
-			return `${blocklistUrl}${includeRetweetersParam}`;
-		};
-
-		confirmButtons.forEach((button) => (button.href = getRequestUrl(button.href)));
-		textareas.forEach((textarea) => (textarea.value = getRequestUrl(textarea.value)));
-	};
 
 	private async createCloseButton() {
 		const closeButton = document.createElement("button") as HTMLButtonElement;
@@ -517,10 +566,6 @@ export default class LikersBlocker {
 		}
 	}
 
-	private get hasStateChangedToConfirm(): boolean {
-		return Array.from(this.popup.classList).some((className) => className === "lb-confirm");
-	}
-
 	private finishCollecting(): void {
 		if (this.hasStateChangedToConfirm) {
 			return;
@@ -669,22 +714,6 @@ export default class LikersBlocker {
 		await this.initBlockAction();
 	}
 
-	private static getBadgeClass(linkModifier) {
-		const badgeTypes = {
-			follow: LocalStorage.hideBadgeFollow,
-			share: LocalStorage.hideBadgeShare,
-			donate: LocalStorage.hideBadgeDonate,
-		};
-
-		const allBadgedDone = Object.values(badgeTypes).every((value) => value);
-		if (allBadgedDone) {
-			return;
-		}
-
-		const badgeType = Object.entries(badgeTypes).find(([, value]) => !value)[0];
-		return linkModifier === badgeType ? "lb-footer__link--show-badge" : "";
-	}
-
 	private async createFooter() {
 		const footer = document.createElement("footer");
 		footer.innerHTML = `
@@ -783,36 +812,6 @@ export default class LikersBlocker {
 		exportBtn.addEventListener("click", () => {
 			this.setUpBlockPopup();
 		});
-	}
-
-	async getTotalUsersCount(): Promise<number> {
-		function parseCountFromElement(countElement: HTMLElement): number {
-			const likesCountText = countElement.textContent;
-			const chars = likesCountText.split("");
-			return parseInt(chars.filter((char) => !isNaN(Number(char))).join(""));
-		}
-
-		if (await TwitterPage.isBlockPage()) {
-			return -1;
-		}
-
-		if (this.isLegacyTwitter) {
-			const likesCounterLink = await tryToAccessDOM("[data-tweet-stat-count].request-favorited-popup");
-			likesCounterLink.addEventListener("click", () => new LikersBlocker());
-			return parseCountFromElement(likesCounterLink.querySelector("strong"));
-		}
-
-		const isListPage = await TwitterPage.isListPage();
-		if (isListPage) {
-			return parseCountFromElement(await tryToAccessDOM(`a[href$="${isListPage}"] span span`));
-		}
-
-		const usersCountElement = await tryToAccessDOM("a[href$=likes] > div > span > span");
-		if (usersCountElement) {
-			return parseCountFromElement(usersCountElement);
-		}
-
-		return -1;
 	}
 
 	private async startScrolling() {
