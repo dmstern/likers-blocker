@@ -7,7 +7,6 @@ const keys = {
 	hideBadgeShare: `lb.${client.runtime.getManifest().version}.hide-badge.share`,
 	hideBadgeDonate: `lb.${client.runtime.getManifest().version}.hide-badge.donate`,
 	hideBadgeFollow: `lb.${client.runtime.getManifest().version}.hide-badge.follow`,
-	hideBadgeNewRelease: `lb.${client.runtime.getManifest().version}.hide-badge.new-release`,
 	hideIdleWarning: `lb.${client.runtime.getManifest().version}.hide-idle-warning`,
 	packageVersion: "lb.packageVersion",
 	installedNewReleaseDate: "lb.installedNewReleaseDate",
@@ -54,14 +53,6 @@ export default class LocalStorage {
 
 	static set hideBadgeFollow(value: boolean) {
 		localStorage.setItem(keys.hideBadgeFollow, String(value));
-	}
-
-	static get hideBadgeNewRelease(): boolean {
-		return localStorage.getItem(keys.hideBadgeNewRelease) === values.hide;
-	}
-
-	static set hideBadgeNewRelease(value: boolean) {
-		localStorage.setItem(keys.hideBadgeNewRelease, String(value));
 	}
 
 	static get hideIdleWarning(): boolean {

@@ -99,7 +99,6 @@ export default class LikersBlocker {
 			follow: LocalStorage.hideBadgeFollow,
 			share: LocalStorage.hideBadgeShare,
 			donate: LocalStorage.hideBadgeDonate,
-			newRelease: LocalStorage.hideBadgeNewRelease,
 		};
 
 		const allBadgedDone = Object.values(badgeTypes).every((value) => value);
@@ -720,11 +719,10 @@ export default class LikersBlocker {
 		footer.innerHTML = `
 			<ul class="lb-footer__inner">
 				<li class="lb-footer__item">
-					<a class="lb-footer__link lb-footer__link--new-release ${LikersBlocker.getBadgeClass("newRelease")} ${
-			LocalStorage.isNewRelease ? "sparkle" : "bla"
-		}" href="https://github.com/dmstern/likers-blocker/releases" target="_blank" title="${client.i18n.getMessage(
-			"ui_newRelease"
-		)}">${Icons.sparkles}</a>
+					<a class="lb-footer__link lb-footer__link--new-release ${LocalStorage.isNewRelease ? "sparkle" : ""}"
+						href="https://github.com/dmstern/likers-blocker/releases" target="_blank" title="${client.i18n.getMessage(
+							"ui_newRelease"
+						)}">${Icons.sparkles}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--donate ${LikersBlocker.getBadgeClass(
@@ -780,9 +778,6 @@ export default class LikersBlocker {
 						break;
 					case "donate":
 						LocalStorage.hideBadgeDonate = true;
-						break;
-					case "new-release":
-						LocalStorage.hideBadgeNewRelease = true;
 						break;
 				}
 			});
