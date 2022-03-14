@@ -22,8 +22,6 @@ export default class IchBinHier {
 		const isLoginPage =
 			document.querySelectorAll("body > .container > .row > .col-md-8 > a").length === 2;
 
-		console.log(isLoginPage);
-
 		if (!isLoginPage) {
 			return;
 		}
