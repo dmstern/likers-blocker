@@ -14,10 +14,6 @@ export default class LocalStorage {
 		return localStorage.getItem(keys.packageVersion);
 	}
 
-	static storePackageVersion(): void {
-		localStorage.setItem(keys.packageVersion, Package.version);
-	}
-
 	static get includeRetweeters(): boolean {
 		const storedValue = localStorage.getItem(keys.retweeters);
 		return storedValue === "true";
@@ -31,20 +27,20 @@ export default class LocalStorage {
 		return localStorage.getItem(keys.hideBadgeShare) === "true";
 	}
 
-	static get hideBadgeDonate(): boolean {
-		return localStorage.getItem(keys.hideBadgeDonate) === "true";
-	}
-
-	static get hideBadgeFollow(): boolean {
-		return localStorage.getItem(keys.hideBadgeFollow) === "true";
-	}
-
 	static set hideBadgeShare(value: boolean) {
 		localStorage.setItem(keys.hideBadgeShare, String(value));
 	}
 
+	static get hideBadgeDonate(): boolean {
+		return localStorage.getItem(keys.hideBadgeDonate) === "true";
+	}
+
 	static set hideBadgeDonate(value: boolean) {
 		localStorage.setItem(keys.hideBadgeDonate, String(value));
+	}
+
+	static get hideBadgeFollow(): boolean {
+		return localStorage.getItem(keys.hideBadgeFollow) === "true";
 	}
 
 	static set hideBadgeFollow(value: boolean) {
@@ -57,5 +53,9 @@ export default class LocalStorage {
 
 	static set hideIdleWarning(value: boolean) {
 		localStorage.setItem(keys.hideIdleWarning, String(value));
+	}
+
+	static storePackageVersion(): void {
+		localStorage.setItem(keys.packageVersion, Package.version);
 	}
 }

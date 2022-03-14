@@ -25,6 +25,7 @@ export default class IchBinHier {
 		if (!isLoginPage) {
 			return;
 		}
+
 		document.querySelectorAll("p").forEach((p) => {
 			p.parentNode.removeChild(p);
 		});

@@ -13,6 +13,23 @@ export default class TwitterPage {
 		return getComputedStyle(document.querySelector("a[href='/compose/tweet']")).backgroundColor;
 	}
 
+	static get isTweetPage(): boolean {
+		return location.href.includes("status");
+	}
+
+	static get popupContainer(): HTMLElement {
+		const modalDialog = document.querySelector("[aria-modal=true]") as HTMLElement;
+		return modalDialog || (document.querySelector("body") as HTMLElement);
+	}
+
+	static get isMobile(): boolean {
+		return document.documentElement.clientWidth < 699;
+	}
+
+	static get viewport() {
+		return this.isMobile ? "mobile" : "desktop";
+	}
+
 	static async isBlockPage(): Promise<boolean> {
 		return new Promise((resolve) => {
 			setTimeout(() => {
@@ -72,23 +89,6 @@ export default class TwitterPage {
 				return resolve(false);
 			}, 1000);
 		});
-	}
-
-	static get isTweetPage(): boolean {
-		return location.href.includes("status");
-	}
-
-	static get popupContainer(): HTMLElement {
-		const modalDialog = document.querySelector("[aria-modal=true]") as HTMLElement;
-		return modalDialog || (document.querySelector("body") as HTMLElement);
-	}
-
-	static get isMobile(): boolean {
-		return document.documentElement.clientWidth < 699;
-	}
-
-	static get viewport() {
-		return this.isMobile ? "mobile" : "desktop";
 	}
 }
 
