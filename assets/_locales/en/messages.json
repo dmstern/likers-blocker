@@ -154,5 +154,21 @@
 	"ichbinhier_blockButtonLabel": {
 		"message": "Block",
 		"description": "The label of the block button on the confirmation page"
+	},
+	"ichbinhier_privacyInfo": {
+		"message": "We do not store any data except the usual server log files.",
+		"description": "Login page: general privacy info."
+	},
+	"ichbinhier_pivacyInfoHeroku": {
+		"message": "Here you can find",
+		"description": "Login page: here you can find"
+	},
+	"ichbinhier_pivacyInfoHerokuLinkLabel": {
+		"message": "privacy information to our hosting service Heroku",
+		"description": "Login page: privacy info Heroku link label"
+	},
+	"ichbinhier_repoInfo": {
+		"message": "You can find the source code of this web application on",
+		"description": "Login page: info where you can find the source code."
 	}
 }

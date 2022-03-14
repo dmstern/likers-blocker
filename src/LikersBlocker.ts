@@ -90,7 +90,7 @@ export default class LikersBlocker {
 		// Create a new one on resize due to changed viewport:
 		window.addEventListener(
 			"resize",
-			debounce(() => new LikersBlocker(), 250),
+			debounce(() => new LikersBlocker(), 250)
 		);
 	}
 
@@ -144,10 +144,10 @@ export default class LikersBlocker {
 		LocalStorage.includeRetweeters = shouldIncludeRetweeters;
 
 		const confirmButtons: Array<HTMLLinkElement> = Array.from(
-			document.querySelectorAll(".lb-confirm-button"),
+			document.querySelectorAll(".lb-confirm-button")
 		).map((button) => button as HTMLLinkElement);
 		const textareas: Array<HTMLTextAreaElement> = Array.from(
-			document.querySelectorAll(".lb-textarea"),
+			document.querySelectorAll(".lb-textarea")
 		).map((button) => button as HTMLTextAreaElement);
 		const linkIncludesRetweeters = confirmButtons.every((button) => button.href.includes("tweet_id="));
 
@@ -163,7 +163,7 @@ export default class LikersBlocker {
 
 		confirmButtons.forEach((button) => (button.href = getRequestUrl(button.href)));
 		textareas.forEach((textarea) => (textarea.value = getRequestUrl(textarea.value)));
-	};
+	}
 
 	private isListLarge = async () => {
 		return (await this.getTotalUsersCount()) > settings.SMALL_LIST_LIMIT;

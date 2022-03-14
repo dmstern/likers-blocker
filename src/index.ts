@@ -1,5 +1,5 @@
 import LikersBlocker from "./LikersBlocker";
-import ConfirmationPage from "./ConfirmationPage";
+import IchBinHier from "./IchBinHier";
 import "./style.scss";
 
 declare global {
@@ -9,4 +9,4 @@ declare global {
 }
 
 LikersBlocker.run();
-new ConfirmationPage();
+new IchBinHier();

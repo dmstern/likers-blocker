@@ -685,3 +685,8 @@ a[class*="lb-"] {
 	top: 106px;
 	left: 50%;
 }
+
+.container a[href^="https://api.twitter.com"] button {
+	display: block;
+	margin-bottom: 2rem;
+}
