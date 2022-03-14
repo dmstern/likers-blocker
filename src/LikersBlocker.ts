@@ -204,10 +204,16 @@ export default class LikersBlocker {
 		}
 
 		this.progressInPercent = Math.ceil((this.users.length / totalUserCount) * 100);
-		document.querySelector(".lb-progress-bar__label").innerHTML = `${this.progressInPercent}%`;
-		(
-			document.querySelector(".lb-progress-bar__inner") as HTMLElement
-		).style.width = `${this.progressInPercent}%`;
+		const progressBarLabel = document.querySelector(".lb-progress-bar__label");
+		const progressBar = document.querySelector(".lb-progress-bar__inner") as HTMLElement;
+
+		if (progressBarLabel) {
+			progressBarLabel.innerHTML = `${this.progressInPercent}%`;
+		}
+		if (progressBar) {
+			progressBar.style.width = `${this.progressInPercent}%`;
+		}
+
 		this.lastCollectedUserCount.push(this.users.length);
 	}
 
