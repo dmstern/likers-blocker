@@ -16,7 +16,7 @@ const TOPBAR_SELECTOR = {
 export default class LikersBlocker {
 	private progressInPercent: number;
 	private uiIdleCounter: number;
-	private lastCollectedUserCount: number;
+	private readonly lastCollectedUserCount: number[];
 
 	public static run(): void {
 		// for when we are on the likes page:
@@ -52,8 +52,8 @@ export default class LikersBlocker {
 		this.uiIdleCounter = 0;
 		this.isLegacyTwitter = document.getElementById("page-outer") !== null;
 
-		this.setUpBlockButton();
-		this.setUpExportButton();
+		this.setUpBlockButton().then();
+		this.setUpExportButton().then();
 		LocalStorage.storePackageVersion();
 	}
 
@@ -735,7 +735,7 @@ export default class LikersBlocker {
 			return;
 		}
 
-		const badgeType = Object.entries(badgeTypes).find(([key, value]) => !value)[0];
+		const badgeType = Object.entries(badgeTypes).find(([, value]) => !value)[0];
 		return linkModifier === badgeType ? "lb-footer__link--show-badge" : "";
 	}
 
