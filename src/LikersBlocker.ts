@@ -96,6 +96,11 @@ export default class LikersBlocker {
 
 	private getScrollableParent(element: HTMLElement): HTMLElement {
 		const parent = element.parentElement;
+
+		if (!parent) {
+			return element;
+		}
+
 		const isParentScrollable = getComputedStyle(parent).overflow === "auto";
 		if (isParentScrollable) {
 			return parent;
@@ -163,7 +168,10 @@ export default class LikersBlocker {
 		// Reset focus on old twitter popup:
 		window.setTimeout(
 			() => {
-				(TwitterPage.popupContainer.querySelector("[data-focusable='true']") as HTMLElement).focus();
+				const nativeTwitterPopup = TwitterPage.popupContainer.querySelector("[aria-modal='true']") as HTMLElement;
+				if (nativeTwitterPopup) {
+					nativeTwitterPopup.focus();
+				}
 			},
 			0,
 		);
@@ -185,7 +193,9 @@ export default class LikersBlocker {
 		}
 
 		let userCounter = (document.querySelector(".lb-user-counter") as HTMLElement);
-		userCounter.innerText = `${this.users.length}`;
+		if (userCounter) {
+			userCounter.innerText = `${this.users.length}`;
+		}
 
 		// Increase allowance for larger lists to avoid false-positive warnings:
 		const idleCounterAllowance = settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.users.length / 500);
