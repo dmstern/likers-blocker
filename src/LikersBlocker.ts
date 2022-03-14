@@ -640,7 +640,7 @@ export default class LikersBlocker {
 		const popupInner = `
 			<div class="lb-label lb-collecting">
 				<h3 id="lb-popup-heading">
-					${client.i18n.getMessage("ui_collectingUsernames")}...
+					<span>${client.i18n.getMessage("ui_collectingUsernames")}...</span>
 					<span class="lb-user-counter"></span>
 				</h3>
 				<p class="lb-text">${await this.getLimitMessage()}</p>
