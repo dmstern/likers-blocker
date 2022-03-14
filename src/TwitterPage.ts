@@ -29,7 +29,7 @@ export default class TwitterPage {
 				);
 
 				resolve(isBlockPage);
-			}, 1000);
+			}, 0);
 		});
 	}
 
