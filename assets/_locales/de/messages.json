@@ -147,6 +147,10 @@
 		"message": "Nicht mehr anzeigen",
 		"description": "Button label for do not show again"
 	},
+	"ui_newRelease": {
+		"message": "Du hast die neuste Likers Blocker Version. 🎉 Schau dir an, was es neues gibt.",
+		"description": "New Release icon title"
+	},
 	"ichbinhier_heading": {
 		"message": "Folgende User blockieren?",
 		"description": "The heading of block confirmation page"

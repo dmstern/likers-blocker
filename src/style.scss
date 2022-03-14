@@ -8,6 +8,21 @@ $color-warning--darker: #653208;
 $color-snow: #ffffff;
 $background-color--transparent: transparent;
 
+@keyframes rainbow {
+	$i: 0;
+	@while ($i < 9) {
+		$i: $i + 1;
+
+		#{$i*10}% {
+			color: hsl($i * 25, 89%, 53%);
+		}
+	}
+
+	100% {
+		color: hsl(0, 89%, 53%);
+	}
+}
+
 body {
 	--lb-popup-padding: 2rem;
 	--lb-close-button-padding: 9px;
@@ -130,20 +145,29 @@ body.lb-block-page {
 	opacity: 1;
 }
 
-.lb-footer__inner {
-	display: flex;
-	justify-content: flex-end;
-	padding: 0 2rem;
-	margin: 1em 0;
-	list-style: none;
-}
+.lb-footer {
+	&__inner {
+		display: flex;
+		justify-content: flex-end;
+		padding: 0 1.5rem;
+		margin: 0.5rem 0;
+		list-style: none;
+	}
 
-.lb-footer__item {
-	margin-left: 1em;
+	&__item {
+		position: relative;
 
-	a {
+		svg {
+			height: 1.5rem;
+			width: auto;
+		}
+	}
+
+	&__link {
+		display: block;
 		transition: all 200ms ease;
 		color: $color-gray;
+		padding: 0.5rem;
 
 		&:visited {
 			color: $color-gray;
@@ -151,31 +175,36 @@ body.lb-block-page {
 
 		&:hover {
 			color: $color_2;
-			transform: scale(1.3);
+			transform: scale(1.2);
 		}
-	}
 
-	svg {
-		height: 1.5rem;
-		width: auto;
-	}
-}
+		&::after {
+			content: "";
+			width: 8px;
+			height: 8px;
+			display: none;
+			position: absolute;
+			background: red;
+			border-radius: 50%;
+			top: 0.5rem;
+			left: 0.5rem;
+			opacity: 0.8;
+		}
 
-.lb-footer__link {
-	&::after {
-		content: "";
-		width: 8px;
-		height: 8px;
-		display: none;
-		position: absolute;
-		background: red;
-		border-radius: 50%;
-		top: 16px;
-		opacity: 0.8;
-	}
+		&--show-badge::after {
+			display: inline-block;
+		}
 
-	&--show-badge::after {
-		display: block;
+		&--new-release {
+			opacity: 0;
+			visibility: hidden;
+
+			&.sparkle {
+				opacity: 0.8;
+				visibility: visible;
+				animation: rainbow 20000ms ease infinite;
+			}
+		}
 	}
 }
 

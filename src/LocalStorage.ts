@@ -1,12 +1,21 @@
 const client = typeof browser === "undefined" ? chrome : browser;
 
+const date = new Date();
+
 const keys = {
 	retweeters: "lb.include-retweeters",
 	hideBadgeShare: `lb.${client.runtime.getManifest().version}.hide-badge.share`,
 	hideBadgeDonate: `lb.${client.runtime.getManifest().version}.hide-badge.donate`,
 	hideBadgeFollow: `lb.${client.runtime.getManifest().version}.hide-badge.follow`,
+	hideBadgeNewRelease: `lb.${client.runtime.getManifest().version}.hide-badge.new-release`,
 	hideIdleWarning: `lb.${client.runtime.getManifest().version}.hide-idle-warning`,
 	packageVersion: "lb.packageVersion",
+	installedNewReleaseDate: "lb.installedNewReleaseDate",
+};
+
+const values = {
+	hide: "true",
+	today: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
 };
 
 export default class LocalStorage {
@@ -16,7 +25,7 @@ export default class LocalStorage {
 
 	static get includeRetweeters(): boolean {
 		const storedValue = localStorage.getItem(keys.retweeters);
-		return storedValue === "true";
+		return storedValue === values.hide;
 	}
 
 	static set includeRetweeters(value: boolean) {
@@ -24,7 +33,7 @@ export default class LocalStorage {
 	}
 
 	static get hideBadgeShare(): boolean {
-		return localStorage.getItem(keys.hideBadgeShare) === "true";
+		return localStorage.getItem(keys.hideBadgeShare) === values.hide;
 	}
 
 	static set hideBadgeShare(value: boolean) {
@@ -32,7 +41,7 @@ export default class LocalStorage {
 	}
 
 	static get hideBadgeDonate(): boolean {
-		return localStorage.getItem(keys.hideBadgeDonate) === "true";
+		return localStorage.getItem(keys.hideBadgeDonate) === values.hide;
 	}
 
 	static set hideBadgeDonate(value: boolean) {
@@ -40,22 +49,45 @@ export default class LocalStorage {
 	}
 
 	static get hideBadgeFollow(): boolean {
-		return localStorage.getItem(keys.hideBadgeFollow) === "true";
+		return localStorage.getItem(keys.hideBadgeFollow) === values.hide;
 	}
 
 	static set hideBadgeFollow(value: boolean) {
 		localStorage.setItem(keys.hideBadgeFollow, String(value));
 	}
 
+	static get hideBadgeNewRelease(): boolean {
+		return localStorage.getItem(keys.hideBadgeNewRelease) === values.hide;
+	}
+
+	static set hideBadgeNewRelease(value: boolean) {
+		localStorage.setItem(keys.hideBadgeNewRelease, String(value));
+	}
+
 	static get hideIdleWarning(): boolean {
-		return localStorage.getItem(keys.hideIdleWarning) === "true";
+		return localStorage.getItem(keys.hideIdleWarning) === values.hide;
 	}
 
 	static set hideIdleWarning(value: boolean) {
 		localStorage.setItem(keys.hideIdleWarning, String(value));
 	}
 
+	static get installedNewReleaseDate(): string {
+		return localStorage.getItem(keys.installedNewReleaseDate);
+	}
+
+	static set installedNewReleaseDate(value: string) {
+		localStorage.setItem(keys.installedNewReleaseDate, String(value));
+	}
+
+	static get isNewRelease(): boolean {
+		return LocalStorage.installedNewReleaseDate === values.today;
+	}
+
 	static storePackageVersion(): void {
-		localStorage.setItem(keys.packageVersion, client.runtime.getManifest().version);
+		if (LocalStorage.packageVersion !== client.runtime.getManifest().version) {
+			LocalStorage.installedNewReleaseDate = values.today;
+			localStorage.setItem(keys.packageVersion, client.runtime.getManifest().version);
+		}
 	}
 }
