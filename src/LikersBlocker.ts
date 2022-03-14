@@ -165,7 +165,6 @@ export default class LikersBlocker {
 		this.popupWrapper.remove();
 		(await this.getScrollList()).classList.remove("lb-blur");
 
-		// Reset focus on old twitter popup:
 		window.setTimeout(
 			() => {
 				const nativeTwitterPopup = TwitterPage.popupContainer.querySelector("[aria-modal='true']") as HTMLElement;
@@ -541,6 +540,7 @@ export default class LikersBlocker {
 		const scrollTop = Math.ceil(scrolly.scrollTop);
 		const compareHeight = scrolly.scrollHeight - scrolly.clientHeight;
 		const scrolledToBottom = scrollTop >= compareHeight;
+		const allUsersCollected = this.progressInPercent === 100;
 
 		scrolly.scroll({
 			top: scrolly.scrollTop + scrolly.clientHeight,
@@ -550,7 +550,7 @@ export default class LikersBlocker {
 
 		await this.collectUsers();
 
-		if (scrolledToBottom || scrollListIsSmall || this.progressInPercent === 100) {
+		if (scrolledToBottom || scrollListIsSmall || allUsersCollected) {
 			console.info(
 				"finished collecting!",
 				{
@@ -563,6 +563,11 @@ export default class LikersBlocker {
 	}
 
 	private finishCollecting(): void {
+		const stateChangedToConfirm = Array.from(this.popup.classList).some(className => className === "lb-confirm");
+		if (stateChangedToConfirm) {
+			return;
+		}
+
 		console.debug("finishCollecting()");
 		this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
 		const listIsLarge = this.requestUrl.length > settings.URL_LENGTH_MAX;
