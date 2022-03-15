@@ -103,16 +103,6 @@ body.lb-block-page {
 		}
 	}
 
-	.lb-label {
-		h3 {
-			span {
-				&:nth-of-type(2) {
-					margin-left: 0.5em;
-				}
-			}
-		}
-	}
-
 	&--has-warning {
 		.lb-label {
 			filter: blur(5px);
