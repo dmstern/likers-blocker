@@ -29,7 +29,7 @@
 	},
 	"popup_like": {
 		"message": "Like",
-		"description": "Label for the donate button"
+		"description": "Label for the Like button"
 	},
 	"popup_donate": {
 		"message": "Glad that you appreciate our work! 😊<br /> We do this in our free time. This tool is and remains free for everyone and free from ads. Would you consider to donate a little tip?",
@@ -40,11 +40,11 @@
 		"description": "Label for the report bug button "
 	},
 	"popup_tip": {
-		"message": "Tip us a coffee",
+		"message": "Buy us a coffee",
 		"description": "Label for the donation button"
 	},
 	"popup_share": {
-		"message": "Spread the world",
+		"message": "Spread the word",
 		"description": "Label for the share button"
 	},
 	"popup_follow": {
@@ -57,7 +57,7 @@
 	},
 	"popup_tweet": {
 		"message": "https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier",
-		"description": "href for the tweet button"
+		"description": "href for the tweet button. Contains a prefilled tweet text."
 	},
 	"ui_blockAll": {
 		"message": "Block all",
@@ -65,7 +65,7 @@
 	},
 	"ui_usersFound": {
 		"message": "users found.",
-		"description": "Message how many users have been collected."
+		"description": "Message how many users have been collected. Gets prefixed the number of collected users."
 	},
 	"ui_collectingUsernames": {
 		"message": "Collecting usernames",
@@ -89,7 +89,7 @@
 	},
 	"ui_twitterHides": {
 		"message": "Some users may be hidden by Twitter.",
-		"description": "Message that is shown during or after collecting that tells the user that some users may hidden."
+		"description": "Message that is shown during or after collecting that tells the user that some users may be hidden."
 	},
 	"ui_onlyListItems": {
 		"message": "We can only block users from this list",
@@ -140,7 +140,7 @@
 		"description": "The heading of the warning popup when the UI is hanging."
 	},
 	"ui_warningText": {
-		"message": "Maybe you have change the browser window. Please click OK or scroll with your mouse wheel to continue the user collection process.",
+		"message": "Maybe you have changed the browser window. Please click OK or scroll with your mouse wheel to continue the user collection process.",
 		"description": "The main text of the UI hanging warning which tells the user what to do to continue the scroll process."
 	},
 	"ui_doNotShowAgain": {
@@ -161,11 +161,11 @@
 	},
 	"ichbinhier_privacyInfo": {
 		"message": "We do not store any data except the usual server log files.",
-		"description": "Login page: general privacy info."
+		"description": "Login page: general privacy info that tells the user that there are not stored any private data."
 	},
 	"ichbinhier_pivacyInfoHeroku": {
 		"message": "Here you can find",
-		"description": "Login page: here you can find"
+		"description": "Login page: \"here you can find\". Is suffixed with ichbinhier_pivacyInfoHerokuLinkLabel"
 	},
 	"ichbinhier_pivacyInfoHerokuLinkLabel": {
 		"message": "privacy information to our hosting service Heroku",
@@ -173,6 +173,6 @@
 	},
 	"ichbinhier_repoInfo": {
 		"message": "You can find the source code of this web application on",
-		"description": "Login page: info where you can find the source code."
+		"description": "Login page: info where you can find the source code. Is suffixed with \"GitHub\""
 	}
 }

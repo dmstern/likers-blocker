@@ -29,7 +29,7 @@
 	},
 	"popup_like": {
 		"message": "Gefällt mir",
-		"description": "Label for the donate button"
+		"description": "Label for the Like button"
 	},
 	"popup_donate": {
 		"message": "Schön, dass dir unsere Arbeit gefällt! 😊<br /> Wir machen das in unserer Freizeit. Das Tool ist und bleibt kostenlos und werbefrei. Vielleicht möchtest du uns ein kleines Trinkgeld als Motivation da lassen?",
@@ -57,7 +57,7 @@
 	},
 	"popup_tweet": {
 		"message": "https://twitter.com/share?text=Mit dem @LikersBlocker könnt ihr Leute blocken, die menschenverachtende Tweets liken.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier",
-		"description": "href for the tweet button"
+		"description": "href for the tweet button. Contains a prefilled tweet text."
 	},
 	"ui_blockAll": {
 		"message": "Alle Blockieren",
@@ -65,7 +65,7 @@
 	},
 	"ui_usersFound": {
 		"message": "Nutzer gefunden.",
-		"description": "Message how many users have been collected."
+		"description": "Message how many users have been collected. Gets prefixed the number of collected users."
 	},
 	"ui_collectingUsernames": {
 		"message": "Sammle Nutzernamen ein",
@@ -161,11 +161,11 @@
 	},
 	"ichbinhier_privacyInfo": {
 		"message": "Wir speichern keine Daten bis auf die üblichen Server-Logfiles.",
-		"description": "Login page: general privacy info."
+		"description": "Login page: general privacy info that tells the user that there are not stored any private data."
 	},
 	"ichbinhier_pivacyInfoHeroku": {
 		"message": "Hier finden sich",
-		"description": "Login page: here you can find"
+		"description": "Login page: \"here you can find\". Is suffixed with ichbinhier_pivacyInfoHerokuLinkLabel"
 	},
 	"ichbinhier_pivacyInfoHerokuLinkLabel": {
 		"message": "Privacy-Informationen zum Hoster Heroku",
@@ -173,6 +173,6 @@
 	},
 	"ichbinhier_repoInfo": {
 		"message": "Den Source-Code für diese Webanwendung findet man auf",
-		"description": "Login page: info where you can find the source code."
+		"description": "Login page: info where you can find the source code. Is suffixed with \"GitHub\""
 	}
 }
