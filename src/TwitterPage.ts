@@ -13,10 +13,6 @@ export default class TwitterPage {
 		return getComputedStyle(document.querySelector("a[href='/compose/tweet']")).backgroundColor;
 	}
 
-	static get isTweetPage(): boolean {
-		return location.href.includes("status");
-	}
-
 	static get popupContainer(): HTMLElement {
 		const modalDialog = document.querySelector("[aria-modal=true]") as HTMLElement;
 		return modalDialog || (document.querySelector("body") as HTMLElement);
@@ -28,21 +24,6 @@ export default class TwitterPage {
 
 	static get viewport() {
 		return this.isMobile ? "mobile" : "desktop";
-	}
-
-	static async isBlockPage(): Promise<boolean> {
-		return new Promise((resolve) => {
-			setTimeout(() => {
-				let isBlockPage =
-					location.href.endsWith("blocked/all") ||
-					location.href.endsWith("settings/content_preferences") ||
-					location.href.endsWith("settings/mute_and_block");
-
-				document.querySelector("body").classList[`${isBlockPage ? "add" : "remove"}`]("lb-block-page");
-
-				resolve(isBlockPage);
-			}, 0);
-		});
 	}
 
 	static getTextStyle(isLegacyTwitter): TextStyle {
@@ -72,6 +53,29 @@ export default class TwitterPage {
 		return style;
 	}
 
+	static isTweetPage(): Promise<boolean> {
+		return new Promise<boolean>((resolve) => {
+			setTimeout(() => {
+				resolve(location.pathname.split("/").at(-1) === "likes");
+			}, 1);
+		});
+	}
+
+	static async isBlockPage(): Promise<boolean> {
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				let isBlockPage =
+					location.href.endsWith("blocked/all") ||
+					location.href.endsWith("settings/content_preferences") ||
+					location.href.endsWith("settings/mute_and_block");
+
+				document.querySelector("body").classList[`${isBlockPage ? "add" : "remove"}`]("lb-block-page");
+
+				resolve(isBlockPage);
+			}, 1);
+		});
+	}
+
 	static async isListPage(): Promise<ListAccounts | boolean> {
 		return new Promise((resolve) => {
 			setTimeout(() => {
@@ -87,7 +91,7 @@ export default class TwitterPage {
 				}
 
 				return resolve(false);
-			}, 1000);
+			}, 1);
 		});
 	}
 }

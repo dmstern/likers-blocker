@@ -672,7 +672,9 @@ export default class LikersBlocker {
 
 	private async setUpBlockButton() {
 		const shouldDisplayOnThisPage =
-			(await TwitterPage.isBlockPage()) || TwitterPage.isTweetPage || (await TwitterPage.isListPage());
+			(await TwitterPage.isBlockPage()) ||
+			(await TwitterPage.isTweetPage()) ||
+			(await TwitterPage.isListPage());
 
 		if (!shouldDisplayOnThisPage) {
 			return;
@@ -701,7 +703,7 @@ export default class LikersBlocker {
 		this.createConfirmMessageElement();
 		let confirmButton = await this.createConfirmButton();
 
-		if (TwitterPage.isTweetPage) {
+		if (await TwitterPage.isTweetPage()) {
 			let checkboxWrapper = this.createCheckbox();
 			this.confirmMessageElement.appendChild(checkboxWrapper);
 		}
