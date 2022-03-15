@@ -1,5 +1,5 @@
 :root {
-	--navbar-fg-color: #777;
+	--navbar-fg-color: #626262;
 	--navbar-fg-color--hover: #999;
 	--bg-color: #fff;
 	--fg-color: #333;
@@ -59,14 +59,14 @@ svg.w-6.h-6 {
 	height: 1.2em;
 }
 
-.navbar-dark .navbar-nav .nav-link {
+.navbar-light .navbar-nav .nav-link {
 	display: flex;
 	align-items: center;
 	transition: color 400ms ease;
 	color: var(--navbar-fg-color);
 }
 
-.navbar-dark .navbar-nav .nav-link:hover {
+.navbar-light .navbar-nav .nav-link:hover {
 	color: var(--navbar-fg-color--hover);
 }
 

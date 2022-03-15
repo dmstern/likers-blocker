@@ -46,7 +46,7 @@ class IchBinHier {
 		const header = document.createElement("header");
 
 		header.innerHTML = `
-      <nav class="navbar navbar-expand-lg navbar-dark">
+      <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
           <ul class="navbar-nav mr-auto col-12">
           	${nav
