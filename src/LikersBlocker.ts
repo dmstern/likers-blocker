@@ -622,7 +622,7 @@ export default class LikersBlocker {
 					iconWrapper.innerHTML = icons.check;
 					confirmButton.querySelector("div > span").prepend(iconWrapper);
 
-					confirmButton.addEventListener("click", (event) => {
+					confirmButton.addEventListener("mousedown", (event) => {
 						const confirmButton = (event.target as HTMLElement).closest("a");
 						confirmButton.classList.add("lb-confirm-button--clicked");
 					});
