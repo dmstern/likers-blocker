@@ -46,15 +46,18 @@ class IchBinHier {
 		const header = document.createElement("header");
 
 		header.innerHTML = `
-      <nav class="navbar navbar-expand-lg navbar-light">
+      <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
           <ul class="navbar-nav mr-auto col-12">
           	${nav
 							.map(
 								(item) =>
-									`<li class="nav-item"><a class="nav-link" href="${item.href}">${this.getIcon(
-										item.innerHTML
-									)} ${item.innerHTML}</a></li>`
+									`<li class="nav-item">
+										<a class="nav-link" href="${item.href}">
+											${this.getIcon(item.innerHTML)}
+											<span>${item.innerHTML}</span>
+										</a>
+									</li>`
 							)
 							.join("")}
           </ul>
