@@ -248,7 +248,7 @@ export default class LikersBlocker {
 		// Increase allowance for larger lists to avoid false-positive warnings:
 		const idleCounterAllowance = settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.users.length / 500);
 		const totalUserCount = await this.getTotalUsersCount();
-		const probablyAlmostReadyThreshold = totalUserCount < 100 ? 80 : 90;
+		const probablyAlmostReadyThreshold = totalUserCount < 100 ? 70 : totalUserCount < 200 ? 80 : 90;
 
 		let users: Array<HTMLAnchorElement> = Array.from(userCells);
 
