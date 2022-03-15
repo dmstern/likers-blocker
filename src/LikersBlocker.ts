@@ -871,7 +871,7 @@ export default class LikersBlocker {
 		this.popup.querySelectorAll(".lb-warning__button").forEach((button) => {
 			button.addEventListener("click", () => {
 				this.popup.classList.remove("lb-popup--has-warning");
-				this.uiIdleCounter = 0;
+				this.uiIdleCounter = -1;
 
 				warning.addEventListener("transitionend", () => {
 					this.popup.removeChild(warning);
