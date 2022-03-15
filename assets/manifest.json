@@ -1,18 +1,10 @@
 {
 	"name": "__MSG_extensionName__",
-	"version": "3.0.0",
+	"version": "3.1.0",
 	"description": "__MSG_extensionDescription__",
-	"icons": {
-		"16": "icon16.png",
-		"48": "icon48.png",
-		"128": "icon128.png"
-	},
+	"icons": { "16": "icon16.png", "48": "icon48.png", "128": "icon128.png" },
 	"content_scripts": [
-		{
-			"matches": ["https://twitter.com/*"],
-			"js": ["index.js"],
-			"css": ["style.css"]
-		},
+		{ "matches": ["https://twitter.com/*"], "js": ["index.js"], "css": ["style.css"] },
 		{
 			"matches": ["https://ichbinhier-twittertools.herokuapp.com/*"],
 			"js": ["ichbinhier.js"],
@@ -25,8 +17,6 @@
 		"clipboardWrite"
 	],
 	"manifest_version": 2,
-	"browser_action": {
-		"default_popup": "popup.html"
-	},
+	"browser_action": { "default_popup": "popup.html" },
 	"default_locale": "en"
 }
