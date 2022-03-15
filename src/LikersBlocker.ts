@@ -261,10 +261,14 @@ export default class LikersBlocker {
 			userCounter.innerText = `${this.users.length}`;
 		}
 
-		if (
-			document.hasFocus() &&
-			this.lastCollectedUserCount.at(-1) === this.lastCollectedUserCount.at(-2)
-		) {
+		const lastTwoCollectionsAreIdentical =
+			this.lastCollectedUserCount.at(-1) === this.lastCollectedUserCount.at(-2);
+
+		if (!lastTwoCollectionsAreIdentical) {
+			this.uiIdleCounter = 0;
+		}
+
+		if (document.hasFocus() && lastTwoCollectionsAreIdentical) {
 			this.uiIdleCounter++;
 
 			if (
