@@ -216,8 +216,6 @@ export default class LikersBlocker {
 
 	private async changeStateToConfirm() {
 		console.debug("changeStateToConfirm()");
-		const collectingMessage = this.popup.querySelector(".lb-label.lb-collecting") as HTMLElement;
-		collectingMessage.style.marginTop = `-${collectingMessage.clientHeight}px`;
 		this.popup.classList.add("lb-confirm");
 		(await this.getScrollList()).classList.remove("lb-blur");
 	}
@@ -466,15 +464,12 @@ export default class LikersBlocker {
 		Object.assign(this.confirmMessageElement.style, this.textStyle);
 		this.confirmMessageElement.classList.remove("lb-collecting");
 		this.confirmMessageElement.classList.add("lb-confirm-message");
-		let heading = document.createElement("h3");
-		let headingContent1 = document.createElement("span");
-		let headingContent2 = document.createElement("span");
-
-		headingContent1.innerHTML = client.i18n.getMessage("ui_usersFound");
-		headingContent2.innerHTML = `${client.i18n.getMessage("ui_blockAll")}?`;
-
-		heading.append(headingContent1, headingContent2);
-		this.confirmMessageElement.append(heading);
+		this.confirmMessageElement.innerHTML = `
+			<h3>
+				<span>${client.i18n.getMessage("ui_usersFound")}</span>
+				<span>${client.i18n.getMessage("ui_blockAll")}?</span>
+			</h3>
+			<div class="lb-label__main"></div>`;
 		this.popup.appendChild(this.confirmMessageElement);
 	}
 
@@ -705,10 +700,10 @@ export default class LikersBlocker {
 
 		if (await TwitterPage.isTweetPage()) {
 			let checkboxWrapper = this.createCheckbox();
-			this.confirmMessageElement.appendChild(checkboxWrapper);
+			this.confirmMessageElement.querySelector(".lb-label__main").appendChild(checkboxWrapper);
 		}
 
-		this.confirmMessageElement.appendChild(confirmButton);
+		this.confirmMessageElement.querySelector(".lb-label__main").appendChild(confirmButton);
 
 		await this.createCloseButton();
 		await this.createFinishButton();

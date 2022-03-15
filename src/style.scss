@@ -120,22 +120,20 @@ body.lb-block-page {
 	}
 
 	body.many & {
-		height: auto;
 
 		&.lb-confirm {
 			width: 700px;
 			top: 150px;
+			height: calc(100vh - 440px);
 
-			.lb-label.lb-confirm-message {
-				margin-top: 5.5rem;
+			.lb-confirm-message {
+				height: 100%;
+			}
+
+			.lb-label__main {
 				padding-right: 1rem;
-				max-height: calc(100vh - 440px);
+				max-height: calc(100% - 3rem);
 				overflow-y: auto;
-
-				h3 {
-					position: fixed;
-					transform: translateY(-45px);
-				}
 			}
 		}
 	}
@@ -247,10 +245,6 @@ body.lb-block-page.many {
 	.lb-finish-button {
 		opacity: 0;
 		visibility: hidden;
-	}
-
-	.lb-label.lb-collecting {
-		opacity: 0;
 	}
 
 	.lb-label.lb-confirm-message {
@@ -367,12 +361,15 @@ body.lb-legacy-twitter {
 }
 
 .lb-label {
-	transition-property: opacity, margin;
+	transition-property: opacity, margin, visibility, max-height, transform;
 	transition-duration: 1s;
 	transition-timing-function: ease-in-out;
+	transform-origin: 0 0;
 	display: block !important;
 	opacity: 1;
 	position: relative;
+	max-height: 100%;
+	transform: scaleY(1);
 
 	label {
 		display: inline-flex;
@@ -380,7 +377,6 @@ body.lb-legacy-twitter {
 	}
 
 	h3 {
-		margin-top: -3px;
 		margin-bottom: 1em;
 		color: $color_4;
 
@@ -393,6 +389,28 @@ body.lb-legacy-twitter {
 		svg {
 			position: relative;
 			top: 0.15em;
+		}
+	}
+
+	&.lb-collecting {
+		h3 {
+			margin-top: -5px;
+		}
+
+		.lb-confirm & {
+			opacity: 0;
+			visibility: hidden;
+			transform: scaleY(0);
+			max-height: 0;
+		}
+	}
+
+	&.lb-confirm-message {
+		display: none !important;
+		opacity: 0;
+
+		h3 {
+			margin-top: 0;
 		}
 	}
 }
@@ -424,11 +442,6 @@ body.lb-legacy-twitter {
 
 .lb-limit-note {
 	display: none;
-}
-
-.lb-label.lb-confirm-message {
-	display: none !important;
-	opacity: 0;
 }
 
 .lb-block-button {
