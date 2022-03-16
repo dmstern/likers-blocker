@@ -11,7 +11,11 @@
 			"css": ["ichbinhier.css"]
 		}
 	],
-	"permissions": ["https://twitter.com/*", "https://ichbinhier-twittertools.herokuapp.com/blocklists"],
+	"permissions": [
+		"https://twitter.com/*",
+		"https://ichbinhier-twittertools.herokuapp.com/blocklists",
+		"clipboardWrite"
+	],
 	"manifest_version": 2,
 	"browser_action": { "default_popup": "popup.html" },
 	"default_locale": "en"
