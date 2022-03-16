@@ -33,6 +33,7 @@
 		"@types/firefox-webext-browser": "^82.0.1",
 		"archiver": "^5.3.0",
 		"mkdirp": "^1.0.4",
+		"prettier": "^2.6.0",
 		"rollup": "^2.70.0",
 		"rollup-plugin-copy": "^3.4.0",
 		"rollup-plugin-prettier": "^2.2.2",
