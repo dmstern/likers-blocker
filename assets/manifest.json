@@ -13,8 +13,7 @@
 	],
 	"permissions": [
 		"https://twitter.com/*",
-		"https://ichbinhier-twittertools.herokuapp.com/blocklists",
-		"clipboardWrite"
+		"https://ichbinhier-twittertools.herokuapp.com/blocklists"
 	],
 	"manifest_version": 2,
 	"browser_action": { "default_popup": "popup.html" },
