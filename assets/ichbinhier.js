@@ -1,29 +1,31 @@
-class IchBinHier {
-	constructor() {
-		this.client = "undefined" == typeof browser ? chrome : browser;
+(function () {
+	const client = "undefined" == typeof browser ? chrome : browser;
 
-		this.icons = {
-			Home: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>`,
-			Login: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>`,
-			Logout: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>`,
-		};
+	const icons = {
+		Home: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>`,
+		Login: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>`,
+		Logout: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>`,
+	};
 
-		this.setUpLoginPage();
-		this.setUpHeader();
-		this.setUpMain();
-		this.setUpConfirmationPage();
+	init();
+
+	function init() {
+		setUpLoginPage();
+		setUpHeader();
+		setUpMain();
+		setUpConfirmationPage();
 	}
 
-	setUpConfirmationPage() {
+	function setUpConfirmationPage() {
 		const heading = document.querySelector("form h2");
 		if (heading) {
-			heading.innerHTML = this.client.i18n.getMessage("ichbinhier_heading");
+			heading.innerHTML = getLabel("ichbinhier_heading", "Block following users?");
 		}
 
 		const blockButton = document.querySelector(".btn.btn-danger");
 		if (blockButton) {
 			blockButton.classList.add("block-button");
-			blockButton.value = this.client.i18n.getMessage("ichbinhier_blockButtonLabel");
+			blockButton.value = getLabel("ichbinhier_blockButtonLabel", "Block");
 			blockButton.setAttribute("onclick", "");
 			blockButton.setAttribute("type", "submit");
 		}
@@ -40,7 +42,7 @@ class IchBinHier {
 		}
 	}
 
-	setUpHeader() {
+	function setUpHeader() {
 		const nav = Array.from(document.querySelectorAll("body > .container > .row > .col-md-8 > a"));
 		const originalContainer = document.querySelector(".container");
 		const header = document.createElement("header");
@@ -54,7 +56,7 @@ class IchBinHier {
 								(item) =>
 									`<li class="nav-item">
 										<a class="nav-link" href="${item.href}">
-											${this.getIcon(item.innerHTML)}
+											${getIcon(item.innerHTML)}
 											<span>${item.innerHTML}</span>
 										</a>
 									</li>`
@@ -68,7 +70,7 @@ class IchBinHier {
 		document.body.prepend(header);
 	}
 
-	setUpLoginPage() {
+	function setUpLoginPage() {
 		const isLoginPage =
 			document.querySelectorAll("body > .container > .row > .col-md-8 > a").length === 2;
 
@@ -83,24 +85,25 @@ class IchBinHier {
 		const newP1 = document.createElement("p");
 		const newP2 = document.createElement("p");
 		newP1.innerHTML = `
-			${this.client.i18n.getMessage("ichbinhier_privacyInfo")}
-			${this.client.i18n.getMessage("ichbinhier_pivacyInfoHeroku")}
-			<a href="https://www.salesforce.com/company/privacy/" target="_blank">${this.client.i18n.getMessage(
-				"ichbinhier_pivacyInfoHerokuLinkLabel"
+			${getLabel("ichbinhier_privacyInfo", "We do not store any data except the usual server log files.")}
+			${getLabel("ichbinhier_pivacyInfoHeroku", "Here you can find")}
+			<a href="https://www.salesforce.com/company/privacy/" target="_blank">${getLabel(
+				"ichbinhier_pivacyInfoHerokuLinkLabel",
+				"privacy information to our hosting service Heroku"
 			)}</a>.`;
 		newP2.innerHTML = `
-			${this.client.i18n.getMessage("ichbinhier_repoInfo")}
+			${getLabel("ichbinhier_repoInfo", "You can find the source code of this web application on")}
 			<a href="https://github.com/pkreissel/ichbinhier_twittertools" target="_blank">Github</a>.`;
 
 		const container = document.querySelector("body > .container:nth-child(2)");
 		container.append(newP1, newP2);
 	}
 
-	getIcon(label) {
-		return Object.keys(this.icons).includes(label) ? this.icons[label] : "";
+	function getIcon(label) {
+		return Object.keys(icons).includes(label) ? icons[label] : "";
 	}
 
-	setUpMain() {
+	function setUpMain() {
 		const main = document.createElement("main");
 		const originalContainer = document.querySelector(".container:nth-child(2)");
 		main.innerHTML = `<div class="container">${originalContainer.innerHTML}</div>`;
@@ -113,6 +116,18 @@ class IchBinHier {
 		document.body.removeChild(originalContainer);
 		document.body.append(main);
 	}
-}
 
-new IchBinHier();
+	function getLabel(key, fallback) {
+		if (!client) {
+			return fallback;
+		}
+
+		const label = client.i18n.getMessage(key);
+
+		if (!label) {
+			return fallback;
+		}
+
+		return label;
+	}
+})();
