@@ -114,7 +114,13 @@ export default class LikersBlocker {
 		function parseCountFromElement(countElement: HTMLElement): number {
 			const likesCountText = countElement.textContent;
 			const chars = likesCountText.split("");
-			return parseInt(chars.filter((char) => !isNaN(Number(char))).join(""));
+			const factors = {
+				M: 1_000_000,
+				K: 1_000,
+			};
+
+			const factor = Object.keys(factors).includes(chars.at(-1)) ? factors[chars.at(-1)] : 1;
+			return parseInt(chars.filter((char) => !isNaN(Number(char))).join("")) * factor;
 		}
 
 		if (await TwitterPage.isBlockPage()) {
