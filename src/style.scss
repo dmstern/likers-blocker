@@ -112,8 +112,9 @@ body.lb-block-page {
 	body.many & {
 		&.lb-confirm {
 			width: 700px;
-			top: 150px;
-			height: calc(100vh - 440px);
+			top: 100px;
+			height: calc(100% - 200px);
+			min-height: 300px;
 
 			.lb-confirm-message {
 				height: 100%;
