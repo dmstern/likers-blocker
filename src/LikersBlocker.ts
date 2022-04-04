@@ -264,7 +264,7 @@ export default class LikersBlocker {
 
 		let userCounter = document.querySelector(".lb-user-counter") as HTMLElement;
 		if (userCounter) {
-			userCounter.innerText = `${this.users.length}`;
+			userCounter.innerText = `${this.users.length.toLocaleString()}`;
 		}
 
 		const lastTwoCollectionsAreIdentical =
@@ -648,7 +648,7 @@ export default class LikersBlocker {
 		const confirmHeading = this.popup.querySelector(".lb-confirm-message h3 span");
 
 		if (confirmHeading) {
-			confirmHeading.innerHTML = `${this.users.length} ${confirmHeading.innerHTML}`;
+			confirmHeading.innerHTML = `${this.users.length.toLocaleString()} ${confirmHeading.innerHTML}`;
 		}
 
 		this.popup.classList.add("lb-check", "lb-collected");
