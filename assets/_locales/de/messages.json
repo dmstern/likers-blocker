@@ -79,14 +79,6 @@
 		"message": "Danke, reicht.",
 		"description": "Label for the finish button"
 	},
-	"ui_technicalConstraints": {
-		"message": "Für besonders große Like-Zahlen können aus technischen Gründen nicht alle Nutzernamen eingesammelt werden.",
-		"description": "Message that is shown if the list is large and not all users may be collected."
-	},
-	"ui_repeatBlocking": {
-		"message": "Du kannst den Block-Vorgang nach dem Bestätigen einfach mehrfach wiederholen, um mehr Nutzer zu blockieren.",
-		"description": "Hint for the user to workaround the user amount limit."
-	},
 	"ui_twitterHides": {
 		"message": "Evtl. werden einige von Twitter ausgeblendet.",
 		"description": "Message that is shown during or after collecting that tells the user that some users may hidden."
