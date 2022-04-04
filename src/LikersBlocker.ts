@@ -457,6 +457,10 @@ export default class LikersBlocker {
 				: (this.confirmButton.querySelector("div > span > span") as HTMLElement);
 
 			confirmButtonLabel.innerText = client.i18n.getMessage("ui_ok");
+			const confirmButtonIcon = document.createElement("span");
+			confirmButtonIcon.innerHTML = icons.external;
+			confirmButtonLabel.parentElement.append(confirmButtonIcon.querySelector("svg"));
+			this.confirmButton.setAttribute("title", client.i18n.getMessage("ui_external"));
 			this.confirmButton.setAttribute("target", "_blank");
 
 			this.confirmButton.addEventListener("click", async () => {

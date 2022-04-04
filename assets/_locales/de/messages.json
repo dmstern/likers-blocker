@@ -99,6 +99,10 @@
 		"message": "OK",
 		"description": "Label of the OK button"
 	},
+	"ui_external": {
+		"message": "Öffnet Block-Dienst in neuem Tab.",
+		"description": "MouseOver text that will inform the user that on ok there is opened a link in a new browser tab."
+	},
 	"ui_export": {
 		"message": "Exportieren",
 		"description": "Title of the export button"

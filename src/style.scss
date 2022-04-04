@@ -474,11 +474,30 @@ body.lb-legacy-twitter {
 
 	svg {
 		height: 1rem;
-		margin-left: -2.6em;
 		position: absolute;
 		opacity: 0;
 		visibility: hidden;
 		transition: all 500ms ease-in-out;
+
+		&.lb-icon--external {
+			margin-left: 2.6em;
+
+			body.many & {
+				margin-left: 8em;
+			}
+		}
+
+		&.lb-icon--check {
+			margin-left: -2.6em;
+		}
+	}
+
+	&:hover,
+	&:focus {
+		svg.lb-icon--external {
+			opacity: 1;
+			visibility: visible;
+		}
 	}
 
 	&--clicked {
