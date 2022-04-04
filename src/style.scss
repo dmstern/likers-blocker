@@ -463,10 +463,14 @@ body.lb-legacy-twitter {
 	position: absolute !important;
 	right: 0;
 	top: 0;
-	padding: 0 4em !important;
+	padding: 0 1.3em 0 4em !important;
 	text-decoration: none;
 	line-height: 1.3rem !important;
 	transition: all 500ms ease-in-out;
+
+	body.many & {
+		padding: 0 1.3em !important;
+	}
 
 	> div > span {
 		display: flex;
@@ -474,21 +478,17 @@ body.lb-legacy-twitter {
 
 	svg {
 		height: 1rem;
-		position: absolute;
 		opacity: 0;
 		visibility: hidden;
 		transition: all 500ms ease-in-out;
 
 		&.lb-icon--external {
-			margin-left: 2.6em;
+			margin-left: 1em;
 
-			body.many & {
-				margin-left: 8em;
-			}
 		}
 
 		&.lb-icon--check {
-			margin-left: -2.6em;
+			margin-right: 1em;
 		}
 	}
 
