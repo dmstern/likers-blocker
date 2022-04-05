@@ -752,9 +752,9 @@ export default class LikersBlocker {
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--share ${LikersBlocker.getBadgeClass(
 						"share"
-					)}" href="${client.i18n.getMessage("tweet_text")}" target="_blank" title="${client.i18n.getMessage(
-			"popup_share"
-		)}">${Icons.share}</a>
+					)}" href="${client.i18n.getMessage(
+			"tweet_text"
+		)}" target="_blank" title="${client.i18n.getMessage("popup_share")}">${Icons.share}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="icon--twitter lb-footer__link lb-footer__link--follow ${LikersBlocker.getBadgeClass(
