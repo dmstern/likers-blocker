@@ -752,7 +752,7 @@ export default class LikersBlocker {
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--share ${LikersBlocker.getBadgeClass(
 						"share"
-					)}" href="https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier" target="_blank" title="${client.i18n.getMessage(
+					)}" href="${client.i18n.getMessage("tweet_text")}" target="_blank" title="${client.i18n.getMessage(
 			"popup_share"
 		)}">${Icons.share}</a>
 				</li>

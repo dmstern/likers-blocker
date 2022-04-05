@@ -14,6 +14,13 @@ function localizeUI() {
 		const msg = client.i18n.getMessage(messageName);
 		element.setAttribute("href", msg);
 	});
+
+	const titleNodes = document.querySelectorAll("[data-title]");
+	titleNodes.forEach((element) => {
+		const messageName = element.dataset.title;
+		const msg = client.i18n.getMessage(messageName);
+		element.setAttribute("title", msg);
+	});
 }
 
 function alignRightButton() {
