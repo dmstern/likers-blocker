@@ -4,14 +4,22 @@
 	"description": "__MSG_extensionDescription__",
 	"icons": { "16": "icon16.png", "48": "icon48.png", "128": "icon128.png" },
 	"content_scripts": [
-		{ "matches": ["https://twitter.com/*"], "js": ["index.js"], "css": ["style.css"] },
+		{
+			"matches": ["https://twitter.com/*", "https://mobile.twitter.com/*"],
+			"js": ["index.js"],
+			"css": ["style.css"]
+		},
 		{
 			"matches": ["https://ichbinhier-twittertools.herokuapp.com/*"],
 			"js": ["ichbinhier.js"],
 			"css": ["ichbinhier.css"]
 		}
 	],
-	"permissions": ["https://twitter.com/*", "https://ichbinhier-twittertools.herokuapp.com/blocklists"],
+	"permissions": [
+		"https://twitter.com/*",
+		"https://mobile.twitter.com/*",
+		"https://ichbinhier-twittertools.herokuapp.com/blocklists"
+	],
 	"manifest_version": 2,
 	"browser_action": { "default_popup": "popup.html" },
 	"default_locale": "en"
