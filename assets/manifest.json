@@ -18,7 +18,8 @@
 	"permissions": [
 		"https://twitter.com/*",
 		"https://mobile.twitter.com/*",
-		"https://ichbinhier-twittertools.herokuapp.com/blocklists"
+		"https://ichbinhier-twittertools.herokuapp.com/blocklists",
+		"storage"
 	],
 	"manifest_version": 2,
 	"browser_action": { "default_popup": "popup.html" },

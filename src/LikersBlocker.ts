@@ -4,7 +4,7 @@ import icons from "./icons";
 import settings from "./settings";
 import TextStyle from "./TextStyle";
 import TwitterPage from "./TwitterPage";
-import LocalStorage from "./LocalStorage";
+import Storage from "./Storage";
 
 const client = typeof browser === "undefined" ? chrome : browser;
 
@@ -40,7 +40,7 @@ export default class LikersBlocker {
 
 		this.setUpBlockButton().then();
 		this.setUpExportButton().then();
-		LocalStorage.storePackageVersion();
+		Storage.storePackageVersion().then();
 	}
 
 	public get isLegacyTwitter() {
@@ -94,14 +94,15 @@ export default class LikersBlocker {
 		);
 	}
 
-	private static getBadgeClass(linkModifier) {
+	private static async getBadgeClass(linkModifier): Promise<string> {
 		const badgeTypes = {
-			follow: LocalStorage.hideBadgeFollow,
-			share: LocalStorage.hideBadgeShare,
-			donate: LocalStorage.hideBadgeDonate,
+			follow: await Storage.getHideBadgeFollow(),
+			share: await Storage.getHideBadgeShare(),
+			donate: await Storage.getHideBadgeDonate(),
 		};
 
 		const allBadgedDone = Object.values(badgeTypes).every((value) => value);
+
 		if (allBadgedDone) {
 			return;
 		}
@@ -146,8 +147,8 @@ export default class LikersBlocker {
 		return -1;
 	}
 
-	private addIncludeRetweetersParam(shouldIncludeRetweeters) {
-		LocalStorage.includeRetweeters = shouldIncludeRetweeters;
+	private async addIncludeRetweetersParam(shouldIncludeRetweeters) {
+		await Storage.setIncludeRetweeters(shouldIncludeRetweeters);
 
 		const confirmButtons: Array<HTMLLinkElement> = Array.from(
 			document.querySelectorAll(".lb-confirm-button")
@@ -281,7 +282,7 @@ export default class LikersBlocker {
 				this.uiIdleCounter > idleCounterAllowance &&
 				this.progressInPercent < probablyAlmostReadyThreshold
 			) {
-				this.createIdleWarning();
+				await this.createIdleWarning();
 			}
 		}
 
@@ -348,18 +349,18 @@ export default class LikersBlocker {
 		});
 	}
 
-	private createCheckbox(): HTMLElement {
+	private async createCheckbox(): Promise<HTMLElement> {
 		this.checkbox = document.createElement("input");
 		const label = document.createElement("label");
 		const labelWrapper = document.createElement("div");
 		labelWrapper.classList.add("lb-label-wrapper");
 		labelWrapper.appendChild(label);
 		this.checkbox.type = "checkbox";
-		this.checkbox.checked = LocalStorage.includeRetweeters;
+		this.checkbox.checked = await Storage.getIncludeRetweeters();
 		this.checkbox.classList.add("lb-checkbox");
 
 		this.checkbox.addEventListener("change", () => {
-			this.addIncludeRetweetersParam(this.checkbox.checked);
+			this.addIncludeRetweetersParam(this.checkbox.checked).then();
 		});
 
 		label.innerHTML = `<span>${client.i18n.getMessage("ui_blockRetweeters")}</span>`;
@@ -402,10 +403,10 @@ export default class LikersBlocker {
 			const finishButtonIcon = finishButton.querySelector("svg");
 			finishButtonIcon.addEventListener(
 				"transitionend",
-				() => {
+				async () => {
 					finishButton.disabled = true;
 					this.popup.classList.remove("lb-popup--has-warning");
-					this.finishCollecting();
+					await this.finishCollecting();
 				},
 				{
 					once: true,
@@ -571,11 +572,11 @@ export default class LikersBlocker {
 				scrolledToBottom,
 				scrollListIsSmall,
 			});
-			this.finishCollecting();
+			await this.finishCollecting();
 		}
 	}
 
-	private finishCollecting(): void {
+	private async finishCollecting(): Promise<void> {
 		if (this.hasStateChangedToConfirm) {
 			return;
 		}
@@ -644,7 +645,7 @@ export default class LikersBlocker {
 		}
 
 		if (this.checkbox) {
-			this.addIncludeRetweetersParam(this.checkbox.checked);
+			await this.addIncludeRetweetersParam(this.checkbox.checked);
 		}
 
 		this.stopScrolling();
@@ -713,7 +714,7 @@ export default class LikersBlocker {
 		let confirmButton = await this.createConfirmButton();
 
 		if (await TwitterPage.isTweetPage()) {
-			let checkboxWrapper = this.createCheckbox();
+			let checkboxWrapper = await this.createCheckbox();
 			this.confirmMessageElement.querySelector(".lb-label__main").appendChild(checkboxWrapper);
 		}
 
@@ -727,37 +728,39 @@ export default class LikersBlocker {
 
 	private async createFooter() {
 		const footer = document.createElement("footer");
+		const isNewRelease = await Storage.getIsNewRelease();
+
 		footer.innerHTML = `
 			<ul class="lb-footer__inner">
 				<li class="lb-footer__item">
-					<a class="lb-footer__link lb-footer__link--new-release ${LocalStorage.isNewRelease ? "sparkle" : ""}"
+					<a class="lb-footer__link lb-footer__link--new-release ${isNewRelease ? "sparkle" : ""}"
 						href="https://github.com/dmstern/likers-blocker/releases" target="_blank" title="${client.i18n.getMessage(
 							"ui_newRelease"
 						)}">${Icons.sparkles}</a>
 				</li>
 				<li class="lb-footer__item">
-					<a class="lb-footer__link lb-footer__link--donate ${LikersBlocker.getBadgeClass(
+					<a class="lb-footer__link lb-footer__link--donate ${await LikersBlocker.getBadgeClass(
 						"donate"
 					)}" href="https://github.com/dmstern/likers-blocker#donate" target="_blank" title="${client.i18n.getMessage(
 			"popup_tip"
 		)}">${Icons.gift}</a>
 				</li>
 				<li class="lb-footer__item">
-					<a class="lb-footer__link lb-footer__item--report ${LikersBlocker.getBadgeClass(
+					<a class="lb-footer__link lb-footer__item--report ${await LikersBlocker.getBadgeClass(
 						"report"
 					)}" href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank" title="${client.i18n.getMessage(
 			"popup_reportBug"
 		)}">${Icons.issue}</a>
 				</li>
 				<li class="lb-footer__item">
-					<a class="lb-footer__link lb-footer__link--share ${LikersBlocker.getBadgeClass(
+					<a class="lb-footer__link lb-footer__link--share ${await LikersBlocker.getBadgeClass(
 						"share"
 					)}" href="${client.i18n.getMessage(
 			"tweet_text"
 		)}" target="_blank" title="${client.i18n.getMessage("popup_share")}">${Icons.share}</a>
 				</li>
 				<li class="lb-footer__item">
-					<a class="icon--twitter lb-footer__link lb-footer__link--follow ${LikersBlocker.getBadgeClass(
+					<a class="icon--twitter lb-footer__link lb-footer__link--follow ${await LikersBlocker.getBadgeClass(
 						"follow"
 					)}" href="https://twitter.com/LikersBlocker" target="_blank" title="${client.i18n.getMessage(
 			"popup_follow"
@@ -782,13 +785,13 @@ export default class LikersBlocker {
 
 				switch (badgeType) {
 					case "follow":
-						LocalStorage.hideBadgeFollow = true;
+						Storage.setHideBadgeFollow(true);
 						break;
 					case "share":
-						LocalStorage.hideBadgeShare = true;
+						Storage.setHideBadgeShare(true);
 						break;
 					case "donate":
-						LocalStorage.hideBadgeDonate = true;
+						Storage.setHideBadgeDonate(true);
 						break;
 				}
 			});
@@ -845,9 +848,9 @@ export default class LikersBlocker {
 		clearInterval(this.scrollInterval);
 	};
 
-	private createIdleWarning() {
+	private async createIdleWarning() {
 		if (
-			LocalStorage.hideIdleWarning ||
+			(await Storage.getHideIdleWarning()) ||
 			Array.from(this.popup.classList).includes("lb-popup--has-warning") ||
 			this.hasStateChangedToConfirm
 		) {
@@ -890,7 +893,7 @@ export default class LikersBlocker {
 		});
 
 		this.popup.querySelector(".lb-warning__button--hide").addEventListener("click", () => {
-			LocalStorage.hideIdleWarning = true;
+			Storage.setHideIdleWarning(true);
 		});
 	}
 }
