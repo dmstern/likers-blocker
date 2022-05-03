@@ -313,10 +313,10 @@ export default class LikersBlocker {
 		}
 
 		this.blockButton = document.createElement("a");
-		this.blockButton.classList.add("lb-block-button", ...followButton.classList);
+		this.blockButton.classList.add("lb-block-button", ...followButton?.classList);
 		this.blockButton.dataset.testid = "blockAll";
 		this.blockButton.tabIndex = 0;
-		this.blockButton.innerHTML = followButton.innerHTML;
+		this.blockButton.innerHTML = followButton?.innerHTML;
 		this.blockButton.style.color = TwitterPage.highlightColor;
 		this.blockButton.style.borderColor = TwitterPage.highlightColor;
 
