@@ -3,7 +3,7 @@ import Icons from "./icons";
 import icons from "./icons";
 import settings from "./settings";
 import TextStyle from "./TextStyle";
-import TwitterPage from "./TwitterPage";
+import TwitterPage, { AccountList } from "./TwitterPage";
 import Storage from "./Storage";
 
 const client = typeof browser === "undefined" ? chrome : browser;
@@ -134,7 +134,7 @@ export default class LikersBlocker {
 			return parseCountFromElement(likesCounterLink.querySelector("strong"));
 		}
 
-		const isListPage = await TwitterPage.isListPage();
+		const isListPage = await TwitterPage.isListPage() as AccountList;
 		if (isListPage) {
 			return parseCountFromElement(await tryToAccessDOM(`a[href$="${isListPage}"] span span`));
 		}
@@ -164,7 +164,7 @@ export default class LikersBlocker {
 
 		const getRequestUrl = (currentValue: string): string => {
 			const blocklistUrl = linkIncludesRetweeters ? currentValue.split("&")[0] : currentValue;
-			const includeRetweetersParam = linkIncludesRetweeters ? "" : `&tweet_id=${this.tweetId}`;
+			const includeRetweetersParam: string = linkIncludesRetweeters ? "" : `&tweet_id=${this.tweetId}`;
 			return `${blocklistUrl}${includeRetweetersParam}`;
 		};
 
@@ -684,7 +684,7 @@ export default class LikersBlocker {
 		const shouldDisplayOnThisPage =
 			(await TwitterPage.isBlockPage()) ||
 			(await TwitterPage.isTweetPage()) ||
-			(await TwitterPage.isListPage());
+			(await TwitterPage.isListPage()) !== false;
 
 		if (!shouldDisplayOnThisPage) {
 			return;

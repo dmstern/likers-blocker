@@ -76,7 +76,7 @@ export default class TwitterPage {
 		});
 	}
 
-	static async isListPage(): Promise<ListAccounts | boolean> {
+	static async isListPage(): Promise<AccountList | boolean> {
 		return new Promise((resolve) => {
 			setTimeout(() => {
 				const pathParts = location.href.split("/");
@@ -84,10 +84,9 @@ export default class TwitterPage {
 
 				if (
 					location.href.includes("list") &&
-					(location.href.endsWith(ListAccounts.followers) ||
-						location.href.endsWith(ListAccounts.members))
+					(location.href.endsWith(AccountList.followers) || location.href.endsWith(AccountList.members))
 				) {
-					resolve(ListAccounts[lastPathPart]);
+					resolve(AccountList[lastPathPart]);
 				}
 
 				return resolve(false);
@@ -96,7 +95,7 @@ export default class TwitterPage {
 	}
 }
 
-enum ListAccounts {
+export enum AccountList {
 	members = "members",
 	followers = "followers",
 }
