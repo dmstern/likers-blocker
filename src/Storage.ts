@@ -10,6 +10,7 @@ export enum Key {
 	hideIdleWarning = `hide-idle-warning`,
 	packageVersion = "packageVersion",
 	installedNewReleaseDate = "installedNewReleaseDate",
+	lastCollectedUserList = "lastCollectedUserList",
 }
 
 const values = {
@@ -87,5 +88,16 @@ export default class Storage {
 			await this.setInstalledNewReleaseDate(values.today);
 			await client.storage.local.set({ [Key.packageVersion]: client.runtime.getManifest().version });
 		}
+	}
+
+	static async setLastCollectedUserList(users: string[]) {
+		console.log({ users });
+		await client.storage.local.set({ [Key.lastCollectedUserList]: users });
+	}
+
+	static async getLastCollectedUserList(): Promise<string[]> {
+		return client.storage.local.get(Key.lastCollectedUserList).then((value) => {
+			return value[Key.lastCollectedUserList];
+		});
 	}
 }

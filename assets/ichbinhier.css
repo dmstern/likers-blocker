@@ -28,10 +28,9 @@ body {
 	color: var(--fg-color);
 }
 
-.block-button {
-	position: absolute;
-	top: 0;
-	left: 50%;
+.block-button-wrapper {
+	display: flex;
+	align-items: center;
 }
 
 .container a[href^="https://api.twitter.com"] button

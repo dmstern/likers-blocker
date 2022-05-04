@@ -16,6 +16,32 @@
 		setUpConfirmationPage();
 	}
 
+	async function getUsers() {
+		return client.storage.local.get("lastCollectedUserList").then((value) => {
+			return value.lastCollectedUserList;
+		});
+	}
+
+	function shouldReadUsersFromStorage() {
+		const paramString = location.href.split("?")[1];
+		const queryString = new URLSearchParams(paramString);
+		return queryString.get("getUsersFromStorage") === "true";
+	}
+
+	async function getFormItemsMarkup() {
+		return getUsers().then((users) => {
+			return users
+				.map(
+					(user) => `
+						<div class="form-check">
+							<input class="form-check-input" name="profile_urls" type="checkbox" value="${user}" id="check-${user}" checked="">
+							<label class="form-check-label" for="check-${user}">${user}</label>
+						</div>`
+				)
+				.join("");
+		});
+	}
+
 	function setUpConfirmationPage() {
 		const heading = document.querySelector("form h2");
 		if (heading) {
@@ -31,15 +57,45 @@
 		}
 
 		const form = document.querySelector(".container form");
+
 		if (form) {
-			const formMarkup = form.outerHTML;
-			form.parentElement.innerHTML = `
-				<div class="row">
-					<div class="col-12">
-						${formMarkup}
-					</div>
-				</div>`;
+			if (shouldReadUsersFromStorage()) {
+				getFormItemsMarkup().then((markup) => {
+					fillFormWithMarkup(form, markup);
+					addNewHeading();
+				});
+			} else {
+				fillFormWithMarkup(form, form.outerHTML);
+			}
 		}
+	}
+
+	function addNewHeading() {
+		const mainContainer = document.querySelector("main .container");
+		if (mainContainer) {
+			const headingContainer = document.createElement("div");
+			headingContainer.classList.add("row");
+			headingContainer.innerHTML = `
+				<div class="col-8">
+					<h1>${getLabel("ichbinhier_heading", "Block following users?")}</h1>
+				</div>
+				<div class="col-4 block-button-wrapper">
+					<input class="btn btn-danger block-button" value="${getLabel(
+						"ichbinhier_blockButtonLabel",
+						"Block"
+					)}" type="submit">
+				</div>`;
+			mainContainer.prepend(headingContainer);
+		}
+	}
+
+	function fillFormWithMarkup(form, markup) {
+		form.parentElement.innerHTML = `
+			<div class="row">
+				<div class="col-12">
+					${markup}
+				</div>
+			</div>`;
 	}
 
 	function setUpHeader() {

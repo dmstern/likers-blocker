@@ -581,67 +581,15 @@ export default class LikersBlocker {
 			return;
 		}
 
-		console.debug("finishCollecting()");
-		this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
-		const listIsLarge = this.requestUrl.length > settings.URL_LENGTH_MAX;
-		document.querySelector("body").classList.toggle("many", listIsLarge);
+		this.requestUrl = `${settings.API_URL_BLOCK}?getUsersFromStorage=true`;
+		await Storage.setLastCollectedUserList(this.users);
 
 		if (this.confirmButton) {
 			this.confirmButton.href = this.requestUrl;
 		}
 
 		if (this.textarea) {
-			this.textarea.value = this.requestUrl;
-		}
-
-		if (listIsLarge) {
-			console.info("list is large");
-			let requestCount = this.requestUrl.length / settings.URL_LENGTH_MAX;
-			let usersPerRequest = this.users.length / requestCount;
-
-			const headingContent2 = document.querySelector(".lb-confirm-message > h3 > span:last-of-type");
-			headingContent2.innerHTML = client.i18n.getMessage("ui_divided");
-			headingContent2.classList.add("lb-divided-msg");
-
-			for (let i = 0; i <= requestCount; i++) {
-				let linkClone = this.textarea.parentNode.cloneNode(true);
-				this.textarea.parentNode.parentNode.appendChild(linkClone);
-				const textarea = linkClone.childNodes.item(1) as HTMLTextAreaElement;
-
-				const copyButton = textarea.parentElement.querySelector(".lb-copy-button") as HTMLButtonElement;
-				const confirmButton = textarea.parentElement.querySelector(
-					".lb-confirm-button"
-				) as HTMLLinkElement;
-				const requestUrl = `${settings.API_URL_BLOCK}?users=${this.users.slice(
-					usersPerRequest * i,
-					usersPerRequest * (i + 1)
-				)}`;
-
-				copyButton.addEventListener("click", () => {
-					this.handleCopyClick(textarea, copyButton);
-				});
-
-				textarea.value = requestUrl;
-
-				if (confirmButton) {
-					confirmButton.href = requestUrl;
-					(
-						confirmButton.querySelector("div > span > span") as HTMLSpanElement
-					).innerText = `${client.i18n.getMessage("ui_confirmButtonLabel")} ${i + 1}`;
-
-					const iconWrapper = document.createElement("span");
-					iconWrapper.innerHTML = icons.check;
-					confirmButton.querySelector("div > span").prepend(iconWrapper);
-
-					confirmButton.addEventListener("mousedown", (event) => {
-						const confirmButton = (event.target as HTMLElement).closest("a");
-						confirmButton.classList.add("lb-confirm-button--clicked");
-					});
-				}
-			}
-
-			// Remove original after cloning:
-			this.textarea.parentNode.parentNode.removeChild(document.querySelector(".lb-copy-wrapper"));
+			this.textarea.value = this.users.toString();
 		}
 
 		if (this.checkbox) {
