@@ -28,9 +28,13 @@ body {
 	color: var(--fg-color);
 }
 
-.block-button-wrapper {
+.form-heading-wrapper {
 	display: flex;
 	align-items: center;
+}
+
+.block-button {
+	margin-left: 5rem;
 }
 
 .container a[href^="https://api.twitter.com"] button

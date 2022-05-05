@@ -2,6 +2,7 @@
 	const client = "undefined" == typeof browser ? chrome : browser;
 	const READ_FROM_STORAGE = "read-from-storage";
 	const STORAGE_KEY = "lastCollectedUserList";
+	const FORM_SELECTOR = 'form[action="/blockapi"]';
 
 	const icons = {
 		Home: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>`,
@@ -30,7 +31,7 @@
 		return queryString.get("users") === READ_FROM_STORAGE;
 	}
 
-	async function getFormItemsMarkup() {
+	async function getFormCheckItems() {
 		return getUsers().then((usersFromStorage) => {
 			let users = [];
 			const prefilledFormChecks = document.querySelectorAll(".form-check");
@@ -44,13 +45,15 @@
 			const finalUsersList = shouldReadUsersFromStorage() && usersFromStorage ? users.concat(usersFromStorage) : users;
 			return finalUsersList
 				.map(
-					(user) => `
-						<div class="form-check">
+					(user) => {
+						const formCheck = document.createElement("div");
+						formCheck.classList.add("form-check");
+						formCheck.innerHTML = `
 							<input class="form-check-input" name="profile_urls" type="checkbox" value="${user}" id="check-${user}" checked="">
-							<label class="form-check-label" for="check-${user}">${user}</label>
-						</div>`
-				)
-				.join("");
+							<label class="form-check-label" for="check-${user}">${user}</label>`;
+						return formCheck;
+					}
+				);
 		});
 	}
 
@@ -58,6 +61,7 @@
 		const heading = document.querySelector("form h2");
 		if (heading) {
 			heading.innerHTML = getLabel("ichbinhier_heading", "Block following users?");
+			heading.classList.add("confirm-heading");
 		}
 
 		const blockButton = document.querySelector(".btn.btn-danger");
@@ -68,27 +72,30 @@
 			blockButton.setAttribute("type", "submit");
 		}
 
-		const form = document.querySelector(".container form");
+		const form = document.querySelector(FORM_SELECTOR);
 
 		if (form) {
-			getFormItemsMarkup().then((markup) => {
+			getFormCheckItems().then((formCheckItems) => {
 				form.parentElement.innerHTML = `
 					<div class="row">
-						<div class="col-8">
-							<h2>${getLabel("ichbinhier_heading", "Block following users?")}</h2>
-						</div>
-						<div class="col-4 block-button-wrapper">
-							<input class="btn btn-danger block-button" value="${getLabel(
-								"ichbinhier_blockButtonLabel",
-								"Block"
-							)}" type="submit">
-						</div>
-					</div>
-					<div class="row">
 						<div class="col-12">
-							${markup}
+							${form.outerHTML}
 						</div>
 					</div>`;
+
+				const newForm = document.querySelector(FORM_SELECTOR);
+				if (newForm) {
+					newForm.append(...formCheckItems);
+				}
+
+				const formHeadingWrapper = document.createElement("div");
+				formHeadingWrapper.classList.add("form-heading-wrapper");
+				const newBlockButton = newForm.querySelector(".block-button");
+				const newHeading = document.querySelector(".confirm-heading");
+				formHeadingWrapper.append(newHeading.cloneNode(true), newBlockButton.cloneNode(true))
+				newForm.removeChild(newBlockButton);
+				newForm.removeChild(newHeading);
+				newForm.prepend(formHeadingWrapper);
 			});
 		}
 	}
