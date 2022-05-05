@@ -134,7 +134,7 @@ export default class LikersBlocker {
 			return parseCountFromElement(likesCounterLink.querySelector("strong"));
 		}
 
-		const isListPage = await TwitterPage.isListPage() as AccountList;
+		const isListPage = (await TwitterPage.isListPage()) as AccountList;
 		if (isListPage) {
 			return parseCountFromElement(await tryToAccessDOM(`a[href$="${isListPage}"] span span`));
 		}
