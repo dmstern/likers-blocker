@@ -2,7 +2,8 @@
 	const client = "undefined" == typeof browser ? chrome : browser;
 	const READ_FROM_STORAGE = "read-from-storage";
 	const STORAGE_KEY = "lastCollectedUserList";
-	const FORM_SELECTOR = 'form[action="/blockapi"]';
+	const BLOCK_API = "/blockapi";
+	const FORM_SELECTOR = `form[action="${BLOCK_API}"]`;
 
 	const icons = {
 		Home: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>`,
@@ -43,18 +44,16 @@
 					.filter((user) => user !== READ_FROM_STORAGE);
 			}
 
-			const finalUsersList = shouldReadUsersFromStorage() && usersFromStorage ? users.concat(usersFromStorage) : users;
-			return finalUsersList
-				.map(
-					(user) => {
-						const formCheck = document.createElement("div");
-						formCheck.classList.add("form-check");
-						formCheck.innerHTML = `
+			const finalUsersList =
+				shouldReadUsersFromStorage() && usersFromStorage ? users.concat(usersFromStorage) : users;
+			return finalUsersList.map((user) => {
+				const formCheck = document.createElement("div");
+				formCheck.classList.add("form-check");
+				formCheck.innerHTML = `
 							<input class="form-check-input" name="profile_urls" type="checkbox" value="${user}" id="check-${user}" checked="">
 							<label class="form-check-label" for="check-${user}">${user}</label>`;
-						return formCheck;
-					}
-				);
+				return formCheck;
+			});
 		});
 	}
 
@@ -70,7 +69,7 @@
 			blockButton.classList.add("block-button");
 			blockButton.value = getLabel("ichbinhier_blockButtonLabel", "Block");
 			blockButton.setAttribute("onclick", "");
-			blockButton.setAttribute("type", "submit");
+			// blockButton.setAttribute("type", "submit");
 		}
 
 		const form = document.querySelector(FORM_SELECTOR);
@@ -90,7 +89,9 @@
 				}
 
 				// Remove read-from-storage entry:
-				const readFromStorageEntry = document.querySelector(`.form-check input[value="${READ_FROM_STORAGE}"]`);
+				const readFromStorageEntry = document.querySelector(
+					`.form-check input[value="${READ_FROM_STORAGE}"]`
+				);
 				if (readFromStorageEntry) {
 					readFromStorageEntry.parentElement.remove();
 				}
@@ -100,10 +101,45 @@
 				formHeadingWrapper.classList.add("form-heading-wrapper");
 				const newBlockButton = newForm.querySelector(".block-button");
 				const newHeading = document.querySelector(".confirm-heading");
-				formHeadingWrapper.append(newHeading.cloneNode(true), newBlockButton.cloneNode(true))
+				formHeadingWrapper.append(newHeading.cloneNode(true), newBlockButton.cloneNode(true));
 				newBlockButton.remove();
 				newHeading.remove();
 				newForm.prepend(formHeadingWrapper);
+
+				// Add API call event listener:
+				const hiddenTokenField = newForm.querySelector("input[type=hidden]");
+				if (!hiddenTokenField) {
+					return;
+				}
+
+				const profileURLsInputs = newForm.querySelectorAll('input[name="profile_urls"]');
+				if (!profileURLsInputs.length) {
+					return;
+				}
+
+				const profileURLs = Array.from(profileURLsInputs)
+					.filter((input) => input.checked)
+					.map((input) => `profile_urls=${input.value}`)
+					.join("&");
+				const csrfMiddlewareToken = hiddenTokenField.value;
+
+				console.log({csrfMiddlewareToken, profileURLs});
+
+				document.querySelector(".block-button").addEventListener("click", () => {
+					const request = fetch(`${location.protocol}//${location.host}${BLOCK_API}`, {
+						method: "POST",
+						headers: new Headers({
+							"Content-Type": "application/x-www-form-urlencoded",
+						}),
+						body: `csrfmiddlewaretoken=${csrfMiddlewareToken}&${profileURLs}`,
+					}).then((response) => {
+						response.text().then((text) => {
+							console.log(text);
+						});
+					});
+
+					console.log({ request });
+				});
 			});
 		}
 	}
