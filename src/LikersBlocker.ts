@@ -178,7 +178,7 @@ export default class LikersBlocker {
 
 	private async getLimitMessage() {
 		if ((await TwitterPage.isBlockPage()) || this.isListLarge) {
-			return `${client.i18n.getMessage("ui_takeAMoment")} ${client.i18n.getMessage("ui_urlLimit")}`;
+			return `${client.i18n.getMessage("ui_takeAMoment")}`;
 		} else {
 			return `${client.i18n.getMessage("ui_onlyListItems")}<br>${client.i18n.getMessage(
 				"ui_twitterHides"
