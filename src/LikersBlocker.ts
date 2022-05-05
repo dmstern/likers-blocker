@@ -1,5 +1,4 @@
 import { debounce, tryToAccessDOM } from "./util";
-import Icons from "./icons";
 import icons from "./icons";
 import settings from "./settings";
 import TextStyle from "./TextStyle";
@@ -329,7 +328,7 @@ export default class LikersBlocker {
 
 		// add blockIcon:
 		const blockIconWrapper = document.createElement("span");
-		blockIconWrapper.innerHTML = Icons.block;
+		blockIconWrapper.innerHTML = icons.block;
 		blockIconWrapper.style.marginRight = ".3em";
 		const blockButtonWrapper = this.isLegacyTwitter
 			? this.blockButton
@@ -368,14 +367,14 @@ export default class LikersBlocker {
 		const retweetersNotice = document.createElement("span");
 		retweetersNotice.classList.add("lb-info");
 		retweetersNotice.title = client.i18n.getMessage("ui_onlyDirectRetweeters");
-		retweetersNotice.innerHTML = Icons.info;
+		retweetersNotice.innerHTML = icons.info;
 		labelWrapper.appendChild(retweetersNotice);
 		return labelWrapper;
 	}
 
 	private async createCloseButton() {
 		const closeButton = document.createElement("button") as HTMLButtonElement;
-		closeButton.innerHTML = Icons.close;
+		closeButton.innerHTML = icons.close;
 		closeButton.tabIndex = 0;
 		closeButton.classList.add("lb-close-button");
 		closeButton.title = client.i18n.getMessage("ui_cancel");
@@ -390,7 +389,7 @@ export default class LikersBlocker {
 
 	private async createFinishButton() {
 		const finishButton = document.createElement("button") as HTMLButtonElement;
-		finishButton.innerHTML = `${Icons.forward}${Icons.smile}`;
+		finishButton.innerHTML = `${icons.forward}${icons.smile}`;
 		finishButton.tabIndex = 0;
 		finishButton.classList.add("lb-finish-button");
 		finishButton.title = client.i18n.getMessage("ui_finish");
@@ -424,11 +423,11 @@ export default class LikersBlocker {
 		copyButton.style.color = this.textStyle.color;
 		copyButton.innerHTML = `
 			<span class="lb-copy-button__content">
-				<span>${Icons.clipboardCopy}</span>
+				<span>${icons.clipboardCopy}</span>
 				<span class="lb-copy-button__label">${client.i18n.getMessage("ui_copyToShare")}</span>
 			</span>
 			<span class="lb-copy-button__content">
-				<span>${Icons.clipboardCheck}</span>
+				<span>${icons.clipboardCheck}</span>
 				<span class="lb-copy-button__label">${client.i18n.getMessage("ui_copied")}</span>
 			</span>
 		`;
@@ -652,7 +651,7 @@ export default class LikersBlocker {
 				<div class="lb-progress-bar">
 					<div class="lb-progress-bar__inner" style="background-color: ${TwitterPage.highlightColor}">
 						<span class="lb-progress-bar__label">0%</span>
-						${Icons.checkmark}
+						${icons.checkmark}
 					</div>
 				</div>
 			</div>`;
@@ -684,35 +683,35 @@ export default class LikersBlocker {
 					<a class="lb-footer__link lb-footer__link--new-release ${isNewRelease ? "sparkle" : ""}"
 						href="https://github.com/dmstern/likers-blocker/releases" target="_blank" title="${client.i18n.getMessage(
 							"ui_newRelease"
-						)}">${Icons.sparkles}</a>
+						)}">${icons.sparkles}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--donate ${await LikersBlocker.getBadgeClass(
 						"donate"
 					)}" href="https://github.com/dmstern/likers-blocker#donate" target="_blank" title="${client.i18n.getMessage(
 			"popup_tip"
-		)}">${Icons.gift}</a>
+		)}">${icons.gift}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__item--report ${await LikersBlocker.getBadgeClass(
 						"report"
 					)}" href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank" title="${client.i18n.getMessage(
 			"popup_reportBug"
-		)}">${Icons.issue}</a>
+		)}">${icons.issue}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--share ${await LikersBlocker.getBadgeClass(
 						"share"
 					)}" href="${client.i18n.getMessage(
 			"tweet_text"
-		)}" target="_blank" title="${client.i18n.getMessage("popup_share")}">${Icons.share}</a>
+		)}" target="_blank" title="${client.i18n.getMessage("popup_share")}">${icons.share}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="icon--twitter lb-footer__link lb-footer__link--follow ${await LikersBlocker.getBadgeClass(
 						"follow"
 					)}" href="https://twitter.com/LikersBlocker" target="_blank" title="${client.i18n.getMessage(
 			"popup_follow"
-		)}">${Icons.twitter}</a>
+		)}">${icons.twitter}</a>
 				</li>
 			</ul>
 			`;
@@ -769,7 +768,7 @@ export default class LikersBlocker {
 
 		let exportBtn = document.createElement("button");
 
-		exportBtn.innerHTML = Icons.share;
+		exportBtn.innerHTML = icons.share;
 		exportBtn.setAttribute("aria-label", client.i18n.getMessage("ui_export"));
 		exportBtn.setAttribute("title", client.i18n.getMessage("ui_export"));
 		exportBtn.classList.add("lb-btn--export");
