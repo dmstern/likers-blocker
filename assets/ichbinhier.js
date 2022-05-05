@@ -88,13 +88,20 @@
 					newForm.append(...formCheckItems);
 				}
 
+				// Remove read-from-storage entry:
+				const readFromStorageEntry = document.querySelector(`.form-check input[value="${READ_FROM_STORAGE}"]`);
+				if (readFromStorageEntry) {
+					readFromStorageEntry.parentElement.remove();
+				}
+
+				// Put block button on the top:
 				const formHeadingWrapper = document.createElement("div");
 				formHeadingWrapper.classList.add("form-heading-wrapper");
 				const newBlockButton = newForm.querySelector(".block-button");
 				const newHeading = document.querySelector(".confirm-heading");
 				formHeadingWrapper.append(newHeading.cloneNode(true), newBlockButton.cloneNode(true))
-				newForm.removeChild(newBlockButton);
-				newForm.removeChild(newHeading);
+				newBlockButton.remove();
+				newHeading.remove();
 				newForm.prepend(formHeadingWrapper);
 			});
 		}
