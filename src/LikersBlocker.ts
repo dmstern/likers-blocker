@@ -581,7 +581,7 @@ export default class LikersBlocker {
 			return;
 		}
 
-		this.requestUrl = `${settings.API_URL_BLOCK}?getUsersFromStorage=true`;
+		this.requestUrl = `${settings.API_URL_BLOCK}?users=read-from-storage`;
 		await Storage.setLastCollectedUserList(this.users);
 
 		if (this.confirmButton) {

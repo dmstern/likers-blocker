@@ -1,5 +1,7 @@
 (function () {
 	const client = "undefined" == typeof browser ? chrome : browser;
+	const READ_FROM_STORAGE = "read-from-storage";
+	const STORAGE_KEY = "lastCollectedUserList";
 
 	const icons = {
 		Home: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>`,
@@ -17,20 +19,30 @@
 	}
 
 	async function getUsers() {
-		return client.storage.local.get("lastCollectedUserList").then((value) => {
-			return value.lastCollectedUserList;
+		return client.storage.local.get(STORAGE_KEY).then((value) => {
+			return value[STORAGE_KEY];
 		});
 	}
 
 	function shouldReadUsersFromStorage() {
 		const paramString = location.href.split("?")[1];
 		const queryString = new URLSearchParams(paramString);
-		return queryString.get("getUsersFromStorage") === "true";
+		return queryString.get("users") === READ_FROM_STORAGE;
 	}
 
 	async function getFormItemsMarkup() {
-		return getUsers().then((users) => {
-			return users
+		return getUsers().then((usersFromStorage) => {
+			let users = [];
+			const prefilledFormChecks = document.querySelectorAll(".form-check");
+
+			if (prefilledFormChecks?.length) {
+				users = Array.from(prefilledFormChecks)
+					.map((check) => check.querySelector('input[name="profile_urls"]').value)
+					.filter((user) => user !== READ_FROM_STORAGE);
+			}
+
+			const finalUsersList = shouldReadUsersFromStorage() && usersFromStorage ? users.concat(usersFromStorage) : users;
+			return finalUsersList
 				.map(
 					(user) => `
 						<div class="form-check">
@@ -59,43 +71,26 @@
 		const form = document.querySelector(".container form");
 
 		if (form) {
-			if (shouldReadUsersFromStorage()) {
-				getFormItemsMarkup().then((markup) => {
-					fillFormWithMarkup(form, markup);
-					addNewHeading();
-				});
-			} else {
-				fillFormWithMarkup(form, form.outerHTML);
-			}
+			getFormItemsMarkup().then((markup) => {
+				form.parentElement.innerHTML = `
+					<div class="row">
+						<div class="col-8">
+							<h2>${getLabel("ichbinhier_heading", "Block following users?")}</h2>
+						</div>
+						<div class="col-4 block-button-wrapper">
+							<input class="btn btn-danger block-button" value="${getLabel(
+								"ichbinhier_blockButtonLabel",
+								"Block"
+							)}" type="submit">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							${markup}
+						</div>
+					</div>`;
+			});
 		}
-	}
-
-	function addNewHeading() {
-		const mainContainer = document.querySelector("main .container");
-		if (mainContainer) {
-			const headingContainer = document.createElement("div");
-			headingContainer.classList.add("row");
-			headingContainer.innerHTML = `
-				<div class="col-8">
-					<h1>${getLabel("ichbinhier_heading", "Block following users?")}</h1>
-				</div>
-				<div class="col-4 block-button-wrapper">
-					<input class="btn btn-danger block-button" value="${getLabel(
-						"ichbinhier_blockButtonLabel",
-						"Block"
-					)}" type="submit">
-				</div>`;
-			mainContainer.prepend(headingContainer);
-		}
-	}
-
-	function fillFormWithMarkup(form, markup) {
-		form.parentElement.innerHTML = `
-			<div class="row">
-				<div class="col-12">
-					${markup}
-				</div>
-			</div>`;
 	}
 
 	function setUpHeader() {
