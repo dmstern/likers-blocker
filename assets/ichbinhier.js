@@ -5,7 +5,7 @@
 	const FORM_SELECTOR = 'form[action="/blockapi"]';
 	const BLOCK_BUTTON_CLASS = "block-button";
 	const BLOCK_BUTTON_SELECTOR = `.${BLOCK_BUTTON_CLASS}`;
-	const USERS_PER_REQUEST = 8;
+	const USERS_PER_REQUEST = 100;
 	const INTERVAL = 1000;
 	const IFRAME_NAME = "output-frame";
 
@@ -52,10 +52,10 @@
 
 			let counter = 1;
 
+			// TODO: replace interval with loaded callback // iframe.contentWindow.onload?
 			const interval = setInterval(() => {
-				console.log("start interval");
 
-				if (counter > Math.round(checkboxes.length / USERS_PER_REQUEST)) {
+				if (counter > Math.round(checkboxes.length / USERS_PER_REQUEST) + 1) {
 					console.log("All accounts blocked.");
 					document.querySelector("body").classList.add("all-blocked");
 					document.querySelector("body").classList.remove("blocking");
