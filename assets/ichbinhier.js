@@ -5,7 +5,7 @@
 	const FORM_SELECTOR = 'form[action="/blockapi"]';
 	const BLOCK_BUTTON_CLASS = "block-button";
 	const BLOCK_BUTTON_SELECTOR = `.${BLOCK_BUTTON_CLASS}`;
-	const USERS_PER_REQUEST = 5;
+	const USERS_PER_REQUEST = 8;
 	const INTERVAL = 1000;
 	const IFRAME_NAME = "output-frame";
 
@@ -154,8 +154,12 @@
 					</div>`;
 
 			const newForm = document.querySelector(FORM_SELECTOR);
+			const checkWrapper = document.createElement("div");
+			checkWrapper.classList.add("check-wrapper");
+			checkWrapper.append(...formCheckItems);
+
 			if (newForm) {
-				newForm.append(...formCheckItems);
+				newForm.append(checkWrapper);
 			}
 
 			// Remove read-from-storage entry:

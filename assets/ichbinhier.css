@@ -98,9 +98,16 @@ iframe[name="output-frame"] {
 	border: 0;
 }
 
+.check-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+}
+
 .form-check {
 	transition: all 500ms ease-in-out;
 	max-height: 2rem;
+	width: 200px;
+	height: 3rem;
 }
 
 .form-check.blocking {
