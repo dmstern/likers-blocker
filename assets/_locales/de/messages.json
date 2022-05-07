@@ -170,5 +170,9 @@
 	"ichbinhier_repoInfo": {
 		"message": "Den Source-Code für diese Webanwendung findet man auf",
 		"description": "Login page: info where you can find the source code. Is suffixed with \"GitHub\""
+	},
+	"ichbinhier_blockSuccess": {
+		"message": "Alle geblockt",
+		"description": "Confirm message that is displayed on confirmation page when all users are blocked."
 	}
 }
