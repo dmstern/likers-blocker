@@ -37,6 +37,11 @@ body {
 	margin-left: 5rem;
 }
 
+.block-button[disabled] {
+	cursor: default;
+	pointer-events: none;
+}
+
 .container a[href^="https://api.twitter.com"] button
 {
 	display: block;
@@ -130,4 +135,22 @@ iframe[name="output-frame"] {
 body.all-blocked .confirm-message {
 	opacity: 1;
 	visibility: visible;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #33333377;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+body.all-blocked .overlay {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
 }

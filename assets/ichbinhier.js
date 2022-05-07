@@ -41,6 +41,15 @@
 			event.preventDefault();
 			const checkboxes = form.querySelectorAll('input[type="checkbox"]');
 
+			const overlay = document.createElement("div");
+			overlay.classList.add("overlay");
+			document.body.appendChild(overlay);
+			const overlayHeading = document.createElement("h1");
+			overlayHeading.innerText = getLabel("ichbinhier_overlayHeading", "Blocking...");
+			overlay.appendChild(overlayHeading);
+
+			document.querySelector("body").classList.add("blocking");
+
 			let counter = 1;
 
 			const interval = setInterval(() => {
@@ -49,6 +58,8 @@
 				if (counter > Math.round(checkboxes.length / USERS_PER_REQUEST)) {
 					console.log("All accounts blocked.");
 					document.querySelector("body").classList.add("all-blocked");
+					document.querySelector("body").classList.remove("blocking");
+					blockButton.disabled = true;
 					clearInterval(interval);
 				}
 

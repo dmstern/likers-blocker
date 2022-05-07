@@ -174,5 +174,9 @@
 	"ichbinhier_blockSuccess": {
 		"message": "All blocked",
 		"description": "Confirm message that is displayed on confirmation page when all users are blocked."
+	},
+	"ichbinhier_overlayHeading": {
+		"message": "Blocking...",
+		"description": "Heading for the overlay during block process."
 	}
 }
