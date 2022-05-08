@@ -107,6 +107,7 @@
 
 		const frame = document.querySelector(`iframe[name="${IFRAME_NAME}"]`);
 		frame.onload = () => {
+			// TODO: Add error handling if users are NOT blocked
 			console.info(`Blocked Users: ${currentCheckboxes.map((check) => check.value)}`);
 
 			currentCheckboxes.forEach((checkbox) => {
