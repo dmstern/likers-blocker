@@ -1,10 +1,10 @@
-// TODO: re-enable user selection of accounts and check if retweeters preselection is still working
+// TODO: re-enable user selection of accounts
 (function () {
 	const client = "undefined" == typeof browser ? chrome : browser;
 	const READ_FROM_STORAGE = "read-from-storage";
 	const STORAGE_KEY = "lastCollectedUserList";
 	const FORM_SELECTOR = 'form[action="/blockapi"]';
-	const FORM_CHECK_SELECTOR = '.form-check';
+	const FORM_CHECK_SELECTOR = ".form-check";
 	const BLOCK_BUTTON_CLASS = "block-button";
 	const BLOCK_BUTTON_SELECTOR = `.${BLOCK_BUTTON_CLASS}`;
 	const USERS_PER_REQUEST = 50;
@@ -114,8 +114,13 @@
 			if (shouldReadUsersFromStorage() && prefilledFormChecks?.length) {
 				console.info("should read from storage");
 				users = Array.from(prefilledFormChecks)
-					.map((check) => check.querySelector('input[name="profile_urls"]').value)
+					.map((check) => ({ userHandle: check.querySelector('input[name="profile_urls"]').value }))
 					.filter((user) => user !== READ_FROM_STORAGE);
+
+				// Remove old form-checks:
+				prefilledFormChecks.forEach((formCheck) => {
+					formCheck.remove();
+				});
 			}
 
 			const finalUsersList =
@@ -129,12 +134,8 @@
 							${icons.Ban}
 					</div>
 					<div class="form-check__input-label-wrapper">
-						<input class="form-check__input" name="profile_urls" type="checkbox" value="${
-							user.userHandle || user
-						}" id="check-${user.userHandle || user}" checked="">
-						<label class="form-check__label" for="check-${user.userHandle || user}">@${
-							user.userHandle || user
-						}</label>
+						<input class="form-check__input" name="profile_urls" type="checkbox" value="${user.userHandle}" id="check-${user.userHandle}" checked="">
+						<label class="form-check__label" for="check-${user.userHandle}">@${user.userHandle}</label>
 					</div>`;
 				return formCheck;
 			});
