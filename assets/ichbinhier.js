@@ -279,7 +279,9 @@
 		followingCheckWrapper.innerHTML = `
 				<label>
 					<input type="checkbox" class="include-followings-checkbox">
-					${icons.Following} ${getLabel("ichbinhier_includeFollowings")} (${followingFormChecks.length})?
+					${icons.Following} ${getLabel("ichbinhier_includeFollowings")} <strong>(${
+			followingFormChecks.length
+		})</strong>?
 				</label>
 			`;
 
