@@ -141,8 +141,11 @@
 
 			if (prefilledFormChecks?.length) {
 				users = Array.from(prefilledFormChecks)
-					.map((check) => ({ userHandle: check.querySelector('input[name="profile_urls"]').value }))
-					.filter((user) => user !== READ_FROM_STORAGE);
+					.map((check) => ({
+						userHandle: check.querySelector('input[name="profile_urls"]').value,
+						profilePictureUrl: "https://abs.twimg.com/sticky/default_profile_images/default_profile_200x200.png",
+					}))
+					.filter((user) => user.userHandle !== READ_FROM_STORAGE);
 
 				// Remove old form-checks:
 				prefilledFormChecks.forEach((formCheck) => {
@@ -152,6 +155,7 @@
 
 			const finalUsersList =
 				shouldReadUsersFromStorage() && usersFromStorage ? users.concat(usersFromStorage) : users;
+
 			return finalUsersList.map((user) => {
 				const formCheck = document.createElement("div");
 				formCheck.classList.add("form-check", "col-2");

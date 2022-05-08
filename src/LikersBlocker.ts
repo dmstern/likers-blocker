@@ -267,7 +267,7 @@ export default class LikersBlocker {
 				const profilePicture = userCell.querySelector(
 					'[src^="https://pbs.twimg.com/profile_images/"]'
 				) as HTMLImageElement;
-				const profilePictureUrl = profilePicture?.src;
+				const profilePictureUrl = profilePicture?.src || settings.DEFAULT_TWITTER_PROFILE_PICTURE;
 
 				const userUrl = (userLink as HTMLAnchorElement).href;
 				const userHandle = userUrl.replace("https://twitter.com/", "");
