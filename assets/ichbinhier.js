@@ -5,7 +5,7 @@
 	const FORM_SELECTOR = 'form[action="/blockapi"]';
 	const BLOCK_BUTTON_CLASS = "block-button";
 	const BLOCK_BUTTON_SELECTOR = `.${BLOCK_BUTTON_CLASS}`;
-	const USERS_PER_REQUEST = 10;
+	const USERS_PER_REQUEST = 50;
 	const IFRAME_NAME = "output-frame";
 
 	const icons = {
