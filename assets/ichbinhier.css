@@ -111,9 +111,14 @@ iframe[name="output-frame"] {
 	transition: all 500ms ease-in-out;
 	max-height: 130px;
 	position: relative;
-	transform-origin: 0 0;
+	transform-origin: 50% 0;
 	padding-top: 1rem;
 	padding-bottom: 1rem;
+}
+
+.form-check[data-exclude="true"] {
+	opacity: .5;
+	transform: scale(.8);
 }
 
 .form-check__input-label-wrapper {

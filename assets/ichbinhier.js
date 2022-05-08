@@ -1,4 +1,3 @@
-// TODO: re-enable user selection of accounts
 (function () {
 	const client = "undefined" == typeof browser ? chrome : browser;
 	const READ_FROM_STORAGE = "read-from-storage";
@@ -30,6 +29,19 @@
 			}
 
 			setUpBlockForm(form);
+			setUpUserSelection();
+		});
+	}
+
+	function setUpUserSelection() {
+		const inputs = document.querySelectorAll(".form-check__input");
+		inputs.forEach((input) => {
+			input.addEventListener("change", (event) => {
+				const shouldExclude = !event.target.checked;
+				event.target
+					.closest(FORM_CHECK_SELECTOR)
+					.setAttribute("data-exclude", shouldExclude.toString());
+			});
 		});
 	}
 
@@ -70,17 +82,20 @@
 
 		checkboxes.forEach((checkbox, index) => {
 			const isAlreadyBlocked = index < counter * USERS_PER_REQUEST;
+			const formCheck = checkbox.closest(FORM_CHECK_SELECTOR);
 			const shouldBlockCurrently =
-				index < (counter + 1) * USERS_PER_REQUEST && index >= counter * USERS_PER_REQUEST;
+				index < (counter + 1) * USERS_PER_REQUEST &&
+				index >= counter * USERS_PER_REQUEST &&
+				!formCheck.dataset.exclude;
 			checkbox.checked = shouldBlockCurrently;
 
 			if (shouldBlockCurrently) {
-				checkbox.closest(FORM_CHECK_SELECTOR).classList.add("blocking");
+				formCheck.classList.add("blocking");
 				console.info(`Blocking ${checkbox.value} ...`);
 			}
 
 			if (isAlreadyBlocked) {
-				checkbox.closest(FORM_CHECK_SELECTOR).classList.add("blocked");
+				formCheck.classList.add("blocked");
 			}
 		});
 
