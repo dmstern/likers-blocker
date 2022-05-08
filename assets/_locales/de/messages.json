@@ -180,7 +180,7 @@
 		"description": "Login page: info where you can find the source code. Is suffixed with \"GitHub\""
 	},
 	"ichbinhier_blockSuccess": {
-		"message": "Alle geblockt",
+		"message": "Alle blockiert",
 		"description": "Confirm message that is displayed on confirmation page when all users are blocked."
 	},
 	"ichbinhier_overlayHeading": {
