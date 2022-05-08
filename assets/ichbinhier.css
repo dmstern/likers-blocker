@@ -26,6 +26,7 @@
 body {
 	background: var(--bg-color);
 	color: var(--fg-color);
+	padding-bottom: 2rem;
 }
 
 .form-heading-wrapper {
@@ -51,9 +52,9 @@ body {
 	max-width: 1000px;
 }
 
-main .container {
-	margin-top: 30px;
-	margin-bottom: 50px;
+main .container:first-of-type {
+	margin-top: 2rem;
+	margin-bottom: 2rem;
 }
 
 nav.navbar .nav-item:last-child {
@@ -196,6 +197,8 @@ iframe[name="output-frame"] {
 	transform: scaleY(0);
 	max-height: 0;
 	opacity: .5;
+	padding: 0;
+	margin: 0;
 }
 
 .confirm-message {
