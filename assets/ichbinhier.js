@@ -55,7 +55,7 @@
 
 		blockButton.addEventListener("click", (event) => {
 			event.preventDefault();
-			const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+			const checkboxes = Array.from(form.querySelectorAll('input[type="checkbox"]'));
 
 			const overlay = document.createElement("div");
 			overlay.classList.add("overlay");
@@ -74,7 +74,7 @@
 	}
 
 	function blockPart(counter, form, checkboxes) {
-		if (counter > Math.round(checkboxes.length / USERS_PER_REQUEST) + 1) {
+		if (counter > Math.round(checkboxes.length / USERS_PER_REQUEST)) {
 			console.info("All accounts blocked.");
 			document.body.classList.add("all-blocked");
 			document.body.classList.remove("blocking");
@@ -82,32 +82,37 @@
 			return;
 		}
 
-		checkboxes.forEach((checkbox, index) => {
-			const isAlreadyBlocked = index < counter * USERS_PER_REQUEST;
+		const currentCheckboxes = checkboxes.filter((checkbox, index) => {
+			const formCheck = checkbox.closest(FORM_CHECK_SELECTOR);
+			return (
+				index < (counter + 1) * USERS_PER_REQUEST &&
+				index >= counter * USERS_PER_REQUEST &&
+				!formCheck.dataset.exclude
+			);
+		});
+
+		checkboxes.forEach((checkbox) => {
+			checkbox.checked = false;
+		});
+
+		currentCheckboxes.forEach((checkbox, index) => {
 			const formCheck = checkbox.closest(FORM_CHECK_SELECTOR);
 			const svg = formCheck.querySelector("svg");
 
 			formCheck.style.transitionDelay = `${index * TRANSITION_DELAY}ms`;
 			svg.style.transitionDelay = `${index * TRANSITION_DELAY}ms`;
-
-			const shouldBlockCurrently =
-				index < (counter + 1) * USERS_PER_REQUEST &&
-				index >= counter * USERS_PER_REQUEST &&
-				!formCheck.dataset.exclude;
-			checkbox.checked = shouldBlockCurrently;
-
-			if (shouldBlockCurrently) {
-				formCheck.classList.add("blocking");
-				console.info(`Blocking ${checkbox.value} ...`);
-			}
-
-			if (isAlreadyBlocked) {
-				formCheck.classList.add("blocked");
-			}
+			checkbox.checked = true;
+			formCheck.classList.add("blocking");
 		});
 
 		const frame = document.querySelector(`iframe[name="${IFRAME_NAME}"]`);
 		frame.onload = () => {
+			console.info(`Blocked Users: ${currentCheckboxes.map((check) => check.value)}`);
+
+			currentCheckboxes.forEach((checkbox) => {
+				checkbox.closest(FORM_CHECK_SELECTOR).classList.add("blocked");
+			});
+
 			setTimeout(() => {
 				blockPart(counter + 1, form, checkboxes);
 			}, BLOCK_INTERVAL);
