@@ -40,13 +40,17 @@
 			event.preventDefault();
 			const checkboxes = form.querySelectorAll('input[type="checkbox"]');
 
-			// TODO: Add loading spinner or progress bar or maybe countdown?
 			const overlay = document.createElement("div");
 			overlay.classList.add("overlay");
 			document.body.appendChild(overlay);
-			const overlayHeading = document.createElement("h1");
-			overlayHeading.innerText = getLabel("ichbinhier_overlayHeading", "Blocking...");
-			overlay.appendChild(overlayHeading);
+			const overlayContent = document.createElement("div");
+			overlayContent.classList.add("overlay__content");
+			overlayContent.innerHTML = `
+				<h1>${getLabel("ichbinhier_overlayHeading", "Blocking...")}</h1>
+				<div class="spin"></div>
+			`;
+			overlay.appendChild(overlayContent);
+
 			document.querySelector("body").classList.add("blocking");
 			blockPart(0, form, checkboxes);
 		});
