@@ -184,7 +184,7 @@
 		"description": "Confirm message that is displayed on confirmation page when all users are blocked."
 	},
 	"ichbinhier_overlayHeading": {
-		"message": "Blocke...",
+		"message": "Blockiere...",
 		"description": "Heading for the overlay during block process."
 	}
 }
