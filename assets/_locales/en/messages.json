@@ -194,5 +194,9 @@
 	"ichbinhier_itemTooltip": {
 		"message": "Uncheck an item to exclude it from the blocklist.",
 		"description": "Tooltip that is shown when the user hovers an item of the account list on the confirmation page."
+	},
+	"ichbinhier_includeFollowings": {
+		"message": "Also block accounts you are following?",
+		"description": "Label of the checkbox where the user can decide to include or exclude followings."
 	}
 }

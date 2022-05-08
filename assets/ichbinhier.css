@@ -32,10 +32,7 @@ body {
 .form-heading-wrapper {
 	display: flex;
 	align-items: center;
-}
-
-.block-button {
-	margin-left: 5rem;
+	justify-content: space-between;
 }
 
 .block-button[disabled] {

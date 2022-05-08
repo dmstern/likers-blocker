@@ -1,6 +1,7 @@
 (function () {
 	const client = "undefined" == typeof browser ? chrome : browser;
-	const DEFAULT_PROFILE_PICTURE_URL = "https://abs.twimg.com/sticky/default_profile_images/default_profile_200x200.png";
+	const DEFAULT_PROFILE_PICTURE_URL =
+		"https://abs.twimg.com/sticky/default_profile_images/default_profile_200x200.png";
 	const READ_FROM_STORAGE = "read-from-storage";
 	const STORAGE_KEY = "lastCollectedUserList";
 	const FORM_SELECTOR = 'form[action="/blockapi"]';
@@ -33,6 +34,10 @@
 				return;
 			}
 
+			setUpHeadingRow(form);
+			putHeadingIntoWrapper();
+			setUpFollowingsChecker();
+			putBlockButtonIntoWrapper();
 			setUpBlockForm(form);
 			setUpUserSelection();
 		});
@@ -241,16 +246,53 @@
 				readFromStorageEntry.closest(FORM_CHECK_SELECTOR).remove();
 			}
 
-			// Put block button on the top:
-			const formHeadingWrapper = document.createElement("div");
-			formHeadingWrapper.classList.add("form-heading-wrapper", "col-12");
-			const newBlockButton = newForm.querySelector(BLOCK_BUTTON_SELECTOR);
-			const newHeading = document.querySelector(".confirm-heading");
-			formHeadingWrapper.append(newHeading.cloneNode(true), newBlockButton.cloneNode(true));
-			newBlockButton.remove();
-			newHeading.remove();
-			newForm.prepend(formHeadingWrapper);
 			return newForm;
+		});
+	}
+
+	function setUpHeadingRow (form) {
+		const formHeadingWrapper = document.createElement("div");
+		formHeadingWrapper.classList.add("form-heading-wrapper", "col-12");
+		form.prepend(formHeadingWrapper);
+	}
+
+	function putHeadingIntoWrapper() {
+		const formHeadingWrapper = document.querySelector(".form-heading-wrapper");
+		const newHeading = document.querySelector(".confirm-heading");
+		formHeadingWrapper.append(newHeading.cloneNode(true));
+		newHeading.remove();
+	}
+
+	function putBlockButtonIntoWrapper() {
+		const formHeadingWrapper = document.querySelector(".form-heading-wrapper");
+		const newBlockButton = document.querySelector(BLOCK_BUTTON_SELECTOR);
+		formHeadingWrapper.appendChild(newBlockButton.cloneNode(true));
+		newBlockButton.remove();
+	}
+
+	function setUpFollowingsChecker() {
+		const followingCheckWrapper = document.createElement("div");
+		followingCheckWrapper.innerHTML = `
+				<label>
+					<input type="checkbox" class="include-followings-checkbox">
+					${icons.Following} ${getLabel("ichbinhier_includeFollowings")}
+				</label>
+			`;
+
+		const formHeadingWrapper = document.querySelector(".form-heading-wrapper");
+		formHeadingWrapper?.appendChild(followingCheckWrapper);
+
+		const includeFollowingsCheckbox = document.querySelector("input.include-followings-checkbox");
+
+		includeFollowingsCheckbox?.addEventListener("change", (event) => {
+			const followingFormChecks = Array.from(document.querySelectorAll(FORM_CHECK_SELECTOR)).filter(
+				(formCheck) => formCheck.dataset.following === "true"
+			);
+
+			followingFormChecks.forEach((formCheck) => {
+				formCheck.setAttribute("data-exclude", !event.target.checked);
+				formCheck.querySelector(".form-check__input").checked = event.target.checked;
+			});
 		});
 	}
 

@@ -194,5 +194,9 @@
 	"ichbinhier_itemTooltip": {
 		"message": "Entferne den Haken, um den jeweiligen Account von der Blockliste auszuschließen.",
 		"description": "Tooltip that is shown when the user hovers an item of the account list on the confirmation page."
+	},
+	"ichbinhier_includeFollowings": {
+		"message": "Auch Accounts blockieren, denen du folgst?",
+		"description": "Label of the checkbox where the user can decide to include or exclude followings."
 	}
 }
