@@ -266,7 +266,7 @@
 			${getLabel("ichbinhier_privacyInfo", "We do not store any data except the usual server log files.")}
 			${getLabel("ichbinhier_pivacyInfoHeroku", "Here you can find")}
 			<a href="https://www.salesforce.com/company/privacy/" target="_blank">${getLabel(
-				"ichbinhier_pivacyInfoHerokuLinkLabel",
+				"ichbinhier_privacyInfoHerokuLinkLabel",
 				"privacy information to our hosting service Heroku"
 			)}</a>.`;
 		newP2.innerHTML = `

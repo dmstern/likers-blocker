@@ -169,9 +169,9 @@
 	},
 	"ichbinhier_pivacyInfoHeroku": {
 		"message": "Here you can find",
-		"description": "Login page: \"here you can find\". Is suffixed with ichbinhier_pivacyInfoHerokuLinkLabel"
+		"description": "Login page: \"here you can find\". Is suffixed with ichbinhier_privacyInfoHerokuLinkLabel"
 	},
-	"ichbinhier_pivacyInfoHerokuLinkLabel": {
+	"ichbinhier_privacyInfoHerokuLinkLabel": {
 		"message": "privacy information to our hosting service Heroku",
 		"description": "Login page: privacy info Heroku link label"
 	},
