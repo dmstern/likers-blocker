@@ -41,6 +41,7 @@
 			event.preventDefault();
 			const checkboxes = form.querySelectorAll('input[type="checkbox"]');
 
+			// TODO: Add loading spinner or progress bar or maybe countdown?
 			const overlay = document.createElement("div");
 			overlay.classList.add("overlay");
 			document.body.appendChild(overlay);
@@ -113,6 +114,7 @@
 			return finalUsersList.map((user) => {
 				const formCheck = document.createElement("div");
 				formCheck.classList.add("form-check");
+				// TODO: Add profile pictures
 				formCheck.innerHTML = `
 							<input class="form-check-input" name="profile_urls" type="checkbox" value="${user}" id="check-${user}" checked="">
 							<label class="form-check-label" for="check-${user}">${user}</label>`;
@@ -124,6 +126,8 @@
 	async function setUpConfirmationPage() {
 		const heading = document.querySelector("form h2");
 		if (heading) {
+
+			// TODO: add counter
 			heading.innerHTML = getLabel("ichbinhier_heading", "Block following users?");
 			heading.classList.add("confirm-heading");
 		}
