@@ -176,7 +176,7 @@ iframe[name="output-frame"] {
 	opacity: 0;
 	visibility: hidden;
 	color: #FF0000AA;
-	transition: all 300ms ease-in-out;
+	transition: all 50ms linear;
 	position: absolute;
 	width: 100%;
 	height: 100%;

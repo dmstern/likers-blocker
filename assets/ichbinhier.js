@@ -7,6 +7,8 @@
 	const BLOCK_BUTTON_CLASS = "block-button";
 	const BLOCK_BUTTON_SELECTOR = `.${BLOCK_BUTTON_CLASS}`;
 	const USERS_PER_REQUEST = 50;
+	const TRANSITION_DELAY = 25;
+	const BLOCK_INTERVAL = 800;
 	const IFRAME_NAME = "output-frame";
 
 	const icons = {
@@ -83,6 +85,11 @@
 		checkboxes.forEach((checkbox, index) => {
 			const isAlreadyBlocked = index < counter * USERS_PER_REQUEST;
 			const formCheck = checkbox.closest(FORM_CHECK_SELECTOR);
+			const svg = formCheck.querySelector("svg");
+
+			formCheck.style.transitionDelay = `${index * TRANSITION_DELAY}ms`;
+			svg.style.transitionDelay = `${index * TRANSITION_DELAY}ms`;
+
 			const shouldBlockCurrently =
 				index < (counter + 1) * USERS_PER_REQUEST &&
 				index >= counter * USERS_PER_REQUEST &&
@@ -103,7 +110,7 @@
 		frame.onload = () => {
 			setTimeout(() => {
 				blockPart(counter + 1, form, checkboxes);
-			}, 500);
+			}, BLOCK_INTERVAL);
 		};
 
 		form.submit();
