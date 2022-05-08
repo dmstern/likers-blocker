@@ -120,10 +120,13 @@
 			return finalUsersList.map((user) => {
 				const formCheck = document.createElement("div");
 				formCheck.classList.add("form-check");
-				// TODO: Add profile pictures
 				formCheck.innerHTML = `
-							<input class="form-check-input" name="profile_urls" type="checkbox" value="${user}" id="check-${user}" checked="">
-							<label class="form-check-label" for="check-${user}">${user}</label>`;
+							<div class="form-check__profile-picture" style="background-image: url(${user.profilePictureUrl});">
+								<img src="${user.profilePictureUrl}" alt="🤡">
+								<svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+							</div>
+							<input class="form-check__input" name="profile_urls" type="checkbox" value="${user.userHandle || user}" id="check-${user.userHandle || user}" checked="">
+							<label class="form-check__label" for="check-${user.userHandle || user}">${user.userHandle || user}</label>`;
 				return formCheck;
 			});
 		});

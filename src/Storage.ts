@@ -1,3 +1,5 @@
+import { User } from "./LikersBlocker";
+
 const client = typeof browser === "undefined" ? chrome : browser;
 
 const date = new Date();
@@ -90,12 +92,12 @@ export default class Storage {
 		}
 	}
 
-	static async setLastCollectedUserList(users: string[]) {
+	static async setLastCollectedUserList(users: User[]) {
 		console.log({ users });
 		await client.storage.local.set({ [Key.lastCollectedUserList]: users });
 	}
 
-	static async getLastCollectedUserList(): Promise<string[]> {
+	static async getLastCollectedUserList(): Promise<User[]> {
 		return client.storage.local.get(Key.lastCollectedUserList).then((value) => {
 			return value[Key.lastCollectedUserList];
 		});

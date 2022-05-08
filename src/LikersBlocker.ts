@@ -12,13 +12,18 @@ const TOPBAR_SELECTOR = {
 	desktop: "[aria-labelledby=modal-header] > div > div > div > div > div > div > div > div > div",
 };
 
+export interface User {
+	userHandle: string;
+	profilePictureUrl: string;
+}
+
 export default class LikersBlocker {
 	private progressInPercent: number;
 	private uiIdleCounter: number;
 	private readonly lastCollectedUserCount: number[];
 	private blockButton: HTMLAnchorElement;
 	private checkbox: HTMLInputElement;
-	private collectedUsers: Array<string>;
+	private collectedUsers: Array<User>;
 	private confirmButton: HTMLLinkElement;
 	private confirmMessageElement: HTMLElement;
 	private legacyTwitter: boolean;
@@ -71,8 +76,8 @@ export default class LikersBlocker {
 		return TwitterPage.getTextStyle(this.isLegacyTwitter);
 	}
 
-	private get users(): Array<string> {
-		return Array.from(new Set(this.collectedUsers));
+	private get users(): User[] {
+		return this.collectedUsers;
 	}
 
 	private get hasStateChangedToConfirm(): boolean {
@@ -246,21 +251,38 @@ export default class LikersBlocker {
 	}
 
 	private async collectUsers() {
-		const userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
+		const userCells: NodeListOf<HTMLElement | HTMLAnchorElement> = this.isLegacyTwitter
 			? (await this.getScrollList()).querySelectorAll("a.js-user-profile-link")
-			: (await this.getScrollList()).querySelectorAll('[data-testid="UserCell"] a[aria-hidden="true"]');
+			: (await this.getScrollList()).querySelectorAll('[data-testid="UserCell"]');
 		// Increase allowance for larger lists to avoid false-positive warnings:
 		const idleCounterAllowance = settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.users.length / 500);
 		const totalUserCount = await this.getTotalUsersCount();
 		const probablyAlmostReadyThreshold = totalUserCount < 100 ? 70 : totalUserCount < 200 ? 80 : 90;
 
-		let users: Array<HTMLAnchorElement> = Array.from(userCells);
+		const newUsers: User[] = Array.from(userCells)
+			.map((userCell) => {
+				const userLink = this.isLegacyTwitter
+					? userCell
+					: (userCell.querySelector('a[aria-hidden="true"]') as HTMLAnchorElement);
+				const profilePicture = userCell.querySelector(
+					'[src^="https://pbs.twimg.com/profile_images/"]'
+				) as HTMLImageElement;
+				const profilePictureUrl = profilePicture?.src;
 
-		for (let userLink of users) {
-			const userUrl = userLink.href;
-			const userHandle = userUrl.replace("https://twitter.com/", "");
-			this.collectedUsers.push(userHandle);
-		}
+				const userUrl = (userLink as HTMLAnchorElement).href;
+				const userHandle = userUrl.replace("https://twitter.com/", "");
+
+				return {
+					userHandle,
+					profilePictureUrl,
+				};
+			})
+			.filter(
+				(user) =>
+					!this.collectedUsers.some((collectedUser) => user.userHandle === collectedUser.userHandle)
+			);
+
+		this.collectedUsers.push(...newUsers);
 
 		let userCounter = document.querySelector(".lb-user-counter") as HTMLElement;
 		if (userCounter) {

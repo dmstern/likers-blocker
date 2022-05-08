@@ -104,22 +104,62 @@ iframe[name="output-frame"] {
 
 .form-check {
 	transition: all 500ms ease-in-out;
-	max-height: 2rem;
-	width: 200px;
-	height: 3rem;
+	max-height: 130px;
+	width: 175px;
+	height: 130px;
+	position: relative;
+	transform-origin: 0 0;
+}
+
+.form-check__label::after {
+	content: "";
+	opacity: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.form-check__profile-picture {
+	width: 73px;
+	height: 73px;
+	font-size: 28pt;
+	border-radius: 50%;
+	border: 3px solid #999999;
+	overflow: hidden;
+	position: relative;
+}
+
+.form-check__profile-picture svg {
+	opacity: 0;
+	visibility: hidden;
+	color: #FF0000AA;
+	transition: all 300ms ease-in-out;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+.form-check.blocking .form-check__profile-picture img {
+	filter: grayscale();
+}
+
+.form-check.blocking .form-check__profile-picture svg {
+	opacity: 1;
+	visibility: visible;
 }
 
 .form-check.blocking {
 	color: red;
+	text-decoration: line-through;
 }
 
 .form-check.blocked {
 	transform: scaleY(0);
 	max-height: 0;
-}
-
-.form-check.blocked label {
-	text-decoration: line-through;
 	opacity: .5;
 }
 
