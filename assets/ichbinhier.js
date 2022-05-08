@@ -122,18 +122,20 @@
 				shouldReadUsersFromStorage() && usersFromStorage ? users.concat(usersFromStorage) : users;
 			return finalUsersList.map((user) => {
 				const formCheck = document.createElement("div");
-				formCheck.classList.add("form-check");
+				formCheck.classList.add("form-check", "col-2");
 				formCheck.innerHTML = `
-							<div class="form-check__profile-picture" style="background-image: url(${user.profilePictureUrl});">
-								<img src="${user.profilePictureUrl}" alt="🤡">
-								${icons.Ban}
-							</div>
-							<input class="form-check__input" name="profile_urls" type="checkbox" value="${
-								user.userHandle || user
-							}" id="check-${user.userHandle || user}" checked="">
-							<label class="form-check__label" for="check-${user.userHandle || user}">${
-					user.userHandle || user
-				}</label>`;
+					<div class="form-check__profile-picture" style="background-image: url(${user.profilePictureUrl});">
+						<img src="${user.profilePictureUrl}" alt="🤡">
+							${icons.Ban}
+					</div>
+					<div class="form-check__input-label-wrapper">
+						<input class="form-check__input" name="profile_urls" type="checkbox" value="${
+							user.userHandle || user
+						}" id="check-${user.userHandle || user}" checked="">
+						<label class="form-check__label" for="check-${user.userHandle || user}">@${
+							user.userHandle || user
+						}</label>
+					</div>`;
 				return formCheck;
 			});
 		});
@@ -170,9 +172,7 @@
 		return getFormCheckItems().then((formCheckItems) => {
 			form.parentElement.innerHTML = `
 					<div class="row">
-						<div class="col-12">
-							${form.outerHTML}
-						</div>
+						${form.outerHTML}
 					</div>`;
 
 			const newForm = document.querySelector(FORM_SELECTOR);
@@ -194,7 +194,7 @@
 
 			// Put block button on the top:
 			const formHeadingWrapper = document.createElement("div");
-			formHeadingWrapper.classList.add("form-heading-wrapper");
+			formHeadingWrapper.classList.add("form-heading-wrapper", "col-12");
 			const newBlockButton = newForm.querySelector(BLOCK_BUTTON_SELECTOR);
 			const newHeading = document.querySelector(".confirm-heading");
 			formHeadingWrapper.append(newHeading.cloneNode(true), newBlockButton.cloneNode(true));
