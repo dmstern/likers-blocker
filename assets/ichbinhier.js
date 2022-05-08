@@ -4,6 +4,7 @@
 	const READ_FROM_STORAGE = "read-from-storage";
 	const STORAGE_KEY = "lastCollectedUserList";
 	const FORM_SELECTOR = 'form[action="/blockapi"]';
+	const FORM_CHECK_SELECTOR = '.form-check';
 	const BLOCK_BUTTON_CLASS = "block-button";
 	const BLOCK_BUTTON_SELECTOR = `.${BLOCK_BUTTON_CLASS}`;
 	const USERS_PER_REQUEST = 50;
@@ -75,12 +76,12 @@
 			checkbox.checked = shouldBlockCurrently;
 
 			if (shouldBlockCurrently) {
-				checkbox.parentElement.classList.add("blocking");
+				checkbox.closest(FORM_CHECK_SELECTOR).classList.add("blocking");
 				console.log(`Blocking ${checkbox.value} ...`);
 			}
 
 			if (isAlreadyBlocked) {
-				checkbox.parentElement.classList.add("blocked");
+				checkbox.closest(FORM_CHECK_SELECTOR).classList.add("blocked");
 			}
 		});
 
@@ -189,7 +190,7 @@
 				`.form-check input[value="${READ_FROM_STORAGE}"]`
 			);
 			if (readFromStorageEntry) {
-				readFromStorageEntry.parentElement.remove();
+				readFromStorageEntry.closest(FORM_CHECK_SELECTOR).remove();
 			}
 
 			// Put block button on the top:
