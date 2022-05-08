@@ -129,6 +129,7 @@ iframe[name="output-frame"] {
 	border: 3px solid #999999;
 	overflow: hidden;
 	position: relative;
+	text-align: center;
 }
 
 .form-check__profile-picture svg {
