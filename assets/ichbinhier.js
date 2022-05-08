@@ -126,8 +126,7 @@
 			let users = [];
 			const prefilledFormChecks = document.querySelectorAll(".form-check");
 
-			if (shouldReadUsersFromStorage() && prefilledFormChecks?.length) {
-				console.info("should read from storage");
+			if (prefilledFormChecks?.length) {
 				users = Array.from(prefilledFormChecks)
 					.map((check) => ({ userHandle: check.querySelector('input[name="profile_urls"]').value }))
 					.filter((user) => user !== READ_FROM_STORAGE);
