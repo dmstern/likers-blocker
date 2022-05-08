@@ -128,6 +128,8 @@ iframe[name="output-frame"] {
 	visibility: hidden;
 	transition: all 500ms ease-in-out;
 	display: flex;
+	font-weight: bold;
+	font-size: 14pt;
 	align-items: center;
 	color: #559730;
 }
