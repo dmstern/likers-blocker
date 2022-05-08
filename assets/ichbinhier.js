@@ -83,7 +83,9 @@
 
 		const frame = document.querySelector(`iframe[name="${IFRAME_NAME}"]`);
 		frame.onload = () => {
-			blockPart(counter++, form, checkboxes);
+			setTimeout(() => {
+				blockPart(counter + 1, form, checkboxes);
+			}, 500);
 		};
 
 		form.submit();
