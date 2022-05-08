@@ -6,7 +6,6 @@
 	const BLOCK_BUTTON_CLASS = "block-button";
 	const BLOCK_BUTTON_SELECTOR = `.${BLOCK_BUTTON_CLASS}`;
 	const USERS_PER_REQUEST = 10;
-	const INTERVAL = 1000;
 	const IFRAME_NAME = "output-frame";
 
 	const icons = {
@@ -48,41 +47,42 @@
 			const overlayHeading = document.createElement("h1");
 			overlayHeading.innerText = getLabel("ichbinhier_overlayHeading", "Blocking...");
 			overlay.appendChild(overlayHeading);
-
 			document.querySelector("body").classList.add("blocking");
-
-			let counter = 0;
-
-			// TODO: replace interval with loaded callback // iframe.contentWindow.onload?
-			const interval = setInterval(() => {
-				if (counter > Math.round(checkboxes.length / USERS_PER_REQUEST)) {
-					console.log("All accounts blocked.");
-					document.querySelector("body").classList.add("all-blocked");
-					document.querySelector("body").classList.remove("blocking");
-					blockButton.disabled = true;
-					clearInterval(interval);
-				}
-
-				checkboxes.forEach((checkbox, index) => {
-					const isAlreadyBlocked = index < counter * USERS_PER_REQUEST;
-					const shouldBlockCurrently =
-						index < (counter + 1) * USERS_PER_REQUEST && index >= counter * USERS_PER_REQUEST;
-					checkbox.checked = shouldBlockCurrently;
-
-					if (shouldBlockCurrently) {
-						checkbox.parentElement.classList.add("blocking");
-						console.log(`Blocking ${checkbox.value} ...`);
-					}
-
-					if (isAlreadyBlocked) {
-						checkbox.parentElement.classList.add("blocked");
-					}
-				});
-
-				form.submit();
-				counter++;
-			}, INTERVAL);
+			blockPart(0, form, checkboxes);
 		});
+	}
+
+	function blockPart(counter, form, checkboxes) {
+		if (counter > Math.round(checkboxes.length / USERS_PER_REQUEST)) {
+			console.log("All accounts blocked.");
+			document.body.classList.add("all-blocked");
+			document.body.classList.remove("blocking");
+			document.querySelector(BLOCK_BUTTON_SELECTOR).disabled = true;
+			return;
+		}
+
+		checkboxes.forEach((checkbox, index) => {
+			const isAlreadyBlocked = index < counter * USERS_PER_REQUEST;
+			const shouldBlockCurrently =
+				index < (counter + 1) * USERS_PER_REQUEST && index >= counter * USERS_PER_REQUEST;
+			checkbox.checked = shouldBlockCurrently;
+
+			if (shouldBlockCurrently) {
+				checkbox.parentElement.classList.add("blocking");
+				console.log(`Blocking ${checkbox.value} ...`);
+			}
+
+			if (isAlreadyBlocked) {
+				checkbox.parentElement.classList.add("blocked");
+			}
+		});
+
+		const frame = document.querySelector(`iframe[name="${IFRAME_NAME}"]`);
+		frame.onload = () => {
+			blockPart(counter++, form, checkboxes);
+		};
+
+		form.submit();
 	}
 
 	async function getUsers() {
@@ -126,7 +126,6 @@
 	async function setUpConfirmationPage() {
 		const heading = document.querySelector("form h2");
 		if (heading) {
-
 			// TODO: add counter
 			heading.innerHTML = getLabel("ichbinhier_heading", "Block following users?");
 			heading.classList.add("confirm-heading");
