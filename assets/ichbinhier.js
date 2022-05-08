@@ -29,7 +29,6 @@
 				return;
 			}
 
-			console.log(form);
 			setUpBlockForm(form);
 		});
 	}
@@ -62,7 +61,7 @@
 
 	function blockPart(counter, form, checkboxes) {
 		if (counter > Math.round(checkboxes.length / USERS_PER_REQUEST) + 1) {
-			console.log("All accounts blocked.");
+			console.info("All accounts blocked.");
 			document.body.classList.add("all-blocked");
 			document.body.classList.remove("blocking");
 			document.querySelector(BLOCK_BUTTON_SELECTOR).disabled = true;
@@ -77,7 +76,7 @@
 
 			if (shouldBlockCurrently) {
 				checkbox.closest(FORM_CHECK_SELECTOR).classList.add("blocking");
-				console.log(`Blocking ${checkbox.value} ...`);
+				console.info(`Blocking ${checkbox.value} ...`);
 			}
 
 			if (isAlreadyBlocked) {
@@ -113,7 +112,7 @@
 			const prefilledFormChecks = document.querySelectorAll(".form-check");
 
 			if (shouldReadUsersFromStorage() && prefilledFormChecks?.length) {
-				console.log("should read from storage");
+				console.info("should read from storage");
 				users = Array.from(prefilledFormChecks)
 					.map((check) => check.querySelector('input[name="profile_urls"]').value)
 					.filter((user) => user !== READ_FROM_STORAGE);
