@@ -186,5 +186,13 @@
 	"ichbinhier_overlayHeading": {
 		"message": "Blocking...",
 		"description": "Heading for the overlay during block process."
+	},
+	"ichbinhier_followingWarning": {
+		"message": "You are following this account. Do you really want to block it?",
+		"description": "Warns the user that an account is in the user's following list."
+	},
+	"ichbinhier_itemTooltip": {
+		"message": "Uncheck an item to exclude it from the blocklist.",
+		"description": "Tooltip that is shown when the user hovers an item of the account list on the confirmation page."
 	}
 }

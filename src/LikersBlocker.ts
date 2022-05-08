@@ -15,6 +15,7 @@ const TOPBAR_SELECTOR = {
 export interface User {
 	userHandle: string;
 	profilePictureUrl: string;
+	following?: boolean;
 }
 
 export default class LikersBlocker {
@@ -272,9 +273,12 @@ export default class LikersBlocker {
 				const userUrl = (userLink as HTMLAnchorElement).href;
 				const userHandle = userUrl.replace("https://twitter.com/", "");
 
+				const unfollowButton = userCell.querySelector("[data-testid$='unfollow']");
+
 				return {
 					userHandle,
 					profilePictureUrl,
+					following: unfollowButton !== null,
 				};
 			})
 			.filter(
