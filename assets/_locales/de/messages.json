@@ -151,6 +151,14 @@
 		"message": "Folgende User blockieren?",
 		"description": "The heading of block confirmation page"
 	},
+	"ichbinhier_heading_part1": {
+		"message": "Folgende",
+		"description": "Part 1 of the heading of block confirmation page"
+	},
+	"ichbinhier_heading_part2": {
+		"message": "User blockieren",
+		"description": "Part 2 of the heading of block confirmation page"
+	},
 	"ichbinhier_blockButtonLabel": {
 		"message": "Blockieren",
 		"description": "The label of the block button on the confirmation page"

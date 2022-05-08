@@ -132,8 +132,12 @@
 	async function setUpConfirmationPage() {
 		const heading = document.querySelector("form h2");
 		if (heading) {
-			// TODO: add counter
-			heading.innerHTML = getLabel("ichbinhier_heading", "Block following users?");
+			getUsers().then((users) => {
+				heading.innerHTML = `${getLabel(
+					"ichbinhier_heading_part1",
+					"Block following"
+				)} ${users.length.toLocaleString()} ${getLabel("ichbinhier_heading_part2", "users")}?`;
+			});
 			heading.classList.add("confirm-heading");
 		}
 
