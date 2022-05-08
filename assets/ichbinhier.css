@@ -42,8 +42,7 @@ body {
 	pointer-events: none;
 }
 
-.container a[href^="https://api.twitter.com"] button
-{
+.container a[href^="https://api.twitter.com"] button {
 	display: block;
 	margin-bottom: 2rem;
 }
