@@ -250,7 +250,7 @@
 		});
 	}
 
-	function setUpHeadingRow (form) {
+	function setUpHeadingRow(form) {
 		const formHeadingWrapper = document.createElement("div");
 		formHeadingWrapper.classList.add("form-heading-wrapper", "col-12");
 		form.prepend(formHeadingWrapper);
@@ -272,10 +272,14 @@
 
 	function setUpFollowingsChecker() {
 		const followingCheckWrapper = document.createElement("div");
+		const followingFormChecks = Array.from(document.querySelectorAll(FORM_CHECK_SELECTOR)).filter(
+			(formCheck) => formCheck.dataset.following === "true"
+		);
+
 		followingCheckWrapper.innerHTML = `
 				<label>
 					<input type="checkbox" class="include-followings-checkbox">
-					${icons.Following} ${getLabel("ichbinhier_includeFollowings")}
+					${icons.Following} ${getLabel("ichbinhier_includeFollowings")} (${followingFormChecks.length})?
 				</label>
 			`;
 
@@ -285,10 +289,6 @@
 		const includeFollowingsCheckbox = document.querySelector("input.include-followings-checkbox");
 
 		includeFollowingsCheckbox?.addEventListener("change", (event) => {
-			const followingFormChecks = Array.from(document.querySelectorAll(FORM_CHECK_SELECTOR)).filter(
-				(formCheck) => formCheck.dataset.following === "true"
-			);
-
 			followingFormChecks.forEach((formCheck) => {
 				formCheck.setAttribute("data-exclude", !event.target.checked);
 				formCheck.querySelector(".form-check__input").checked = event.target.checked;
