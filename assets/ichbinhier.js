@@ -301,6 +301,7 @@
 	function setUpMain() {
 		const main = document.createElement("main");
 		const originalContainer = document.querySelector(".container:nth-child(2)");
+		// TODO: add blocked counter to message:
 		main.innerHTML = `
 			<div class="container">${originalContainer.innerHTML}</div>
 			<div class="container">
