@@ -1,3 +1,4 @@
+// TODO: re-enable user selection of accounts and check if retweeters preselection is still working
 (function () {
 	const client = "undefined" == typeof browser ? chrome : browser;
 	const READ_FROM_STORAGE = "read-from-storage";
