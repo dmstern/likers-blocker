@@ -457,7 +457,7 @@ export default class LikersBlocker {
 				? this.confirmButton
 				: (this.confirmButton.querySelector("div > span > span") as HTMLElement);
 
-			confirmButtonLabel.innerText = client.i18n.getMessage("ui_ok");
+			confirmButtonLabel.innerText = client.i18n.getMessage("ui_confirm");
 			const confirmButtonIcon = document.createElement("span");
 			confirmButtonIcon.innerHTML = icons.external;
 			confirmButtonLabel.parentElement.append(confirmButtonIcon.querySelector("svg"));
