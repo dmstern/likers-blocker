@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"lib": [
-			"ES2015",
+			"ES2016",
 			"DOM",
 			"DOM.Iterable",
 			"ESNext.Array"
