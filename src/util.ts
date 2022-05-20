@@ -29,7 +29,7 @@ function tryToAccessDOM(
 	let elementToExpect: HTMLElement = null;
 	let tryCounter = 0;
 	let tryMax = 10;
-	let interval: NodeJS.Timeout = undefined;
+	let interval: ReturnType<typeof setTimeout> | undefined = undefined;
 
 	return new Promise((resolve, reject) => {
 		function tryIt() {
