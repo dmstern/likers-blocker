@@ -148,12 +148,12 @@ export default class LikersBlocker {
 	}
 
 	private async addIncludeRetweetersParam(shouldIncludeRetweeters) {
-		await Storage.setIncludeRetweeters(shouldIncludeRetweeters);
+		Storage.setIncludeRetweeters(shouldIncludeRetweeters);
 
 		const confirmButtons: HTMLLinkElement[] = Array.from(
 			document.querySelectorAll(".lb-confirm-button")
 		).map((button) => button as HTMLLinkElement);
-		const textareas: HTMLTextAreaElement[] = Array.from(
+		const textAreas: HTMLTextAreaElement[] = Array.from(
 			document.querySelectorAll(".lb-textarea")
 		).map((button) => button as HTMLTextAreaElement);
 		const linkIncludesRetweeters = confirmButtons.every((button) => button.href.includes("tweet_id="));
@@ -169,7 +169,7 @@ export default class LikersBlocker {
 		};
 
 		confirmButtons.forEach((button) => (button.href = getRequestUrl(button.href)));
-		textareas.forEach((textarea) => (textarea.value = getRequestUrl(textarea.value)));
+		textAreas.forEach((textarea) => (textarea.value = getRequestUrl(textarea.value)));
 	}
 
 	private isListLarge = async () => {
