@@ -54,7 +54,7 @@ Since Twitter has disabled its ability to import/export block lists, _LikersBloc
 
 #### Export
 
-- Go to "Settings and privacy" > "Content preferences" > "Blocked accounts" (Or just go to https://twitter.com/settings/blocked/all)
+- Go to "Settings and privacy" > "Content preferences" > "Blocked accounts" (Or just go to [https://twitter.com/settings/blocked/all](https://twitter.com/settings/blocked/all))
 - Click on the share button above the list of blocked accounts
   ![Screenshot](screenshots/likers-blocker-share-block-list-btn.png)
 - Wait a moment until all acocunts from your list are collected (make sure to leave the tab in the foreground to avoid stoping the automatic down scrolling)
@@ -133,7 +133,7 @@ We would highly appreciate if you considered donating a little tip, rate this ex
 
 ### Share
 
-[🐦 Tweet about this extension](<https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier>) and tell your friends! 
+[🐦 Tweet about this extension](<https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier>) and tell your friends!
 
 ### Follow us on Twitter
 
