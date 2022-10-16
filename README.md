@@ -39,7 +39,7 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
   ![Screenshot](screenshots/confirm.png)
 - If you use it for the first time, you will have to authorize the app to access your twitter account.
 - You get a list of all users that are about to be blocked.
-- Confirm and wait for the sucess message.
+- Confirm and wait for the success message.
 - ✔ DONE. All the collected likers of the tweet are blocked. 😇
 
 ### Block all members of a list
@@ -57,7 +57,7 @@ Since Twitter has disabled its ability to import/export block lists, _LikersBloc
 - Go to "Settings and privacy" > "Content preferences" > "Blocked accounts" (Or just go to [https://twitter.com/settings/blocked/all](https://twitter.com/settings/blocked/all))
 - Click on the share button above the list of blocked accounts
   ![Screenshot](screenshots/likers-blocker-share-block-list-btn.png)
-- Wait a moment until all acocunts from your list are collected (make sure to leave the tab in the foreground to avoid stoping the automatic down scrolling)
+- Wait a moment until all accounts from your list are collected (make sure to leave the tab in the foreground to avoid stopping the automatic down scrolling)
 - Copy and share the block links with other persons to share your block list with them.
   ![Screenshot](screenshots/likers-blocker-share-block-list.png)
 
@@ -66,7 +66,7 @@ Since Twitter has disabled its ability to import/export block lists, _LikersBloc
 - When you receive a block link, just click on it or enter it into the address bar of your browser.
 - If you use it for the first time, you will have to authorize the app to access your twitter account.
 - You get a list of all users that are about to be blocked.
-- Confirm and wait for the sucess message.
+- Confirm and wait for the success message.
 - ✔ DONE. All the collected likers of the tweet are blocked. 😇
 
 ## Known Issues and ToDos
@@ -107,12 +107,12 @@ npm run build
 #### Firefox
 
 - Go `about:debugging#/runtime/this-firefox`
-- Click on `Load Temorary Add-On...`
+- Click on `Load Temporary Add-On...`
 - Select any file in the `dist` folder of the cloned repository
 
 ---
 
-[![Creative Commons Licence Agreement](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![Creative Commons License Agreement](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
 All information on this site is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
 
 ## Support
