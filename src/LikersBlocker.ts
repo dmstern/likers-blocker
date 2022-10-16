@@ -134,7 +134,7 @@ export default class LikersBlocker {
 			return parseCountFromElement(likesCounterLink.querySelector("strong"));
 		}
 
-		const isListPage = await TwitterPage.isListPage() as AccountList;
+		const isListPage = (await TwitterPage.isListPage()) as AccountList;
 		if (isListPage) {
 			return parseCountFromElement(await tryToAccessDOM(`a[href$="${isListPage}"] span span`));
 		}
@@ -153,9 +153,9 @@ export default class LikersBlocker {
 		const confirmButtons: HTMLLinkElement[] = Array.from(
 			document.querySelectorAll(".lb-confirm-button")
 		).map((button) => button as HTMLLinkElement);
-		const textAreas: HTMLTextAreaElement[] = Array.from(
-			document.querySelectorAll(".lb-textarea")
-		).map((button) => button as HTMLTextAreaElement);
+		const textAreas: HTMLTextAreaElement[] = Array.from(document.querySelectorAll(".lb-textarea")).map(
+			(button) => button as HTMLTextAreaElement
+		);
 		const linkIncludesRetweeters = confirmButtons.every((button) => button.href.includes("tweet_id="));
 
 		if (shouldIncludeRetweeters === linkIncludesRetweeters) {
