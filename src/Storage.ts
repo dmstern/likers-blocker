@@ -4,10 +4,10 @@ const date = new Date();
 
 export enum Key {
 	retweeters = "include-retweeters",
-	hideBadgeShare = `hide-badge.share`,
-	hideBadgeDonate = `hide-badge.donate`,
-	hideBadgeFollow = `hide-badge.follow`,
-	hideIdleWarning = `hide-idle-warning`,
+	hideBadgeShare = "hide-badge.share",
+	hideBadgeDonate = "hide-badge.donate",
+	hideBadgeFollow = "hide-badge.follow",
+	hideIdleWarning = "hide-idle-warning",
 	packageVersion = "packageVersion",
 	installedNewReleaseDate = "installedNewReleaseDate",
 }

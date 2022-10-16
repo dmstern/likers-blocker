@@ -19,7 +19,7 @@ export default class LikersBlocker {
 	private readonly lastCollectedUserCount: number[];
 	private blockButton: HTMLAnchorElement;
 	private checkbox: HTMLInputElement;
-	private collectedUsers: Array<string>;
+	private collectedUsers: string[];
 	private confirmButton: HTMLLinkElement;
 	private confirmMessageElement: HTMLElement;
 	private legacyTwitter: boolean;
@@ -72,7 +72,7 @@ export default class LikersBlocker {
 		return TwitterPage.getTextStyle(this.isLegacyTwitter);
 	}
 
-	private get users(): Array<string> {
+	private get users(): string[] {
 		return Array.from(new Set(this.collectedUsers));
 	}
 
@@ -150,10 +150,10 @@ export default class LikersBlocker {
 	private async addIncludeRetweetersParam(shouldIncludeRetweeters) {
 		await Storage.setIncludeRetweeters(shouldIncludeRetweeters);
 
-		const confirmButtons: Array<HTMLLinkElement> = Array.from(
+		const confirmButtons: HTMLLinkElement[] = Array.from(
 			document.querySelectorAll(".lb-confirm-button")
 		).map((button) => button as HTMLLinkElement);
-		const textareas: Array<HTMLTextAreaElement> = Array.from(
+		const textareas: HTMLTextAreaElement[] = Array.from(
 			document.querySelectorAll(".lb-textarea")
 		).map((button) => button as HTMLTextAreaElement);
 		const linkIncludesRetweeters = confirmButtons.every((button) => button.href.includes("tweet_id="));
@@ -255,7 +255,7 @@ export default class LikersBlocker {
 		const totalUserCount = await this.getTotalUsersCount();
 		const probablyAlmostReadyThreshold = totalUserCount < 100 ? 70 : totalUserCount < 200 ? 80 : 90;
 
-		let users: Array<HTMLAnchorElement> = Array.from(userCells);
+		let users: HTMLAnchorElement[] = Array.from(userCells);
 
 		for (let userLink of users) {
 			const userUrl = userLink.href;
@@ -784,15 +784,18 @@ export default class LikersBlocker {
 				link.classList.remove("lb-footer__link--show-badge");
 
 				switch (badgeType) {
-					case "follow":
+					case "follow": {
 						Storage.setHideBadgeFollow(true);
 						break;
-					case "share":
+					}
+					case "share": {
 						Storage.setHideBadgeShare(true);
 						break;
-					case "donate":
+					}
+					case "donate": {
 						Storage.setHideBadgeDonate(true);
 						break;
+					}
 				}
 			});
 		});
