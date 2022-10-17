@@ -143,4 +143,4 @@ We would highly appreciate if you considered donating a little tip, rate this ex
 
 [![Philip Kreißel](https://pbs.twimg.com/profile_images/1427346761291599879/XZ6AgKyH_bigger.jpg)  @pkreissel](https://twitter.com/pkreissel) (Backend)
 
-[![Daniel Morgenstern](https://pbs.twimg.com/profile_images/1445063182721196040/xuuufhWo_bigger.jpg)  @d_mstern](https://twitter.com/d_mstern) (Frontend)
+[![Daniel Morgenstern](https://pbs.twimg.com/profile_images/1568632463055851520/zOdgX634_bigger.jpg)  @d_mstern](https://twitter.com/d_mstern) (Frontend)
