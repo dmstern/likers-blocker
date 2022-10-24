@@ -21,7 +21,7 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
 [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Opera_2015_icon.svg/150px-Opera_2015_icon.svg.png" width="64" height="auto" alt="Opera"> Install for Opera](https://addons.opera.com/de/extensions/details/likers-blocker/)
 
-[<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Microsoft_Edge_logo_%282019%29.png" width="64" height="auto" alt="Edge">Install for Microsoft Edge](https://chrome.google.com/webstore/detail/melnbpmfhaejmcpfflfjmchondkpmkcj/) (You can install Chrome extensions in Edge, it's basically the same browser)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Microsoft_Edge_logo_%282019%29.png" width="64" height="auto" alt="Edge">Install for Microsoft Edge](https://chrome.google.com/webstore/detail/melnbpmfhaejmcpfflfjmchondkpmkcj/) (You can install extensions from the Chrome Web Store in Edge)
 
 ## Usage
 
