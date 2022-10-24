@@ -69,9 +69,9 @@ Since Twitter has disabled its ability to import/export block lists, _LikersBloc
 - Confirm and wait for the success message.
 - ✔ DONE. All the collected likers of the tweet are blocked. 😇
 
-## Known Issues and ToDos
+## Found an error or want to suggest a feature?
 
-If you find a bug or want to suggest new features, [file a new issue](https://github.com/dmstern/likers-blocker/issues/new).
+If you find a bug or want to suggest new features, please [file a new issue](https://github.com/dmstern/likers-blocker/issues/new).
 
 ## Contribution
 
