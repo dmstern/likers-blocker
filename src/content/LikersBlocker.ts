@@ -1,10 +1,10 @@
-import { debounce, tryToAccessDOM } from "./util";
+import { debounce, tryToAccessDOM } from "../util";
 import Icons from "./icons";
 import icons from "./icons";
 import settings from "./settings";
 import TextStyle from "./TextStyle";
 import TwitterPage, { AccountList } from "./TwitterPage";
-import Storage from "./Storage";
+import Storage from "../Storage";
 
 const client = typeof browser === "undefined" ? chrome : browser;
 
