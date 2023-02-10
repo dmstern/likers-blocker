@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"rootDir": "src",
 		"lib": [
 			"ES2015",
 			"DOM",
@@ -13,7 +14,8 @@
 		"resolveJsonModule": true
 	},
 	"include": [
-		"src/*.ts"
+		"src/**/*.ts",
+		"src/**/*.scss"
 	],
 	"types": [
 		"chrome"
