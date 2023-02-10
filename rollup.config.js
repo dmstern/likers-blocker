@@ -6,24 +6,47 @@ import copy from "rollup-plugin-copy";
 
 const targetFolder = "dist";
 
-export default {
-	input: "src/index.ts",
-	output: {
-		dir: targetFolder,
-		format: "iife",
-	},
-	plugins: [
+const output = {
+	dir: targetFolder,
+	format: "iife",
+};
+
+const plugins = {
+	sass: sass({
+		output: `${targetFolder}/style.css`,
+	}),
+	copy: copy({
+		targets: [{ src: "assets/*", dest: targetFolder }],
+	}),
+	commons: [
 		typescript(),
-		sass({
-			output: `${targetFolder}/style.css`,
-		}),
 		terser(),
 		prettier({
 			tabWidth: 2,
 			singleQuote: false,
 		}),
-		copy({
-			targets: [{ src: "assets/*", dest: targetFolder }],
-		}),
 	],
 };
+
+const config = [
+	{
+		input: "src/content/index.ts",
+		output: {
+			...output,
+		},
+		plugins: [
+			...plugins.commons,
+			plugins.sass,
+			plugins.copy,
+		],
+	},
+	{
+		input: "src/background/background.ts",
+		output,
+		plugins: [
+			...plugins.commons,
+		],
+	},
+];
+
+export default config;
