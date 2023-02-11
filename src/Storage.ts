@@ -173,6 +173,12 @@ export default class Storage {
 		return blocked;
 	}
 
+	static async addBlockedMulti(userHandles: string[]) {
+		const blocked: string[] = await this.getBlockedAccounts();
+		const set: Set<string> = new Set<string>(blocked.concat(userHandles));
+		this.set(Key.blockedAccounts, Array.from(set));
+	}
+
 	static async addBlocked(userHandle: string) {
 		const blocked = await this.getBlockedAccounts();
 
