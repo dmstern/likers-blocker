@@ -259,12 +259,10 @@ export default class LikersBlocker {
 		let users: HTMLAnchorElement[] = Array.from(userCells);
 
 		for (let userLink of users) {
-			const profilePicture = userLink.querySelector("img");
-			const userId = profilePicture.src.split("profile_images/")[1].split("/")[0];
-			const response = await APIService.block(userId);
-			console.log(response);
 			const userUrl = userLink.href;
 			const userHandle = userUrl.replace("https://twitter.com/", "");
+			const response = await APIService.block(userHandle);
+			console.log(response);
 			this.collectedUsers.push(userHandle);
 		}
 
