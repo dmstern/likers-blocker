@@ -1,21 +1,20 @@
-function debounce(func: Function, wait: number, immediate?: boolean) {
+function debounce(func: () => unknown, wait: number, immediate?: boolean) {
 	let timeout: number;
 
 	return function (...args) {
-		let context = this;
-
-		let later = function () {
-			timeout = null;
+		const later = () => {
+			timeout = 0;
 			if (!immediate) {
-				func.apply(context, args);
+				func.apply(this, args);
 			}
 		};
 
-		let callNow = immediate && !timeout;
+		const callNow = immediate && !timeout;
 		clearTimeout(timeout);
 		timeout = window.setTimeout(later, wait);
+
 		if (callNow) {
-			func.apply(context, args);
+			func.apply(this, args);
 		}
 	};
 }
@@ -26,27 +25,27 @@ function tryToAccessDOM(
 	expectedCount?: number,
 	context?: HTMLElement
 ): Promise<HTMLElement | null> {
-	let elementToExpect: HTMLElement = null;
+	let elementToExpect: HTMLElement | null = null;
 	let tryCounter = 0;
-	let tryMax = 10;
-	let interval: NodeJS.Timeout = undefined;
+	const tryMax = 10;
+	let interval: NodeJS.Timeout | undefined = undefined;
 
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		function tryIt() {
 			tryCounter++;
 
-			// Nothing found, clear interval and reject promise:
+			// Nothing found, clear interval:
 			if (tryCounter >= tryMax) {
 				clearInterval(interval);
 				resolve(null);
 			}
 
 			if (multiple) {
-				let elements = context
+				const elements = context
 					? context.querySelectorAll(selector)
 					: document.querySelectorAll(selector);
 
-				if (elements.length >= expectedCount) {
+				if (expectedCount && elements.length >= expectedCount) {
 					elementToExpect = elements.item(elements.length - 1) as HTMLElement;
 				}
 			} else {
