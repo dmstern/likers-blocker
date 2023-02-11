@@ -8,7 +8,7 @@
 		"build": "rollup --config rollup.config.js",
 		"prettier": "prettier --write src && prettier --write assets",
 		"lint": "eslint src/**/*.ts",
-		"fix": "eslint src/**/*.ts --fix",
+		"fix": "eslint src/**/*.ts src/*.ts --fix",
 		"version": "node util/release.js && npm run prettier && npm run build && git add .",
 		"postversion": "node util/zip.js"
 	},
