@@ -26,6 +26,8 @@ async function blockTask(alarm) {
 		const response = await APIService.block(user);
 		if (response.status != 200) Storage.queue(user)
 	}
+	const queue = await Storage.getQueue()
+	browser.browserAction.setBadgeText({ text: (queue.length).toString() });
 }
 
 client.webRequest.onBeforeSendHeaders.addListener(
