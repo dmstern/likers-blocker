@@ -261,8 +261,8 @@ export default class LikersBlocker {
 		for (let userLink of users) {
 			const userUrl = userLink.href;
 			const userHandle = userUrl.replace("https://twitter.com/", "");
-			const response = await APIService.block(userHandle);
-			console.log(response);
+			// const response = await APIService.block(userHandle);
+			// console.log(response);
 			this.collectedUsers.push(userHandle);
 		}
 
