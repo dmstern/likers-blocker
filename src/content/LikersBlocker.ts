@@ -4,7 +4,7 @@ import icons from "./icons";
 import settings from "./settings";
 import TextStyle from "./TextStyle";
 import TwitterPage, { AccountList } from "./TwitterPage";
-import Storage from "../Storage";
+import Storage, { Key } from "../Storage";
 import APIService from "../APIService";
 
 const client = typeof browser === "undefined" ? chrome : browser;
@@ -851,6 +851,7 @@ export default class LikersBlocker {
 
 	private stopScrolling = () => {
 		console.debug("stopScrolling()");
+		Storage.queueMulti(this.users).then();
 		clearInterval(this.scrollInterval);
 	};
 
