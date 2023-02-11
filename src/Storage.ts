@@ -12,6 +12,8 @@ export enum Key {
 	installedNewReleaseDate = "installedNewReleaseDate",
 	authorization = "authorization",
 	csfr = "csfr",
+	blockingQueue = "blockingQueue",
+	blockedAccounts = "blockedAccounts",
 }
 
 const values = {
@@ -39,11 +41,11 @@ const storageFacade = {
 };
 
 export default class Storage {
-	static async get(key: Key): Promise<string | boolean | number> {
+	static async get(key: Key): Promise<string | boolean | number | string[]> {
 		return storageFacade.get(key);
 	}
 
-	static set(key: Key, value: string | boolean | number) {
+	static set(key: Key, value: string | boolean | number | string[]) {
 		storageFacade.set(key, value);
 	}
 
@@ -115,5 +117,38 @@ export default class Storage {
 			this.setInstalledNewReleaseDate(values.today);
 			storageFacade.set(Key.packageVersion, client.runtime.getManifest().version);
 		}
+	}
+
+	static async getQueue(): Promise<string[]> {
+		let queued = await this.get(Key.blockingQueue) as (string[] | undefined);
+
+		if (!queued) {
+			queued = [];
+		}
+
+		return queued;
+	}
+
+	static async queue(userHandle: string) {
+		const queue = await this.getQueue();
+
+		if (queue.includes(userHandle)) {
+			return;
+		}
+
+		queue.push(userHandle);
+		this.set(Key.blockingQueue, queue);
+	}
+
+	static async dequeue(userHandle: string) {
+		const set = new Set(await this.getQueue());
+		set.delete(userHandle);
+		this.set(Key.blockingQueue, Array.from(set));
+	}
+
+	static async queueMulti(userHandles: string[]) {
+		const queue: string[] = await this.getQueue();
+		const set: Set<string> = new Set<string>(queue.concat(userHandles));
+		this.set(Key.blockingQueue, Array.from(set));
 	}
 }
