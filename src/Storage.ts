@@ -161,4 +161,25 @@ export default class Storage {
 		const queue = await this.getQueue();
 		return queue.length === 0;
 	}
+
+	static async getBlockedAccounts(): Promise<string[]> {
+		let blocked = await this.get(Key.blockedAccounts) as (string[] | undefined);
+
+		if (!blocked) {
+			blocked = [];
+		}
+
+		return blocked;
+	}
+
+	static async addBlocked(userHandle: string) {
+		const blocked = await this.getBlockedAccounts();
+
+		if (blocked.includes(userHandle)) {
+			return;
+		}
+
+		blocked.push(userHandle);
+		this.set(Key.blockedAccounts, blocked);
+	}
 }
