@@ -3,8 +3,8 @@ import Storage, { Key } from "./Storage";
 const API_URL = "https://api.twitter.com/1.1/";
 
 export default class APIService {
-	static async block(userId: string) {
-		console.log("blocking", userId);
+	static async block(screenName: string) {
+		console.log("blocking", screenName);
 
 		const csrf = await Storage.get(Key.csfr) as string;
 		const authorization = await Storage.get(Key.authorization) as string;
@@ -27,7 +27,7 @@ export default class APIService {
                 "authorization": authorization
             },
             "referrer": location.origin,
-            "body": `user_id=${userId}`,
+            "body": `screen_name=${screenName}`,
             "method": "POST",
             "mode": "cors"
         });
