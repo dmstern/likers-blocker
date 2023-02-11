@@ -6,9 +6,9 @@ export default class APIService {
 	static async block(screenName: string) {
 		console.log("blocking", screenName);
 
-		const csrf = await Storage.get(Key.csfr) as string;
-		const authorization = await Storage.get(Key.authorization) as string;
-		const blocklist = await Storage.getBlockedAccounts() as string[];
+		const csrf = (await Storage.get(Key.csfr)) as string;
+		const authorization = (await Storage.get(Key.authorization)) as string;
+		const blocklist = (await Storage.getBlockedAccounts()) as string[];
 		if (blocklist.includes(screenName)) {
 			console.log("already blocked");
 			return;
@@ -17,10 +17,10 @@ export default class APIService {
 		}
 
 		return await fetch(`${API_URL}blocks/create.json`, {
-			"credentials": "include",
-			"headers": {
+			credentials: "include",
+			headers: {
 				"User-Agent": navigator.userAgent,
-				"Accept": "*/*",
+				Accept: "*/*",
 				"Accept-Language": "de-DE,en-US;q=0.7,en;q=0.3", // TODO read from twitter app
 				"Content-Type": "application/x-www-form-urlencoded",
 				"x-twitter-auth-type": "OAuth2Session",
@@ -31,12 +31,12 @@ export default class APIService {
 				"Sec-Fetch-Mode": "cors",
 				"Sec-Fetch-Site": "same-site",
 				"Sec-GPC": "1",
-				"authorization": authorization
+				authorization: authorization,
 			},
-			"referrer": location.origin,
-			"body": `screen_name=${screenName}`,
-			"method": "POST",
-			"mode": "cors"
+			referrer: location.origin,
+			body: `screen_name=${screenName}`,
+			method: "POST",
+			mode: "cors",
 		});
 	}
 }
