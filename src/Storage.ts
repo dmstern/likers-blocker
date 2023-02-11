@@ -21,18 +21,11 @@ const values = {
 };
 
 const storageFacade = {
-	get: async (key: Key): Promise<string | boolean | number> => {
-		return new Promise((resolve, reject) => {
-			client.storage.local.get(key, function (value) {
-				if (value) {
-					resolve(value[key]);
-				} else {
-					reject();
-				}
-			});
-		});
+	get: async (key: Key): Promise<string | boolean | number | string[]> => {
+		const value = await client.storage.local.get(key);
+		return value[key];
 	},
-	set: async (key: Key, value: any) => {
+	set: async (key: Key, value: string | boolean | number | string[]) => {
 		client.storage.local.set({ [key]: value })?.then();
 	},
 	remove: (key: Key) => {
@@ -142,9 +135,17 @@ export default class Storage {
 
 	static async dequeue(userHandle?: string) {
 		const queue = await this.getQueue();
-		if (!userHandle) userHandle = queue.shift()
+
+		if (!userHandle) {
+			userHandle = queue.shift();
+		}
+
 		const set = new Set(queue);
-		set.delete(userHandle);
+
+		if (userHandle) {
+			set.delete(userHandle);
+		}
+
 		this.set(Key.blockingQueue, Array.from(set));
 		//console.log("remaining: " + Array.from(set).length)
 		return userHandle;

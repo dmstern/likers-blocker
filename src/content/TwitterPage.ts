@@ -2,15 +2,17 @@ import TextStyle from "./TextStyle";
 
 export default class TwitterPage {
 	static get backgroundColor() {
-		return getComputedStyle(document.querySelector("body")).backgroundColor;
+		return getComputedStyle(document.body).backgroundColor;
 	}
 
 	static get twitterBrandColor() {
-		return window.getComputedStyle(document.querySelector("a[href='/home'] svg")).color;
+		const homeLink = document.querySelector("a[href='/home'] svg");
+		return homeLink?  window.getComputedStyle(homeLink).color : "#1A8CD8";
 	}
 
 	static get highlightColor() {
-		return getComputedStyle(document.querySelector("a[href='/compose/tweet']")).backgroundColor;
+		const composeButton = document.querySelector("a[href='/compose/tweet']");
+		return composeButton ? getComputedStyle(composeButton).backgroundColor : this.twitterBrandColor;
 	}
 
 	static get popupContainer(): HTMLElement {
@@ -27,17 +29,15 @@ export default class TwitterPage {
 	}
 
 	static getTextStyle(isLegacyTwitter): TextStyle {
-		let textElement: HTMLElement;
-		let style: TextStyle;
-		let textElementStyle: CSSStyleDeclaration;
+		let textElement: HTMLElement | null;
 
 		if (isLegacyTwitter) {
 			textElement = document.querySelector(".js-tweet-text");
 		} else {
-			const bioText: HTMLElement = document.querySelector(
+			const bioText: HTMLElement | null = document.querySelector(
 				"[data-testid=UserCell] > div > div:nth-child(2) > div:nth-child(2)"
 			);
-			const nameText: HTMLElement = document.querySelector(
+			const nameText: HTMLElement | null = document.querySelector(
 				"[data-testid=UserCell] > div > div:nth-child(2) > div > div > a > div > div > div"
 			);
 			textElement = bioText || nameText;
@@ -47,10 +47,8 @@ export default class TwitterPage {
 			textElement = document.querySelector("span");
 		}
 
-		textElementStyle = getComputedStyle(textElement);
-		style = new TextStyle(textElementStyle);
-
-		return style;
+		const textElementStyle = textElement ? getComputedStyle(textElement) : new CSSStyleDeclaration();
+		return new TextStyle(textElementStyle);
 	}
 
 	static isTweetPage(): Promise<boolean> {
@@ -64,12 +62,12 @@ export default class TwitterPage {
 	static async isBlockPage(): Promise<boolean> {
 		return new Promise((resolve) => {
 			setTimeout(() => {
-				let isBlockPage =
+				const isBlockPage =
 					location.href.endsWith("blocked/all") ||
 					location.href.endsWith("settings/content_preferences") ||
 					location.href.endsWith("settings/mute_and_block");
 
-				document.querySelector("body").classList[`${isBlockPage ? "add" : "remove"}`]("lb-block-page");
+				document.querySelector("body")?.classList[`${isBlockPage ? "add" : "remove"}`]("lb-block-page");
 
 				resolve(isBlockPage);
 			}, 1);
