@@ -113,7 +113,7 @@ export default class Storage {
 	}
 
 	static async getQueue(): Promise<string[]> {
-		let queued = await this.get(Key.blockingQueue) as (string[] | undefined);
+		let queued = (await this.get(Key.blockingQueue)) as string[] | undefined;
 
 		if (!queued) {
 			queued = [];
@@ -164,7 +164,7 @@ export default class Storage {
 	}
 
 	static async getBlockedAccounts(): Promise<string[]> {
-		let blocked = await this.get(Key.blockedAccounts) as (string[] | undefined);
+		let blocked = (await this.get(Key.blockedAccounts)) as string[] | undefined;
 
 		if (!blocked) {
 			blocked = [];
