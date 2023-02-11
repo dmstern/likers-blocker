@@ -140,15 +140,25 @@ export default class Storage {
 		this.set(Key.blockingQueue, queue);
 	}
 
-	static async dequeue(userHandle: string) {
-		const set = new Set(await this.getQueue());
+	static async dequeue(userHandle?: string) {
+		const queue = await this.getQueue();
+		if (!userHandle) userHandle = queue.shift()
+		const set = new Set(queue);
 		set.delete(userHandle);
 		this.set(Key.blockingQueue, Array.from(set));
+		//console.log("remaining: " + Array.from(set).length)
+		return userHandle;
 	}
 
 	static async queueMulti(userHandles: string[]) {
 		const queue: string[] = await this.getQueue();
 		const set: Set<string> = new Set<string>(queue.concat(userHandles));
+		//console.log("Queue Length: " + Array.from(set).length)
 		this.set(Key.blockingQueue, Array.from(set));
+	}
+
+	static async queueEmpty(): Promise<boolean> {
+		const queue = await this.getQueue();
+		return queue.length === 0;
 	}
 }
