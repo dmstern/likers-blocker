@@ -4,5 +4,5 @@
   "printWidth": 104,
   "trailingComma": "es5",
   "useTabs": true,
-  "parser": "babel"
+  "parser": "typescript"
 }
