@@ -55,6 +55,14 @@
 		"message": "Contact",
 		"description": "label of the contact link"
 	},
+	"popup_queue": {
+		"message": " will be blocked",
+		"description": "Label of the queue counter"
+	},
+	"popup_list": {
+		"message": "Accounts are blocked",
+		"description": "Label of the blocklist counter"
+	},
 	"tweet_text": {
 		"message": "https://twitter.com/share?text=Found a racist or otherwise disgusting tweet and people even like those stuff? @LikersBlocker helps you to get rid of those people within seconds.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech",
 		"description": "href for the tweet button. Contains a prefilled tweet text."

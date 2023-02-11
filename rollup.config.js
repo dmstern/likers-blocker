@@ -47,6 +47,13 @@ const config = [
 			...plugins.commons,
 		],
 	},
+	{
+		input: "src/popup/popup.ts",
+		output,
+		plugins: [
+			...plugins.commons,
+		],
+	},
 ];
 
 export default config;
