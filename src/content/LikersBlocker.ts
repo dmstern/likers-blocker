@@ -128,7 +128,7 @@ export default class LikersBlocker {
 
 			if (chars) {
 				const lastCharacter = chars.at(-1)?.toString();
-				const factor = lastCharacter && (lastCharacter in factors) ? factors[lastCharacter] : 1;
+				const factor = lastCharacter && lastCharacter in factors ? factors[lastCharacter] : 1;
 				return parseInt(chars.filter((char) => !isNaN(Number(char))).join("")) * factor;
 			}
 
@@ -190,7 +190,7 @@ export default class LikersBlocker {
 	};
 
 	private async getLimitMessage() {
-		if ((await TwitterPage.isBlockPage()) || await this.isListLarge) {
+		if ((await TwitterPage.isBlockPage()) || (await this.isListLarge)) {
 			return `${client.i18n.getMessage("ui_takeAMoment")} ${client.i18n.getMessage("ui_urlLimit")}`;
 		} else {
 			return `${client.i18n.getMessage("ui_onlyListItems")}<br>${client.i18n.getMessage(
@@ -647,7 +647,9 @@ export default class LikersBlocker {
 				linkClone && this.textarea?.parentNode?.parentNode?.appendChild(linkClone);
 				const textarea = linkClone?.childNodes.item(1) as HTMLTextAreaElement;
 
-				const copyButton = textarea.parentElement?.querySelector(".lb-copy-button") as HTMLButtonElement;
+				const copyButton = textarea.parentElement?.querySelector(
+					".lb-copy-button"
+				) as HTMLButtonElement;
 				const confirmButton = textarea.parentElement?.querySelector(
 					".lb-confirm-button"
 				) as HTMLLinkElement;

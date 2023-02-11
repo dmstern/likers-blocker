@@ -7,7 +7,7 @@ export default class TwitterPage {
 
 	static get twitterBrandColor() {
 		const homeLink = document.querySelector("a[href='/home'] svg");
-		return homeLink?  window.getComputedStyle(homeLink).color : "#1A8CD8";
+		return homeLink ? window.getComputedStyle(homeLink).color : "#1A8CD8";
 	}
 
 	static get highlightColor() {
