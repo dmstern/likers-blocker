@@ -2,6 +2,7 @@ import typescript from "@rollup/plugin-typescript";
 import { terser } from "rollup-plugin-terser";
 import sass from "rollup-plugin-sass";
 import prettier from "rollup-plugin-prettier";
+import eslint from '@rollup/plugin-eslint';
 import copy from "rollup-plugin-copy";
 
 const targetFolder = "dist";
@@ -24,6 +25,9 @@ const plugins = {
 		prettier({
 			tabWidth: 2,
 			singleQuote: false,
+		}),
+		eslint({
+			include: ["src/**/*.ts"]
 		}),
 	],
 };
