@@ -8,14 +8,14 @@ export default class Cookies {
 	static set(cookieName: Name, cookieValue: string, expireDays: number = defaultExpireDays): void {
 		const d = new Date();
 		d.setTime(d.getTime() + expireDays * 24 * 60 * 60 * 1000);
-		let expires = "expires=" + d.toUTCString();
+		const expires = "expires=" + d.toUTCString();
 		document.cookie = `${cookieName}=${cookieValue};${expires};path=/`;
 	}
 
 	static get(cookieName: Name): string {
-		let name = cookieName + "=";
-		let decodedCookie = decodeURIComponent(document.cookie);
-		let ca = decodedCookie.split(";");
+		const name = cookieName + "=";
+		const decodedCookie = decodeURIComponent(document.cookie);
+		const ca = decodedCookie.split(";");
 
 		for (let i = 0; i < ca.length; i++) {
 			let c = ca[i];
