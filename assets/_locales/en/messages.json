@@ -31,6 +31,14 @@
 		"message": "Like",
 		"description": "Label for the Like button"
 	},
+	"popup_export": {
+		"message": "Exportieren Blocklist",
+		"description": "Label for the export button in the popup window."
+	},
+	"popup_import": {
+		"message": "Importieren Blocklist",
+		"description": "Label for the import button in the popup window."
+	},
 	"popup_donate": {
 		"message": "Glad that you appreciate our work! 😊<br /> We do this in our free time. This tool is and remains free for everyone and free from ads. Would you consider to donate a little tip?",
 		"description": "text that encourages the user to donate"
