@@ -1,4 +1,0 @@
-export default {
-	SCROLL_INTERVAL: 1_600,
-	IDLE_COUNTER_ALLOWANCE: 2,
-};

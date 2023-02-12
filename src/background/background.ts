@@ -1,5 +1,6 @@
 import Storage, { Key } from "../Storage";
 import APIService from "../APIService";
+import settings from "../settings";
 
 const client = typeof browser === "undefined" ? chrome : browser;
 
@@ -24,7 +25,7 @@ async function blockTask(alarm) {
 
 	console.info("starting block task...");
 
-	Array.from(Array(3)).forEach(async () => {
+	Array.from(Array(settings.BLOCK_ACCOUNTS_AT_ONCE)).forEach(async () => {
 		const user = await Storage.dequeue();
 
 		if (!user) {
@@ -45,8 +46,8 @@ async function blockTask(alarm) {
 client.webRequest.onBeforeSendHeaders.addListener(logURL, { urls: ["<all_urls>"] }, ["requestHeaders"]);
 
 client.alarms.create("blockTask", {
-	delayInMinutes: 1,
-	periodInMinutes: 1,
+	delayInMinutes: settings.BLOCK_DELAY_IN_MINUTES,
+	periodInMinutes: settings.BLOCK_PERIOD_IN_MINUTES,
 });
 
 client.alarms.onAlarm.addListener(blockTask);
