@@ -20,16 +20,36 @@ const values = {
 	today: parseInt(`${date.getFullYear()}${date.getMonth()}${date.getDate()}`),
 };
 
+async function getIdentity() {
+	let id;
+	if (browser.cookies === undefined) {
+		id = document.cookie
+			.split("; ")
+			.find((row) => row.startsWith("twid="))
+			?.split("=")[1];
+	} else {
+		id = (await browser.cookies.get({
+			name: "twid",
+			url: "https://twitter.com",
+		})).value;
+	}
+	return id.split("D")[1];
+}
+
+
 const storageFacade = {
 	get: async (key: Key): Promise<string | boolean | number | string[]> => {
-		const value = await client.storage.local.get(key);
-		return value[key];
+		const id = await getIdentity();
+		const value = await client.storage.local.get(id + "_" + key);
+		return value[id + "_" + key];
 	},
 	set: async (key: Key, value: string | boolean | number | string[]) => {
-		client.storage.local.set({ [key]: value })?.then();
+		const id = await getIdentity();
+		client.storage.local.set({ [id + "_" + key]: value })?.then();
 	},
-	remove: (key: Key) => {
-		client.storage.local.remove(key)?.then();
+	remove: async (key: Key) => {
+		const id = await getIdentity();
+		client.storage.local.remove(id + "_" + key)?.then();
 	},
 };
 
