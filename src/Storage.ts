@@ -20,22 +20,24 @@ const values = {
 	today: parseInt(`${date.getFullYear()}${date.getMonth()}${date.getDate()}`),
 };
 
-async function getIdentity() {
-	let id;
+async function getCookie(name: string): Promise<string> {
 	if (browser.cookies === undefined) {
-		id = document.cookie
+		return document.cookie
 			.split("; ")
-			.find((row) => row.startsWith("twid="))
+			.find((row) => row.startsWith(`${name}=`))
 			?.split("=")[1];
 	} else {
-		id = (await browser.cookies.get({
-			name: "twid",
+		return (await browser.cookies.get({
+			name,
 			url: "https://twitter.com",
 		})).value;
 	}
-	return id.split("D")[1];
 }
 
+async function getIdentity(): Promise<string> {
+	const id = await getCookie("twid");
+	return id.split("D")[1];
+}
 
 const storageFacade = {
 	get: async (key: Key): Promise<string | boolean | number | string[]> => {
@@ -60,6 +62,10 @@ export default class Storage {
 
 	static set(key: Key, value: string | boolean | number | string[]) {
 		storageFacade.set(key, value);
+	}
+
+	static async getLanguage(): Promise<string> {
+		return getCookie("lang");
 	}
 
 	static async getPackageVersion(): Promise<string> {
@@ -209,4 +215,8 @@ export default class Storage {
 		blocked.push(userHandle);
 		this.set(Key.blockedAccounts, blocked);
 	}
+}
+
+export enum Name {
+	lang = "lang",
 }
