@@ -28,7 +28,8 @@
 		"https://mobile.twitter.com/*",
 		"storage",
 		"webRequest",
-		"alarms"
+		"alarms",
+		"cookies"
 	],
 	"manifest_version": 2,
 	"background": {
