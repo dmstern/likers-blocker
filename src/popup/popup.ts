@@ -46,8 +46,8 @@ async function getStats() {
 		blockQueue: blockQueue.length || 0,
 		blockedAccounts: blockedAccounts.length || 0,
 	};
-	const statsNode = document.querySelector("#stats");
-	const queueNode = document.querySelector("#queue");
+	const statsNode = document.querySelector("#blockListStats");
+	const queueNode = document.querySelector("#blockQueueStats");
 	if (statsNode && queueNode) {
 		queueNode.innerHTML = stats.blockQueue.toString();
 		statsNode.innerHTML = stats.blockedAccounts.toString();

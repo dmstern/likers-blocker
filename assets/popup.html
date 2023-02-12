@@ -265,8 +265,8 @@
 							d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 							stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
 					</svg>
-					<svg class="w-6 h-6 icon-bulp" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
-						viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+					<svg class="w-6 h-6 icon-bulp" aria-hidden="true" fill="none" stroke="currentColor"
+						stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 						<path
 							d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"
 							stroke-linecap="round" stroke-linejoin="round"></path>
@@ -284,29 +284,30 @@
 		<hr />
 		<div class="stats">
 			<div class="stats__queue label">
-				<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
-					xmlns="http://www.w3.org/2000/svg">
+				<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+					viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 					<path
 						d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"
 						stroke-linecap="round" stroke-linejoin="round"></path>
 				</svg>
-				<span id="queue">0</span>&nbsp;
+				<span id="blockQueueStats">0</span>&nbsp;
 				<span data-label="popup_queue"></span>
 			</div>
 			<div class="stats__list label">
-				<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
-					xmlns="http://www.w3.org/2000/svg">
-					<path d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+				<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+					viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+					<path
+						d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
 						stroke-linecap="round" stroke-linejoin="round"></path>
 				</svg>
-				<span id="list">0</span>&nbsp;
+				<span id="blockListStats">0</span>&nbsp;
 				<span data-label="popup_list"></span>
 			</div>
 		</div>
 		<div class="import-export">
 			<button class="btn" id="importBlockList">
-				<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
-					xmlns="http://www.w3.org/2000/svg">
+				<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+					viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 					<path
 						d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"
 						stroke-linecap="round" stroke-linejoin="round"></path>
@@ -314,8 +315,8 @@
 				<span>Import Blocklist</span>
 			</button>
 			<button class="btn" id="downloadBlockList">
-				<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
-					xmlns="http://www.w3.org/2000/svg">
+				<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+					viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 					<path
 						d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
 						stroke-linecap="round" stroke-linejoin="round"></path>
@@ -327,7 +328,8 @@
 		<div class="links">
 			<details class="like">
 				<summary class="like__btn btn">
-					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+						xmlns="http://www.w3.org/2000/svg">
 						<path
 							d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
 							stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
@@ -353,7 +355,8 @@
 									d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
 									stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
 							</svg>
-							<a class="link" href="https://paypal.me/philipkreissel" target="_blank">paypal.me/philipkreissel</a>
+							<a class="link" href="https://paypal.me/philipkreissel"
+								target="_blank">paypal.me/philipkreissel</a>
 						</li>
 					</ul>
 				</div>
@@ -361,9 +364,10 @@
 			<a aria-label="Issue dmstern/likers-blocker on GitHub" class="btn issue"
 				data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-issue-opened"
 				data-size="large" href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank">
-				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-					<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"
-						stroke-width="2"></path>
+				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg">
+					<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+						stroke-linejoin="round" stroke-width="2"></path>
 				</svg>
 				<span data-label="popup_reportBug"></span>
 			</a>
@@ -374,7 +378,8 @@
 		<hr />
 		<div class="links">
 			<a class="link" href="https://dmstern.github.io/likers-blocker" target="_blank">
-				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg">
 					<path
 						d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 						stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
@@ -382,8 +387,10 @@
 				<span>dmstern.github.io/likers-blocker</span>
 			</a>
 			<a class="link" href="mailto:likers.blocker@gmail.com" target="_blank">
-				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-					<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg">
+					<path
+						d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
 						stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
 				</svg>
 				<span data-label="popup_contact"></span>
