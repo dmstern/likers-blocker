@@ -81,7 +81,7 @@ To test the extension locally:
 
 ### Build
 
-- Install Node.js 14.x
+- Install Node.js 16.x
 
 Or, if you different node versions on your machine for different projects, you can use Node Version Manager (NVM) and run:
 
