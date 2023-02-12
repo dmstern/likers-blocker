@@ -14,6 +14,7 @@ export enum Key {
 	csfr = "csfr",
 	blockingQueue = "blockingQueue",
 	blockedAccounts = "blockedAccounts",
+	acceptedLanguage = "acceptedLanguage",
 }
 
 const values = {
@@ -27,10 +28,12 @@ async function getCookie(name: string): Promise<string> {
 			.find((row) => row.startsWith(`${name}=`))
 			?.split("=")[1];
 	} else {
-		return (await browser.cookies.get({
-			name,
-			url: "https://twitter.com",
-		})).value;
+		return (
+			await browser.cookies.get({
+				name,
+				url: "https://twitter.com",
+			})
+		).value;
 	}
 }
 
