@@ -64,7 +64,7 @@
 		"description": "Label of the blocklist counter"
 	},
 	"tweet_text": {
-		"message": "https://twitter.com/share?text=Einen rassistischen oder anderweitig richtig ätzenden Tweet gefunden und Leute liken das auch noch? Mit dem @LikersBlocker könnt ihr in Sekunden alle blocken, mit denen ihr sicher nichts zu tun haben wollt.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier",
+		"message": "https://twitter.com/share?text=Einen rassistischen oder anderweitig richtig ätzenden Tweet gefunden und Leute liken das auch noch? Mit dem @LikersBlocker könnt ihr in Sekunden alle blocken, mit denen ihr sicher nichts zu tun haben wollt.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech",
 		"description": "href for the tweet button. Contains a prefilled tweet text."
 	},
 	"ui_blockAll": {
@@ -170,29 +170,5 @@
 	"ui_newRelease": {
 		"message": "Du hast die neuste Likers Blocker Version. 🎉 Schau dir an, was es neues gibt.",
 		"description": "New Release icon title"
-	},
-	"ichbinhier_heading": {
-		"message": "Folgende User blockieren?",
-		"description": "The heading of block confirmation page"
-	},
-	"ichbinhier_blockButtonLabel": {
-		"message": "Blockieren",
-		"description": "The label of the block button on the confirmation page"
-	},
-	"ichbinhier_privacyInfo": {
-		"message": "Wir speichern keine Daten bis auf die üblichen Server-Logfiles.",
-		"description": "Login page: general privacy info that tells the user that there are not stored any private data."
-	},
-	"ichbinhier_pivacyInfoHeroku": {
-		"message": "Hier finden sich",
-		"description": "Login page: \"here you can find\". Is suffixed with ichbinhier_pivacyInfoHerokuLinkLabel"
-	},
-	"ichbinhier_pivacyInfoHerokuLinkLabel": {
-		"message": "Privacy-Informationen zum Hoster Heroku",
-		"description": "Login page: privacy info Heroku link label"
-	},
-	"ichbinhier_repoInfo": {
-		"message": "Den Source-Code für diese Webanwendung findet man auf",
-		"description": "Login page: info where you can find the source code. Is suffixed with \"GitHub\""
 	}
 }

@@ -170,29 +170,5 @@
 	"ui_newRelease": {
 		"message": "You installed the latest LikersBlocker version. 🎉 See what's new.",
 		"description": "New Release icon title"
-	},
-	"ichbinhier_heading": {
-		"message": "Block following users?",
-		"description": "The heading of block confirmation page"
-	},
-	"ichbinhier_blockButtonLabel": {
-		"message": "Block",
-		"description": "The label of the block button on the confirmation page"
-	},
-	"ichbinhier_privacyInfo": {
-		"message": "We do not store any data except the usual server log files.",
-		"description": "Login page: general privacy info that tells the user that there are not stored any private data."
-	},
-	"ichbinhier_pivacyInfoHeroku": {
-		"message": "Here you can find",
-		"description": "Login page: \"here you can find\". Is suffixed with ichbinhier_pivacyInfoHerokuLinkLabel"
-	},
-	"ichbinhier_pivacyInfoHerokuLinkLabel": {
-		"message": "privacy information to our hosting service Heroku",
-		"description": "Login page: privacy info Heroku link label"
-	},
-	"ichbinhier_repoInfo": {
-		"message": "You can find the source code of this web application on",
-		"description": "Login page: info where you can find the source code. Is suffixed with \"GitHub\""
 	}
 }
