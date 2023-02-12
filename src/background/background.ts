@@ -34,7 +34,7 @@ async function blockTask(alarm) {
 
 		const response = await APIService.block(user);
 
-		if (response?.status != 200) {
+		if (response.status != 200) {
 			Storage.queue(user);
 		}
 	});
