@@ -1,7 +1,7 @@
 import { debounce, tryToAccessDOM } from "../util";
 import Icons from "./icons";
 import icons from "./icons";
-import settings from "./settings";
+import settings from "../settings";
 import TextStyle from "./TextStyle";
 import TwitterPage, { AccountList } from "./TwitterPage";
 import Storage from "../Storage";
