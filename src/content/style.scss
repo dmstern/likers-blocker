@@ -109,6 +109,11 @@ body.lb-block-page {
 		}
 	}
 
+	&.lb-confirm {
+		opacity: 1;
+		height: 350px;
+	}
+
 	body.many & {
 		&.lb-confirm {
 			width: 700px;
@@ -127,10 +132,6 @@ body.lb-block-page {
 			}
 		}
 	}
-}
-
-.lb-popup.lb-confirm {
-	opacity: 1;
 }
 
 .lb-footer {
@@ -460,13 +461,14 @@ body.lb-legacy-twitter {
 		color: $color_4 !important;
 	}
 
-	position: absolute !important;
-	right: 0;
-	top: 0;
-	padding: 0 1.1em 0 2.8em !important;
+	// position: absolute !important;
+	// right: 0;
+	// top: 0;
+	padding: 0 2em !important;
 	text-decoration: none;
 	line-height: 1.3rem !important;
 	transition: all 500ms ease-in-out;
+	min-height: 2.5rem;
 
 	body.many & {
 		padding: 0 1.3em !important;
@@ -474,13 +476,18 @@ body.lb-legacy-twitter {
 
 	> div > span {
 		display: flex;
+
+		// Label:
+		> span {
+			align-self: center;
+		}
 	}
 
 	svg {
 		height: 1rem;
-		opacity: 0;
-		visibility: hidden;
 		transition: all 500ms ease-in-out;
+		margin-left: .5rem;
+		height: 1.5rem;
 
 		&.lb-icon--external {
 			margin-left: 5px;
@@ -488,14 +495,6 @@ body.lb-legacy-twitter {
 
 		&.lb-icon--check {
 			margin-right: 1em;
-		}
-	}
-
-	&:hover,
-	&:focus {
-		svg.lb-icon--external {
-			opacity: 1;
-			visibility: visible;
 		}
 	}
 
@@ -538,7 +537,7 @@ body.lb-legacy-twitter {
 	}
 }
 
-.lb-copy-wrapper {
+.lb-confirm-wrapper {
 	margin-top: 2em;
 	position: relative;
 

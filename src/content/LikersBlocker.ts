@@ -25,14 +25,11 @@ export default class LikersBlocker {
 	private legacyTwitter: boolean;
 	private popup: HTMLElement;
 	private popupWrapper: HTMLElement;
-	private requestUrl: string;
 	private scrollInterval: number;
-	private textarea: HTMLTextAreaElement;
 	private topbar: HTMLElement | null | undefined;
 
 	private constructor() {
 		this.collectedUsers = [];
-		this.requestUrl = "";
 		this.progressInPercent = 0;
 		this.uiIdleCounter = 0;
 		this.lastCollectedUserCount = [];
@@ -191,7 +188,7 @@ export default class LikersBlocker {
 
 	private async getLimitMessage() {
 		if ((await TwitterPage.isBlockPage()) || (await this.isListLarge)) {
-			return `${client.i18n.getMessage("ui_takeAMoment")} ${client.i18n.getMessage("ui_urlLimit")}`;
+			return `${client.i18n.getMessage("ui_takeAMoment")}`;
 		} else {
 			return `${client.i18n.getMessage("ui_onlyListItems")}<br>${client.i18n.getMessage(
 				"ui_twitterHides"
@@ -449,31 +446,13 @@ export default class LikersBlocker {
 
 	private async createConfirmButton() {
 		const areaWrapper = document.createElement("div");
-		const copyButton = document.createElement("button");
+		const confirmInfo = document.createElement("div");
 
-		areaWrapper.classList.add("lb-copy-wrapper");
-		copyButton.classList.add("lb-copy-button");
-		copyButton.style.color = this.textStyle.color;
-		copyButton.innerHTML = `
-			<span class="lb-copy-button__content">
-				<span>${Icons.clipboardCopy}</span>
-				<span class="lb-copy-button__label">${client.i18n.getMessage("ui_copyToShare")}</span>
-			</span>
-			<span class="lb-copy-button__content">
-				<span>${Icons.clipboardCheck}</span>
-				<span class="lb-copy-button__label">${client.i18n.getMessage("ui_copied")}</span>
-			</span>
-		`;
-		this.textarea = document.createElement("textarea");
-		this.textarea.readOnly = true;
-		this.textarea.classList.add("lb-textarea");
-
-		areaWrapper.appendChild(copyButton);
-		areaWrapper.appendChild(this.textarea);
-
-		copyButton.addEventListener("click", () => {
-			this.handleCopyClick(this.textarea, copyButton);
-		});
+		areaWrapper.classList.add("lb-confirm-wrapper");
+		confirmInfo.classList.add("lb-confirm-info");
+		confirmInfo.style.color = this.textStyle.color;
+		confirmInfo.innerHTML = `<p>${client.i18n.getMessage("ui_queue_explanation")}</p>`;
+		areaWrapper.appendChild(confirmInfo);
 
 		if (!(await TwitterPage.isBlockPage())) {
 			const blockButton = this.blockButton;
@@ -491,15 +470,32 @@ export default class LikersBlocker {
 
 			confirmButtonLabel.innerText = client.i18n.getMessage("ui_confirm");
 			const confirmButtonIcon = document.createElement("span");
-			confirmButtonIcon.innerHTML = icons.external;
+			confirmButtonIcon.innerHTML = icons.queue;
 			const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
 			confirmButtonIconSvg && confirmButtonLabel?.parentElement?.append(confirmButtonIconSvg);
 			this.confirmButton.setAttribute("title", client.i18n.getMessage("ui_external"));
 			this.confirmButton.setAttribute("target", "_blank");
 
-			this.confirmButton.addEventListener("click", async () => {
-				await this.closePopup();
-			});
+			this.confirmButton.addEventListener(
+				"click",
+				async () => {
+					this.confirmButton.classList.add("lb-confirm-button--clicked");
+					await Storage.queueMulti(this.users);
+					confirmInfo.innerHTML = `<p>${client.i18n.getMessage("ui_confirm_clicked")}</p>`;
+					confirmButtonIcon.innerHTML = icons.check;
+					confirmButtonLabel.innerText = client.i18n.getMessage("ui_confirm_button_label");
+
+					const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
+					confirmButtonIconSvg && confirmButtonLabel?.parentElement?.append(confirmButtonIconSvg);
+
+					this.confirmButton.addEventListener("click", async () => {
+						await this.closePopup();
+					});
+				},
+				{
+					once: true,
+				}
+			);
 
 			areaWrapper.appendChild(this.confirmButton);
 		}
@@ -567,20 +563,6 @@ export default class LikersBlocker {
 		window.setTimeout(circleTabInModalPopup, 0);
 	};
 
-	private handleCopyClick(textarea: HTMLTextAreaElement, copyButton: HTMLButtonElement) {
-		textarea.select();
-		navigator.clipboard.writeText(textarea.value).then(() => {
-			copyButton.classList.add("lb-copy-button--active");
-			copyButton.setAttribute("disabled", "true");
-		});
-
-		// Reset button label after a while:
-		window.setTimeout(() => {
-			copyButton.classList.remove("lb-copy-button--active");
-			copyButton.removeAttribute("disabled");
-		}, 5_000);
-	}
-
 	private async initBlockAction() {
 		const popupLabel = this.popup.querySelector(".lb-label") as HTMLElement;
 		Object.assign(popupLabel.style, this.textStyle);
@@ -619,72 +601,6 @@ export default class LikersBlocker {
 		}
 
 		console.debug("finishCollecting()");
-		this.requestUrl = `${settings.API_URL_BLOCK}?users=${this.users}`;
-		const listIsLarge = this.requestUrl.length > settings.URL_LENGTH_MAX;
-		document.body.classList.toggle("many", listIsLarge);
-
-		if (this.confirmButton) {
-			this.confirmButton.href = this.requestUrl;
-		}
-
-		if (this.textarea) {
-			this.textarea.value = this.requestUrl;
-		}
-
-		if (listIsLarge) {
-			console.info("list is large");
-			const requestCount = this.requestUrl.length / settings.URL_LENGTH_MAX;
-			const usersPerRequest = this.users.length / requestCount;
-
-			const headingContent2 = document.querySelector(".lb-confirm-message > h3 > span:last-of-type");
-			if (headingContent2) {
-				headingContent2.innerHTML = client.i18n.getMessage("ui_divided");
-				headingContent2.classList.add("lb-divided-msg");
-			}
-
-			for (let i = 0; i <= requestCount; i++) {
-				const linkClone = this.textarea?.parentNode?.cloneNode(true);
-				linkClone && this.textarea?.parentNode?.parentNode?.appendChild(linkClone);
-				const textarea = linkClone?.childNodes.item(1) as HTMLTextAreaElement;
-
-				const copyButton = textarea.parentElement?.querySelector(
-					".lb-copy-button"
-				) as HTMLButtonElement;
-				const confirmButton = textarea.parentElement?.querySelector(
-					".lb-confirm-button"
-				) as HTMLLinkElement;
-				const requestUrl = `${settings.API_URL_BLOCK}?users=${this.users.slice(
-					usersPerRequest * i,
-					usersPerRequest * (i + 1)
-				)}`;
-
-				copyButton.addEventListener("click", () => {
-					this.handleCopyClick(textarea, copyButton);
-				});
-
-				textarea.value = requestUrl;
-
-				if (confirmButton) {
-					confirmButton.href = requestUrl;
-					(
-						confirmButton.querySelector("div > span > span") as HTMLSpanElement
-					).innerText = `${client.i18n.getMessage("ui_confirmButtonLabel")} ${i + 1}`;
-
-					const iconWrapper = document.createElement("span");
-					iconWrapper.innerHTML = icons.check;
-					confirmButton.querySelector("div > span")?.prepend(iconWrapper);
-
-					confirmButton.addEventListener("mousedown", (event) => {
-						const confirmButton = (event.target as HTMLElement).closest("a");
-						confirmButton?.classList.add("lb-confirm-button--clicked");
-					});
-				}
-			}
-
-			// Remove original after cloning:
-			const copyWrapper = document.querySelector(".lb-copy-wrapper");
-			copyWrapper && this.textarea.parentNode?.parentNode?.removeChild(copyWrapper);
-		}
 
 		if (this.checkbox) {
 			await this.addIncludeRetweetersParam(this.checkbox.checked);
@@ -890,7 +806,6 @@ export default class LikersBlocker {
 
 	private stopScrolling = () => {
 		console.debug("stopScrolling()");
-		Storage.queueMulti(this.users).then();
 		clearInterval(this.scrollInterval);
 	};
 

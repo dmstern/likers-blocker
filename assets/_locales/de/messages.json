@@ -75,6 +75,10 @@
 		"message": "Nutzer gefunden.",
 		"description": "Message how many users have been collected. Gets prefixed the number of collected users."
 	},
+	"ui_queue_explanation": {
+		"message": "Die Accounts sind noch nicht blockiert. Um sie zu blockieren, füge sie zur Warteschlange hinzu. Sie werden dann nach und nach im Hintergrund abgearbeitet, um nicht gegen das Block-Limit von Twitter zu verstoßen.",
+		"description": "Explanation text that is displayed after collecting and before adding accounts to queue."
+	},
 	"ui_collectingUsernames": {
 		"message": "Sammle Nutzernamen ein",
 		"description": "Message that tells the user that the tool is collecting users from a list."
@@ -108,12 +112,20 @@
 		"description": "Label of the OK button"
 	},
 	"ui_confirm": {
-		"message": "Auswählen",
+		"message": "Zur Warteschlange hinzfügen",
 		"description": "Label of the confirm button"
 	},
-	"ui_external": {
-		"message": "Öffnet Block-Dienst in neuem Tab.",
-		"description": "MouseOver text that will inform the user that on ok there is opened a link in a new browser tab."
+	"ui_confirm_title": {
+		"message": "Fügt die eingesammelten Accounts zur Block-Warteschlange hinzu. Diese werden dann im Hintergrund allmählich geblockt.",
+		"description": "MouseOver text that will be shown when hovering the confirmation button."
+	},
+	"ui_confirm_clicked": {
+		"message": "Alles klar. Ich blocke dann mal... Das kann eine Weile dauern, da du sonst bei Überschreiten des Block-Limits ausgeloggt oder gesperrt werden könntest. Du findest die Warteschlange oben rechts unter dem Extension-Icon.",
+		"description": "Confirmation message that is shown after user confirmed the queueing of the collected users."
+	},
+	"ui_confirm_button_label": {
+		"message": "Fertig.",
+		"description": "Button label after user confirmed the queueing of the collected users."
 	},
 	"ui_export": {
 		"message": "Exportieren",
