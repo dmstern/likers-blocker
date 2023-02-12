@@ -7,12 +7,12 @@ const client = typeof browser === "undefined" ? chrome : browser;
 function logURL(e) {
 	for (const header of e.requestHeaders) {
 		if ((header.name = "authorization") && header.value.includes("Bearer")) {
-			console.info("🔐 saving authentication token.");
+			console.debug("🔐 saving authentication token.");
 			Storage.set(Key.authorization, header.value);
 		}
 		const re = /[0-9A-Fa-f]{160}/;
 		if ((header.name = "x-csrf-token") && re.test(header.value) && header.value.length == 160) {
-			console.log("⚙ saving csfr");
+			console.debug("⚙ saving csfr");
 			Storage.set(Key.csfr, header.value);
 		}
 	}
