@@ -26,7 +26,6 @@ async function blockTask(alarm) {
 
 	Array.from(Array(3)).forEach(async () => {
 		const user = await Storage.dequeue();
-		console.info(`blocking user ${user}`);
 
 		if (!user) {
 			return;
