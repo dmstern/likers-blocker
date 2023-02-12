@@ -2,40 +2,30 @@ import Storage from "../Storage";
 
 const client = typeof browser === "undefined" ? chrome : browser;
 
+function replaceData(dataName: string, callback: (element: HTMLElement, message: string) => void) {
+	const elements = document.querySelectorAll(`[data-${dataName}]`) as NodeListOf<HTMLElement>;
+	elements.forEach((element: HTMLElement) => {
+		const messageName = element.dataset[dataName];
+
+		if (!messageName) {
+			return;
+		}
+
+		callback(element, client.i18n.getMessage(messageName));
+	});
+}
+
 function localizeUI() {
-	const labelNodes = document.querySelectorAll("[data-label]") as NodeListOf<HTMLElement>;
-	labelNodes.forEach((element: HTMLElement) => {
-		const messageName = element.dataset.label;
-
-		if (!messageName) {
-			return;
-		}
-
-		element.innerHTML = client.i18n.getMessage(messageName);
+	replaceData("label", (element, message) => {
+		element.innerHTML = message;
 	});
 
-	const hrefNodes = document.querySelectorAll("[data-href]") as NodeListOf<HTMLElement>;
-	hrefNodes.forEach((element: HTMLElement) => {
-		const messageName = element.dataset.href;
-
-		if (!messageName) {
-			return;
-		}
-
-		const msg = client.i18n.getMessage(messageName);
-		element.setAttribute("href", msg);
+	replaceData("href", (element, message) => {
+		element.setAttribute("href", message);
 	});
 
-	const titleNodes = document.querySelectorAll("[data-title]") as NodeListOf<HTMLElement>;
-	titleNodes.forEach((element: HTMLElement) => {
-		const messageName = element.dataset.title;
-
-		if (!messageName) {
-			return;
-		}
-
-		const msg = client.i18n.getMessage(messageName);
-		element.setAttribute("title", msg);
+	replaceData("title", (element, message) => {
+		element.setAttribute("title", message);
 	});
 }
 
