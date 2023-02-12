@@ -2,7 +2,7 @@ import typescript from "@rollup/plugin-typescript";
 import { terser } from "rollup-plugin-terser";
 import sass from "rollup-plugin-sass";
 import prettier from "rollup-plugin-prettier";
-import eslint from '@rollup/plugin-eslint';
+import eslint from "@rollup/plugin-eslint";
 import copy from "rollup-plugin-copy";
 
 const targetFolder = "dist";
@@ -27,7 +27,7 @@ const plugins = {
 			singleQuote: false,
 		}),
 		eslint({
-			include: ["src/**/*.ts"]
+			include: ["src/**/*.ts"],
 		}),
 	],
 };
@@ -38,25 +38,17 @@ const config = [
 		output: {
 			...output,
 		},
-		plugins: [
-			...plugins.commons,
-			plugins.sass,
-			plugins.copy,
-		],
+		plugins: [...plugins.commons, plugins.sass, plugins.copy],
 	},
 	{
 		input: "src/background/background.ts",
 		output,
-		plugins: [
-			...plugins.commons,
-		],
+		plugins: [...plugins.commons],
 	},
 	{
 		input: "src/popup/popup.ts",
 		output,
-		plugins: [
-			...plugins.commons,
-		],
+		plugins: [...plugins.commons],
 	},
 ];
 
