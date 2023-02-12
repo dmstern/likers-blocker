@@ -11,7 +11,7 @@ Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 > In Übrigen wünsche ich mir für solche Fälle ein Twitter-Add-On, das alle Liker eines bestimmten Tweets blockt, weil es nur Arschlöcher sein können. Wer programmiert es?
 > – [10:41 am · 22 Feb. 2020](https://twitter.com/sixtus/status/1231152136857231360)
 
-In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the back-end for this tool: [https://github.com/pkreissel/ichbinhier_twittertools](https://github.com/pkreissel/ichbinhier_twittertools).
+In collaboration with [@pkreissel](https://twitter.com/pkreissel).
 
 ## Installation
 
@@ -32,15 +32,13 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel), who wrote the
 
   ![Screenshot](screenshots/likes.png)
 
-- Then click on the new button on the top which says "Block all" / "Alle Blockieren".
+- Then click on the new button on the top which says "Block all".
   ![Screenshot](screenshots/block-all-button.png)
   ![Screenshot](screenshots/collecting-usernames.png)
 - You can also chose to block all retweeters of the tweet (only direct retweeters without comment).
   ![Screenshot](screenshots/confirm.png)
-- If you use it for the first time, you will have to authorize the app to access your twitter account.
-- You get a list of all users that are about to be blocked.
-- Confirm and wait for the success message.
-- ✔ DONE. All the collected likers of the tweet are blocked. 😇
+- Confirm to add the collected users to the blocking queue.
+- ✔ DONE. LikersBlocker will process the blocking queue bit by bit in the background.
 
 ### Block all members of a list
 
@@ -133,7 +131,7 @@ We would highly appreciate if you considered donating a little tip, rate this ex
 
 ### Share
 
-[🐦 Tweet about this extension](<https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech,ichbinhier>) and tell your friends!
+[🐦 Tweet about this extension](<https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech>) and tell your friends!
 
 ### Follow us on Twitter
 
