@@ -20,11 +20,11 @@
 		"description": "Usage guide step 2"
 	},
 	"popup_usageStep3": {
-		"message": "Wenn du darauf klickst und die Aktion bestätigst, öffnet sich der Massenblock-Dienst in einem neuen Fenster.",
+		"message": "Wenn du darauf klickst, werden die Liker des Tweets ausgelesen.",
 		"description": "Usage guide step 3"
 	},
 	"popup_usageStep4": {
-		"message": "Wenn du dort noch nicht angemeldet bist, muss du dich zunächst mit deinem Twitter-Account authentifizieren.",
+		"message": "Nach dem Auslesen werden die Accounts zur Block-Warteschlange hinzugefügt und im Hintegrund blockiert.",
 		"description": "Usage guide step 4"
 	},
 	"popup_like": {
