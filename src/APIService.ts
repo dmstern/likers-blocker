@@ -4,13 +4,13 @@ const API_URL = "https://api.twitter.com/1.1/";
 
 export default class APIService {
 	static async block(screenName: string) {
-		console.log("blocking", screenName);
+		console.info("blocking", screenName);
 
 		const csrf = (await Storage.get(Key.csfr)) as string;
 		const authorization = (await Storage.get(Key.authorization)) as string;
 		const blocklist = (await Storage.getBlockedAccounts()) as string[];
 		if (blocklist.includes(screenName)) {
-			console.log("already blocked");
+			console.warn("already blocked");
 			return;
 		} else {
 			Storage.addBlocked(screenName);
