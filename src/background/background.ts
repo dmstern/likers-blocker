@@ -25,7 +25,7 @@ async function blockTask(alarm) {
 
 	console.info("⏳ starting block task...");
 
-	Array.from(Array(settings.BLOCK_ACCOUNTS_AT_ONCE)).forEach(async () => {
+	for (let i = 0; i < settings.BLOCK_ACCOUNTS_AT_ONCE; i++) {
 		const user = await Storage.dequeue();
 
 		if (!user) {
@@ -37,7 +37,8 @@ async function blockTask(alarm) {
 		if (response.status != 200) {
 			Storage.queue(user);
 		}
-	});
+		await new Promise(r => setTimeout(r, 2000));
+	}
 
 	const queue = await Storage.getQueue();
 	browser.browserAction.setBadgeText({ text: queue.length.toString() });
