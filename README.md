@@ -83,6 +83,12 @@ To test the extension locally:
 
 - Install Node.js 14.x
 
+Or, if you different node versions on your machine for different projects, you can use Node Version Manager (NVM) and run:
+
+```bash
+nvm use
+```
+
 In the repository directory, run:
 
 ```bash
