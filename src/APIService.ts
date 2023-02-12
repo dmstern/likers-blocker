@@ -4,19 +4,18 @@ const API_URL = "https://api.twitter.com/1.1/";
 
 export default class APIService {
 	static async block(screenName: string) {
-		console.info("blocking", screenName);
+		console.info(`⛔ blocking ${screenName}...`);
 
 		const csrf = (await Storage.get(Key.csfr)) as string;
 		const authorization = (await Storage.get(Key.authorization)) as string;
 		const blocklist = (await Storage.getBlockedAccounts()) as string[];
+
 		if (blocklist.includes(screenName)) {
-			console.warn("already blocked");
+			console.warn(`${screenName} is already blocked.`);
 			return;
-		} else {
-			Storage.addBlocked(screenName);
 		}
 
-		return await fetch(`${API_URL}blocks/create.json`, {
+		const response = await fetch(`${API_URL}blocks/create.json`, {
 			credentials: "include",
 			headers: {
 				"User-Agent": navigator.userAgent,
@@ -38,5 +37,12 @@ export default class APIService {
 			method: "POST",
 			mode: "cors",
 		});
+
+		if (response.status === 200) {
+			console.info("✔ user blocked.");
+			Storage.addBlocked(screenName);
+		}
+
+		return response;
 	}
 }

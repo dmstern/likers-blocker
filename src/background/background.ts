@@ -7,12 +7,12 @@ const client = typeof browser === "undefined" ? chrome : browser;
 function logURL(e) {
 	for (const header of e.requestHeaders) {
 		if ((header.name = "authorization") && header.value.includes("Bearer")) {
-			//console.log("saving token")
+			console.info("🔐 saving authentication token.");
 			Storage.set(Key.authorization, header.value);
 		}
 		const re = /[0-9A-Fa-f]{160}/;
 		if ((header.name = "x-csrf-token") && re.test(header.value) && header.value.length == 160) {
-			//console.log("saving csfr")
+			console.log("⚙ saving csfr");
 			Storage.set(Key.csfr, header.value);
 		}
 	}
@@ -23,7 +23,7 @@ async function blockTask(alarm) {
 		return;
 	}
 
-	console.info("starting block task...");
+	console.info("⏳ starting block task...");
 
 	Array.from(Array(settings.BLOCK_ACCOUNTS_AT_ONCE)).forEach(async () => {
 		const user = await Storage.dequeue();
