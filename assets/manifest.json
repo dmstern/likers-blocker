@@ -20,24 +20,12 @@
 			"css": [
 				"style.css"
 			]
-		},
-		{
-			"matches": [
-				"https://ichbinhier-twittertools.herokuapp.com/*"
-			],
-			"js": [
-				"ichbinhier.js"
-			],
-			"css": [
-				"ichbinhier.css"
-			]
 		}
 	],
 	"permissions": [
 		"https://twitter.com/*",
 		"https://api.twitter.com/*",
 		"https://mobile.twitter.com/*",
-		"https://ichbinhier-twittertools.herokuapp.com/blocklists",
 		"storage",
 		"webRequest",
 		"alarms"

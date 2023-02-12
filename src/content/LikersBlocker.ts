@@ -182,12 +182,8 @@ export default class LikersBlocker {
 		textAreas.forEach((textarea) => (textarea.value = getRequestUrl(textarea.value)));
 	}
 
-	private isListLarge = async () => {
-		return (await this.getTotalUsersCount()) > settings.SMALL_LIST_LIMIT;
-	};
-
 	private async getLimitMessage() {
-		if ((await TwitterPage.isBlockPage()) || (await this.isListLarge)) {
+		if ((await TwitterPage.isBlockPage())) {
 			return `${client.i18n.getMessage("ui_takeAMoment")}`;
 		} else {
 			return `${client.i18n.getMessage("ui_onlyListItems")}<br>${client.i18n.getMessage(
@@ -271,8 +267,6 @@ export default class LikersBlocker {
 		for (const userLink of users) {
 			const userUrl = userLink.href;
 			const userHandle = userUrl.replace("https://twitter.com/", "");
-			// const response = await APIService.block(userHandle);
-			// console.log(response);
 			this.collectedUsers.push(userHandle);
 		}
 
