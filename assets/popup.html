@@ -95,8 +95,14 @@
 			opacity: .9;
 		}
 
+		.user-info__logged-in {
+			display: flex;
+			align-items: center;
+		}
+
 		.user-info__profile-picture {
 			border-radius: 50%;
+			margin: 0 .3rem;
 		}
 
 		.stats {
@@ -302,10 +308,10 @@
 				<div class="user-info__logged-in">
 					<span data-label="popup_logged_in_as"></span>
 					<span>:&nbsp;</span>
+					<img id="profile-picture" class="user-info__profile-picture" src="https://abs.twimg.com/sticky/default_profile_images/default_profile_mini.png"
+						alt="Profile">
 					<span id="user-name" class="user-info__user-name"></span>
 				</div>
-				<img id="profile-picture" class="user-info__profile-picture" src="https://abs.twimg.com/sticky/default_profile_images/default_profile_mini.png"
-					alt="Profile">
 			</div>
 			<div class="stats">
 				<div class="stats__queue label">
