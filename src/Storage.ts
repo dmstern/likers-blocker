@@ -31,12 +31,11 @@ async function getCookie(name: string): Promise<string> {
 			.find((row) => row.startsWith(`${name}=`))
 			?.split("=")[1];
 	} else {
-		return (
-			await client.cookies.get({
-				name,
-				url: "https://twitter.com",
-			})
-		).value;
+		const cookie = await client.cookies.get({
+			name,
+			url: "https://twitter.com",
+		});
+		return cookie?.value;
 	}
 }
 
@@ -71,7 +70,7 @@ export default class Storage {
 	}
 
 	static async getLanguage(): Promise<string> {
-		return getCookie("lang");
+		return getCookie("lang") ?? "de";
 	}
 
 	static async getUserId(): Promise<string> {
