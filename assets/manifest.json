@@ -23,22 +23,20 @@
 		}
 	],
 	"permissions": [
-		"https://twitter.com/*",
-		"https://api.twitter.com/*",
-		"https://mobile.twitter.com/*",
 		"storage",
 		"webRequest",
 		"alarms",
 		"cookies"
 	],
-	"manifest_version": 2,
+	"host_permissions": [
+		"https://*.twitter.com/*",
+		"https://twitter.com/*"
+	],
+	"manifest_version": 3,
 	"background": {
-		"scripts": [
-			"background.js"
-		],
-		"persistent": true
+		"service_worker": "background.js"
 	},
-	"browser_action": {
+	"action": {
 		"default_popup": "popup.html"
 	},
 	"default_locale": "en"
