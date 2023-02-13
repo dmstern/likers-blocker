@@ -31,6 +31,14 @@
 		"message": "Logged in as",
 		"description": "Label: logged in as"
 	},
+	"popup_not-logged-in": {
+		"message": "You are not logged in.",
+		"description": "Info that the user is not logged in."
+	},
+	"popup_login": {
+		"message": "Login",
+		"description": "Link label for login."
+	},
 	"popup_like": {
 		"message": "Like",
 		"description": "Label for the Like button"

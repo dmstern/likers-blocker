@@ -55,6 +55,9 @@ async function getUserInfo() {
 		Storage.setUserInfo(userInfo);
 	}
 
+	const main = document.querySelector("main");
+	main.classList.add("logged-in");
+
 	const profilePicture = userInfo.profile_image_url_https;
 	const screeName = userInfo.screen_name;
 	const miniProfilePicture = profilePicture.replace("normal", "mini");
