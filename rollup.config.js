@@ -24,10 +24,22 @@ const plugins = {
 		output: `${chromeTargetFolder}/style.css`,
 	}),
 	copy: copy({
-		targets: [{ src: "assets/*", dest: targetFolder }],
-	}),
-	copyChrome: copy({
-		targets: [{ src: "assets/*", dest: chromeTargetFolder }],
+		targets: [
+			{ src: "assets/*", dest: targetFolder },
+			{ src: "assets/*", dest: chromeTargetFolder },
+			{
+				src: "assets/manifest.json",
+				dest: chromeTargetFolder,
+				transform: (contents, filename) => {
+					if (filename.includes("manifest.json")) {
+						const manifest = JSON.parse(contents.toString());
+						manifest.background = {
+							service_worker: "background.js",
+						};
+						return JSON.stringify(manifest, null, 2);
+					}
+				}
+			}]
 	}),
 	commons: [
 		typescript(),

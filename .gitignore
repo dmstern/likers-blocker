@@ -6,5 +6,6 @@ node_modules
 .cache
 *.map
 dist
+dist_chrome
 .idea
 secrets.js
