@@ -74,6 +74,16 @@
 		a {
 			color: inherit;
 			text-decoration: none;
+			display: inline-flex;
+			align-items: center;
+		}
+
+		a > svg {
+			margin-right: 0.5em;
+		}
+
+		.login-link {
+			margin-left: 1rem;
 		}
 
 		a:hover {
@@ -82,6 +92,23 @@
 
 		ul li {
 			margin-bottom: 0.5em;
+		}
+
+		.main__inactive-content {
+			display: flex;
+			align-items: center;
+		}
+
+		main.logged-in .main__inactive-content {
+			display: none;
+		}
+
+		.main__active-content {
+			display: none;
+		}
+
+		main.logged-in .main__active-content {
+			display: block;
 		}
 
 		.user-info {
@@ -272,12 +299,15 @@
 </head>
 
 <body class="dark-theme">
-	<main>
+
+	<header>
+
 		<img alt="Logo" class="lb-logo" src="icon48.png" />
 		<h1>Likers Blocker</h1>
 		<p data-label="extensionDescription"></p>
 
 		<details class="instructions">
+
 			<summary>
 				<span class="label">
 					<svg class="w-6 h-6 icon-question" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -295,6 +325,7 @@
 					<span data-label="popup_usage"></span>
 				</span>
 			</summary>
+
 			<ul>
 				<li data-label="popup_usageStep1"></li>
 				<li data-label="popup_usageStep2"></li>
@@ -302,14 +333,30 @@
 				<li data-label="popup_usageStep4"></li>
 			</ul>
 		</details>
+
 		<hr />
-		<div>
+
+	</header>
+
+	<main class="main">
+		<div class="main__inactive-content">
+			<span data-label="popup_not-logged-in"></span>
+			<a href="https://twitter.com/login" target="_blank" class="login-link">
+				<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+					<path d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+				</svg>
+				<span data-label="popup_login"></span>
+			</a>
+		</div>
+
+		<div class="main__active-content">
+
 			<div class="user-info">
 				<div class="user-info__logged-in">
 					<span data-label="popup_logged_in_as"></span>
 					<span>:&nbsp;</span>
-					<img id="profile-picture" class="user-info__profile-picture" src="https://abs.twimg.com/sticky/default_profile_images/default_profile_mini.png"
-						alt="Profile">
+					<img id="profile-picture" class="user-info__profile-picture"
+						src="https://abs.twimg.com/sticky/default_profile_images/default_profile_mini.png" alt="Profile">
 					<span id="user-name" class="user-info__user-name"></span>
 				</div>
 			</div>
@@ -334,28 +381,37 @@
 					<span data-label="popup_list"></span>
 				</div>
 			</div>
-		</div>
-		<div class="import-export">
-			<button class="btn" id="importBlockList">
-				<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
-					xmlns="http://www.w3.org/2000/svg">
-					<path
-						d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"
-						stroke-linecap="round" stroke-linejoin="round"></path>
-				</svg>
-				<span data-label="popup_import">Import Blocklist</span>
-			</button>
-			<button class="btn" id="downloadBlockList">
-				<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
-					xmlns="http://www.w3.org/2000/svg">
-					<path
-						d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-						stroke-linecap="round" stroke-linejoin="round"></path>
-				</svg>
-				<span data-label="popup_export">Export Blocklist</span>
-			</button>
+
+			<div class="import-export">
+
+				<button class="btn" id="importBlockList">
+					<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+						viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"
+							stroke-linecap="round" stroke-linejoin="round"></path>
+					</svg>
+					<span data-label="popup_import">Import Blocklist</span>
+				</button>
+
+				<button class="btn" id="downloadBlockList">
+					<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+						viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+							stroke-linecap="round" stroke-linejoin="round"></path>
+					</svg>
+					<span data-label="popup_export">Export Blocklist</span>
+				</button>
+
+			</div>
+
 		</div>
 		<hr />
+	</main>
+
+	<footer class="footer">
+
 		<div class="links">
 			<details class="like">
 				<summary class="like__btn btn">
@@ -400,10 +456,9 @@
 				<span data-label="popup_reportBug"></span>
 			</a>
 		</div>
-	</main>
 
-	<footer class="footer">
 		<hr />
+
 		<div class="links">
 			<a class="link" href="https://dmstern.github.io/likers-blocker" target="_blank">
 				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -440,8 +495,11 @@
 				</svg>
 			</a>
 		</div>
+
 	</footer>
+
 	<script src="popup.js"></script>
+
 </body>
 
 </html>

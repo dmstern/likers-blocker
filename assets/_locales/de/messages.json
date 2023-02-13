@@ -31,6 +31,14 @@
 		"message": "Eingeloggt als",
 		"description": "Label: logged in as"
 	},
+	"popup_not-logged-in": {
+		"message": "Du bist nicht angemeldet.",
+		"description": "Info that the user is not logged in."
+	},
+	"popup_login": {
+		"message": "Anmelden",
+		"description": "Link label for login."
+	},
 	"popup_like": {
 		"message": "Gefällt mir",
 		"description": "Label for the Like button"
