@@ -17,14 +17,19 @@ export enum Key {
 	blockingQueue = "blockingQueue",
 	blockedAccounts = "blockedAccounts",
 	acceptedLanguage = "acceptedLanguage",
-	userInfo = "userInfo"
+	userInfo = "userInfo",
+}
+
+export enum CookieName {
+	twid = "twid",
+	lang = "lang",
 }
 
 const values = {
 	today: parseInt(`${date.getFullYear()}${date.getMonth()}${date.getDate()}`),
 };
 
-async function getCookie(name: string): Promise<string> {
+async function getCookie(name: CookieName): Promise<string> {
 	if (client.cookies === undefined) {
 		return document.cookie
 			.split("; ")
@@ -40,7 +45,7 @@ async function getCookie(name: string): Promise<string> {
 }
 
 async function getIdentity(): Promise<string> {
-	const id = await getCookie("twid");
+	const id = await getCookie(CookieName.twid);
 	return id.split("D")[1] || "";
 }
 
@@ -70,7 +75,7 @@ export default class Storage {
 	}
 
 	static async getLanguage(): Promise<string> {
-		return getCookie("lang") ?? "de";
+		return getCookie(CookieName.lang) ?? "de";
 	}
 
 	static async getUserId(): Promise<string> {
@@ -78,7 +83,7 @@ export default class Storage {
 	}
 
 	static async getUserInfo(): Promise<UserInfo> {
-		return await this.get(Key.userInfo) as Promise<UserInfo>;
+		return (await this.get(Key.userInfo)) as Promise<UserInfo>;
 	}
 
 	static async getPackageVersion(): Promise<string> {
