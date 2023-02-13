@@ -15,6 +15,7 @@ export enum Key {
 	blockingQueue = "blockingQueue",
 	blockedAccounts = "blockedAccounts",
 	acceptedLanguage = "acceptedLanguage",
+	userInfo = "userInfo"
 }
 
 const values = {
@@ -43,12 +44,12 @@ async function getIdentity(): Promise<string> {
 }
 
 const storageFacade = {
-	get: async (key: Key): Promise<string | boolean | number | string[]> => {
+	get: async (key: Key): Promise<unknown> => {
 		const id = await getIdentity();
 		const value = await client.storage.local.get(id + "_" + key);
 		return value[id + "_" + key];
 	},
-	set: async (key: Key, value: string | boolean | number | string[]) => {
+	set: async (key: Key, value: unknown) => {
 		const id = await getIdentity();
 		client.storage.local.set({ [id + "_" + key]: value })?.then();
 	},
@@ -59,16 +60,20 @@ const storageFacade = {
 };
 
 export default class Storage {
-	static async get(key: Key): Promise<string | boolean | number | string[]> {
+	static async get(key: Key): Promise<unknown> {
 		return storageFacade.get(key);
 	}
 
-	static set(key: Key, value: string | boolean | number | string[]) {
+	static set(key: Key, value: unknown) {
 		storageFacade.set(key, value);
 	}
 
 	static async getLanguage(): Promise<string> {
 		return getCookie("lang");
+	}
+
+	static async getUserId() {
+		return await getIdentity();
 	}
 
 	static async getPackageVersion(): Promise<string> {
@@ -218,8 +223,4 @@ export default class Storage {
 		blocked.push(userHandle);
 		this.set(Key.blockedAccounts, blocked);
 	}
-}
-
-export enum Name {
-	lang = "lang",
 }
