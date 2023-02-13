@@ -86,6 +86,10 @@ export default class Storage {
 		return (await this.get(Key.userInfo)) as Promise<UserInfo>;
 	}
 
+	static setUserInfo(userInfo: UserInfo) {
+		this.set(Key.userInfo, userInfo);
+	}
+
 	static async getPackageVersion(): Promise<string> {
 		return storageFacade.get(Key.packageVersion) as Promise<string>;
 	}

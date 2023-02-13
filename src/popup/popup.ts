@@ -1,3 +1,4 @@
+import APIService from "../APIService";
 import Storage from "../Storage";
 
 const client = typeof browser === "undefined" ? chrome : browser;
@@ -45,7 +46,15 @@ async function getStats() {
 }
 
 async function getUserInfo() {
-	const userInfo = await Storage.getUserInfo();
+	let userInfo = await Storage.getUserInfo();
+
+	if(!userInfo) {
+		const userId = await Storage.getUserId();
+		const response = await APIService.getUserInfo(userId);
+		userInfo = await response.json();
+		Storage.setUserInfo(userInfo);
+	}
+
 	const profilePicture = userInfo.profile_image_url_https;
 	const screeName = userInfo.screen_name;
 	const miniProfilePicture = profilePicture.replace("normal", "mini");
