@@ -19,7 +19,7 @@ const output = [{
 
 const plugins = {
 	sass: sass({
-		output: (styles, styleNodes) => {
+		output: (styles) => {
 			writeFileSync(`${targetFolder}/style.css`, styles);
 			writeFileSync(`${chromeTargetFolder}/style.css`, styles);
 		}
