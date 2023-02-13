@@ -461,14 +461,13 @@ body.lb-legacy-twitter {
 		color: $color_4 !important;
 	}
 
-	// position: absolute !important;
-	// right: 0;
-	// top: 0;
 	padding: 0 2em !important;
 	text-decoration: none;
 	line-height: 1.3rem !important;
 	transition: all 500ms ease-in-out;
 	min-height: 2.5rem;
+	float: right;
+	margin-top: .5rem;
 
 	body.many & {
 		padding: 0 1.3em !important;
@@ -502,9 +501,15 @@ body.lb-legacy-twitter {
 		color: $color-success !important;
 		border-color: $color-success !important;
 
-		svg {
+		.lb-icon--check {
 			opacity: 1;
 			visibility: visible;
+		}
+
+		.lb-icon--send {
+			opacity: 0;
+			visibility: hidden;
+			width: 0;
 		}
 	}
 }

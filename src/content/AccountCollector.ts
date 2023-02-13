@@ -464,7 +464,7 @@ export default class AccountCollector {
 
 			confirmButtonLabel.innerText = client.i18n.getMessage("ui_confirm");
 			const confirmButtonIcon = document.createElement("span");
-			confirmButtonIcon.innerHTML = icons.queue;
+			confirmButtonIcon.innerHTML = icons.send;
 			const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
 			confirmButtonIconSvg && confirmButtonLabel?.parentElement?.append(confirmButtonIconSvg);
 			this.confirmButton.setAttribute("title", client.i18n.getMessage("ui_external"));
@@ -480,7 +480,7 @@ export default class AccountCollector {
 					confirmButtonLabel.innerText = client.i18n.getMessage("ui_confirm_button_label");
 
 					const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
-					confirmButtonIconSvg && confirmButtonLabel?.parentElement?.append(confirmButtonIconSvg);
+					confirmButtonIconSvg && confirmButtonLabel?.parentElement?.prepend(confirmButtonIconSvg);
 
 					this.confirmButton.addEventListener("click", async () => {
 						await this.closePopup();
