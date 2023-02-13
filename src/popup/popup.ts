@@ -44,6 +44,22 @@ async function getStats() {
 	}
 }
 
+async function getUserInfo() {
+	const userInfo = await Storage.getUserInfo();
+	const profilePicture = userInfo.profile_image_url_https;
+	const screeName = userInfo.screen_name;
+	const miniProfilePicture = profilePicture.replace("normal", "mini");
+	const profilePictureElement = document.querySelector("#profile-picture") as HTMLImageElement;
+	const userNameElement = document.querySelector("#user-name");
+
+	if (!profilePictureElement || !userNameElement) {
+		return;
+	}
+
+	profilePictureElement.src = miniProfilePicture;
+	userNameElement.innerHTML = `@${screeName}`;
+}
+
 function alignRightButton() {
 	const rightButton: HTMLElement | null = document.querySelector(".btn.issue");
 	const leftButton = rightButton?.parentElement?.children[0];
@@ -106,4 +122,5 @@ importListButton?.addEventListener("click", importBlockList);
 	localizeUI();
 	alignRightButton();
 	getStats();
+	getUserInfo();
 })();
