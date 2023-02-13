@@ -76,7 +76,7 @@ async function downloadBlockList() {
 	}
 
 	// single column CSV file
-	const csvFilename = "blocked_accounts.csv"
+	const csvFilename = "blocked_accounts.csv";
 	const file = new File([blockedAccounts.join("\n")], csvFilename, {
 		type: "text/csv",
 	});
