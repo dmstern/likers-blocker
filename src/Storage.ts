@@ -25,14 +25,14 @@ const values = {
 };
 
 async function getCookie(name: string): Promise<string> {
-	if (browser.cookies === undefined) {
+	if (client.cookies === undefined) {
 		return document.cookie
 			.split("; ")
 			.find((row) => row.startsWith(`${name}=`))
 			?.split("=")[1];
 	} else {
 		return (
-			await browser.cookies.get({
+			await client.cookies.get({
 				name,
 				url: "https://twitter.com",
 			})
@@ -42,7 +42,7 @@ async function getCookie(name: string): Promise<string> {
 
 async function getIdentity(): Promise<string> {
 	const id = await getCookie("twid");
-	return id.split("D")[1];
+	return id.split("D")[1] || "";
 }
 
 const storageFacade = {

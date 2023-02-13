@@ -49,7 +49,7 @@ async function blockTask(alarm) {
 	}
 
 	const queue = await Storage.getQueue();
-	browser.browserAction.setBadgeText({ text: queue.length.toString() });
+	client.browserAction.setBadgeText({ text: queue.length.toString() });
 }
 
 client.webRequest.onBeforeSendHeaders.addListener(logURL, { urls: ["<all_urls>"] }, ["requestHeaders"]);
