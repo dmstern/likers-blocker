@@ -13,7 +13,7 @@ const TOPBAR_SELECTOR = {
 	desktop: "[aria-labelledby=modal-header] > div > div > div > div > div > div > div > div > div",
 };
 
-export default class LikersBlocker {
+export default class AccountCollector {
 	private progressInPercent: number;
 	private uiIdleCounter: number;
 	private readonly lastCollectedUserCount: number[];
@@ -79,15 +79,15 @@ export default class LikersBlocker {
 
 	public static run(): void {
 		// for when we are on the likes page:
-		new LikersBlocker();
+		new AccountCollector();
 
 		// For every other page: try it on click again:
-		document.body.addEventListener("click", () => new LikersBlocker());
+		document.body.addEventListener("click", () => new AccountCollector());
 
 		// Create a new one on resize due to changed viewport:
 		window.addEventListener(
 			"resize",
-			debounce(() => new LikersBlocker(), 250)
+			debounce(() => new AccountCollector(), 250)
 		);
 	}
 
@@ -139,7 +139,7 @@ export default class LikersBlocker {
 		if (this.isLegacyTwitter) {
 			const likesCounterLink = await tryToAccessDOM("[data-tweet-stat-count].request-favorited-popup");
 			if (likesCounterLink) {
-				likesCounterLink.addEventListener("click", () => new LikersBlocker());
+				likesCounterLink.addEventListener("click", () => new AccountCollector());
 				return parseCountFromElement(likesCounterLink.querySelector("strong"));
 			}
 		}
@@ -691,28 +691,28 @@ export default class LikersBlocker {
 	)}">${Icons.sparkles}</a>
 				</li>
 				<li class="lb-footer__item">
-					<a class="lb-footer__link lb-footer__link--donate ${await LikersBlocker.getBadgeClass(
+					<a class="lb-footer__link lb-footer__link--donate ${await AccountCollector.getBadgeClass(
 		"donate"
 	)}" href="https://github.com/dmstern/likers-blocker#donate" target="_blank" title="${client.i18n.getMessage(
 	"popup_tip"
 )}">${Icons.gift}</a>
 				</li>
 				<li class="lb-footer__item">
-					<a class="lb-footer__link lb-footer__item--report ${await LikersBlocker.getBadgeClass(
+					<a class="lb-footer__link lb-footer__item--report ${await AccountCollector.getBadgeClass(
 		"report"
 	)}" href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank" title="${client.i18n.getMessage(
 	"popup_reportBug"
 )}">${Icons.issue}</a>
 				</li>
 				<li class="lb-footer__item">
-					<a class="lb-footer__link lb-footer__link--share ${await LikersBlocker.getBadgeClass(
+					<a class="lb-footer__link lb-footer__link--share ${await AccountCollector.getBadgeClass(
 		"share"
 	)}" href="${client.i18n.getMessage(
 	"tweet_text"
 )}" target="_blank" title="${client.i18n.getMessage("popup_share")}">${Icons.share}</a>
 				</li>
 				<li class="lb-footer__item">
-					<a class="icon--twitter lb-footer__link lb-footer__link--follow ${await LikersBlocker.getBadgeClass(
+					<a class="icon--twitter lb-footer__link lb-footer__link--follow ${await AccountCollector.getBadgeClass(
 		"follow"
 	)}" href="https://twitter.com/LikersBlocker" target="_blank" title="${client.i18n.getMessage(
 	"popup_follow"
