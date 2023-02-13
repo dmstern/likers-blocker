@@ -71,16 +71,21 @@ function alignRightButton() {
 
 async function downloadBlockList() {
 	const blockedAccounts = await Storage.getBlockedAccounts();
-	const link = document.createElement("a");
-	link.style.display = "none";
-	link.setAttribute(
-		"href",
-		"data:text/csv;charset=utf-8," + encodeURIComponent(blockedAccounts.join(",\n"))
-	);
-	link.setAttribute("download", "blocklist.csv");
-	document.body.appendChild(link);
-	link.click();
-	link.remove();
+	if (blockedAccounts.length == 0) {
+		return;
+	}
+
+	// single column CSV file
+	const csvFilename = "blocked_accounts.csv"
+	const file = new File([blockedAccounts.join("\n")], csvFilename, {
+		type: "text/csv",
+	});
+	const downloadUrl = URL.createObjectURL(file);
+	await browser.downloads.download({
+		url: downloadUrl,
+		conflictAction: "uniquify",
+		filename: csvFilename
+	});
 }
 
 async function importBlockList() {
