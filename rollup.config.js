@@ -4,6 +4,7 @@ import sass from "rollup-plugin-sass";
 import prettier from "rollup-plugin-prettier";
 import eslint from "@rollup/plugin-eslint";
 import copy from "rollup-plugin-copy";
+import { writeFileSync } from "fs";
 
 const targetFolder = "dist";
 const chromeTargetFolder = "dist_chrome";
@@ -18,10 +19,10 @@ const output = [{
 
 const plugins = {
 	sass: sass({
-		output: `${targetFolder}/style.css`,
-	}),
-	sassChrome: sass({
-		output: `${chromeTargetFolder}/style.css`,
+		output: (styles, styleNodes) => {
+			writeFileSync(`${targetFolder}/style.css`, styles);
+			writeFileSync(`${chromeTargetFolder}/style.css`, styles);
+		}
 	}),
 	copy: copy({
 		targets: [
