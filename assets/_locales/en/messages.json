@@ -36,11 +36,11 @@
 		"description": "Label for the Like button"
 	},
 	"popup_export": {
-		"message": "Exportieren Blocklist",
+		"message": "Export Blocklist",
 		"description": "Label for the export button in the popup window."
 	},
 	"popup_import": {
-		"message": "Importieren Blocklist",
+		"message": "Import Blocklist",
 		"description": "Label for the import button in the popup window."
 	},
 	"popup_donate": {
