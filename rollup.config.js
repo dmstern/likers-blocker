@@ -6,18 +6,28 @@ import eslint from "@rollup/plugin-eslint";
 import copy from "rollup-plugin-copy";
 
 const targetFolder = "dist";
+const chromeTargetFolder = "dist_chrome";
 
-const output = {
+const output = [{
 	dir: targetFolder,
 	format: "iife",
-};
+}, {
+	dir: chromeTargetFolder,
+	format: "iife",
+}];
 
 const plugins = {
 	sass: sass({
 		output: `${targetFolder}/style.css`,
 	}),
+	sassChrome: sass({
+		output: `${chromeTargetFolder}/style.css`,
+	}),
 	copy: copy({
 		targets: [{ src: "assets/*", dest: targetFolder }],
+	}),
+	copyChrome: copy({
+		targets: [{ src: "assets/*", dest: chromeTargetFolder }],
 	}),
 	commons: [
 		typescript(),
@@ -30,14 +40,13 @@ const plugins = {
 			include: ["src/**/*.ts"],
 		}),
 	],
+
 };
 
 const config = [
 	{
 		input: "src/content/index.ts",
-		output: {
-			...output,
-		},
+		output,
 		plugins: [...plugins.commons, plugins.sass, plugins.copy],
 	},
 	{
