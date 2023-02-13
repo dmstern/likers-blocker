@@ -3,9 +3,9 @@ export interface UserInfo {
 	id_str: string;
 	name: string;
 	screen_name: string;
-	location: string;
-	url: string;
-	description: string;
+	location: string | null;
+	url: string | null;
+	description: string | null;
 	protected: boolean;
 	verified: boolean;
 	followers_count: number;
