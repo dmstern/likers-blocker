@@ -1,3 +1,5 @@
+import { UserInfo } from "./UserInfo";
+
 const client = typeof browser === "undefined" ? chrome : browser;
 
 const date = new Date();
@@ -72,8 +74,12 @@ export default class Storage {
 		return getCookie("lang");
 	}
 
-	static async getUserId() {
+	static async getUserId(): Promise<string> {
 		return await getIdentity();
+	}
+
+	static async getUserInfo(): Promise<UserInfo> {
+		return await this.get(Key.userInfo) as Promise<UserInfo>;
 	}
 
 	static async getPackageVersion(): Promise<string> {
