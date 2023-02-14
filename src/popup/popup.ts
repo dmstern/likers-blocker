@@ -1,7 +1,6 @@
 import APIService from "../APIService";
 import Storage from "../Storage";
-
-const client = typeof browser === "undefined" ? chrome : browser;
+import browser from "webextension-polyfill";
 
 function replaceData(dataName: string, callback: (element: HTMLElement, message: string) => void) {
 	const elements = document.querySelectorAll(`[data-${dataName}]`) as NodeListOf<HTMLElement>;
@@ -12,7 +11,7 @@ function replaceData(dataName: string, callback: (element: HTMLElement, message:
 			return;
 		}
 
-		callback(element, client.i18n.getMessage(messageName));
+		callback(element, browser.i18n.getMessage(messageName));
 	});
 }
 
@@ -48,10 +47,11 @@ async function getStats() {
 async function getUserInfo() {
 	let userInfo = await Storage.getUserInfo();
 
+	//FIXME: this does not work anymore? cors issue :/
 	if(!userInfo || userInfo?.errors?.length) {
-		const userId = await Storage.getUserId();
-		const response = await APIService.getUserInfo(userId);
-		userInfo = await response.json();
+		const userId = await Storage.getIdentity();
+		console.log("popup userId:", userId);
+		userInfo = await APIService.getUserInfo(userId);
 		Storage.setUserInfo(userInfo);
 	}
 

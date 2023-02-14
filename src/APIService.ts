@@ -75,6 +75,8 @@ export default class APIService {
 		const requestInit = await this.getRequestInit();
 		const headers = await this.getHeaders(Method.GET);
 
+		console.debug("fetching from API:", url);
+
 		return fetch(url, {
 			...requestInit,
 			headers,
@@ -82,8 +84,13 @@ export default class APIService {
 		});
 	}
 
-	static async getUserInfo(userId: string): Promise<Response> {
-		return this.sendGetRequest({ endpoint: Endpoint.userInfo, params: { user_id: userId } });
+	static async getUserInfo(userId: string): Promise<UserInfo | undefined> {
+		if (!userId) {
+			return;
+		}
+
+		const response = this.sendGetRequest({ endpoint: Endpoint.userInfo, params: { user_id: userId } });
+		return (await response).json();
 	}
 
 	static async lookupUsersById(userIds: string[]): Promise<Response> {

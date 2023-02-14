@@ -1,5 +1,5 @@
 import typescript from "@rollup/plugin-typescript";
-import { terser } from "rollup-plugin-terser";
+// import { terser } from "rollup-plugin-terser";
 import sass from "rollup-plugin-sass";
 import prettier from "rollup-plugin-prettier";
 import eslint from "@rollup/plugin-eslint";
@@ -9,23 +9,34 @@ import { writeFileSync } from "fs";
 const targetFolder = "dist";
 const chromeTargetFolder = "dist_chrome";
 
-const output = [{
-	dir: targetFolder,
-	format: "iife",
-}, {
-	dir: chromeTargetFolder,
-	format: "iife",
-}];
+const output = [
+	{
+		dir: targetFolder,
+		format: "iife",
+		globals: {
+			"webextension-polyfill": "browser",
+		},
+	},
+	{
+		dir: chromeTargetFolder,
+		format: "iife",
+		globals: {
+			"webextension-polyfill": "chrome",
+		}
+	},
+];
 
 const plugins = {
 	sass: sass({
 		output: (styles) => {
 			writeFileSync(`${targetFolder}/style.css`, styles);
 			writeFileSync(`${chromeTargetFolder}/style.css`, styles);
-		}
+		},
 	}),
 	copy: copy({
 		targets: [
+			{ src: "node_modules/webextension-polyfill/dist/browser-polyfill.js", dest: targetFolder },
+			{ src: "node_modules/webextension-polyfill/dist/browser-polyfill.js", dest: chromeTargetFolder },
 			{ src: "assets/*", dest: targetFolder },
 			{ src: "assets/*", dest: chromeTargetFolder },
 			{
@@ -36,15 +47,17 @@ const plugins = {
 						const manifest = JSON.parse(contents.toString());
 						manifest.background = {
 							service_worker: "background.js",
+							type: "module"
 						};
 						return JSON.stringify(manifest, null, 2);
 					}
-				}
-			}]
+				},
+			},
+		],
 	}),
 	commons: [
 		typescript(),
-		terser(),
+		// terser(),
 		prettier({
 			tabWidth: 2,
 			singleQuote: false,
@@ -53,21 +66,23 @@ const plugins = {
 			include: ["src/**/*.ts"],
 		}),
 	],
-
 };
 
 const config = [
 	{
+		external: ["webextension-polyfill"],
 		input: "src/content/index.ts",
 		output,
 		plugins: [...plugins.commons, plugins.sass, plugins.copy],
 	},
 	{
+		external: ["webextension-polyfill"],
 		input: "src/background/background.ts",
 		output,
 		plugins: [...plugins.commons],
 	},
 	{
+		external: ["webextension-polyfill"],
 		input: "src/popup/popup.ts",
 		output,
 		plugins: [...plugins.commons],

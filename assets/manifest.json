@@ -15,6 +15,7 @@
 				"https://mobile.twitter.com/*"
 			],
 			"js": [
+				"browser-polyfill.js",
 				"index.js"
 			],
 			"css": [
@@ -36,6 +37,7 @@
 	"manifest_version": 3,
 	"background": {
 		"scripts": [
+			"browser-polyfill.js",
 			"background.js"
 		]
 	},

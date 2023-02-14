@@ -2,12 +2,9 @@ import Storage, { Key } from "../Storage";
 import APIService from "../APIService";
 import settings from "../settings";
 import Badge from "../Badge";
+import browser, { WebRequest } from "webextension-polyfill";
 
-const client = typeof browser === "undefined" ? chrome : browser;
-
-function logURL(
-	details: chrome.webRequest.WebRequestHeadersDetails | browser.webRequest._OnBeforeSendHeadersDetails
-): void {
+function logURL(details: WebRequest.OnBeforeSendHeadersDetailsType): void {
 	for (const header of details.requestHeaders) {
 		if (header.name === "authorization" && header.value.includes("Bearer")) {
 			console.debug("🔐 saving authentication token.");
@@ -50,14 +47,21 @@ async function blockTask(alarm) {
 	}
 }
 
-client.webRequest.onBeforeSendHeaders.addListener(logURL, { urls: ["<all_urls>"] }, ["requestHeaders"]);
+browser.webRequest.onBeforeSendHeaders.addListener(logURL, { urls: ["<all_urls>"] }, [
+	"requestHeaders",
+]);
 
-client.alarms.create("blockTask", {
+browser.alarms.create("blockTask", {
 	delayInMinutes: settings.BLOCK_DELAY_IN_MINUTES,
 	periodInMinutes: settings.BLOCK_PERIOD_IN_MINUTES,
 });
 
-client.alarms.onAlarm.addListener(blockTask);
+browser.alarms.onAlarm.addListener(blockTask);
 
-Badge.updateBadgeCount();
-Badge.setColor();
+(function () {
+	setTimeout(() => {
+		console.log("starting background.js");
+		Storage.getQueue().then((queue) => Badge.updateBadgeCount(queue.length));
+		Badge.setColor();
+	}, 5000);
+})();
