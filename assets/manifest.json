@@ -37,8 +37,7 @@
 	"background": {
 		"scripts": [
 			"background.js"
-		],
-		"persistent": true
+		]
 	},
 	"action": {
 		"default_popup": "popup.html"
