@@ -1,6 +1,7 @@
 import Storage, { Key } from "../Storage";
 import APIService from "../APIService";
 import settings from "../settings";
+import Badge from "../Badge";
 
 const client = typeof browser === "undefined" ? chrome : browser;
 
@@ -57,3 +58,5 @@ client.alarms.create("blockTask", {
 });
 
 client.alarms.onAlarm.addListener(blockTask);
+
+Badge.updateBadgeCount();
