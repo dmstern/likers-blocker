@@ -1,15 +1,14 @@
 // @ts-check
-const fs = require("fs");
-const path = require("path");
-const archiver = require("archiver");
+import { createWriteStream } from "fs";
+import archiver from "archiver";
 
 // create a file to stream archive data to.
 function createZip(target, src, isSingleFile) {
-	const output = fs.createWriteStream(target);
+	const output = createWriteStream(target);
 	const archive = archiver(
 		"zip",
 		{
-			zlib: {level: 9}, // Sets the compression level.
+			zlib: { level: 9 }, // Sets the compression level.
 		},
 	);
 
@@ -17,7 +16,7 @@ function createZip(target, src, isSingleFile) {
 	// 'close' event is fired only when a file descriptor is involved
 	output.on(
 		"close",
-		function() {
+		function () {
 			console.log(`${archive.pointer()} total bytes`);
 			console.log(
 				"archiver has been finalized and the output file descriptor has closed.",
@@ -28,7 +27,7 @@ function createZip(target, src, isSingleFile) {
 	// good practice to catch this error explicitly
 	archive.on(
 		"error",
-		function(err) {
+		function (err) {
 			throw err;
 		},
 	);
@@ -37,7 +36,7 @@ function createZip(target, src, isSingleFile) {
 	archive.pipe(output);
 
 	if (isSingleFile) {
-		archive.file(src, {name: "src.ts"});
+		archive.file(src, { name: "src.ts" });
 	} else {
 		// append files from a sub-directory, putting its contents at the root of archive
 		archive.directory(src, false);
@@ -48,5 +47,6 @@ function createZip(target, src, isSingleFile) {
 	archive.finalize();
 }
 
-createZip(path.join(__dirname, "../likers-blocker.zip"), "dist/", false);
-createZip(path.join(__dirname, "../src.zip"), "src", false);
+createZip("likers-blocker.zip", "dist/", false);
+createZip("likers-blocker_chromium.zip", "dist_chrome/", false);
+createZip("src.zip", "src", false);

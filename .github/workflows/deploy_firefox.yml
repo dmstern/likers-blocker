@@ -1,0 +1,45 @@
+name: CI	# Name of your workflow
+
+on:
+  workflow_dispatch:	# Allows you to manually trigger workflow
+  push:
+    # Triggers workflow only if code is pushed to master/main branch
+    branches: [ master, main ]
+
+jobs:
+  Firefox:	# Job name
+    name: Publish Firefox
+    runs-on: ubuntu-latest	# specify required OS for deployment machine
+
+    steps:
+    - uses: actions/checkout@v2	# Download your source code to the DM
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 16
+    - name: Build
+      run: |
+        npm run build
+        npm run postversion
+    - name: Build Extension for Firefox
+      id: web-ext-build
+      uses: kewisch/action-web-ext@v1
+      with:
+        cmd: build
+        source: dist
+        channel: unlisted
+
+    - name: 'Sign & publish'
+      id: web-ext-sign
+      uses: kewisch/action-web-ext@v1
+      with:
+        cmd: sign
+        channel: listed
+        source: ${{ steps.web-ext-build.outputs.target }}
+        apiKey: ${{ secrets.FIREFOX_API_KEY }}
+        apiSecret: ${{ secrets.FIREFOX_CLIENT_SECRET }}
+
+    - name: Drop artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: 'Firefox Artefacts'
+        path: ${{ steps.web-ext-sign.outputs.target }}
