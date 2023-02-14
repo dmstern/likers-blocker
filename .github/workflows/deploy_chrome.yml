@@ -1,0 +1,30 @@
+name: CI	# Name of your workflow
+
+on:
+  workflow_dispatch:	# Allows you to manually trigger workflow
+  push:
+    # Triggers workflow only if code is pushed to master/main branch
+    branches: [ master, main ]
+
+jobs:
+  Chrome:	# Job name
+    name: Publish Chrome
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 16
+    - name: Build
+      run: |
+        npm run build
+        npm run postversion
+    - name: Upload & release
+      uses: mnao305/chrome-extension-upload@v4.0.1
+      with:
+        file-path: likers-blocker_chromium.zip
+        extension-id: melnbpmfhaejmcpfflfjmchondkpmkcj
+        client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
+        client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        refresh-token: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
