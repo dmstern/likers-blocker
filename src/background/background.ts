@@ -5,21 +5,31 @@ import Badge from "../Badge";
 import browser, { WebRequest } from "webextension-polyfill";
 
 function logURL(details: WebRequest.OnBeforeSendHeadersDetailsType): void {
+	if (!details.requestHeaders) {
+		return;
+	}
+
 	for (const header of details.requestHeaders) {
-		if (header.name === "authorization" && header.value.includes("Bearer")) {
+		const {name, value} = header;
+
+		if (!value) {
+			continue;
+		}
+
+		if (name === "authorization" && value.includes("Bearer")) {
 			console.debug("🔐 saving authentication token.");
-			Storage.set(Key.authorization, header.value);
+			Storage.set(Key.authorization, value);
 		}
 
 		const re = /[0-9A-Fa-f]{160}/;
-		if (header.name === "x-csrf-token" && re.test(header.value) && header.value.length == 160) {
+		if (name === "x-csrf-token" && re.test(value) && value.length == 160) {
 			console.debug("⚙ saving csfr");
-			Storage.set(Key.csfr, header.value);
+			Storage.set(Key.csfr, value);
 		}
 
-		if (header.name === "Accept-Language") {
+		if (name === "Accept-Language") {
 			console.debug("🌐 saving accepted language");
-			Storage.set(Key.acceptedLanguage, header.value);
+			Storage.set(Key.acceptedLanguage, value);
 		}
 	}
 }
@@ -38,11 +48,7 @@ async function blockTask(alarm) {
 			return;
 		}
 
-		const response = await APIService.block(user);
-
-		if (response.status != 200) {
-			Storage.queue(user);
-		}
+		await APIService.block(user);
 		await new Promise((r) => setTimeout(r, 2000));
 	}
 }

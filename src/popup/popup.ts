@@ -1,6 +1,7 @@
 import APIService from "../APIService";
 import Storage from "../Storage";
 import browser from "webextension-polyfill";
+import { UserInfo } from "../UserInfo";
 
 function replaceData(dataName: string, callback: (element: HTMLElement, message: string) => void) {
 	const elements = document.querySelectorAll(`[data-${dataName}]`) as NodeListOf<HTMLElement>;
@@ -45,14 +46,17 @@ async function getStats() {
 }
 
 async function getUserInfo() {
-	let userInfo = await Storage.getUserInfo();
+	let userInfo: UserInfo | undefined = await Storage.getUserInfo();
 
 	//FIXME: this does not work anymore? cors issue :/
 	if(!userInfo || userInfo?.errors?.length) {
 		const userId = await Storage.getIdentity();
 		console.log("popup userId:", userId);
 		userInfo = await APIService.getUserInfo(userId);
-		Storage.setUserInfo(userInfo);
+
+		if (userInfo) {
+			Storage.setUserInfo(userInfo);
+		}
 	}
 
 	if (!userInfo || userInfo.errors?.length) {
@@ -60,7 +64,7 @@ async function getUserInfo() {
 	}
 
 	const main = document.querySelector("main");
-	main.classList.add("logged-in");
+	main?.classList.add("logged-in");
 
 	const profilePicture = userInfo.profile_image_url_https;
 	const screeName = userInfo.screen_name;

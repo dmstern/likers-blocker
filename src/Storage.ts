@@ -119,18 +119,18 @@ export default class Storage {
 	}
 
 	static async getLanguage(): Promise<string> {
-		let language = await this.get(Key.lang) as string;
+		let language: string | undefined = await this.get(Key.lang) as string;
 
 		if (!language) {
 			language = await Cookies.getLanguage();
-			Storage.set(Key.lang, language);
 		}
 
 		if (!language) {
 			language = browser.runtime.getManifest().default_locale;
 		}
 
-		return language;
+		Storage.set(Key.lang, language);
+		return language as string;
 	}
 
 	static async getUserInfo(): Promise<UserInfo> {

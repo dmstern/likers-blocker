@@ -36,7 +36,10 @@ async function retrieveUserInfoFromApi() {
 	console.log("content-script userId:", userId);
 	const userInfo = await APIService.getUserInfo(userId);
 	console.log("userInfo from API:", userInfo);
-	Storage.setUserInfo(userInfo);
+
+	if (userInfo) {
+		Storage.setUserInfo(userInfo);
+	}
 }
 
 setTimeout(() => {
