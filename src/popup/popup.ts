@@ -48,11 +48,15 @@ async function getStats() {
 async function getUserInfo() {
 	let userInfo = await Storage.getUserInfo();
 
-	if(!userInfo) {
+	if(!userInfo || userInfo?.errors?.length) {
 		const userId = await Storage.getUserId();
 		const response = await APIService.getUserInfo(userId);
 		userInfo = await response.json();
 		Storage.setUserInfo(userInfo);
+	}
+
+	if (!userInfo || userInfo.errors?.length) {
+		return;
 	}
 
 	const main = document.querySelector("main");

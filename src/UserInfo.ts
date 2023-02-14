@@ -20,4 +20,5 @@ export interface UserInfo {
 	default_profile_image: boolean;
 	withheld_in_countries: string[];
 	withheld_scope: string;
+	errors?: { code: number; message: string }[];
 }
