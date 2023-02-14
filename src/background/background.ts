@@ -47,9 +47,6 @@ async function blockTask(alarm) {
 		}
 		await new Promise((r) => setTimeout(r, 2000));
 	}
-
-	const queue = await Storage.getQueue();
-	client.browserAction?.setBadgeText({ text: queue.length.toString() });
 }
 
 client.webRequest.onBeforeSendHeaders.addListener(logURL, { urls: ["<all_urls>"] }, ["requestHeaders"]);
