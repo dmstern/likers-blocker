@@ -113,13 +113,13 @@ export default class Storage {
 
 		return identity as Promise<string>;
 	}
-	
+
 	static async setIdentity(userId: string) {
 		this.set(Key.userId, userId, false);
 	}
 
 	static async getLanguage(): Promise<string> {
-		let language: string | undefined = await this.get(Key.lang) as string;
+		let language: string | undefined = (await this.get(Key.lang)) as string;
 
 		if (!language) {
 			language = await Cookies.getLanguage();

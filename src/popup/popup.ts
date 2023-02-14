@@ -49,7 +49,7 @@ async function getUserInfo() {
 	let userInfo: UserInfo | undefined = await Storage.getUserInfo();
 
 	//FIXME: this does not work anymore? cors issue :/
-	if(!userInfo || userInfo?.errors?.length) {
+	if (!userInfo || userInfo?.errors?.length) {
 		const userId = await Storage.getIdentity();
 		console.log("popup userId:", userId);
 		userInfo = await APIService.getUserInfo(userId);
@@ -104,7 +104,7 @@ async function downloadBlockList() {
 	await browser.downloads.download({
 		url: downloadUrl,
 		conflictAction: "uniquify",
-		filename: csvFilename
+		filename: csvFilename,
 	});
 }
 

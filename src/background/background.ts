@@ -10,7 +10,7 @@ function logURL(details: WebRequest.OnBeforeSendHeadersDetailsType): void {
 	}
 
 	for (const header of details.requestHeaders) {
-		const {name, value} = header;
+		const { name, value } = header;
 
 		if (!value) {
 			continue;
