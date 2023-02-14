@@ -7,8 +7,8 @@ on:
     branches: [ master, main ]
 
 jobs:
-  Chrome:	# Job name
-    name: Publish Chrome
+  Publish:
+    name: Publish Package to Chrome and Edge
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +20,11 @@ jobs:
       run: |
         npm run build
         npm run postversion
-    - name: Upload & release
+    name: Publish Chrome
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Upload & release Chrome
       uses: mnao305/chrome-extension-upload@v4.0.1
       with:
         file-path: likers-blocker_chromium.zip
@@ -28,3 +32,12 @@ jobs:
         client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
         client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
         refresh-token: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+    - name: Upload & release Edge
+      run: |
+        touch .env
+        echo EDGEclientId=${{ secrets.EDGEclientId }} >> .env
+        echo EDGEclientSecret=${{ secrets.EDGEclientSecret }} >> .env
+        echo EDGEaccessTokenUrl==${{ secrets.EDGEaccessTokenUrl }} >> .env
+        npm run publish_edge
+
+    

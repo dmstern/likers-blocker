@@ -10,7 +10,8 @@
 		"lint": "eslint src/**/*.ts",
 		"fix": "eslint src/**/*.ts src/*.ts --fix",
 		"version": "node util/release.js && npm run prettier && npm run build && git add .",
-		"postversion": "node util/zip.js"
+		"postversion": "node util/zip.js",
+		"publish_edge": "node util/publish_edge.js"
 	},
 	"repository": {
 		"type": "git",
@@ -30,6 +31,7 @@
 	},
 	"homepage": "https://github.com/dmstern/likers-blocker#readme",
 	"devDependencies": {
+		"@plasmohq/edge-addons-api": "^1.1.1",
 		"@rollup/plugin-eslint": "^9.0.3",
 		"@rollup/plugin-typescript": "^11.0.0",
 		"@types/chrome": "^0.0.212",
@@ -37,6 +39,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.51.0",
 		"@typescript-eslint/parser": "^5.51.0",
 		"archiver": "^5.3.1",
+		"dotenv": "^16.0.3",
 		"eslint": "^8.34.0",
 		"eslint-plugin-prettier": "^4.2.1",
 		"mkdirp": "^2.1.3",

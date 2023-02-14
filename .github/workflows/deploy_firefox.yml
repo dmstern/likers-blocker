@@ -19,7 +19,6 @@ jobs:
     - name: Build
       run: |
         npm run build
-        npm run postversion
     - name: Build Extension for Firefox
       id: web-ext-build
       uses: kewisch/action-web-ext@v1
