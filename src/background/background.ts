@@ -60,3 +60,4 @@ client.alarms.create("blockTask", {
 client.alarms.onAlarm.addListener(blockTask);
 
 Badge.updateBadgeCount();
+Badge.setColor();
