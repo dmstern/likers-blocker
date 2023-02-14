@@ -119,9 +119,11 @@ export default class APIService {
 
 		const response = await this.sendPostRequest(Endpoint.block, this.getScreenNameBody(screenName));
 
-		if (response.status === 200) {
+		if (response.ok) {
 			console.info("✔ user blocked.");
 			Storage.addBlocked(screenName);
+		} else {
+			Storage.queue(screenName);
 		}
 
 		return response;
