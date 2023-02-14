@@ -1,7 +1,7 @@
 import Badge from "./Badge";
 import { UserInfo } from "./UserInfo";
-
-const client = typeof browser === "undefined" ? chrome : browser;
+import browser from "webextension-polyfill";
+import Cookies from "./Cookies";
 
 const date = new Date();
 
@@ -19,6 +19,8 @@ export enum Key {
 	blockedAccounts = "blockedAccounts",
 	acceptedLanguage = "acceptedLanguage",
 	userInfo = "userInfo",
+	userId = "userId",
+	lang = "lang",
 }
 
 export enum CookieName {
@@ -30,57 +32,105 @@ const values = {
 	today: parseInt(`${date.getFullYear()}${date.getMonth()}${date.getDate()}`),
 };
 
-async function getCookie(name: CookieName): Promise<string> {
-	if (client.cookies === undefined) {
-		return document.cookie
-			.split("; ")
-			.find((row) => row.startsWith(`${name}=`))
-			?.split("=")[1];
-	} else {
-		const cookie = await client.cookies.get({
-			name,
-			url: "https://twitter.com",
-		});
-		return cookie?.value;
-	}
-}
+// async function getCookie(name: CookieName): Promise<string> {
+// 	console.log("document.cookie", document.cookie);
+// 	console.log("name", name);
+// 	browser.cookies.get({
+// 		name,
+// 		url: "https://twitter.com/home",
+// 	}).then(cookie => {
+// 		console.log("then cookie", cookie);
+// 	});
 
-async function getIdentity(): Promise<string> {
-	const id = await getCookie(CookieName.twid);
-	return id.split("D")[1] || "";
-}
+// 	console.log("browser.cookies.get", );
+// 	const cookie = await browser.cookies.get({
+// 		name,
+// 		url: "https://twitter.com",
+// 	});
+// 	console.log("cookie", cookie);
+// 	return cookie?.value;
+// }
 
-const storageFacade = {
-	get: async (key: Key): Promise<unknown> => {
-		const id = await getIdentity();
-		const value = await client.storage.local.get(id + "_" + key);
-		return value[id + "_" + key];
-	},
-	set: async (key: Key, value: unknown) => {
-		const id = await getIdentity();
-		client.storage.local.set({ [id + "_" + key]: value })?.then();
-	},
-	remove: async (key: Key) => {
-		const id = await getIdentity();
-		client.storage.local.remove(id + "_" + key)?.then();
-	},
-};
+// async function getIdentity(): Promise<string | undefined> {
+// 	const id = await getCookie(CookieName.twid);
+
+// 	console.log("id", id);
+
+// 	if (!id) {
+// 		return;
+// 	}
+
+// 	return id.split("D")[1] || "";
+// }
+
+// const storageFacade = {
+// 	get: async (key: Key): Promise<unknown> => {
+// 		const id = await getIdentity();
+// 		const value = await browser.storage.local.get(id + "_" + key);
+// 		return value[id + "_" + key];
+// 	},
+// 	set: async (key: Key, value: unknown) => {
+// 		const id = await getIdentity();
+// 		browser.storage.local.set({ [id + "_" + key]: value })?.then();
+// 	},
+// 	remove: async (key: Key) => {
+// 		const id = await getIdentity();
+// 		browser.storage.local.remove(id + "_" + key)?.then();
+// 	},
+// };
 
 export default class Storage {
-	static async get(key: Key): Promise<unknown> {
-		return storageFacade.get(key);
+	private static async prefix(key: Key) {
+		const id = await this.getIdentity();
+		return `${id}_${key}`;
 	}
 
-	static async set(key: Key, value: unknown) {
-		storageFacade.set(key, value);
+	static async get(key: Key, groupedByUser = true): Promise<unknown> {
+		const storageKey = groupedByUser ? await this.prefix(key) : key;
+		const value = await browser.storage.local.get(storageKey);
+		return value[storageKey];
+	}
+
+	static async set(key: Key, value: unknown, groupedByUser = true) {
+		const storageKey = groupedByUser ? await this.prefix(key) : key;
+		browser.storage.local.set({ [storageKey]: value })?.then();
+	}
+
+	static async remove(key: Key, groupedByUser = true) {
+		const storageKey = groupedByUser ? await this.prefix(key) : key;
+		browser.storage.local.remove(storageKey)?.then();
+	}
+
+	static async getIdentity(): Promise<string> {
+		let identity = await this.get(Key.userId, false);
+		console.log("identityFromStorage", identity);
+
+		if (!identity) {
+			identity = await Cookies.getIdentity();
+			console.log("identityFrom Cookies", identity);
+			Storage.set(Key.userId, identity, false);
+		}
+
+		return identity as Promise<string>;
+	}
+	
+	static async setIdentity(userId: string) {
+		this.set(Key.userId, userId, false);
 	}
 
 	static async getLanguage(): Promise<string> {
-		return getCookie(CookieName.lang) ?? "de";
-	}
+		let language = await this.get(Key.lang) as string;
 
-	static async getUserId(): Promise<string> {
-		return await getIdentity();
+		if (!language) {
+			language = await Cookies.getLanguage();
+			Storage.set(Key.lang, language);
+		}
+
+		if (!language) {
+			language = browser.runtime.getManifest().default_locale;
+		}
+
+		return language;
 	}
 
 	static async getUserInfo(): Promise<UserInfo> {
@@ -92,57 +142,57 @@ export default class Storage {
 	}
 
 	static async getPackageVersion(): Promise<string> {
-		return storageFacade.get(Key.packageVersion) as Promise<string>;
+		return this.get(Key.packageVersion) as Promise<string>;
 	}
 
 	static async getIncludeRetweeters(): Promise<boolean> {
-		return storageFacade.get(Key.includeRetweeters) as Promise<boolean>;
+		return this.get(Key.includeRetweeters) as Promise<boolean>;
 	}
 
 	static setIncludeRetweeters(value: boolean) {
-		storageFacade.set(Key.includeRetweeters, value);
+		this.set(Key.includeRetweeters, value);
 	}
 
 	static async getHideBadgeShare(): Promise<boolean> {
-		return storageFacade.get(Key.hideBadgeShare) as Promise<boolean>;
+		return this.get(Key.hideBadgeShare) as Promise<boolean>;
 	}
 
 	static setHideBadgeShare(value: boolean) {
-		storageFacade.set(Key.hideBadgeShare, value);
+		this.set(Key.hideBadgeShare, value);
 	}
 
 	static async getHideBadgeDonate(): Promise<boolean> {
-		return storageFacade.get(Key.hideBadgeDonate) as Promise<boolean>;
+		return this.get(Key.hideBadgeDonate) as Promise<boolean>;
 	}
 
 	static setHideBadgeDonate(value: boolean) {
-		storageFacade.set(Key.hideBadgeDonate, value);
+		this.set(Key.hideBadgeDonate, value);
 	}
 
 	static async getHideBadgeFollow(): Promise<boolean> {
-		return storageFacade.get(Key.hideBadgeFollow) as Promise<boolean>;
+		return this.get(Key.hideBadgeFollow) as Promise<boolean>;
 	}
 
 	static setHideBadgeFollow(value: boolean) {
-		storageFacade.set(Key.hideBadgeFollow, value);
+		this.set(Key.hideBadgeFollow, value);
 	}
 
 	static async getHideIdleWarning(): Promise<boolean> {
-		return storageFacade.get(Key.hideIdleWarning) as Promise<boolean>;
+		return this.get(Key.hideIdleWarning) as Promise<boolean>;
 	}
 
 	static setHideIdleWarning(value: boolean) {
-		storageFacade.set(Key.hideIdleWarning, value);
+		this.set(Key.hideIdleWarning, value);
 	}
 
 	static async getInstalledNewReleaseDate(): Promise<number> {
-		const value = storageFacade.get(Key.installedNewReleaseDate);
+		const value = this.get(Key.installedNewReleaseDate);
 		const dateFromStorage = parseInt(value[Key.installedNewReleaseDate]);
 		return Number.isNaN(dateFromStorage) ? values.today : dateFromStorage;
 	}
 
 	static setInstalledNewReleaseDate(value: number) {
-		storageFacade.set(Key.installedNewReleaseDate, value);
+		this.set(Key.installedNewReleaseDate, value);
 	}
 
 	static async getIsNewRelease(): Promise<boolean> {
@@ -152,12 +202,12 @@ export default class Storage {
 
 	static async storePackageVersion() {
 		const storedVersion = await this.getPackageVersion();
-		if (storedVersion !== client.runtime.getManifest().version) {
-			storageFacade.remove(Key.hideBadgeDonate);
-			storageFacade.remove(Key.hideBadgeFollow);
-			storageFacade.remove(Key.hideBadgeShare);
+		if (storedVersion !== browser.runtime.getManifest().version) {
+			this.remove(Key.hideBadgeDonate);
+			this.remove(Key.hideBadgeFollow);
+			this.remove(Key.hideBadgeShare);
 			this.setInstalledNewReleaseDate(values.today);
-			storageFacade.set(Key.packageVersion, client.runtime.getManifest().version);
+			this.set(Key.packageVersion, browser.runtime.getManifest().version);
 		}
 	}
 
@@ -179,7 +229,7 @@ export default class Storage {
 		}
 
 		queue.push(userHandle);
-		Badge.updateBadgeCount();
+		Badge.updateBadgeCount(queue.length);
 		this.set(Key.blockingQueue, queue);
 	}
 
@@ -196,9 +246,11 @@ export default class Storage {
 			set.delete(userHandle);
 		}
 
-		this.set(Key.blockingQueue, Array.from(set));
+		const newQueue = Array.from(set);
+
+		this.set(Key.blockingQueue, newQueue);
 		//console.log("remaining: " + Array.from(set).length)
-		Badge.updateBadgeCount();
+		Badge.updateBadgeCount(newQueue.length);
 		return userHandle;
 	}
 
@@ -206,8 +258,9 @@ export default class Storage {
 		const queue: string[] = await this.getQueue();
 		const set: Set<string> = new Set<string>(queue.concat(userHandles));
 		//console.log("Queue Length: " + Array.from(set).length)
-		this.set(Key.blockingQueue, Array.from(set));
-		Badge.updateBadgeCount();
+		const newQueue = Array.from(set);
+		this.set(Key.blockingQueue, newQueue);
+		Badge.updateBadgeCount(newQueue.length);
 	}
 
 	static async queueEmpty(): Promise<boolean> {

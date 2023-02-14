@@ -1,17 +1,16 @@
-import Storage from "./Storage";
-
-const client = typeof browser === "undefined" ? chrome : browser;
+import browser from "webextension-polyfill";
 
 export default class Badge {
 	static setColor() {
-		client.action?.setBadgeBackgroundColor({color: "#e1285c"});
+		browser.action?.setBadgeBackgroundColor({color: "#e1285c"});
 	}
 
-	static async updateBadgeCount() {
+	static async updateBadgeCount(length: number) {
 		console.log("updateBadgeCount");
-		const queue = await Storage.getQueue();
-		const count = queue.length;
-		const text = count > 0 ? count.toString() : null;
-		client.action?.setBadgeText({ text: text });
+		const text = length > 0 ? length.toString() : "";
+		const details = {
+			"text": text,
+		};
+		browser.action?.setBadgeText(details);
 	}
 }
