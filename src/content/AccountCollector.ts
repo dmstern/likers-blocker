@@ -5,6 +5,7 @@ import settings from "../settings";
 import TextStyle from "./TextStyle";
 import TwitterPage, { AccountList } from "./TwitterPage";
 import Storage from "../Storage";
+// import APIService from "../APIService";
 
 const client = typeof browser === "undefined" ? chrome : browser;
 
@@ -155,31 +156,6 @@ export default class AccountCollector {
 		}
 
 		return -1;
-	}
-
-	private async addIncludeRetweetersParam(shouldIncludeRetweeters) {
-		Storage.setIncludeRetweeters(shouldIncludeRetweeters);
-
-		const confirmButtons: HTMLLinkElement[] = Array.from(
-			document.querySelectorAll(".lb-confirm-button")
-		).map((button) => button as HTMLLinkElement);
-		const textAreas: HTMLTextAreaElement[] = Array.from(document.querySelectorAll(".lb-textarea")).map(
-			(button) => button as HTMLTextAreaElement
-		);
-		const linkIncludesRetweeters = confirmButtons.every((button) => button.href.includes("tweet_id="));
-
-		if (shouldIncludeRetweeters === linkIncludesRetweeters) {
-			return;
-		}
-
-		const getRequestUrl = (currentValue: string): string => {
-			const blocklistUrl = linkIncludesRetweeters ? currentValue.split("&")[0] : currentValue;
-			const includeRetweetersParam: string = linkIncludesRetweeters ? "" : `&tweet_id=${this.tweetId}`;
-			return `${blocklistUrl}${includeRetweetersParam}`;
-		};
-
-		confirmButtons.forEach((button) => (button.href = getRequestUrl(button.href)));
-		textAreas.forEach((textarea) => (textarea.value = getRequestUrl(textarea.value)));
 	}
 
 	private async getLimitMessage() {
@@ -378,7 +354,7 @@ export default class AccountCollector {
 		this.checkbox.classList.add("lb-checkbox");
 
 		this.checkbox.addEventListener("change", () => {
-			this.addIncludeRetweetersParam(this.checkbox.checked).then();
+			Storage.setIncludeRetweeters(this.checkbox.checked);
 		});
 
 		label.innerHTML = `<span>${client.i18n.getMessage("ui_blockRetweeters")}</span>`;
@@ -468,19 +444,29 @@ export default class AccountCollector {
 			const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
 			confirmButtonIconSvg && confirmButtonLabel?.parentElement?.append(confirmButtonIconSvg);
 			this.confirmButton.setAttribute("title", client.i18n.getMessage("ui_external"));
-			this.confirmButton.setAttribute("target", "_blank");
 
 			this.confirmButton.addEventListener(
 				"click",
 				async () => {
-					this.confirmButton.classList.add("lb-confirm-button--clicked");
 					await Storage.queueMulti(this.users);
+
+					// FIXME: this does not work yet due to "CORS missing Allow Header"
+					// if (await Storage.getIncludeRetweeters()) {
+					// 	console.debug("include retweeters");
+					// 	const retweeters = await APIService.getRetweeters(this.tweetId);
+					// 	console.debug("retweeters", retweeters);
+					// 	await Storage.queueMulti(retweeters.map(user => user.screen_name));
+					// 	const queue = await Storage.getQueue();
+					// 	console.debug(queue);
+					// }
+
 					confirmInfo.innerHTML = `<p>${client.i18n.getMessage("ui_confirm_clicked")}</p>`;
 					confirmButtonIcon.innerHTML = icons.check;
 					confirmButtonLabel.innerText = client.i18n.getMessage("ui_confirm_button_label");
 
 					const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
 					confirmButtonIconSvg && confirmButtonLabel?.parentElement?.prepend(confirmButtonIconSvg);
+					this.confirmButton.classList.add("lb-confirm-button--clicked");
 
 					this.confirmButton.addEventListener("click", async () => {
 						await this.closePopup();
@@ -597,7 +583,7 @@ export default class AccountCollector {
 		console.debug("finishCollecting()");
 
 		if (this.checkbox) {
-			await this.addIncludeRetweetersParam(this.checkbox.checked);
+			Storage.setIncludeRetweeters(this.checkbox.checked);
 		}
 
 		this.stopScrolling();

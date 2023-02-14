@@ -1,14 +1,23 @@
 import Storage, { Key } from "./Storage";
+import { UserInfo } from "./UserInfo";
 const API_URL = "https://api.twitter.com/1.1/";
 
 enum Endpoint {
-	block = "blocks/create.json",
-	userInfo = "users/show.json",
+	block = "blocks/create",
+	userInfo = "users/show",
+	retweeters = "statuses/retweets",
+	lookupUsers = "users/lookup",
 }
 
 enum Method {
 	POST = "POST",
 	GET = "GET",
+}
+
+interface GetParams {
+	endpoint: Endpoint;
+	segment?: string;
+	params?: Record<string, string>;
 }
 
 export default class APIService {
@@ -47,7 +56,7 @@ export default class APIService {
 		};
 	}
 
-	private static async postRequest(endpoint: Endpoint, body: string) {
+	private static async sendPostRequest(endpoint: Endpoint, body: string) {
 		const requestInit = await this.getRequestInit();
 		const headers = await this.getHeaders(Method.POST);
 
@@ -59,9 +68,10 @@ export default class APIService {
 		});
 	}
 
-	static async getRequest(endpoint: Endpoint, params: Record<string, string>) {
+	private static async sendGetRequest({ endpoint, segment, params }: GetParams) {
 		const searchParams = new URLSearchParams(params);
-		const url = new URL(`${API_URL}${endpoint}?${searchParams}`);
+		const segmentString = segment ? `/${segment}` : "";
+		const url = new URL(`${API_URL}${endpoint}${segmentString}.json?${searchParams}`);
 		const requestInit = await this.getRequestInit();
 		const headers = await this.getHeaders(Method.GET);
 
@@ -72,11 +82,25 @@ export default class APIService {
 		});
 	}
 
-	static async getUserInfo(userId: string) {
-		return this.getRequest(Endpoint.userInfo, { user_id: userId });
+	static async getUserInfo(userId: string): Promise<Response> {
+		return this.sendGetRequest({ endpoint: Endpoint.userInfo, params: { user_id: userId } });
 	}
 
-	static async block(screenName: string) {
+	static async lookupUsersById(userIds: string[]): Promise<Response> {
+		return this.sendGetRequest({
+			endpoint: Endpoint.lookupUsers,
+			params: { user_id: userIds.join(",") },
+		});
+	}
+
+	static async lookupUsersByScreenName(screenNames: string[]): Promise<Response> {
+		return this.sendGetRequest({
+			endpoint: Endpoint.lookupUsers,
+			params: { screen_name: screenNames.join(",") },
+		});
+	}
+
+	static async block(screenName: string): Promise<Response | undefined> {
 		console.info(`⛔ blocking ${screenName}...`);
 
 		const blocklist = (await Storage.getBlockedAccounts()) as string[];
@@ -86,7 +110,7 @@ export default class APIService {
 			return;
 		}
 
-		const response = await this.postRequest(Endpoint.block, this.getScreenNameBody(screenName));
+		const response = await this.sendPostRequest(Endpoint.block, this.getScreenNameBody(screenName));
 
 		if (response.status === 200) {
 			console.info("✔ user blocked.");
@@ -94,5 +118,21 @@ export default class APIService {
 		}
 
 		return response;
+	}
+
+	static async getRetweeters(tweetId: string): Promise<UserInfo[]> {
+		// TODO: add pagination
+		const response = await this.sendGetRequest({
+			endpoint: Endpoint.retweeters,
+			segment: tweetId,
+		});
+
+		return new Promise((resolve, reject) => {
+			if (!response.ok) {
+				reject();
+			}
+
+			response.json().then((userInfos) => resolve(userInfos));
+		});
 	}
 }
