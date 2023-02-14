@@ -1,3 +1,4 @@
+import Badge from "./Badge";
 import { UserInfo } from "./UserInfo";
 
 const client = typeof browser === "undefined" ? chrome : browser;
@@ -67,20 +68,11 @@ const storageFacade = {
 
 export default class Storage {
 	static async get(key: Key): Promise<unknown> {
-
-		if (key === Key.blockingQueue) {
-			this.updateBadgeCount();
-		}
-
 		return storageFacade.get(key);
 	}
 
 	static async set(key: Key, value: unknown) {
 		storageFacade.set(key, value);
-
-		if (key === Key.blockingQueue) {
-			this.updateBadgeCount();
-		}
 	}
 
 	static async getLanguage(): Promise<string> {
@@ -187,6 +179,7 @@ export default class Storage {
 		}
 
 		queue.push(userHandle);
+		Badge.updateBadgeCount();
 		this.set(Key.blockingQueue, queue);
 	}
 
@@ -205,6 +198,7 @@ export default class Storage {
 
 		this.set(Key.blockingQueue, Array.from(set));
 		//console.log("remaining: " + Array.from(set).length)
+		Badge.updateBadgeCount();
 		return userHandle;
 	}
 
@@ -213,6 +207,7 @@ export default class Storage {
 		const set: Set<string> = new Set<string>(queue.concat(userHandles));
 		//console.log("Queue Length: " + Array.from(set).length)
 		this.set(Key.blockingQueue, Array.from(set));
+		Badge.updateBadgeCount();
 	}
 
 	static async queueEmpty(): Promise<boolean> {
@@ -245,11 +240,5 @@ export default class Storage {
 
 		blocked.push(userHandle);
 		this.set(Key.blockedAccounts, blocked);
-	}
-
-	static async updateBadgeCount() {
-		console.log("updateBadgeCount");
-		const queue = await this.getQueue();
-		client.action.setBadgeText({ text: queue.length.toString() });
 	}
 }
