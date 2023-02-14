@@ -31,7 +31,7 @@
 		"message": "Logged in as",
 		"description": "Label: logged in as"
 	},
-	"popup_not-logged-in": {
+	"popup_not_logged_in": {
 		"message": "You are not logged in.",
 		"description": "Info that the user is not logged in."
 	},
