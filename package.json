@@ -34,8 +34,7 @@
 		"@plasmohq/edge-addons-api": "^1.1.1",
 		"@rollup/plugin-eslint": "^9.0.3",
 		"@rollup/plugin-typescript": "^11.0.0",
-		"@types/chrome": "^0.0.212",
-		"@types/firefox-webext-browser": "^109.0.0",
+		"@types/webextension-polyfill": "^0.10.0",
 		"@typescript-eslint/eslint-plugin": "^5.51.0",
 		"@typescript-eslint/parser": "^5.51.0",
 		"archiver": "^5.3.1",
@@ -50,8 +49,10 @@
 		"rollup-plugin-sass": "^1.12.17",
 		"rollup-plugin-terser": "^7.0.2",
 		"tslib": "^2.5.0",
-		"typescript": "^4.9.5",
-		"webextension-polyfill-ts": "^0.20.0"
+		"typescript": "^4.9.5"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"webextension-polyfill": "^0.10.0"
+	}
 }
