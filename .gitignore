@@ -9,3 +9,4 @@ dist
 dist_chrome
 .idea
 secrets.js
+.env
