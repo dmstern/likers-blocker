@@ -67,11 +67,20 @@ const storageFacade = {
 
 export default class Storage {
 	static async get(key: Key): Promise<unknown> {
+
+		if (key === Key.blockingQueue) {
+			this.updateBadgeCount();
+		}
+
 		return storageFacade.get(key);
 	}
 
-	static set(key: Key, value: unknown) {
+	static async set(key: Key, value: unknown) {
 		storageFacade.set(key, value);
+
+		if (key === Key.blockingQueue) {
+			this.updateBadgeCount();
+		}
 	}
 
 	static async getLanguage(): Promise<string> {
@@ -236,5 +245,11 @@ export default class Storage {
 
 		blocked.push(userHandle);
 		this.set(Key.blockedAccounts, blocked);
+	}
+
+	static async updateBadgeCount() {
+		console.log("updateBadgeCount");
+		const queue = await this.getQueue();
+		client.action.setBadgeText({ text: queue.length.toString() });
 	}
 }
