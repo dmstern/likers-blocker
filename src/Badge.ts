@@ -8,6 +8,6 @@ export default class Badge {
 		const queue = await Storage.getQueue();
 		const count = queue.length;
 		const text = count > 0 ? count.toString() : null;
-		client.action.setBadgeText({ text: text });
+		client.action?.setBadgeText({ text: text });
 	}
 }
