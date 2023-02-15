@@ -42,13 +42,18 @@ async function blockTask(alarm) {
 	console.info("⏳ starting block task...");
 
 	for (let i = 0; i < settings.BLOCK_ACCOUNTS_AT_ONCE; i++) {
-		const user = await Storage.dequeue();
 
-		if (!user) {
-			return;
+		const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+		for (const tab of tabs) {
+			if (tab.url.includes("twitter.com")) {
+				const user = await Storage.dequeue();
+				if (!user) {
+					return;
+				}
+				await browser.tabs.sendMessage(tab.id, { action: "block", user });
+				break;
+			}
 		}
-
-		await APIService.block(user);
 		await new Promise((r) => setTimeout(r, 2000));
 	}
 }

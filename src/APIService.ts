@@ -3,7 +3,7 @@ import { UserInfo } from "./UserInfo";
 const API_URL = "https://api.twitter.com/1.1/";
 
 enum Endpoint {
-	block = "blocks/create",
+	block = "blocks/create.json",
 	userInfo = "users/show",
 	retweeters = "statuses/retweets",
 	lookupUsers = "users/lookup",
@@ -30,11 +30,13 @@ export default class APIService {
 		const authorization = (await Storage.get(Key.authorization)) as string;
 		const acceptedLanguage = (await Storage.get(Key.acceptedLanguage)) as string;
 		const lang = await Storage.getLanguage();
+		console.log("authorization " + authorization);
+		console.log(acceptedLanguage);
 
 		return {
 			"User-Agent": navigator.userAgent,
 			Accept: "*/*",
-			"Accept-Language": acceptedLanguage,
+			"Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
 			"Content-Type": method === Method.POST ? "application/x-www-form-urlencoded" : "application/json",
 			"x-twitter-auth-type": "OAuth2Session",
 			"x-twitter-client-language": lang,

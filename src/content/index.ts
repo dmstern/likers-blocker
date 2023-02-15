@@ -7,6 +7,29 @@ import "./style.scss";
 import Cookies from "../Cookies";
 import APIService from "../APIService";
 
+//listen to messages from background
+browser.runtime.onMessage.addListener((message) => {
+	console.log("message from background", message);
+	if (message.action === "get-user-info") {
+		return Storage.getUserInfo().then((userInfo) => {
+			if (userInfo) {
+				return Promise.resolve({ userInfo });
+			} else {
+				return retrieveUserInfoFromApi().then((userInfo) => {
+					return Promise.resolve({ userInfo });
+				});
+			}
+		});
+	}
+	if (message.action === "block") {
+		console.log("block user", message.user);
+		const user = message.user;
+		return APIService.block(user).then(() => {
+			return Promise.resolve({ blockDispatch: true });
+		});
+	}
+});
+
 AccountCollector.run();
 
 // TODO: get cookies from content and store userId from cookies in storage for background and popup??
@@ -39,6 +62,7 @@ async function retrieveUserInfoFromApi() {
 
 	if (userInfo) {
 		Storage.setUserInfo(userInfo);
+		return userInfo;
 	}
 }
 
