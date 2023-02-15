@@ -18,6 +18,7 @@ interface GetParams {
 	endpoint: Endpoint;
 	segment?: string;
 	params?: Record<string, string>;
+	preventPreflight?: boolean;
 }
 
 export default class APIService {
@@ -25,19 +26,30 @@ export default class APIService {
 		return `screen_name=${screenName}`;
 	}
 
-	private static async getHeaders(method: Method) {
+	private static async getHeaders(method: Method, preventPreflight = false): Promise<HeadersInit> {
 		const csrf = (await Storage.get(Key.csfr)) as string;
 		const authorization = (await Storage.get(Key.authorization)) as string;
 		const acceptedLanguage = (await Storage.get(Key.acceptedLanguage)) as string;
 		const lang = await Storage.getLanguage();
 		console.log("authorization " + authorization);
+		if (!csrf || !authorization) {
+			throw new Error("CSRF or Authorization not set");
+		}
 		console.log(acceptedLanguage);
-
+		console.log("Prevent Preflight: " + preventPreflight);
+		const ContentType = method === Method.POST ? "application/x-www-form-urlencoded" : "application/json";
+		if (preventPreflight) {
+			return {
+				"Content-Type": "text/plain",
+				authorization: authorization,
+			};
+		}
+		console.log(ContentType);
 		return {
 			"User-Agent": navigator.userAgent,
 			Accept: "*/*",
-			"Accept-Language": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
-			"Content-Type": method === Method.POST ? "application/x-www-form-urlencoded" : "application/json",
+			"Accept-Language": acceptedLanguage ?? "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
+			"Content-Type": ContentType,
 			"x-twitter-auth-type": "OAuth2Session",
 			"x-twitter-client-language": lang,
 			"x-twitter-active-user": "yes",
@@ -70,17 +82,16 @@ export default class APIService {
 		});
 	}
 
-	private static async sendGetRequest({ endpoint, segment, params }: GetParams) {
+	private static async sendGetRequest({ endpoint, segment, params, preventPreflight }: GetParams) {
 		const searchParams = new URLSearchParams(params);
 		const segmentString = segment ? `/${segment}` : "";
 		const url = new URL(`${API_URL}${endpoint}${segmentString}.json?${searchParams}`);
-		const requestInit = await this.getRequestInit();
-		const headers = await this.getHeaders(Method.GET);
+		//const requestInit = await this.getRequestInit();
+		const headers = await this.getHeaders(Method.GET, preventPreflight || false);
 
 		console.debug("fetching from API:", url);
 
 		return fetch(url, {
-			...requestInit,
 			headers,
 			method: "GET",
 		});
@@ -91,7 +102,7 @@ export default class APIService {
 			return;
 		}
 
-		const response = this.sendGetRequest({ endpoint: Endpoint.userInfo, params: { user_id: userId } });
+		const response = this.sendGetRequest({ endpoint: Endpoint.userInfo, params: { user_id: userId }, preventPreflight: true });
 		return (await response).json();
 	}
 
