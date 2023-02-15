@@ -1,4 +1,4 @@
-// import browser from "webextension-polyfill";
+import browser from "webextension-polyfill";
 import { Key } from "../Storage";
 import AccountCollector from "./AccountCollector";
 import Storage from "../Storage";
