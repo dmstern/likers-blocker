@@ -138,6 +138,7 @@ export default class Storage {
 	}
 
 	static setUserInfo(userInfo: UserInfo) {
+		if (userInfo.errors) { return; }
 		this.set(Key.userInfo, userInfo);
 	}
 
