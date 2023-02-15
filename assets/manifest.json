@@ -10,9 +10,6 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"https://twitter.com/*",
-				"https://api.twitter.com/*",
-				"https://mobile.twitter.com/*",
 				"*://*.twitter.com/"
 			],
 			"js": [
@@ -27,16 +24,14 @@
 	"permissions": [
 		"storage",
 		"webRequest",
+		"webRequestBlocking",
 		"alarms",
 		"cookies",
 		"downloads",
 		"tabs"
 	],
 	"host_permissions": [
-		"https://*.twitter.com/*",
-		"https://twitter.com/*",
-		"https://api.twitter.com/*",
-		"*://*.twitter.com/"
+		"https://*.twitter.com/*"
 	],
 	"manifest_version": 3,
 	"background": {
@@ -49,7 +44,7 @@
 		"default_popup": "popup.html"
 	},
 	"content_security_policy": {
-		"extension_pages": "default-src 'self' https://api.twitter.com; object-src 'self' data:i; connect-src 'self' https://api.twitter.com https://twitter.com/; img-src 'self' https://pbs.twimg.com https://abs.twimg.com; font-src https://fonts.gstatic.com;style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; prefetch-src 'self' https://api.twitter.com"
+		"extension_pages": "default-src 'self' https://api.twitter.com; script-src 'self'; object-src 'self'; connect-src 'self' https://api.twitter.com https://twitter.com/; img-src 'self' https://pbs.twimg.com https://abs.twimg.com; font-src https://fonts.gstatic.com;style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;"
 	},
 	"default_locale": "en"
 }

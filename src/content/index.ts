@@ -12,7 +12,7 @@ browser.runtime.onMessage.addListener((message) => {
 	console.log("message from background", message);
 	if (message.action === "get-user-info") {
 		return Storage.getUserInfo().then((userInfo) => {
-			if (userInfo) {
+			if (userInfo && userInfo.screen_name) {
 				return Promise.resolve({ userInfo });
 			} else {
 				return retrieveUserInfoFromApi().then((userInfo) => {
