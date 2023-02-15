@@ -1,6 +1,8 @@
 import Storage from "../Storage";
 import browser from "webextension-polyfill";
 import { UserInfo } from "../UserInfo";
+import { Action } from "../Messages";
+import { getTwitterTab } from "../Tabs";
 
 function replaceData(dataName: string, callback: (element: HTMLElement, message: string) => void) {
 	const elements = document.querySelectorAll(`[data-${dataName}]`) as NodeListOf<HTMLElement>;
@@ -49,9 +51,8 @@ async function getUserInfo() {
 
 	if (!userInfo || userInfo?.errors?.length) {
 		//send request to get user info to other tab
-		const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-		const twitterTab = tabs.find(tab => tab.url.includes("twitter.com"));
-		const response = await browser.tabs.sendMessage(twitterTab.id, { action: "get-user-info" });
+		const twitterTab = await getTwitterTab();
+		const response = await browser.tabs.sendMessage(twitterTab.id, { action: Action.getUserInfo });
 		console.log(response);
 		userInfo = response.userInfo;
 	}

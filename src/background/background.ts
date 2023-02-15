@@ -2,6 +2,8 @@ import Storage, { Key } from "../Storage";
 import settings from "../settings";
 import Badge from "../Badge";
 import browser, { WebRequest } from "webextension-polyfill";
+import { Action } from "../Messages";
+import { getTwitterTab } from "../Tabs";
 
 function logURL(details: WebRequest.OnBeforeSendHeadersDetailsType): void {
 	if (!details.requestHeaders) {
@@ -41,18 +43,14 @@ async function blockTask(alarm) {
 	console.info("⏳ starting block task...");
 
 	for (let i = 0; i < settings.BLOCK_ACCOUNTS_AT_ONCE; i++) {
+		const twitterTab = await getTwitterTab();
+		const user = await Storage.dequeue();
 
-		const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-		for (const tab of tabs) {
-			if (tab.url.includes("twitter.com")) {
-				const user = await Storage.dequeue();
-				if (!user) {
-					return;
-				}
-				await browser.tabs.sendMessage(tab.id, { action: "block", user });
-				break;
-			}
+		if (!user) {
+			return;
 		}
+
+		await browser.tabs.sendMessage(twitterTab.id, { action: Action.block, user });
 		await new Promise((r) => setTimeout(r, 2000));
 	}
 }
