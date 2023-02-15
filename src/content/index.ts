@@ -6,11 +6,13 @@ import Storage from "../Storage";
 import "./style.scss";
 import Cookies from "../Cookies";
 import APIService from "../APIService";
+import { Action } from "../Messages";
 
 //listen to messages from background
 browser.runtime.onMessage.addListener((message) => {
 	console.log("message from background", message);
-	if (message.action === "get-user-info") {
+
+	if (message.action === Action.getUserInfo) {
 		return Storage.getUserInfo().then((userInfo) => {
 			if (userInfo && userInfo.screen_name) {
 				return Promise.resolve({ userInfo });
@@ -21,7 +23,8 @@ browser.runtime.onMessage.addListener((message) => {
 			}
 		});
 	}
-	if (message.action === "block") {
+
+	if (message.action === Action.block) {
 		console.log("block user", message.user);
 		const user = message.user;
 		return APIService.block(user).then(() => {
