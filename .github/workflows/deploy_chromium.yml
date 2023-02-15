@@ -20,10 +20,6 @@ jobs:
       run: |
         npm run build
         npm run postversion
-    name: Publish Chrome
-    runs-on: ubuntu-latest
-
-    steps:
     - name: Upload & release Chrome
       uses: mnao305/chrome-extension-upload@v4.0.1
       with:
