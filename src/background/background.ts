@@ -1,5 +1,4 @@
 import Storage, { Key } from "../Storage";
-import APIService from "../APIService";
 import settings from "../settings";
 import Badge from "../Badge";
 import browser, { WebRequest } from "webextension-polyfill";
