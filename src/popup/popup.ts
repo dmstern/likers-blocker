@@ -47,18 +47,13 @@ async function getStats() {
 async function getUserInfo() {
 	let userInfo: UserInfo | undefined = await Storage.getUserInfo();
 
-	//FIXME: this does not work anymore? cors issue :/
 	if (!userInfo || userInfo?.errors?.length) {
 		//send request to get user info to other tab
 		const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-		for (const tab of tabs) {
-			if (tab.url.includes("twitter.com")) {
-				const response = await browser.tabs.sendMessage(tab.id, { action: "get-user-info" });
-				console.log(response);
-				userInfo = response.userInfo;
-				break;
-			}
-		}
+		const twitterTab = tabs.find(tab => tab.url.includes("twitter.com"));
+		const response = await browser.tabs.sendMessage(twitterTab.id, { action: "get-user-info" });
+		console.log(response);
+		userInfo = response.userInfo;
 	}
 
 	if (!userInfo || userInfo.errors?.length) {
