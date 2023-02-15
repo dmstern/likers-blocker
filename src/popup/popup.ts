@@ -1,4 +1,3 @@
-import APIService from "../APIService";
 import Storage from "../Storage";
 import browser from "webextension-polyfill";
 import { UserInfo } from "../UserInfo";
@@ -50,12 +49,15 @@ async function getUserInfo() {
 
 	//FIXME: this does not work anymore? cors issue :/
 	if (!userInfo || userInfo?.errors?.length) {
-		const userId = await Storage.getIdentity();
-		console.log("popup userId:", userId);
-		userInfo = await APIService.getUserInfo(userId);
-
-		if (userInfo) {
-			Storage.setUserInfo(userInfo);
+		//send request to get user info to other tab
+		const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+		for (const tab of tabs) {
+			if (tab.url.includes("twitter.com")) {
+				const response = await browser.tabs.sendMessage(tab.id, { action: "get-user-info" });
+				console.log(response);
+				userInfo = response.userInfo;
+				break;
+			}
 		}
 	}
 

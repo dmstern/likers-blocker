@@ -12,7 +12,8 @@
 			"matches": [
 				"https://twitter.com/*",
 				"https://api.twitter.com/*",
-				"https://mobile.twitter.com/*"
+				"https://mobile.twitter.com/*",
+				"*://*.twitter.com/"
 			],
 			"js": [
 				"browser-polyfill.js",
@@ -28,11 +29,14 @@
 		"webRequest",
 		"alarms",
 		"cookies",
-		"downloads"
+		"downloads",
+		"tabs"
 	],
 	"host_permissions": [
 		"https://*.twitter.com/*",
-		"https://twitter.com/*"
+		"https://twitter.com/*",
+		"https://api.twitter.com/*",
+		"*://*.twitter.com/"
 	],
 	"manifest_version": 3,
 	"background": {
@@ -43,6 +47,9 @@
 	},
 	"action": {
 		"default_popup": "popup.html"
+	},
+	"content_security_policy": {
+		"extension_pages": "default-src 'self'; connect-src 'self' https://api.twitter.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://pbs.twimg.com"
 	},
 	"default_locale": "en"
 }
