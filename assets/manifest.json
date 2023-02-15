@@ -12,7 +12,8 @@
 			"matches": [
 				"https://twitter.com/*",
 				"https://api.twitter.com/*",
-				"https://mobile.twitter.com/*"
+				"https://mobile.twitter.com/*",
+				"*://*.twitter.com/"
 			],
 			"js": [
 				"browser-polyfill.js",
@@ -28,11 +29,13 @@
 		"webRequest",
 		"alarms",
 		"cookies",
-		"downloads"
+		"downloads",
+		"tabs"
 	],
 	"host_permissions": [
 		"https://*.twitter.com/*",
-		"https://twitter.com/*"
+		"https://twitter.com/*",
+		"*://*.twitter.com/"
 	],
 	"manifest_version": 3,
 	"background": {
@@ -43,6 +46,9 @@
 	},
 	"action": {
 		"default_popup": "popup.html"
+	},
+	"content_security_policy": {
+		"extension_pages": "default-src 'self'"
 	},
 	"default_locale": "en"
 }
