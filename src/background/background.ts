@@ -50,7 +50,10 @@ async function blockTask(alarm) {
 			return;
 		}
 
-		await browser.tabs.sendMessage(twitterTab.id, { action: Action.block, user });
+		if (twitterTab) {
+			await browser.tabs.sendMessage(twitterTab.id, { action: Action.block, user });
+		}
+
 		await new Promise((r) => setTimeout(r, 2000));
 	}
 }

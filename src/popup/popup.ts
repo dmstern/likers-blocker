@@ -52,9 +52,12 @@ async function getUserInfo() {
 	if (!userInfo || userInfo?.errors?.length) {
 		//send request to get user info to other tab
 		const twitterTab = await getTwitterTab();
-		const response = await browser.tabs.sendMessage(twitterTab.id, { action: Action.getUserInfo });
-		console.log(response);
-		userInfo = response.userInfo;
+
+		if (twitterTab) {
+			const response = await browser.tabs.sendMessage(twitterTab.id, { action: Action.getUserInfo });
+			console.log(response);
+			userInfo = response.userInfo;
+		}
 	}
 
 	if (!userInfo || userInfo.errors?.length) {
