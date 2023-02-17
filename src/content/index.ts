@@ -1,4 +1,4 @@
-import browser from "webextension-polyfill";
+import { runtime } from "webextension-polyfill";
 import AccountCollector from "./AccountCollector";
 import Storage from "../Storage";
 
@@ -7,7 +7,7 @@ import APIService from "../APIService";
 import { Action } from "../Messages";
 
 //listen to messages from background
-browser.runtime.onMessage.addListener((message) => {
+runtime.onMessage.addListener((message) => {
 	console.log("message from background", message);
 
 	if (message.action === Action.getUserInfo) {

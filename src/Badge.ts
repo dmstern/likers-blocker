@@ -1,8 +1,8 @@
-import browser from "webextension-polyfill";
+import { action } from "webextension-polyfill";
 
 export default class Badge {
 	static setColor() {
-		browser.action?.setBadgeBackgroundColor({ color: "#e1285c" });
+		action?.setBadgeBackgroundColor({ color: "#e1285c" });
 	}
 
 	static async updateBadgeCount(length: number) {
@@ -11,6 +11,6 @@ export default class Badge {
 		const details = {
 			text: text,
 		};
-		browser.action?.setBadgeText(details);
+		action?.setBadgeText(details);
 	}
 }

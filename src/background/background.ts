@@ -1,6 +1,6 @@
 import Storage from "../Storage";
 import Badge from "../Badge";
-import browser, { WebRequest } from "webextension-polyfill";
+import { webRequest, runtime, WebRequest, tabs, alarms } from "webextension-polyfill";
 import { Action } from "../Messages";
 import { getTwitterTab } from "../Tabs";
 
@@ -54,7 +54,7 @@ async function blockTask(alarm) {
 			return;
 		}
 
-		browser.runtime.sendMessage({
+		runtime.sendMessage({
 			action: Action.queueUpdate,
 			dequeuedUser: user,
 			queueLength,
@@ -62,7 +62,7 @@ async function blockTask(alarm) {
 		});
 
 		if (twitterTab) {
-			await browser.tabs.sendMessage(twitterTab.id, { action: Action.block, user });
+			await tabs.sendMessage(twitterTab.id, { action: Action.block, user });
 		}
 
 		await new Promise((r) => setTimeout(r, intervalBetweenBlockAccounts));
@@ -70,18 +70,18 @@ async function blockTask(alarm) {
 }
 
 function interceptTwitterRequests() {	
-	browser.webRequest.onBeforeSendHeaders.addListener(logURL, { urls: ["<all_urls>"] }, [
+	webRequest.onBeforeSendHeaders.addListener(logURL, { urls: ["<all_urls>"] }, [
 		"requestHeaders",
 	]);
 }
 
 async function createBlockAlarm() {
-	browser.alarms.create("blockTask", {
+	alarms.create("blockTask", {
 		delayInMinutes: await Storage.getBlockDelayInMinutes(),
 		periodInMinutes: await Storage.getBlockPeriodInMinutes(),
 	});
 
-	browser.alarms.onAlarm.addListener(blockTask);
+	alarms.onAlarm.addListener(blockTask);
 }
 
 (function () {

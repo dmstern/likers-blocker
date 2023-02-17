@@ -1,6 +1,6 @@
 import Badge from "./Badge";
 import { UserInfo } from "./UserInfo";
-import browser from "webextension-polyfill";
+import { storage, runtime } from "webextension-polyfill";
 import Cookies from "./Cookies";
 import settings from "./settings";
 
@@ -40,18 +40,18 @@ export default class Storage {
 
 	private static async get(key: Key, groupedByUser = true): Promise<unknown> {
 		const storageKey = groupedByUser ? await this.prefix(key) : key;
-		const value = await browser.storage.local.get(storageKey);
+		const value = await storage.local.get(storageKey);
 		return value[storageKey];
 	}
 
 	private static async set(key: Key, value: unknown, groupedByUser = true) {
 		const storageKey = groupedByUser ? await this.prefix(key) : key;
-		browser.storage.local.set({ [storageKey]: value })?.then();
+		storage.local.set({ [storageKey]: value })?.then();
 	}
 
 	private static async remove(key: Key, groupedByUser = true) {
 		const storageKey = groupedByUser ? await this.prefix(key) : key;
-		browser.storage.local.remove(storageKey)?.then();
+		storage.local.remove(storageKey)?.then();
 	}
 
 	static async getIdentity(): Promise<string> {
@@ -79,7 +79,7 @@ export default class Storage {
 		}
 
 		if (!language) {
-			language = browser.runtime.getManifest().default_locale;
+			language = runtime.getManifest().default_locale;
 		}
 
 		Storage.set(Key.lang, language);
@@ -183,12 +183,12 @@ export default class Storage {
 
 	static async storePackageVersion() {
 		const storedVersion = await this.getPackageVersion();
-		if (storedVersion !== browser.runtime.getManifest().version) {
+		if (storedVersion !== runtime.getManifest().version) {
 			this.remove(Key.hideBadgeDonate);
 			this.remove(Key.hideBadgeFollow);
 			this.remove(Key.hideBadgeShare);
 			this.setInstalledNewReleaseDate(values.today);
-			this.set(Key.packageVersion, browser.runtime.getManifest().version);
+			this.set(Key.packageVersion, runtime.getManifest().version);
 		}
 	}
 

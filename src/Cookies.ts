@@ -1,4 +1,4 @@
-import browser from "webextension-polyfill";
+import { cookies, runtime } from "webextension-polyfill";
 
 export enum CookieName {
 	lang = "lang",
@@ -11,14 +11,14 @@ export default class Cookies {
 			const entries = document.cookie.split("; ");
 			return entries.find((row) => row?.startsWith(`${name}=`))?.split("=")[1];
 		} else {
-			const cookie = await browser.cookies.get({ name, url: "https://twitter.com" });
+			const cookie = await cookies.get({ name, url: "https://twitter.com" });
 			return cookie?.value;
 		}
 	}
 
 	static async getLanguage() {
 		const lang = await this.get(CookieName.lang);
-		return lang || browser.runtime.getManifest().default_locale;
+		return lang || runtime.getManifest().default_locale;
 	}
 
 	static async getIdentity() {
