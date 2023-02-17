@@ -54,7 +54,10 @@ export default class TwitterPage {
 	static isTweetPage(): Promise<boolean> {
 		return new Promise<boolean>((resolve) => {
 			setTimeout(() => {
-				resolve(location.pathname.includes("status") && (location.pathname.endsWith("likes") || location.pathname.endsWith("retweets")));
+				resolve(
+					location.pathname.includes("status") &&
+						(location.pathname.endsWith("likes") || location.pathname.endsWith("retweets"))
+				);
 			}, 1);
 		});
 	}
