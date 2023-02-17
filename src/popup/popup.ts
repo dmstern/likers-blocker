@@ -32,17 +32,31 @@ function localizeUI() {
 }
 
 async function getStats() {
-	const blockQueue = await Storage.getQueue();
+	const queue = await Storage.getQueue();
 	const blockedAccounts = await Storage.getBlockedAccounts();
 	const stats = {
-		blockQueue: blockQueue.length || 0,
+		queue: queue.length || 0,
 		blockedAccounts: blockedAccounts.length || 0,
 	};
-	const statsNode = document.querySelector("#blockListStats");
-	const queueNode = document.querySelector("#blockQueueStats");
-	if (statsNode && queueNode) {
-		queueNode.innerHTML = stats.blockQueue.toString();
-		statsNode.innerHTML = stats.blockedAccounts.toString();
+
+	const blockListNode = document.querySelector("#blockListStats");
+	const queueListNode = document.querySelector("#blockQueueStats");
+	const statsWrapperNode = document.querySelector(".stats");
+
+	const blockListLabel = blockListNode.parentElement;
+	const queueListLabel = queueListNode.parentElement;
+	const isBlocking = stats.queue > 0;
+	const hasBlocked = stats.blockedAccounts > 0;
+
+	console.log(stats);
+
+	statsWrapperNode.classList.toggle("stats--blocking", isBlocking);
+	queueListLabel.classList.toggle("active", isBlocking);
+	blockListLabel.classList.toggle("active", hasBlocked);
+
+	if (blockListNode && queueListNode) {
+		queueListNode.innerHTML = stats.queue.toString();
+		blockListNode.innerHTML = stats.blockedAccounts.toString();
 	}
 }
 
