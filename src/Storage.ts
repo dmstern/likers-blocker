@@ -5,7 +5,7 @@ import Cookies from "./Cookies";
 
 const date = new Date();
 
-export enum Key {
+enum Key {
 	includeRetweeters = "includeRetweeters",
 	hideBadgeShare = "hideBadgeShare",
 	hideBadgeDonate = "hideBadgeDonate",
@@ -23,61 +23,9 @@ export enum Key {
 	lang = "lang",
 }
 
-export enum CookieName {
-	twid = "twid",
-	lang = "lang",
-}
-
 const values = {
 	today: parseInt(`${date.getFullYear()}${date.getMonth()}${date.getDate()}`),
 };
-
-// async function getCookie(name: CookieName): Promise<string> {
-// 	console.log("document.cookie", document.cookie);
-// 	console.log("name", name);
-// 	browser.cookies.get({
-// 		name,
-// 		url: "https://twitter.com/home",
-// 	}).then(cookie => {
-// 		console.log("then cookie", cookie);
-// 	});
-
-// 	console.log("browser.cookies.get", );
-// 	const cookie = await browser.cookies.get({
-// 		name,
-// 		url: "https://twitter.com",
-// 	});
-// 	console.log("cookie", cookie);
-// 	return cookie?.value;
-// }
-
-// async function getIdentity(): Promise<string | undefined> {
-// 	const id = await getCookie(CookieName.twid);
-
-// 	console.log("id", id);
-
-// 	if (!id) {
-// 		return;
-// 	}
-
-// 	return id.split("D")[1] || "";
-// }
-
-// const storageFacade = {
-// 	get: async (key: Key): Promise<unknown> => {
-// 		const id = await getIdentity();
-// 		const value = await browser.storage.local.get(id + "_" + key);
-// 		return value[id + "_" + key];
-// 	},
-// 	set: async (key: Key, value: unknown) => {
-// 		const id = await getIdentity();
-// 		browser.storage.local.set({ [id + "_" + key]: value })?.then();
-// 	},
-// 	remove: async (key: Key) => {
-// 		const id = await getIdentity();
-// 		browser.storage.local.remove(id + "_" + key)?.then();
-// 	},
-// };
 
 export default class Storage {
 	private static async prefix(key: Key) {
@@ -85,18 +33,18 @@ export default class Storage {
 		return `${id}_${key}`;
 	}
 
-	static async get(key: Key, groupedByUser = true): Promise<unknown> {
+	private static async get(key: Key, groupedByUser = true): Promise<unknown> {
 		const storageKey = groupedByUser ? await this.prefix(key) : key;
 		const value = await browser.storage.local.get(storageKey);
 		return value[storageKey];
 	}
 
-	static async set(key: Key, value: unknown, groupedByUser = true) {
+	private static async set(key: Key, value: unknown, groupedByUser = true) {
 		const storageKey = groupedByUser ? await this.prefix(key) : key;
 		browser.storage.local.set({ [storageKey]: value })?.then();
 	}
 
-	static async remove(key: Key, groupedByUser = true) {
+	private static async remove(key: Key, groupedByUser = true) {
 		const storageKey = groupedByUser ? await this.prefix(key) : key;
 		browser.storage.local.remove(storageKey)?.then();
 	}
@@ -133,12 +81,39 @@ export default class Storage {
 		return language as string;
 	}
 
+	static async getCSFR(): Promise<string> {
+		return this.get(Key.csfr) as Promise<string>;
+	}
+
+	static async getAuthToken(): Promise<string> {
+		return this.get(Key.authorization) as Promise<string>;
+	}
+
+	static async getAcceptedLanguage(): Promise<string> {
+		return this.get(Key.acceptedLanguage) as Promise<string>;
+	}
+
+	static async setCSFR(value: string) {
+		this.set(Key.csfr, value);
+	}
+
+	static async setAuthToken(value: string) {
+		this.set(Key.authorization, value);
+	}
+
+	static async setAcceptedLanguage(value: string) {
+		this.set(Key.acceptedLanguage, value);
+	}
+
 	static async getUserInfo(): Promise<UserInfo> {
 		return (await this.get(Key.userInfo)) as Promise<UserInfo>;
 	}
 
 	static setUserInfo(userInfo: UserInfo) {
-		if (userInfo.errors) { return; }
+		if (userInfo.errors) {
+			return;
+		}
+
 		this.set(Key.userInfo, userInfo);
 	}
 

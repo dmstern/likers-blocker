@@ -1,4 +1,4 @@
-import Storage, { Key } from "../Storage";
+import Storage from "../Storage";
 import settings from "../settings";
 import Badge from "../Badge";
 import browser, { WebRequest } from "webextension-polyfill";
@@ -19,18 +19,18 @@ function logURL(details: WebRequest.OnBeforeSendHeadersDetailsType): void {
 
 		if (name === "authorization" && value.includes("Bearer")) {
 			console.debug("🔐 saving authentication token.");
-			Storage.set(Key.authorization, value);
+			Storage.setAuthToken(value);
 		}
 
 		const re = /[0-9A-Fa-f]{160}/;
 		if (name === "x-csrf-token" && re.test(value) && value.length == 160) {
 			console.debug("⚙ saving csfr");
-			Storage.set(Key.csfr, value);
+			Storage.setCSFR(value);
 		}
 
 		if (name === "Accept-Language") {
 			console.debug("🌐 saving accepted language");
-			Storage.set(Key.acceptedLanguage, value);
+			Storage.setAcceptedLanguage(value);
 		}
 	}
 }
