@@ -55,13 +55,13 @@ export default class Storage {
 	}
 
 	static async getIdentity(): Promise<string> {
-		let identity = await this.get(Key.userId, false);
-		console.log("identityFromStorage", identity);
+		const idFromCookies = await Cookies.getIdentity();
+		const idFromStorage = await this.get(Key.userId, false);
+		let identity = idFromStorage;
 
-		if (!identity) {
-			identity = await Cookies.getIdentity();
-			console.log("identityFrom Cookies", identity);
-			Storage.set(Key.userId, identity, false);
+		if (idFromCookies && idFromCookies !== idFromStorage) {
+			identity = idFromCookies;
+			Storage.set(Key.userId, idFromCookies, false);
 		}
 
 		return identity as Promise<string>;
