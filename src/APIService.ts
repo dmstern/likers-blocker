@@ -1,4 +1,4 @@
-import Storage, { Key } from "./Storage";
+import Storage from "./Storage";
 import { UserInfo } from "./UserInfo";
 const API_URL = "https://api.twitter.com/1.1/";
 
@@ -27,9 +27,9 @@ export default class APIService {
 	}
 
 	private static async getHeaders(method: Method, preventPreflight = false): Promise<HeadersInit> {
-		const csrf = (await Storage.get(Key.csfr)) as string;
-		const authorization = (await Storage.get(Key.authorization)) as string;
-		const acceptedLanguage = (await Storage.get(Key.acceptedLanguage)) as string;
+		const csrf = (await Storage.getCSFR()) as string;
+		const authorization = (await Storage.getAuthToken()) as string;
+		const acceptedLanguage = (await Storage.getAcceptedLanguage()) as string;
 		const lang = await Storage.getLanguage();
 		console.log("authorization " + authorization);
 		if (!csrf || !authorization) {

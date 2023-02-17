@@ -5,6 +5,7 @@ import Storage from "../Storage";
 
 import "./style.scss";
 // import Cookies from "../Cookies";
+// import Cookies from "../Cookies";
 import APIService from "../APIService";
 import { Action } from "../Messages";
 

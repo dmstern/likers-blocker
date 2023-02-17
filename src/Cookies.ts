@@ -7,7 +7,7 @@ export enum CookieName {
 
 export default class Cookies {
 	private static async get(name: CookieName): Promise<string> {
-		if (document?.cookie) {
+		if (document && document?.cookie) {
 			const entries = document.cookie.split("; ");
 			return entries.find((row) => row?.startsWith(`${name}=`))?.split("=")[1];
 		} else {
