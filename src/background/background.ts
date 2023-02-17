@@ -45,10 +45,19 @@ async function blockTask(alarm) {
 	for (let i = 0; i < settings.BLOCK_ACCOUNTS_AT_ONCE; i++) {
 		const twitterTab = await getTwitterTab();
 		const user = await Storage.dequeue();
+		const queueLength = (await Storage.getQueue()).length;
+		const blockListLength = (await Storage.getBlockedAccounts()).length;
 
 		if (!user) {
 			return;
 		}
+
+		browser.runtime.sendMessage({
+			action: Action.queueUpdate,
+			dequeuedUser: user,
+			queueLength,
+			blockListLength,
+		});
 
 		if (twitterTab) {
 			await browser.tabs.sendMessage(twitterTab.id, { action: Action.block, user });
