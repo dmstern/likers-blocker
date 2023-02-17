@@ -5,7 +5,7 @@ import settings from "../settings";
 import TextStyle from "./TextStyle";
 import TwitterPage, { AccountList } from "./TwitterPage";
 import Storage from "../Storage";
-import browser from "webextension-polyfill";
+import {  i18n } from "webextension-polyfill";
 
 const TOPBAR_SELECTOR = {
 	mobile: "main > div > div > div > div > div > div",
@@ -158,9 +158,9 @@ export default class AccountCollector {
 
 	private async getLimitMessage() {
 		if (await TwitterPage.isBlockPage()) {
-			return `${browser.i18n.getMessage("ui_takeAMoment")}`;
+			return `${i18n.getMessage("ui_takeAMoment")}`;
 		} else {
-			return `${browser.i18n.getMessage("ui_onlyListItems")}<br>${browser.i18n.getMessage(
+			return `${i18n.getMessage("ui_onlyListItems")}<br>${i18n.getMessage(
 				"ui_twitterHides"
 			)}`;
 		}
@@ -311,7 +311,7 @@ export default class AccountCollector {
 			: this.blockButton.querySelector("div > span > span");
 
 		if (blockButtonLabel) {
-			blockButtonLabel.innerHTML = browser.i18n.getMessage("ui_blockAll");
+			blockButtonLabel.innerHTML = i18n.getMessage("ui_blockAll");
 		}
 
 		(await this.getTopbar())?.appendChild(this.blockButton);
@@ -355,11 +355,11 @@ export default class AccountCollector {
 			Storage.setIncludeRetweeters(this.checkbox.checked);
 		});
 
-		label.innerHTML = `<span>${browser.i18n.getMessage("ui_blockRetweeters")}</span>`;
+		label.innerHTML = `<span>${i18n.getMessage("ui_blockRetweeters")}</span>`;
 		label.prepend(this.checkbox);
 		const retweetersNotice = document.createElement("span");
 		retweetersNotice.classList.add("lb-info");
-		retweetersNotice.title = browser.i18n.getMessage("ui_onlyDirectRetweeters");
+		retweetersNotice.title = i18n.getMessage("ui_onlyDirectRetweeters");
 		retweetersNotice.innerHTML = Icons.info;
 		labelWrapper.appendChild(retweetersNotice);
 		return labelWrapper;
@@ -370,7 +370,7 @@ export default class AccountCollector {
 		closeButton.innerHTML = Icons.close;
 		closeButton.tabIndex = 0;
 		closeButton.classList.add("lb-close-button");
-		closeButton.title = browser.i18n.getMessage("ui_cancel");
+		closeButton.title = i18n.getMessage("ui_cancel");
 		closeButton.style.backgroundColor = TwitterPage.highlightColor.replace(")", ", 0.1)");
 		closeButton.style.color = TwitterPage.highlightColor;
 		this.popup.prepend(closeButton);
@@ -385,7 +385,7 @@ export default class AccountCollector {
 		finishButton.innerHTML = `${Icons.forward}${Icons.smile}`;
 		finishButton.tabIndex = 0;
 		finishButton.classList.add("lb-finish-button");
-		finishButton.title = browser.i18n.getMessage("ui_finish");
+		finishButton.title = i18n.getMessage("ui_finish");
 		finishButton.style.backgroundColor = TwitterPage.highlightColor.replace(")", ", 0.1)");
 		finishButton.style.color = TwitterPage.highlightColor;
 		this.popup.append(finishButton);
@@ -419,7 +419,7 @@ export default class AccountCollector {
 		areaWrapper.classList.add("lb-confirm-wrapper");
 		confirmInfo.classList.add("lb-confirm-info");
 		confirmInfo.style.color = this.textStyle.color;
-		confirmInfo.innerHTML = `<p>${browser.i18n.getMessage("ui_queue_explanation")}</p>`;
+		confirmInfo.innerHTML = `<p>${i18n.getMessage("ui_queue_explanation")}</p>`;
 		areaWrapper.appendChild(confirmInfo);
 
 		if (!(await TwitterPage.isBlockPage())) {
@@ -436,12 +436,12 @@ export default class AccountCollector {
 				? this.confirmButton
 				: (this.confirmButton.querySelector("div > span > span") as HTMLElement);
 
-			confirmButtonLabel.innerText = browser.i18n.getMessage("ui_confirm");
+			confirmButtonLabel.innerText = i18n.getMessage("ui_confirm");
 			const confirmButtonIcon = document.createElement("span");
 			confirmButtonIcon.innerHTML = icons.send;
 			const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
 			confirmButtonIconSvg && confirmButtonLabel?.parentElement?.append(confirmButtonIconSvg);
-			this.confirmButton.setAttribute("title", browser.i18n.getMessage("ui_external"));
+			this.confirmButton.setAttribute("title", i18n.getMessage("ui_external"));
 
 			this.confirmButton.addEventListener(
 				"click",
@@ -458,9 +458,9 @@ export default class AccountCollector {
 					// 	console.debug(queue);
 					// }
 
-					confirmInfo.innerHTML = `<p>${browser.i18n.getMessage("ui_confirm_clicked")}</p>`;
+					confirmInfo.innerHTML = `<p>${i18n.getMessage("ui_confirm_clicked")}</p>`;
 					confirmButtonIcon.innerHTML = icons.check;
-					confirmButtonLabel.innerText = browser.i18n.getMessage("ui_confirm_button_label");
+					confirmButtonLabel.innerText = i18n.getMessage("ui_confirm_button_label");
 
 					const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
 					confirmButtonIconSvg && confirmButtonLabel?.parentElement?.prepend(confirmButtonIconSvg);
@@ -494,8 +494,8 @@ export default class AccountCollector {
 		this.confirmMessageElement.classList.add("lb-confirm-message");
 		this.confirmMessageElement.innerHTML = `
 			<h3>
-			<span>${browser.i18n.getMessage("ui_usersFound")}</span>
-			<span>${browser.i18n.getMessage("ui_blockAll")}?</span>
+			<span>${i18n.getMessage("ui_usersFound")}</span>
+			<span>${i18n.getMessage("ui_blockAll")}?</span>
 			</h3>
 			<div class="lb-label__main"></div>`;
 		this.popup.appendChild(this.confirmMessageElement);
@@ -635,7 +635,7 @@ export default class AccountCollector {
 		const popupInner = `
 			<div class="lb-label lb-collecting">
 				<h3 id="lb-popup-heading">
-					<span>${browser.i18n.getMessage("ui_collectingUsernames")}...</span>
+					<span>${i18n.getMessage("ui_collectingUsernames")}...</span>
 					<span class="lb-user-counter"></span>
 				</h3>
 				<p class="lb-text">${await this.getLimitMessage()}</p>
@@ -672,35 +672,35 @@ export default class AccountCollector {
 			<ul class="lb-footer__inner">
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--new-release ${isNewRelease ? "sparkle" : ""}"
-						href="https://github.com/dmstern/likers-blocker/releases" target="_blank" title="${browser.i18n.getMessage(
+						href="https://github.com/dmstern/likers-blocker/releases" target="_blank" title="${i18n.getMessage(
 		"ui_newRelease"
 	)}">${Icons.sparkles}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--donate ${await AccountCollector.getBadgeClass(
 		"donate"
-	)}" href="https://github.com/dmstern/likers-blocker#donate" target="_blank" title="${browser.i18n.getMessage(
+	)}" href="https://github.com/dmstern/likers-blocker#donate" target="_blank" title="${i18n.getMessage(
 	"popup_tip"
 )}">${Icons.gift}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__item--report ${await AccountCollector.getBadgeClass(
 		"report"
-	)}" href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank" title="${browser.i18n.getMessage(
+	)}" href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank" title="${i18n.getMessage(
 	"popup_reportBug"
 )}">${Icons.issue}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--share ${await AccountCollector.getBadgeClass(
 		"share"
-	)}" href="${browser.i18n.getMessage(
+	)}" href="${i18n.getMessage(
 	"tweet_text"
-)}" target="_blank" title="${browser.i18n.getMessage("popup_share")}">${Icons.share}</a>
+)}" target="_blank" title="${i18n.getMessage("popup_share")}">${Icons.share}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="icon--twitter lb-footer__link lb-footer__link--follow ${await AccountCollector.getBadgeClass(
 		"follow"
-	)}" href="https://twitter.com/LikersBlocker" target="_blank" title="${browser.i18n.getMessage(
+	)}" href="https://twitter.com/LikersBlocker" target="_blank" title="${i18n.getMessage(
 	"popup_follow"
 )}">${Icons.twitter}</a>
 				</li>
@@ -763,8 +763,8 @@ export default class AccountCollector {
 		const exportBtn = document.createElement("button");
 
 		exportBtn.innerHTML = Icons.share;
-		exportBtn.setAttribute("aria-label", browser.i18n.getMessage("ui_export"));
-		exportBtn.setAttribute("title", browser.i18n.getMessage("ui_export"));
+		exportBtn.setAttribute("aria-label", i18n.getMessage("ui_export"));
+		exportBtn.setAttribute("title", i18n.getMessage("ui_export"));
 		exportBtn.classList.add("lb-btn--export");
 		exportBtn.style.backgroundColor = TwitterPage.twitterBrandColor;
 
@@ -802,13 +802,13 @@ export default class AccountCollector {
 		warning.style.backgroundColor = TwitterPage.backgroundColor;
 		warning.classList.add("lb-warning");
 		warning.innerHTML = `
-			<h4 class="lb-warning__heading">${icons.warn}<span>${browser.i18n.getMessage(
+			<h4 class="lb-warning__heading">${icons.warn}<span>${i18n.getMessage(
 	"ui_warningHeading"
 )}</span></h4>
-			<span class="lb-warning__text">${browser.i18n.getMessage("ui_warningText")}</span>
+			<span class="lb-warning__text">${i18n.getMessage("ui_warningText")}</span>
 			<div class="lb-warning__buttons">
-				<button class="lb-warning__button lb-warning__button--ok">${browser.i18n.getMessage("ui_ok")}</button>
-				<button class="lb-warning__button lb-warning__button--hide">${browser.i18n.getMessage(
+				<button class="lb-warning__button lb-warning__button--ok">${i18n.getMessage("ui_ok")}</button>
+				<button class="lb-warning__button lb-warning__button--hide">${i18n.getMessage(
 		"ui_doNotShowAgain"
 	)}</button>
 			</div>

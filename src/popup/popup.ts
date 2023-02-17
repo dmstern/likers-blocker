@@ -1,5 +1,5 @@
 import Storage from "../Storage";
-import browser from "webextension-polyfill";
+import { runtime, i18n, tabs, downloads } from "webextension-polyfill";
 import { UserInfo } from "../UserInfo";
 import { Action } from "../Messages";
 import { getTwitterTab } from "../Tabs";
@@ -13,7 +13,7 @@ function replaceData(dataName: string, callback: (element: HTMLElement, message:
 			return;
 		}
 
-		callback(element, browser.i18n.getMessage(messageName));
+		callback(element, i18n.getMessage(messageName));
 	});
 }
 
@@ -68,7 +68,7 @@ async function getUserInfo() {
 		const twitterTab = await getTwitterTab();
 
 		if (twitterTab) {
-			const response = await browser.tabs.sendMessage(twitterTab.id, { action: Action.getUserInfo });
+			const response = await tabs.sendMessage(twitterTab.id, { action: Action.getUserInfo });
 			console.log(response);
 			userInfo = response.userInfo;
 		}
@@ -116,7 +116,7 @@ async function downloadBlockList() {
 		type: "text/csv",
 	});
 	const downloadUrl = URL.createObjectURL(file);
-	await browser.downloads.download({
+	await downloads.download({
 		url: downloadUrl,
 		conflictAction: "uniquify",
 		filename: csvFilename,
@@ -164,7 +164,7 @@ importListButton?.addEventListener("click", importBlockList);
 	getStats();
 	getUserInfo();
 
-	browser.runtime.onMessage.addListener((message) => {
+	runtime.onMessage.addListener((message) => {
 		if (message.action === Action.queueUpdate) {
 			getStats();
 		}
