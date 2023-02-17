@@ -20,7 +20,7 @@ browser.runtime.onMessage.addListener((message) => {
 			} else {
 				const profileLink = document.querySelector("a[data-testid=AppTabBar_Profile_Link]");
 				const profileImg = document.querySelector(
-					"header[role=\"banner\"] [data-testid^=\"UserAvatar-Container\"] > div > div > div > div > div > div + div + div > div > div img"
+					"header[role=\"banner\"] [data-testid^=\"UserAvatar-Container\"] div img"
 				);
 
 				if (profileLink instanceof HTMLAnchorElement && profileImg instanceof HTMLImageElement) {
