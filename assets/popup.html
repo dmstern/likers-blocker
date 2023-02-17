@@ -150,6 +150,8 @@
 			width: 32px;
 			height: auto;
 			--drive-way: 46px;
+			opacity: .7;
+			transform: translateX(calc(var(--drive-way) * -1)) rotateY(90deg);
 		}
 
 		@keyframes drive {
@@ -200,6 +202,7 @@
 			animation-iteration-count: infinite;
 			animation-timing-function: linear;
 			animation-fill-mode: both;
+			opacity: 1;
 		}
 
 		.import-export {
