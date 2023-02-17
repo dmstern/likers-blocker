@@ -67,7 +67,7 @@ async function getUserInfo() {
 	const main = document.querySelector("main");
 	main?.classList.add("logged-in");
 
-	const profilePicture = "";
+	const profilePicture = userInfo.profile_image_url_https || "";
 	const screeName = userInfo.screen_name;
 	const miniProfilePicture = profilePicture.replace("normal", "mini");
 	const profilePictureElement = document.querySelector("#profile-picture") as HTMLImageElement;
