@@ -4,7 +4,7 @@ const API_URL = "https://api.twitter.com/1.1/";
 
 enum Endpoint {
 	block = "blocks/create.json",
-	userInfo = "users/show",
+	// userInfo = "users/show",
 	retweeters = "statuses/retweets",
 	lookupUsers = "users/lookup",
 }
@@ -97,17 +97,17 @@ export default class APIService {
 		});
 	}
 
-	static async getUserInfo(userId: string): Promise<UserInfo | undefined> {
-		if (!userId) {
-			return;
-		}
-		const userInfo = await Storage.getUserInfo();
-		if (userInfo?.id.toString() === userId) {
-			return userInfo;
-		}
-		const response = this.sendGetRequest({ endpoint: Endpoint.userInfo, params: { user_id: userId }, preventPreflight: true });
-		return (await response).json();
-	}
+	// static async getUserInfo(userId: string): Promise<UserInfo | undefined> {
+	// 	if (!userId) {
+	// 		return;
+	// 	}
+	// 	const userInfo = await Storage.getUserInfo();
+	// 	if (userInfo?.id.toString() === userId) {
+	// 		return userInfo;
+	// 	}
+	// 	const response = this.sendGetRequest({ endpoint: Endpoint.userInfo, params: { user_id: userId }, preventPreflight: true });
+	// 	return (await response).json();
+	// }
 
 	static async lookupUsersById(userIds: string[]): Promise<Response> {
 		return this.sendGetRequest({
