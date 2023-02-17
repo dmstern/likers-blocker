@@ -17,9 +17,14 @@ browser.runtime.onMessage.addListener((message) => {
 			if (userInfo && userInfo.screen_name) {
 				return Promise.resolve({ userInfo });
 			} else {
-				return retrieveUserInfoFromApi().then((userInfo) => {
-					return Promise.resolve({ userInfo });
-				});
+				const profileLink = document.querySelector("a[data-testid=AppTabBar_Profile_Link]");
+				if (profileLink instanceof HTMLAnchorElement) {
+					return Storage.getIdentity().then((id) => {
+						const screen_name = profileLink.href.split("/").pop();
+						userInfo = { screen_name, id: parseInt(id) };
+						return Promise.resolve({ userInfo });
+					});
+				}
 			}
 		});
 	}
