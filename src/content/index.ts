@@ -19,10 +19,15 @@ browser.runtime.onMessage.addListener((message) => {
 				return Promise.resolve({ userInfo });
 			} else {
 				const profileLink = document.querySelector("a[data-testid=AppTabBar_Profile_Link]");
-				if (profileLink instanceof HTMLAnchorElement) {
+				const profileImg = document.querySelector(
+					"header[role=\"banner\"] [data-testid^=\"UserAvatar-Container\"] > div > div > div > div > div > div + div + div > div > div img"
+				);
+
+				if (profileLink instanceof HTMLAnchorElement && profileImg instanceof HTMLImageElement) {
 					return Storage.getIdentity().then((id) => {
 						const screen_name = profileLink.href.split("/").pop();
-						userInfo = { screen_name, id: parseInt(id) };
+						const profile_image_url_https = profileImg.src;
+						userInfo = { screen_name, profile_image_url_https, id: parseInt(id) };
 						return Promise.resolve({ userInfo });
 					});
 				}
