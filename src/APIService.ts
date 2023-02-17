@@ -101,7 +101,10 @@ export default class APIService {
 		if (!userId) {
 			return;
 		}
-
+		const userInfo = await Storage.getUserInfo();
+		if (userInfo?.id.toString() === userId) {
+			return userInfo;
+		}
 		const response = this.sendGetRequest({ endpoint: Endpoint.userInfo, params: { user_id: userId }, preventPreflight: true });
 		return (await response).json();
 	}
