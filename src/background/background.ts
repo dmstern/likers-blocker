@@ -79,9 +79,5 @@ browser.alarms.create("blockTask", {
 browser.alarms.onAlarm.addListener(blockTask);
 
 (function () {
-	setTimeout(() => {
-		console.log("starting background.js");
-		Storage.getQueue().then((queue) => Badge.updateBadgeCount(queue.length));
-		Badge.setColor();
-	}, 5000);
+	Badge.setColor();
 })();

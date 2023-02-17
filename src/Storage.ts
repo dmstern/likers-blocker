@@ -194,6 +194,8 @@ export default class Storage {
 			queued = [];
 		}
 
+		Badge.updateBadgeCount(queued.length);
+
 		return queued;
 	}
 
