@@ -25,7 +25,7 @@ enum Key {
 	blockDelayInMinutes = "blockDelayInMinutes",
 	blockPeriodInMinutes = "blockPeriodInMinutes",
 	blockAccountsAtOnce = "blockAccountsAtOnce",
-	intervalBetweenBlockAccounts = "intervalBetweenBlockAccounts"
+	intervalBetweenBlockAccountsInSeconds = "intervalBetweenBlockAccountsInSeconds"
 }
 
 const values = {
@@ -312,11 +312,11 @@ export default class Storage {
 	}
 
 	static async getIntervalBetweenBlockAccountsInSeconds(): Promise<number> {
-		let value: number = await (this.get(Key.intervalBetweenBlockAccounts) as Promise<number>);
+		let value: number = await (this.get(Key.intervalBetweenBlockAccountsInSeconds) as Promise<number>);
 
 		if (value === undefined || value === null) {
 			value = settings.INTERVAL_BETWEEN_BLOCKED_ACCOUNTS_IN_SECONDS;
-			this.set(Key.intervalBetweenBlockAccounts, value);
+			this.set(Key.intervalBetweenBlockAccountsInSeconds, value);
 		}
 
 		return value;
@@ -335,6 +335,6 @@ export default class Storage {
 	}
 
 	static async setIntervalBetweenBlockAccounts(value: number) {
-		this.set(Key.intervalBetweenBlockAccounts, value);
+		this.set(Key.intervalBetweenBlockAccountsInSeconds, value);
 	}
 }
