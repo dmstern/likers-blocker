@@ -6,7 +6,6 @@ import TextStyle from "./TextStyle";
 import TwitterPage, { AccountList } from "./TwitterPage";
 import Storage from "../Storage";
 import browser from "webextension-polyfill";
-// import APIService from "../APIService";
 
 const TOPBAR_SELECTOR = {
 	mobile: "main > div > div > div > div > div > div",
