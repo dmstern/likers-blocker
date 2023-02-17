@@ -235,8 +235,8 @@ export default class Storage {
 		const set: Set<string> = new Set<string>(queue.concat(userHandles));
 		//console.log("Queue Length: " + Array.from(set).length)
 		const newQueue = Array.from(set);
-		this.set(Key.blockingQueue, newQueue);
 		Badge.updateBadgeCount(newQueue.length);
+		this.set(Key.blockingQueue, newQueue);
 	}
 
 	static async queueEmpty(): Promise<boolean> {

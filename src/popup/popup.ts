@@ -149,4 +149,10 @@ importListButton?.addEventListener("click", importBlockList);
 	alignRightButton();
 	getStats();
 	getUserInfo();
+
+	browser.runtime.onMessage.addListener((message) => {
+		if (message.action === Action.queueUpdate) {
+			getStats();
+		}
+	});
 })();
