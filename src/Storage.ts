@@ -2,6 +2,7 @@ import Badge from "./Badge";
 import { UserInfo } from "./UserInfo";
 import browser from "webextension-polyfill";
 import Cookies from "./Cookies";
+import settings from "./settings";
 
 const date = new Date();
 
@@ -21,6 +22,10 @@ enum Key {
 	userInfo = "userInfo",
 	userId = "userId",
 	lang = "lang",
+	blockDelayInMinutes = "blockDelayInMinutes",
+	blockPeriodInMinutes = "blockPeriodInMinutes",
+	blockAccountsAtOnce = "blockAccountsAtOnce",
+	intervalBetweenBlockAccounts = "intervalBetweenBlockAccounts"
 }
 
 const values = {
@@ -271,5 +276,65 @@ export default class Storage {
 
 		blocked.push(userHandle);
 		this.set(Key.blockedAccounts, blocked);
+	}
+
+	static async getBlockDelayInMinutes(): Promise<number> {
+		let value = await (this.get(Key.blockDelayInMinutes) as Promise<number>);
+
+		if (value === undefined || value === null) {
+			value = settings.BLOCK_DELAY_IN_MINUTES;
+			this.set(Key.blockDelayInMinutes, value);
+		}
+
+		return value;
+	}
+
+	static async getBlockPeriodInMinutes(): Promise<number> {
+		let value: number = await (this.get(Key.blockPeriodInMinutes) as Promise<number>);
+
+		if (value === undefined || value === null) {
+			value = settings.BLOCK_PERIOD_IN_MINUTES;
+			this.set(Key.blockPeriodInMinutes, value);
+		}
+
+		return value;
+	}
+
+	static async getBlockAccountsAtOnce(): Promise<number> {
+		let value: number = await (this.get(Key.blockAccountsAtOnce) as Promise<number>);
+
+		if (value === undefined || value === null) {
+			value = settings.BLOCK_ACCOUNTS_AT_ONCE;
+			this.set(Key.blockAccountsAtOnce, value);
+		}
+
+		return value;
+	}
+
+	static async getIntervalBetweenBlockAccountsInSeconds(): Promise<number> {
+		let value: number = await (this.get(Key.intervalBetweenBlockAccounts) as Promise<number>);
+
+		if (value === undefined || value === null) {
+			value = settings.INTERVAL_BETWEEN_BLOCKED_ACCOUNTS_IN_SECONDS;
+			this.set(Key.intervalBetweenBlockAccounts, value);
+		}
+
+		return value;
+	}
+
+	static async setBlockDelayInMinutes(value: number) {
+		this.set(Key.blockDelayInMinutes, value);
+	}
+
+	static async setBlockPeriodInMinutes(value: number) {
+		this.set(Key.blockPeriodInMinutes, value);
+	}
+
+	static async setBlockAccountsAtOnce(value: number) {
+		this.set(Key.blockAccountsAtOnce, value);
+	}
+
+	static async setIntervalBetweenBlockAccounts(value: number) {
+		this.set(Key.intervalBetweenBlockAccounts, value);
 	}
 }

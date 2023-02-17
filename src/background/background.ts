@@ -1,5 +1,4 @@
 import Storage from "../Storage";
-import settings from "../settings";
 import Badge from "../Badge";
 import browser, { WebRequest } from "webextension-polyfill";
 import { Action } from "../Messages";
@@ -42,7 +41,10 @@ async function blockTask(alarm) {
 
 	console.info("⏳ starting block task...");
 
-	for (let i = 0; i < settings.BLOCK_ACCOUNTS_AT_ONCE; i++) {
+	const blockAccountsAtOnce = await Storage.getBlockAccountsAtOnce();
+	const intervalBetweenBlockAccounts = await Storage.getIntervalBetweenBlockAccountsInSeconds() * 1000;
+
+	for (let i = 0; i < blockAccountsAtOnce; i++) {
 		const twitterTab = await getTwitterTab();
 		const user = await Storage.dequeue();
 		const queueLength = (await Storage.getQueue()).length;
@@ -63,21 +65,28 @@ async function blockTask(alarm) {
 			await browser.tabs.sendMessage(twitterTab.id, { action: Action.block, user });
 		}
 
-		await new Promise((r) => setTimeout(r, 2000));
+		await new Promise((r) => setTimeout(r, intervalBetweenBlockAccounts));
 	}
 }
 
-browser.webRequest.onBeforeSendHeaders.addListener(logURL, { urls: ["<all_urls>"] }, [
-	"requestHeaders",
-]);
+function interceptTwitterRequests() {	
+	browser.webRequest.onBeforeSendHeaders.addListener(logURL, { urls: ["<all_urls>"] }, [
+		"requestHeaders",
+	]);
+}
 
-browser.alarms.create("blockTask", {
-	delayInMinutes: settings.BLOCK_DELAY_IN_MINUTES,
-	periodInMinutes: settings.BLOCK_PERIOD_IN_MINUTES,
-});
+async function createBlockAlarm() {
+	browser.alarms.create("blockTask", {
+		delayInMinutes: await Storage.getBlockDelayInMinutes(),
+		periodInMinutes: await Storage.getBlockPeriodInMinutes(),
+	});
 
-browser.alarms.onAlarm.addListener(blockTask);
+	browser.alarms.onAlarm.addListener(blockTask);
+}
 
 (function () {
+	createBlockAlarm();
+	interceptTwitterRequests();
 	Badge.setColor();
 })();
+
