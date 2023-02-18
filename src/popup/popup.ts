@@ -1,8 +1,7 @@
+import { downloads, i18n } from "webextension-polyfill";
+import Messenger from "../Messages";
 import Storage from "../Storage";
-import { runtime, i18n, tabs, downloads } from "webextension-polyfill";
 import { UserInfo } from "../UserInfo";
-import { Action } from "../Messages";
-import { getTwitterTab } from "../Tabs";
 
 function replaceData(dataName: string, callback: (element: HTMLElement, message: string) => void) {
 	const elements = document.querySelectorAll(`[data-${dataName}]`) as NodeListOf<HTMLElement>;
@@ -98,13 +97,8 @@ async function getUserInfo() {
 
 	if (!userInfo || userInfo?.errors?.length) {
 		//send request to get user info to other tab
-		const twitterTab = await getTwitterTab();
 
-		if (twitterTab) {
-			const response = await tabs.sendMessage(twitterTab.id, { action: Action.getUserInfo });
-			console.log(response);
-			userInfo = response.userInfo;
-		}
+		userInfo = (await Messenger.sendGetUserInfoMessage()).userInfo;
 	}
 
 	if (!userInfo || userInfo.errors?.length) {
@@ -197,11 +191,7 @@ importListButton?.addEventListener("click", importBlockList);
 	updateStats();
 	getUserInfo();
 
-	runtime.onMessage.addListener((message) => {
-		if (message.action === Action.queueUpdate) {
-			// console.debug("📫 queueUpdate Message");
-			// updateStats(false);
-			updateStats();
-		}
+	Messenger.addQueueUpdateListener(async () => {
+		updateStats();
 	});
 })();
