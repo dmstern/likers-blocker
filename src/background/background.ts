@@ -1,8 +1,7 @@
-import Storage from "../Storage";
+import { alarms, webRequest, WebRequest } from "webextension-polyfill";
 import Badge from "../Badge";
-import { webRequest, runtime, WebRequest, tabs, alarms } from "webextension-polyfill";
-import { Action } from "../Messages";
-import { getTwitterTab } from "../Tabs";
+import Messenger from "../Messages";
+import Storage from "../Storage";
 
 function logURL(details: WebRequest.OnBeforeSendHeadersDetailsType): void {
 	if (!details.requestHeaders) {
@@ -46,7 +45,6 @@ async function blockTask(alarm) {
 		(await Storage.getIntervalBetweenBlockAccountsInSeconds()) * 1000;
 
 	for (let i = 0; i < blockAccountsAtOnce; i++) {
-		const twitterTab = await getTwitterTab();
 		const user = await Storage.dequeue();
 		const queueLength = (await Storage.getQueue()).length;
 		const blockListLength = (await Storage.getBlockedAccounts()).length;
@@ -55,20 +53,13 @@ async function blockTask(alarm) {
 			return;
 		}
 
-		runtime
-			.sendMessage({
-				action: Action.queueUpdate,
-				dequeuedUser: user,
-				queueLength,
-				blockListLength,
-			})
-			.catch(() => {
-				console.info("✉ UpdateQueue message was send, but popup is not open. You can ignore this.");
-			});
+		Messenger.sendQueueUpdateMessage({
+			dequeuedUser: user,
+			queueLength,
+			blockListLength,
+		});
 
-		if (twitterTab) {
-			await tabs.sendMessage(twitterTab.id, { action: Action.block, user });
-		}
+		Messenger.sendBlockMessage({ user });
 
 		await new Promise((r) => setTimeout(r, intervalBetweenBlockAccounts));
 	}
