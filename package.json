@@ -6,7 +6,6 @@
 	"scripts": {
 		"start": "rollup -w --config rollup.config.js",
 		"build": "rollup --config rollup.config.js",
-		"prettier": "prettier --write src && prettier --write assets",
 		"lint": "eslint src/**/*.ts",
 		"fix": "eslint src/**/*.ts src/*.ts --fix",
 		"version": "node util/release.js && npm run prettier && npm run build && git add .",
