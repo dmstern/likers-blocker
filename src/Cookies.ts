@@ -7,12 +7,12 @@ export enum CookieName {
 
 export default class Cookies {
 	private static async get(name: CookieName): Promise<string> {
-		if (document && document?.cookie) {
-			const entries = document.cookie.split("; ");
-			return entries.find((row) => row?.startsWith(`${name}=`))?.split("=")[1];
-		} else {
+		if (cookies && cookies.get) {
 			const cookie = await cookies.get({ name, url: "https://twitter.com" });
 			return cookie?.value;
+		} else {
+			const entries = document.cookie.split("; ");
+			return entries.find((row) => row?.startsWith(`${name}=`))?.split("=")[1];
 		}
 	}
 
