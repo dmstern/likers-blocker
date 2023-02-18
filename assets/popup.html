@@ -5,360 +5,10 @@
 	<title>LikersBlocker</title>
 	<meta charset="utf-8" />
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
-	<style>
-		:root {
-			--color-light: #d2d3dd;
-			--color-lighter: #dfe0e7;
-			--color-dark: #232327;
-			--color-light-dark: #404046;
-			--color--success: #559730;
-			--color--brand: #e1285c;
-			--color--twitter-brand: rgb(29, 161, 242);
-			--drive-way: 46px;
-		}
-
-		body {
-			--background-color: var(--color-light);
-			--background-color--hover: var(--color-lighter);
-			--color: var(--color-dark);
-			--color--hover: var(--color-light-dark);
-		}
-
-		@media (prefers-color-scheme: light) {
-			body {
-				--background-color: var(--color-light);
-				--background-color--hover: var(--color-lighter);
-				--color: var(--color-dark);
-				--color--hover: var(--color-light-dark);
-			}
-		}
-
-		@media (prefers-color-scheme: dark) {
-			body {
-				--background-color: var(--color-dark);
-				--background-color--hover: var(--color-light-dark);
-				--color: var(--color-lighter);
-				--color--hover: var(--color-light);
-			}
-		}
-
-		body {
-			font-size: 16px;
-			font-family: Ubuntu, Roboto, Arial, Helvetica, sans-serif;
-			padding: 1.5rem;
-			width: 550px;
-			height: auto;
-			background-color: var(--background-color);
-			color: var(--color);
-			margin-right: 17px;
-		}
-
-		h1 {
-			margin-top: 0;
-			font-size: 140%;
-		}
-
-		hr {
-			border-top: none;
-			border-bottom: 1px dashed rgba(120, 120, 120, 0.5);
-			margin: 1.5em 0;
-		}
-
-		p:last-child {
-			margin-bottom: 0;
-		}
-
-		.lb-logo {
-			float: right;
-		}
-
-		a {
-			color: inherit;
-			text-decoration: none;
-			display: inline-flex;
-			align-items: center;
-		}
-
-		a>svg {
-			margin-right: 0.5em;
-		}
-
-		.login-link {
-			margin-left: 1rem;
-		}
-
-		a:hover {
-			color: var(--color--hover);
-		}
-
-		ul li {
-			margin-bottom: 0.5em;
-		}
-
-		.main__inactive-content {
-			display: flex;
-			align-items: center;
-		}
-
-		main.logged-in .main__inactive-content {
-			display: none;
-		}
-
-		.main__active-content {
-			display: none;
-		}
-
-		main.logged-in .main__active-content {
-			display: block;
-		}
-
-		.user-info {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			margin-bottom: 1em;
-			width: 100%;
-			font-size: 0.8rem;
-			color: var(--color--hover);
-			opacity: .9;
-		}
-
-		.user-info__logged-in {
-			display: flex;
-			align-items: center;
-		}
-
-		.user-info__profile-picture {
-			border-radius: 50%;
-			margin: 0 .3rem;
-		}
-
-		.stats {
-			display: flex;
-			justify-content: space-between;
-			margin-bottom: 1rem;
-		}
-
-		.stats__queue.active svg {
-			color: var(--color--twitter-brand)
-		}
-
-		.stats__block-list.active svg {
-			color: var(--color--brand)
-		}
-
-		.stats__truck-icon {
-			width: 32px;
-			height: auto;
-			opacity: .7;
-			transform: translateX(calc(var(--drive-way) * -1)) rotateY(90deg);
-		}
-
-		@keyframes drive {
-			0% {
-				transform: translateX(calc(var(--drive-way) * -1)) rotateY(0deg);
-			}
-
-			40% {
-				transform: translateX(var(--drive-way)) rotateY(0deg);
-			}
-
-			41% {
-				transform: translateX(var(--drive-way)) rotateY(180deg);
-			}
-
-			42% {
-				transform: translateX(var(--drive-way)) rotateY(180deg);
-			}
-
-			44% {
-				transform: translateX(var(--drive-way)) rotateY(180deg) rotateZ(-25deg);
-			}
-
-			48% {
-				transform: translateX(var(--drive-way)) rotateY(180deg) rotateZ(-25deg);
-			}
-
-			50% {
-				transform: translateX(var(--drive-way)) rotateY(180deg);
-			}
-
-			90% {
-				transform: translateX(calc(var(--drive-way) * -1)) rotateY(180deg);
-			}
-
-			91% {
-				transform: translateX(calc(var(--drive-way) * -1)) rotateY(0deg);
-			}
-
-			100% {
-				transform: translateX(calc(var(--drive-way) * -1)) rotateY(0deg);
-			}
-		}
-
-		.stats--blocking .stats__truck-icon {
-			animation-name: drive;
-			animation-duration: var(--drive-duration, 10s);
-			animation-iteration-count: infinite;
-			animation-timing-function: linear;
-			animation-fill-mode: both;
-			opacity: 1;
-		}
-
-		.import-export {
-			display: flex;
-			justify-content: space-between;
-		}
-
-		.btn {
-			border: 1px solid rgba(120, 120, 120, 0.4);
-			border-radius: 4px;
-			padding: 0.7em;
-			margin-right: 0.5em;
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			text-decoration: none;
-			color: inherit;
-			transition: all ease 300ms;
-			background-color: transparent;
-			cursor: pointer;
-		}
-
-		.btn:hover {
-			background-color: var(--background-color--hover);
-		}
-
-		.btn svg {
-			margin-right: 0.5em;
-		}
-
-		svg.w-6.h-6 {
-			width: auto;
-			height: 1.2em;
-		}
-
-		.links {
-			display: flex;
-			position: relative;
-			margin-top: 1rem;
-		}
-
-		.link {
-			display: inline-flex;
-			align-items: center;
-		}
-
-		.link:hover {
-			text-decoration: underline;
-		}
-
-		.btn.issue {
-			position: absolute;
-			top: 0;
-		}
-
-		.link svg {
-			margin-right: 0.5em;
-			display: inline-block;
-		}
-
-		.link:not(:first-of-type)::before {
-			content: "|";
-			opacity: 0.5;
-			display: inline-block;
-			margin-left: 0.5em;
-			margin-right: 0.5em;
-		}
-
-		footer {
-			margin-top: 1.5rem;
-			opacity: 0.7;
-		}
-
-		header {
-			opacity: 0.7;
-			margin-bottom: 1.5rem;
-		}
-
-		li.donation {
-			list-style: none;
-			display: flex;
-			align-items: center;
-			margin-left: -1em;
-		}
-
-		li.donation svg {
-			margin-right: 0.5em;
-		}
-
-		.twitter-link {
-			text-align: right;
-			margin-left: 1em;
-		}
-
-		a:hover {
-			color: var(--color--twitter-brand);
-		}
-
-		.share-icon {
-			width: 1.5rem !important;
-			height: 1.5rem !important;
-		}
-
-		.space {
-			flex-grow: 1;
-		}
-
-		.label {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		.label svg {
-			margin-right: .5em;
-		}
-
-		summary {
-			display: flex;
-			justify-content: flex-start;
-			align-items: center;
-		}
-
-		summary:hover {
-			cursor: pointer;
-		}
-
-		summary .label svg {
-			margin-right: 0.5em;
-		}
-
-		label[for="theme-switcher"] {
-			display: flex;
-			align-items: center;
-		}
-
-		.instructions .icon-bulp {
-			display: none;
-		}
-
-		.instructions[open] .icon-bulp {
-			display: block;
-			color: var(--color--success);
-		}
-
-		.instructions[open] .icon-question {
-			display: none;
-		}
-
-		.like[open] .btn svg {
-			color: var(--color--brand);
-		}
-	</style>
+	<link rel="stylesheet" href="./popup.css">
 </head>
 
-<body class="dark-theme">
+<body>
 
 	<header>
 
@@ -370,13 +20,13 @@
 
 			<summary>
 				<span class="label">
-					<svg class="w-6 h-6 icon-question" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+					<svg class="w-6 h-6 icon-question label__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
 						xmlns="http://www.w3.org/2000/svg">
 						<path
 							d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 							stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
 					</svg>
-					<svg class="w-6 h-6 icon-bulp" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+					<svg class="w-6 h-6 icon-bulp label__icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
 						viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 						<path
 							d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"
@@ -402,7 +52,7 @@
 		<div class="main__inactive-content">
 			<span data-label="popup_not_logged_in"></span>
 			<a href="https://twitter.com/login" target="_blank" class="login-link">
-				<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
+				<svg class="w-6 h-6 login-link__icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
 					xmlns="http://www.w3.org/2000/svg">
 					<path
 						d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
@@ -428,7 +78,7 @@
 
 				<!-- Queue: -->
 				<div class="stats__queue label">
-					<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+					<svg class="w-6 h-6 label__icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
 						viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 						<path
 							d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"
@@ -440,7 +90,7 @@
 
 				<!-- Truck: -->
 				<div class="stats__status">
-					<svg class="stats__truck-icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+					<svg class="stats__truck-icon stats__icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
 						viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 						<path
 							d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
@@ -450,7 +100,7 @@
 
 				<!-- Blocked: -->
 				<div class="stats__block-list label">
-					<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+					<svg class="w-6 h-6 stats__icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
 						viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 						<path
 							d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
@@ -465,7 +115,7 @@
 			<div class="import-export">
 
 				<button class="btn" id="importBlockList">
-					<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+					<svg class="w-6 h-6 btn__icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
 						viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 						<path
 							d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"
@@ -475,7 +125,7 @@
 				</button>
 
 				<button class="btn" id="downloadBlockList">
-					<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
+					<svg class="w-6 h-6 btn__icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
 						viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 						<path
 							d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
@@ -495,7 +145,7 @@
 		<div class="links">
 			<details class="like">
 				<summary class="like__btn btn">
-					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+					<svg class="w-6 h-6 btn__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 						<path
 							d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
 							stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
@@ -507,7 +157,7 @@
 					<ul>
 						<li class="donation">
 							<a class="link" href="https://paypal.me/dmstr" target="_blank">
-								<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+								<svg class="w-6 h-6 link__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
 									xmlns="http://www.w3.org/2000/svg">
 									<path
 										d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
@@ -518,7 +168,7 @@
 						</li>
 						<li class="donation">
 							<a class="link" href="https://paypal.me/philipkreissel" target="_blank">
-								<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+								<svg class="w-6 h-6 link__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
 									xmlns="http://www.w3.org/2000/svg">
 									<path
 										d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
@@ -533,7 +183,7 @@
 			<a aria-label="Issue dmstern/likers-blocker on GitHub" class="btn issue"
 				data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-issue-opened"
 				data-size="large" href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank">
-				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+				<svg class="w-6 h-6 btn__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 					<path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"
 						stroke-width="2"></path>
 				</svg>
@@ -543,15 +193,15 @@
 
 		<div class="links">
 			<a class="link" href="https://dmstern.github.io/likers-blocker" target="_blank">
-				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+				<svg class="w-6 h-6 link__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 					<path
 						d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 						stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
 				</svg>
 				<span>dmstern.github.io/likers-blocker</span>
 			</a>
-			<a class="link" href="mailto:likers.blocker@gmail.com" target="_blank">
-				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+			<a class="link link" href="mailto:likers.blocker@gmail.com" target="_blank">
+				<svg class="w-6 h-6 link__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 					<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
 						stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
 				</svg>
@@ -559,16 +209,16 @@
 			</a>
 
 			<span class="space"></span>
-			<a class="twitter-link" data-href="tweet_text" target="_blank" data-title="popup_share">
-				<svg class="share-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+			<a class="link twitter-link" data-href="tweet_text" target="_blank" data-title="popup_share">
+				<svg class="share-icon link__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
 					xmlns="http://www.w3.org/2000/svg">
 					<path
 						d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
 						stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
 				</svg>
 			</a>
-			<a class="twitter-link" href="https://twitter.com/LikersBlocker" target="_blank" title="Follow us">
-				<svg class="share-icon twitter-icon" fill="currentColor" viewBox="0 0 24 24">
+			<a class="link twitter-link" href="https://twitter.com/LikersBlocker" target="_blank" title="Follow us">
+				<svg class="share-icon twitter-icon link__icon" fill="currentColor" viewBox="0 0 24 24">
 					<g>
 						<path
 							d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z">

@@ -26,13 +26,16 @@ const output = [
 	},
 ];
 
-const plugins = {
-	sass: sass({
+function sassPlugin(filename) {
+	return sass({
 		output: (styles) => {
-			writeFileSync(`${targetFolder}/style.css`, styles);
-			writeFileSync(`${chromeTargetFolder}/style.css`, styles);
+			writeFileSync(`${targetFolder}/${filename}.css`, styles);
+			writeFileSync(`${chromeTargetFolder}/${filename}`, styles);
 		},
-	}),
+	});
+}
+
+const plugins = {
 	copy: copy({
 		targets: [
 			{ src: "node_modules/webextension-polyfill/dist/browser-polyfill.js", dest: targetFolder },
@@ -73,7 +76,7 @@ const config = [
 		external: ["webextension-polyfill"],
 		input: "src/content/index.ts",
 		output,
-		plugins: [...plugins.commons, plugins.sass, plugins.copy],
+		plugins: [...plugins.commons, sassPlugin("style"), plugins.copy],
 	},
 	{
 		external: ["webextension-polyfill"],
@@ -85,7 +88,7 @@ const config = [
 		external: ["webextension-polyfill"],
 		input: "src/popup/popup.ts",
 		output,
-		plugins: [...plugins.commons],
+		plugins: [...plugins.commons, sassPlugin("popup")],
 	},
 ];
 
