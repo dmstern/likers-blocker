@@ -219,6 +219,11 @@ main.logged-in {
 	&__icon {
 		margin-right: 0.5em;
 	}
+
+	&--issue {
+		position: absolute;
+		top: 0;
+	}
 }
 
 svg.w-6.h-6 {
@@ -254,11 +259,6 @@ svg.w-6.h-6 {
 			margin-right: 0.5em;
 		}
 	}
-}
-
-.btn.issue {
-	position: absolute;
-	top: 0;
 }
 
 footer {
@@ -331,16 +331,16 @@ label[for="theme-switcher"] {
 	.icon-bulb {
 		display: none;
 	}
-}
 
-.instructions[open] {
-	.icon-bulb {
-		display: block;
-		color: var(--color--success);
-	}
-
-	.icon-question {
-		display: none;
+	&[open] {
+		.icon-bulb {
+			display: block;
+			color: var(--color--success);
+		}
+	
+		.icon-question {
+			display: none;
+		}
 	}
 }
 
@@ -356,11 +356,10 @@ label[for="theme-switcher"] {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 1rem;
-}
 
-.stats__queue.active {
-	&__icon {
-		color: var(--color--twitter-brand);
-	}
+	&__queue.active {
+		&__icon {
+			color: var(--color--twitter-brand);
+		}
+	}	
 }
-
