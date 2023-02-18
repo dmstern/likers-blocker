@@ -30,7 +30,7 @@ Messenger.addUserInfoListener(async () => {
 Messenger.addBlockListener(async (user) => {
 	console.log("block user", user);
 	const response = await APIService.block(user);
-	return Promise.resolve({ blockDispatch: response.ok });
+	return Promise.resolve({ blockDispatch: response?.ok ? true : false });
 });
 
 AccountCollector.run();
