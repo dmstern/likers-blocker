@@ -170,10 +170,11 @@ async function importBlockList() {
 				return;
 			}
 
-			const text = e.target.result as string;
-			console.log("Importing: ");
-			const blockedAccounts = text.split(",\n");
-			await Storage.queueMulti(blockedAccounts);
+			// TODO: parse csv to json:
+			// const text = e.target.result as string;
+			// console.log("Importing: ");
+			// const blockedAccounts = text.split(",\n");
+			// await Storage.queueMulti(blockedAccounts);
 			await updateStats();
 		};
 		reader.readAsText(file);
