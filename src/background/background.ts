@@ -46,8 +46,8 @@ async function blockTask(alarm) {
 
 	for (let i = 0; i < blockAccountsAtOnce; i++) {
 		const user = await Storage.dequeue();
-		const queueLength = (await Storage.getQueue()).length;
-		const blockListLength = (await Storage.getBlockedAccounts()).length;
+		const queueLength = (await Storage.getQueue()).size;
+		const blockListLength = (await Storage.getBlockedAccounts()).size;
 
 		if (!user) {
 			return;
@@ -82,5 +82,5 @@ async function createBlockAlarm() {
 	createBlockAlarm();
 	interceptTwitterRequests();
 	Badge.setColor();
-	Storage.getQueue().then((queue) => Badge.updateBadgeCount(queue.length));
+	Storage.getQueue().then((queue) => Badge.updateBadgeCount(queue.size));
 })();

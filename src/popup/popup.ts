@@ -1,7 +1,7 @@
 import { downloads, i18n } from "webextension-polyfill";
 import Messenger from "../Messages";
 import Storage from "../Storage";
-import { UserInfo } from "../UserInfo";
+import { User } from "../UserInfo";
 import "./popup.scss";
 
 function replaceData(dataName: string, callback: (element: HTMLElement, message: string) => void) {
@@ -36,8 +36,8 @@ async function updateStats() {
 	// Stats:
 	const queue = await Storage.getQueue();
 	const blockedAccounts = await Storage.getBlockedAccounts();
-	const queueLength = queue.length || 0;
-	const blockedLength = blockedAccounts.length || 0;
+	const queueLength = queue.size || 0;
+	const blockedLength = blockedAccounts.size || 0;
 
 	// Durations:
 	const blockPeriodInMinutes = await Storage.getBlockPeriodInMinutes();
@@ -94,7 +94,7 @@ async function updateStats() {
 }
 
 async function getUserInfo() {
-	let userInfo: UserInfo | undefined = await Storage.getUserInfo();
+	let userInfo: User | undefined = await Storage.getUserInfo();
 
 	if (!userInfo || userInfo?.errors?.length) {
 		//send request to get user info to other tab
@@ -134,15 +134,24 @@ function alignRightButton() {
 
 async function downloadBlockList() {
 	const blockedAccounts = await Storage.getBlockedAccounts();
-	if (blockedAccounts.length == 0) {
+	if (blockedAccounts.size == 0) {
 		return;
 	}
 
 	// single column CSV file
 	const csvFilename = "blocked_accounts.csv";
-	const file = new File([blockedAccounts.join("\n")], csvFilename, {
-		type: "text/csv",
-	});
+	const file = new File(
+		[
+			blockedAccounts
+				.toArray()
+				.map((user) => user.screen_name)
+				.join("\n"),
+		],
+		csvFilename,
+		{
+			type: "text/csv",
+		}
+	);
 	const downloadUrl = URL.createObjectURL(file);
 	await downloads.download({
 		url: downloadUrl,

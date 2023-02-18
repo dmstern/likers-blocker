@@ -1,7 +1,7 @@
 import { i18n } from "webextension-polyfill";
 import settings from "../settings";
 import Storage from "../Storage";
-import { UserSet } from "../UserInfo";
+import { QueuedUser, UserSet } from "../UserInfo";
 import { debounce, tryToAccessDOM } from "../util";
 import { default as Icons, default as icons } from "./icons";
 import TextStyle from "./TextStyle";
@@ -17,7 +17,7 @@ export default class AccountCollector {
 	private uiIdleCounter: number;
 	private readonly lastCollectedUserCount: number[];
 	private blockButton: HTMLAnchorElement;
-	private collectedUsers: UserSet;
+	private collectedUsers: UserSet<QueuedUser>;
 	private confirmButton: HTMLLinkElement;
 	private confirmMessageElement: HTMLElement | null;
 	private legacyTwitter: boolean;
@@ -230,25 +230,33 @@ export default class AccountCollector {
 	private async collectUsers() {
 		const userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
 			? (await this.getScrollList()).querySelectorAll("a.js-user-profile-link")
-			: (await this.getScrollList()).querySelectorAll('[data-testid="UserCell"] a[aria-hidden="true"]');
+			: (await this.getScrollList()).querySelectorAll('[data-testid="UserCell"]');
 		// Increase allowance for larger lists to avoid false-positive warnings:
 		const idleCounterAllowance =
-			settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.collectedUsers.length / 500);
+			settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.collectedUsers.size / 500);
 		const totalUserCount = await this.getTotalUsersCount();
 		const probablyAlmostReadyThreshold = totalUserCount < 100 ? 70 : totalUserCount < 200 ? 80 : 90;
 
 		const users: HTMLAnchorElement[] = Array.from(userCells);
 
-		for (const userLink of users) {
+		for (const userCell of users) {
+			const userLink = userCell.querySelector('a[aria-hidden="true"]') as HTMLAnchorElement;
+			const profileImg = userCell.querySelector("img") as HTMLImageElement;
 			const userUrl = userLink.href;
+			const profileUrl = profileImg.src;
 			const userHandle = userUrl.replace("https://twitter.com/", "");
-			const user = { screen_name: userHandle, interacted_with: this.tweetId };
+			const user = {
+				screen_name: userHandle,
+				interacted_with: this.tweetId,
+				profile_image_url_https: profileUrl,
+			};
+
 			this.collectedUsers.add(user);
 		}
 
 		const userCounter = document.querySelector(".lb-user-counter") as HTMLElement;
 		if (userCounter) {
-			userCounter.innerText = `${this.collectedUsers.length.toLocaleString()}`;
+			userCounter.innerText = `${this.collectedUsers.size.toLocaleString()}`;
 		}
 
 		const lastTwoCollectionsAreIdentical =
@@ -270,7 +278,7 @@ export default class AccountCollector {
 		}
 
 		if (totalUserCount > 0) {
-			this.progressInPercent = Math.ceil((this.collectedUsers.length / totalUserCount) * 100);
+			this.progressInPercent = Math.ceil((this.collectedUsers.size / totalUserCount) * 100);
 			const progressBarLabel = document.querySelector(".lb-progress-bar__label");
 			const progressBar = document.querySelector(".lb-progress-bar__inner") as HTMLElement;
 
@@ -282,7 +290,7 @@ export default class AccountCollector {
 			}
 		}
 
-		this.lastCollectedUserCount.push(this.collectedUsers.length);
+		this.lastCollectedUserCount.push(this.collectedUsers.size);
 	}
 
 	private async createBlockButton() {
@@ -441,7 +449,7 @@ export default class AccountCollector {
 			this.confirmButton.addEventListener(
 				"click",
 				async () => {
-					await Storage.queueMulti(this.collectedUsers.getUsers());
+					await Storage.queueMulti(this.collectedUsers.toArray());
 					confirmInfo.innerHTML = `<p>${i18n.getMessage("ui_confirm_clicked")}</p>`;
 					confirmButtonIcon.innerHTML = icons.check;
 					confirmButtonLabel.innerText = i18n.getMessage("ui_confirm_button_label");
@@ -571,7 +579,7 @@ export default class AccountCollector {
 		const confirmHeading = this.popup.querySelector(".lb-confirm-message h3 span");
 
 		if (confirmHeading) {
-			confirmHeading.innerHTML = `${this.collectedUsers.length.toLocaleString()} ${
+			confirmHeading.innerHTML = `${this.collectedUsers.size.toLocaleString()} ${
 				confirmHeading.innerHTML
 			}`;
 		}
