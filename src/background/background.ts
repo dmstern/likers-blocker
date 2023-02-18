@@ -42,7 +42,8 @@ async function blockTask(alarm) {
 	console.info("⏳ starting block task...");
 
 	const blockAccountsAtOnce = await Storage.getBlockAccountsAtOnce();
-	const intervalBetweenBlockAccounts = await Storage.getIntervalBetweenBlockAccountsInSeconds() * 1000;
+	const intervalBetweenBlockAccounts =
+		(await Storage.getIntervalBetweenBlockAccountsInSeconds()) * 1000;
 
 	for (let i = 0; i < blockAccountsAtOnce; i++) {
 		const twitterTab = await getTwitterTab();
@@ -69,10 +70,8 @@ async function blockTask(alarm) {
 	}
 }
 
-function interceptTwitterRequests() {	
-	webRequest.onBeforeSendHeaders.addListener(logURL, { urls: ["<all_urls>"] }, [
-		"requestHeaders",
-	]);
+function interceptTwitterRequests() {
+	webRequest.onBeforeSendHeaders.addListener(logURL, { urls: ["<all_urls>"] }, ["requestHeaders"]);
 }
 
 async function createBlockAlarm() {
@@ -89,4 +88,3 @@ async function createBlockAlarm() {
 	interceptTwitterRequests();
 	Badge.setColor();
 })();
-

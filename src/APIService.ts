@@ -37,7 +37,8 @@ export default class APIService {
 		}
 		console.log(acceptedLanguage);
 		console.log("Prevent Preflight: " + preventPreflight);
-		const ContentType = method === Method.POST ? "application/x-www-form-urlencoded" : "application/json";
+		const ContentType =
+			method === Method.POST ? "application/x-www-form-urlencoded" : "application/json";
 		if (preventPreflight) {
 			return {
 				"Content-Type": "text/plain",
