@@ -32,38 +32,65 @@ function localizeUI() {
 }
 
 async function updateStats() {
+	// updateInstantly = true) {
+	// Stats:
 	const queue = await Storage.getQueue();
 	const blockedAccounts = await Storage.getBlockedAccounts();
-	const stats = {
-		queue: queue.length || 0,
-		blockedAccounts: blockedAccounts.length || 0,
-	};
+	const queueLength = queue.length || 0;
+	const blockedLength = blockedAccounts.length || 0;
 
-	const blockListNode = document.querySelector("#blockListStats");
-	const queueListNode = document.querySelector("#blockQueueStats");
-	const statsWrapperNode = document.querySelector(".stats");
+	// Durations:
+	const blockPeriodInMinutes = await Storage.getBlockPeriodInMinutes();
+	const driveWayInSeconds = (blockPeriodInMinutes * 60) / 2;
 
+	// Nodes:
+	const blockListNode = document.querySelector("#blockListStats") as HTMLElement;
+	const queueListNode = document.querySelector("#blockQueueStats") as HTMLElement;
+	const statsWrapperNode = document.querySelector(".stats") as HTMLElement;
 	const blockListLabel = blockListNode.parentElement;
 	const queueListLabel = queueListNode.parentElement;
-	const isBlocking = stats.queue > 0;
-	const hasBlocked = stats.blockedAccounts > 0;
+	const truckIcon = document.querySelector(".stats__truck-icon") as HTMLElement;
 
-	console.log(stats);
+	// Conditions:
+	const isBlocking = queueLength > 0;
+	const hasBlocked = blockedLength > 0;
 
-	if (blockListNode && queueListNode) {
-		queueListNode.innerHTML = stats.queue.toLocaleString();
-		blockListNode.innerHTML = stats.blockedAccounts.toLocaleString();
-	}
+	// if (updateInstantly) {
+	queueListNode.innerHTML = queueLength.toLocaleString();
+	blockListNode.innerHTML = blockedLength.toLocaleString();
+	// } else {
+	// 	console.log("👂 Event listener should be added");
+	// 	// sync update of numbers to truck animations:
+	// 	truckIcon.addEventListener(
+	// 		"animationiteration animationstart",
+	// 		() => {
+	// 			console.log("🧙‍♂️ animationiteration update stats");
+	// 			queueListNode.innerHTML = queueLength.toLocaleString();
+	// 			// update blocklist later to fit truck animation:
+	// 			setTimeout(() => {
+	// 				console.log("🧙‍♂️ timeout: update blocklist");
+	// 				blockListNode.innerHTML = blockedLength.toLocaleString();
+	// 			}, driveWayInSeconds * 1000);
+	// 		},
+	// 		{
+	// 			once: true,
+	// 		}
+	// 	);
+	// }
 
+	// Set or remove css classes for coloring and animations:
 	statsWrapperNode.classList.toggle("stats--blocking", isBlocking);
 	queueListLabel.classList.toggle("active", isBlocking);
 	blockListLabel.classList.toggle("active", hasBlocked);
 
+	// Calculate space between queue and blockedList for drive way:
 	const { left, width } = queueListLabel.getBoundingClientRect();
 	const blockLeftEdge = blockListLabel.getBoundingClientRect().left;
-	const truckWidth = (document.querySelector(".stats__truck-icon") as HTMLElement).clientWidth;
+	const truckWidth = truckIcon.clientWidth;
 	const difference = blockLeftEdge - left - width - truckWidth;
-	(statsWrapperNode as HTMLElement).style.setProperty("--drive-way", `${Math.round(difference / 2)}px`);
+
+	statsWrapperNode.style.setProperty("--drive-way", `${Math.round(difference / 2)}px`);
+	statsWrapperNode.style.setProperty("--drive-duration", `${driveWayInSeconds}s`);
 }
 
 async function getUserInfo() {
@@ -172,6 +199,8 @@ importListButton?.addEventListener("click", importBlockList);
 
 	runtime.onMessage.addListener((message) => {
 		if (message.action === Action.queueUpdate) {
+			// console.debug("📫 queueUpdate Message");
+			// updateStats(false);
 			updateStats();
 		}
 	});
