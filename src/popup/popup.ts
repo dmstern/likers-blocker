@@ -2,6 +2,7 @@ import { downloads, i18n } from "webextension-polyfill";
 import Messenger from "../Messages";
 import Storage from "../Storage";
 import { UserInfo } from "../UserInfo";
+import "./popup.scss";
 
 function replaceData(dataName: string, callback: (element: HTMLElement, message: string) => void) {
 	const elements = document.querySelectorAll(`[data-${dataName}]`) as NodeListOf<HTMLElement>;

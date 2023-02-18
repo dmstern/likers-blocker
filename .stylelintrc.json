@@ -3,7 +3,8 @@
 		{
 			"files": ["*.scss"],
 			"rules": {
-				"selector-class-pattern": ".([a-z]|-)*_*([a-z]|-)*"
+				"selector-class-pattern": "([a-z]|-)*_*([a-z]|-)*",
+				"custom-property-pattern": "([a-z]|-)*"
 			},
 			"extends": "stylelint-config-standard-scss"
 		}
