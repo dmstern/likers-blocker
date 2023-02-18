@@ -357,9 +357,11 @@ label[for="theme-switcher"] {
 	justify-content: space-between;
 	margin-bottom: 1rem;
 
-	&__queue.active {
-		&__icon {
-			color: var(--color--twitter-brand);
+	&__queue {
+		&.active {
+			.label__icon {
+				color: var(--color--twitter-brand);
+			}
 		}
-	}	
+	}
 }
