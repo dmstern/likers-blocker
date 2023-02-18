@@ -250,8 +250,8 @@ svg.w-6.h-6 {
 		display: inline-block;
 	}
 
-	&:not(:first-of-type) {
-		&::before {
+	&:first-of-type {
+		&::after {
 			content: "|";
 			opacity: 0.5;
 			display: inline-block;
