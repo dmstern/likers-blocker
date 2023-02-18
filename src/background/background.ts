@@ -82,4 +82,5 @@ async function createBlockAlarm() {
 	createBlockAlarm();
 	interceptTwitterRequests();
 	Badge.setColor();
+	Storage.getQueue().then((queue) => Badge.updateBadgeCount(queue.length));
 })();
