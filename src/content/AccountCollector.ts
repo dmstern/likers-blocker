@@ -437,17 +437,6 @@ export default class AccountCollector {
 				"click",
 				async () => {
 					await Storage.queueMulti(this.users);
-
-					// FIXME: this does not work yet due to "CORS missing Allow Header"
-					// if (await Storage.getIncludeRetweeters()) {
-					// 	console.debug("include retweeters");
-					// 	const retweeters = await APIService.getRetweeters(this.tweetId);
-					// 	console.debug("retweeters", retweeters);
-					// 	await Storage.queueMulti(retweeters.map(user => user.screen_name));
-					// 	const queue = await Storage.getQueue();
-					// 	console.debug(queue);
-					// }
-
 					confirmInfo.innerHTML = `<p>${i18n.getMessage("ui_confirm_clicked")}</p>`;
 					confirmButtonIcon.innerHTML = icons.check;
 					confirmButtonLabel.innerText = i18n.getMessage("ui_confirm_button_label");
