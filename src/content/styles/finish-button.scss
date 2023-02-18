@@ -1,0 +1,75 @@
+.lb-finish-button {
+	border: none;
+	padding: var(--lb-close-button-padding);
+	cursor: pointer;
+	position: absolute;
+	width: 42px;
+	height: 42px;
+	right: calc(
+		var(--lb-popup-padding) - var(--lb-close-button-padding) - var(--close-button-icon-spacing)
+	);
+	top: calc(
+		var(--lb-popup-padding) - var(--lb-close-button-padding) - var(--close-button-icon-spacing) - 4px
+	);
+	border-radius: 50%;
+	z-index: 5000;
+	transition: background-color ease 500ms, opacity ease 1000ms;
+
+	&--active {
+		background-color: $background-color-transparent !important;
+	}
+
+	&:not(:hover) {
+		background-color: $background-color-transparent !important;
+	}
+
+	.lb-confirm & {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	svg {
+		width: 1.8em;
+		height: 1.8em;
+		color: $color-4 !important;
+		margin-top: 2px;
+		opacity: 1;
+		visibility: visible;
+		transition: left 300ms ease-in-out, transform 1600ms ease-in-out 300ms,
+			opacity 800ms ease-in-out 1200ms, visibility 800ms ease-in-out 1200ms;
+		position: absolute;
+		top: 6px;
+		left: 10px;
+		transform-origin: 50% 50%;
+
+		&:nth-child(1) {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		&:nth-child(2) {
+			opacity: 0;
+			visibility: hidden;
+		}
+
+		@at-root {
+			.lb-finish-button--active {
+				svg {
+					color: $color-success !important;
+					transform: rotate(6turn);
+					left: 15px;
+				
+					&:nth-child(1) {
+						opacity: 0;
+						visibility: hidden;
+					}
+
+					&:nth-child(2) {
+						opacity: 1;
+						visibility: visible;
+					}
+				}
+			}
+		}
+	}
+}

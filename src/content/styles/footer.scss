@@ -1,0 +1,81 @@
+.lb-footer {
+	&__inner {
+		display: flex;
+		justify-content: flex-end;
+		padding: 0 1.5rem;
+		margin: 0.5rem 0;
+		list-style: none;
+	}
+
+	&__item {
+		&:nth-child(1) {
+			flex-grow: 1;
+		}
+
+		svg {
+			height: 1.5rem;
+			width: auto;
+		}
+	}
+
+	&__link {
+		display: inline-block;
+		transition: all 200ms ease;
+		color: $color-gray;
+		padding: 0.5rem;
+		position: relative;
+
+		&:visited {
+			color: $color-gray;
+		}
+
+		&:hover {
+			color: $color-2;
+			transform: scale(1.2);
+		}
+
+		&::after {
+			content: "";
+			width: 8px;
+			height: 8px;
+			display: none;
+			position: absolute;
+			background: red;
+			border-radius: 50%;
+			top: 0.5rem;
+			left: 0.5rem;
+			opacity: 0.8;
+		}
+
+		&--show-badge::after {
+			display: inline-block;
+		}
+
+		&--new-release {
+			opacity: 0;
+			visibility: hidden;
+			color: $color-warning;
+
+			&:visited {
+				color: $color-warning;
+			}
+
+			&.sparkle {
+				opacity: 1;
+				visibility: visible;
+
+				svg path {
+					animation: rainbow 15s linear infinite alternate;
+
+					&:nth-child(1) {
+						animation-delay: 1s;
+					}
+
+					&:nth-child(3) {
+						animation-delay: 2s;
+					}
+				}
+			}
+		}
+	}
+}

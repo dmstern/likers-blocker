@@ -1,0 +1,18 @@
+.lb-checkmark {
+	color: currentcolor;
+	display: block;
+	position: absolute;
+	right: 5px;
+	top: 50%;
+	transform: scale(1) translateY(-50%);
+	transform-origin: 50% 0;
+	opacity: 0;
+	transition: opacity 600ms ease-in-out, transform 600ms cubic-bezier(0.66, 0.47, 0.2, 1.89) 400ms;
+	width: 1.2rem;
+	height: auto;
+
+	.lb-collected & {
+		transform: scale(1.2) translateY(-50%);
+		opacity: 1;
+	}
+}

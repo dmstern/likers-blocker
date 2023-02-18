@@ -1,0 +1,72 @@
+.lb-confirm {
+	.lb-label.lb-confirm-message {
+		display: block !important;
+		opacity: 1;
+	}
+}
+
+.lb-confirm-wrapper {
+	margin-top: 2em;
+	position: relative;
+
+	&:last-of-type {
+		margin-bottom: 2em;
+	}
+}
+
+.lb-confirm-button {
+	* {
+		color: $color-4 !important;
+	}
+
+	padding: 0 2em !important;
+	text-decoration: none;
+	line-height: 1.3rem !important;
+	transition: all 500ms ease-in-out;
+	min-height: 2.5rem;
+	float: right;
+	margin-top: .5rem;
+
+	body.many & {
+		padding: 0 1.3em !important;
+	}
+
+	> div > span {
+		display: flex;
+
+		// Label:
+		> span {
+			align-self: center;
+		}
+	}
+
+	svg {
+		transition: all 500ms ease-in-out;
+		margin-left: .5rem;
+		height: 1.5rem;
+
+		&.lb-icon--external {
+			margin-left: 5px;
+		}
+
+		&.lb-icon--check {
+			margin-right: 1em;
+		}
+	}
+
+	&--clicked {
+		color: $color-success !important;
+		border-color: $color-success !important;
+
+		.lb-icon--check {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.lb-icon--send {
+			opacity: 0;
+			visibility: hidden;
+			width: 0;
+		}
+	}
+}

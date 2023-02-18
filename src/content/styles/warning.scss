@@ -1,0 +1,51 @@
+.lb-warning {
+	position: absolute;
+	top: 3rem;
+	width: 80%;
+	left: 6%;
+	border-radius: 10px;
+	color: $color-warning;
+	border: 2px solid $color-warning;
+	text-align: center;
+	padding: 1.4rem;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 500ms ease-in-out;
+
+	.lb-popup--has-warning & {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	&__heading {
+		color: $color-warning;
+		margin-top: 0;
+		display: flex;
+		align-items: center;
+		line-height: 1em;
+
+		svg {
+			height: 1.2em;
+		}
+	}
+
+	&__text {
+		color: $color-warning;
+	}
+
+	&__buttons {
+		display: flex;
+	}
+
+	&__button {
+		color: $color-warning;
+		display: block;
+		margin: 1em auto 0;
+		padding: 6px 1rem;
+		border: 1px solid $color-warning;
+		border-radius: 14px;
+		font-weight: bold;
+		font-family: inherit;
+		background-color: $background-color-transparent;
+	}
+}

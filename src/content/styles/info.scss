@@ -1,0 +1,14 @@
+.lb-info {
+	display: inline-block;
+	margin-left: 1em;
+	height: var(--text-line-height);
+	width: var(--text-line-height);
+	cursor: help;
+
+	svg {
+		display: block;
+		height: inherit;
+		color: $color-2;
+		fill: currentcolor;
+	}
+}

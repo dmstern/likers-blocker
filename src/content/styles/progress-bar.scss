@@ -1,0 +1,56 @@
+@keyframes load {
+	0% {
+		transform: translateX(0);
+	}
+
+	100% {
+		transform: translateX(91%);
+	}
+}
+
+.lb-progress-bar {
+	width: 100%;
+	padding: 1rem 0;
+	color: $color-snow;
+
+	&__inner {
+		position: relative;
+		width: 0;
+		min-width: calc(1em);
+		display: block;
+		border-radius: 4px;
+		transition: all 500ms ease-in-out;
+		color: currentcolor;
+		padding: 5px;
+		text-align: right;
+		white-space: nowrap;
+
+		.lb-check & {
+			min-width: 4rem;
+		}
+
+		.lb-block-page .lb-collecting & {
+			text-align: center;
+			width: 50%;
+			animation: load 1200ms ease-in-out infinite alternate;
+		}
+	}
+
+	&__label {
+		line-height: 1em;
+		font-weight: bold;
+		font-size: 1rem;
+		transition: transform 500ms ease-in-out;
+		transform: translateX(0);
+		display: block;
+
+		.lb-block-page & {
+			opacity: 0;
+			visibility: hidden;
+		}
+
+		.lb-check & {
+			transform: translateX(-2rem);
+		}
+	}
+}

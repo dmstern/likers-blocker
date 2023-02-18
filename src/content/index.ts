@@ -1,9 +1,8 @@
 import Storage from "../Storage";
 import AccountCollector from "./AccountCollector";
-
 import APIService from "../APIService";
 import Messenger from "../Messages";
-import "./style.scss";
+import "./styles/index.scss";
 
 //listen to messages from background
 Messenger.addUserInfoListener(async () => {

@@ -22,7 +22,7 @@ const output = [
 		format: "iife",
 		globals: {
 			"webextension-polyfill": "chrome",
-		}
+		},
 	},
 ];
 
@@ -47,7 +47,7 @@ const plugins = {
 						const manifest = JSON.parse(contents.toString());
 						manifest.background = {
 							service_worker: "background.js",
-							type: "module"
+							type: "module",
 						};
 						return JSON.stringify(manifest, null, 2);
 					}
