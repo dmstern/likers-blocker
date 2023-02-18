@@ -5,7 +5,7 @@ import settings from "../settings";
 import TextStyle from "./TextStyle";
 import TwitterPage, { AccountList } from "./TwitterPage";
 import Storage from "../Storage";
-import {  i18n } from "webextension-polyfill";
+import { i18n } from "webextension-polyfill";
 
 const TOPBAR_SELECTOR = {
 	mobile: "main > div > div > div > div > div > div",
@@ -160,9 +160,7 @@ export default class AccountCollector {
 		if (await TwitterPage.isBlockPage()) {
 			return `${i18n.getMessage("ui_takeAMoment")}`;
 		} else {
-			return `${i18n.getMessage("ui_onlyListItems")}<br>${i18n.getMessage(
-				"ui_twitterHides"
-			)}`;
+			return `${i18n.getMessage("ui_onlyListItems")}<br>${i18n.getMessage("ui_twitterHides")}`;
 		}
 	}
 
@@ -230,7 +228,7 @@ export default class AccountCollector {
 	private async collectUsers() {
 		const userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
 			? (await this.getScrollList()).querySelectorAll("a.js-user-profile-link")
-			: (await this.getScrollList()).querySelectorAll("[data-testid=\"UserCell\"] a[aria-hidden=\"true\"]");
+			: (await this.getScrollList()).querySelectorAll('[data-testid="UserCell"] a[aria-hidden="true"]');
 		// Increase allowance for larger lists to avoid false-positive warnings:
 		const idleCounterAllowance = settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.users.length / 500);
 		const totalUserCount = await this.getTotalUsersCount();
@@ -673,36 +671,36 @@ export default class AccountCollector {
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--new-release ${isNewRelease ? "sparkle" : ""}"
 						href="https://github.com/dmstern/likers-blocker/releases" target="_blank" title="${i18n.getMessage(
-		"ui_newRelease"
-	)}">${Icons.sparkles}</a>
+							"ui_newRelease"
+						)}">${Icons.sparkles}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--donate ${await AccountCollector.getBadgeClass(
-		"donate"
-	)}" href="https://github.com/dmstern/likers-blocker#donate" target="_blank" title="${i18n.getMessage(
-	"popup_tip"
-)}">${Icons.gift}</a>
+						"donate"
+					)}" href="https://github.com/dmstern/likers-blocker#donate" target="_blank" title="${i18n.getMessage(
+			"popup_tip"
+		)}">${Icons.gift}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__item--report ${await AccountCollector.getBadgeClass(
-		"report"
-	)}" href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank" title="${i18n.getMessage(
-	"popup_reportBug"
-)}">${Icons.issue}</a>
+						"report"
+					)}" href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank" title="${i18n.getMessage(
+			"popup_reportBug"
+		)}">${Icons.issue}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--share ${await AccountCollector.getBadgeClass(
-		"share"
-	)}" href="${i18n.getMessage(
-	"tweet_text"
-)}" target="_blank" title="${i18n.getMessage("popup_share")}">${Icons.share}</a>
+						"share"
+					)}" href="${i18n.getMessage("tweet_text")}" target="_blank" title="${i18n.getMessage(
+			"popup_share"
+		)}">${Icons.share}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="icon--twitter lb-footer__link lb-footer__link--follow ${await AccountCollector.getBadgeClass(
-		"follow"
-	)}" href="https://twitter.com/LikersBlocker" target="_blank" title="${i18n.getMessage(
-	"popup_follow"
-)}">${Icons.twitter}</a>
+						"follow"
+					)}" href="https://twitter.com/LikersBlocker" target="_blank" title="${i18n.getMessage(
+			"popup_follow"
+		)}">${Icons.twitter}</a>
 				</li>
 			</ul>
 			`;
@@ -722,18 +720,18 @@ export default class AccountCollector {
 				link?.classList.remove("lb-footer__link--show-badge");
 
 				switch (badgeType) {
-				case "follow": {
-					Storage.setHideBadgeFollow(true);
-					break;
-				}
-				case "share": {
-					Storage.setHideBadgeShare(true);
-					break;
-				}
-				case "donate": {
-					Storage.setHideBadgeDonate(true);
-					break;
-				}
+					case "follow": {
+						Storage.setHideBadgeFollow(true);
+						break;
+					}
+					case "share": {
+						Storage.setHideBadgeShare(true);
+						break;
+					}
+					case "donate": {
+						Storage.setHideBadgeDonate(true);
+						break;
+					}
 				}
 			});
 		});
@@ -802,15 +800,13 @@ export default class AccountCollector {
 		warning.style.backgroundColor = TwitterPage.backgroundColor;
 		warning.classList.add("lb-warning");
 		warning.innerHTML = `
-			<h4 class="lb-warning__heading">${icons.warn}<span>${i18n.getMessage(
-	"ui_warningHeading"
-)}</span></h4>
+			<h4 class="lb-warning__heading">${icons.warn}<span>${i18n.getMessage("ui_warningHeading")}</span></h4>
 			<span class="lb-warning__text">${i18n.getMessage("ui_warningText")}</span>
 			<div class="lb-warning__buttons">
 				<button class="lb-warning__button lb-warning__button--ok">${i18n.getMessage("ui_ok")}</button>
 				<button class="lb-warning__button lb-warning__button--hide">${i18n.getMessage(
-		"ui_doNotShowAgain"
-	)}</button>
+					"ui_doNotShowAgain"
+				)}</button>
 			</div>
 		`;
 

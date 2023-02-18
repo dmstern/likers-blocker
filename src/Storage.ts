@@ -25,7 +25,7 @@ enum Key {
 	blockDelayInMinutes = "blockDelayInMinutes",
 	blockPeriodInMinutes = "blockPeriodInMinutes",
 	blockAccountsAtOnce = "blockAccountsAtOnce",
-	intervalBetweenBlockAccountsInSeconds = "intervalBetweenBlockAccountsInSeconds"
+	intervalBetweenBlockAccountsInSeconds = "intervalBetweenBlockAccountsInSeconds",
 }
 
 const values = {

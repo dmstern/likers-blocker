@@ -64,7 +64,6 @@ async function getStats() {
 	const truckWidth = (document.querySelector(".stats__truck-icon") as HTMLElement).clientWidth;
 	const difference = blockLeftEdge - left - width - truckWidth;
 	(statsWrapperNode as HTMLElement).style.setProperty("--drive-way", `${Math.round(difference / 2)}px`);
-
 }
 
 async function getUserInfo() {
