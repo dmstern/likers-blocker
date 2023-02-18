@@ -14,6 +14,7 @@
 			--color--success: #559730;
 			--color--brand: #e1285c;
 			--color--twitter-brand: rgb(29, 161, 242);
+			--drive-way: 46px;
 		}
 
 		body {
@@ -149,7 +150,6 @@
 		.stats__truck-icon {
 			width: 32px;
 			height: auto;
-			--drive-way: 46px;
 			opacity: .7;
 			transform: translateX(calc(var(--drive-way) * -1)) rotateY(90deg);
 		}
@@ -423,7 +423,10 @@
 					<span id="user-name" class="user-info__user-name"></span>
 				</div>
 			</div>
+
 			<div class="stats">
+
+				<!-- Queue: -->
 				<div class="stats__queue label">
 					<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
 						viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -432,8 +435,10 @@
 							stroke-linecap="round" stroke-linejoin="round"></path>
 					</svg>
 					<span id="blockQueueStats">0</span>&nbsp;
-					<span data-label="popup_queue"></span>
+					<span class="label__text" data-label="popup_queue"></span>
 				</div>
+
+				<!-- Truck: -->
 				<div class="stats__status">
 					<svg class="stats__truck-icon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
 						viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -442,6 +447,8 @@
 							stroke-linecap="round" stroke-linejoin="round"></path>
 					</svg>
 				</div>
+
+				<!-- Blocked: -->
 				<div class="stats__block-list label">
 					<svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"
 						viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -450,8 +457,9 @@
 							stroke-linecap="round" stroke-linejoin="round"></path>
 					</svg>
 					<span id="blockListStats">0</span>&nbsp;
-					<span data-label="popup_list"></span>
+					<span class="label__text" data-label="popup_list"></span>
 				</div>
+
 			</div>
 
 			<div class="import-export">
