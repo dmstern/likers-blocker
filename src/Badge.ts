@@ -1,14 +1,24 @@
 import { action } from "webextension-polyfill";
+import settings from "./settings";
 
 export default class Badge {
 	static setColor() {
-		action?.setBadgeBackgroundColor({ color: "#e1285c" });
+		if (!action) {
+			return;
+		}
+
+		action.setBadgeBackgroundColor({ color: settings.BRAND_COLOR_DARK });
+		action.setBadgeTextColor({ color: "#FFFFFF" });
 	}
 
 	static async updateBadgeCount(length: number) {
-		console.log("updateBadgeCount");
+		if (!action) {
+			return;
+		}
 
-		const minifyProperties = [
+		console.debug("🏷️ updateBadgeCount:", length);
+
+		const minifyProperties: { suffix: string; divisor: number }[] = [
 			{
 				suffix: "M",
 				divisor: 1_000_000,
@@ -21,6 +31,10 @@ export default class Badge {
 				suffix: "",
 				divisor: 1,
 			},
+			{
+				suffix: "",
+				divisor: 0,
+			},
 		];
 
 		const { suffix, divisor } = minifyProperties.find(({ divisor }) => length >= divisor);
@@ -29,6 +43,6 @@ export default class Badge {
 		const details = {
 			text: text,
 		};
-		action?.setBadgeText(details);
+		action.setBadgeText(details);
 	}
 }

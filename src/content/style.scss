@@ -1,6 +1,6 @@
 $color-gray: rgba(128, 128, 128, 0.6);
 $color_2: unset;
-$color-brand: #1da1f2;
+$color-twitter: #1da1f2;
 $color_4: inherit;
 $color-success: #559730;
 $color-warning: #ec7613;
@@ -99,7 +99,7 @@ body.lb-block-page {
 
 	a {
 		&:hover.icon--twitter {
-			color: $color-brand;
+			color: $color-twitter;
 		}
 	}
 
