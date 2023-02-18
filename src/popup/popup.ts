@@ -31,7 +31,7 @@ function localizeUI() {
 	});
 }
 
-async function getStats() {
+async function updateStats() {
 	const queue = await Storage.getQueue();
 	const blockedAccounts = await Storage.getBlockedAccounts();
 	const stats = {
@@ -51,8 +51,8 @@ async function getStats() {
 	console.log(stats);
 
 	if (blockListNode && queueListNode) {
-		queueListNode.innerHTML = stats.queue.toString();
-		blockListNode.innerHTML = stats.blockedAccounts.toString();
+		queueListNode.innerHTML = stats.queue.toLocaleString();
+		blockListNode.innerHTML = stats.blockedAccounts.toLocaleString();
 	}
 
 	statsWrapperNode.classList.toggle("stats--blocking", isBlocking);
@@ -152,7 +152,7 @@ async function importBlockList() {
 			console.log("Importing: ");
 			const blockedAccounts = text.split(",\n");
 			await Storage.queueMulti(blockedAccounts);
-			await getStats();
+			await updateStats();
 		};
 		reader.readAsText(file);
 		fileInput.remove();
@@ -167,12 +167,12 @@ importListButton?.addEventListener("click", importBlockList);
 (function () {
 	localizeUI();
 	alignRightButton();
-	getStats();
+	updateStats();
 	getUserInfo();
 
 	runtime.onMessage.addListener((message) => {
 		if (message.action === Action.queueUpdate) {
-			getStats();
+			updateStats();
 		}
 	});
 })();
