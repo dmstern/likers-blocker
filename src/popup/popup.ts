@@ -50,14 +50,21 @@ async function getStats() {
 
 	console.log(stats);
 
-	statsWrapperNode.classList.toggle("stats--blocking", isBlocking);
-	queueListLabel.classList.toggle("active", isBlocking);
-	blockListLabel.classList.toggle("active", hasBlocked);
-
 	if (blockListNode && queueListNode) {
 		queueListNode.innerHTML = stats.queue.toString();
 		blockListNode.innerHTML = stats.blockedAccounts.toString();
 	}
+
+	statsWrapperNode.classList.toggle("stats--blocking", isBlocking);
+	queueListLabel.classList.toggle("active", isBlocking);
+	blockListLabel.classList.toggle("active", hasBlocked);
+
+	const { left, width } = queueListLabel.getBoundingClientRect();
+	const blockLeftEdge = blockListLabel.getBoundingClientRect().left;
+	const truckWidth = (document.querySelector(".stats__truck-icon") as HTMLElement).clientWidth;
+	const difference = blockLeftEdge - left - width - truckWidth;
+	(statsWrapperNode as HTMLElement).style.setProperty("--drive-way", `${Math.round(difference / 2)}px`);
+
 }
 
 async function getUserInfo() {
