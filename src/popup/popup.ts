@@ -124,7 +124,7 @@ async function getUserInfo() {
 }
 
 function alignRightButton() {
-	const rightButton: HTMLElement | null = document.querySelector(".btn.issue");
+	const rightButton: HTMLElement | null = document.querySelector(".btn--issue");
 	const leftButton = rightButton?.parentElement?.children[0];
 
 	if (leftButton && rightButton) {
