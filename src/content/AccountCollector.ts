@@ -17,7 +17,6 @@ export default class AccountCollector {
 	private uiIdleCounter: number;
 	private readonly lastCollectedUserCount: number[];
 	private blockButton: HTMLAnchorElement;
-	private checkbox: HTMLInputElement;
 	private collectedUsers: string[];
 	private confirmButton: HTMLLinkElement;
 	private confirmMessageElement: HTMLElement | null;
@@ -339,27 +338,20 @@ export default class AccountCollector {
 		});
 	}
 
-	private async createCheckbox(): Promise<HTMLElement> {
-		this.checkbox = document.createElement("input");
-		const label = document.createElement("label");
+	private createRetweetersLink(): HTMLElement {
+		const includeRetweetersLink = document.createElement("a");
 		const labelWrapper = document.createElement("div");
+
 		labelWrapper.classList.add("lb-label-wrapper");
-		labelWrapper.appendChild(label);
-		this.checkbox.type = "checkbox";
-		this.checkbox.checked = await Storage.getIncludeRetweeters();
-		this.checkbox.classList.add("lb-checkbox");
+		includeRetweetersLink.target = "_blank";
+		includeRetweetersLink.innerHTML = `
+			${icons.retweets}
+			<span>${i18n.getMessage("ui_blockRetweeters")}</span>
+		`;
+		includeRetweetersLink.classList.add("lb-link");
+		includeRetweetersLink.href = location.href.replace("likes", "retweets");
 
-		this.checkbox.addEventListener("change", () => {
-			Storage.setIncludeRetweeters(this.checkbox.checked);
-		});
-
-		label.innerHTML = `<span>${i18n.getMessage("ui_blockRetweeters")}</span>`;
-		label.prepend(this.checkbox);
-		const retweetersNotice = document.createElement("span");
-		retweetersNotice.classList.add("lb-info");
-		retweetersNotice.title = i18n.getMessage("ui_onlyDirectRetweeters");
-		retweetersNotice.innerHTML = Icons.info;
-		labelWrapper.appendChild(retweetersNotice);
+		labelWrapper.appendChild(includeRetweetersLink);
 		return labelWrapper;
 	}
 
@@ -580,10 +572,6 @@ export default class AccountCollector {
 
 		console.debug("finishCollecting()");
 
-		if (this.checkbox) {
-			Storage.setIncludeRetweeters(this.checkbox.checked);
-		}
-
 		this.stopScrolling();
 
 		const confirmHeading = this.popup.querySelector(".lb-confirm-message h3 span");
@@ -649,9 +637,9 @@ export default class AccountCollector {
 		this.createConfirmMessageElement();
 		const confirmButton = await this.createConfirmButton();
 
-		if (await TwitterPage.isTweetPage()) {
-			const checkboxWrapper = await this.createCheckbox();
-			this.confirmMessageElement?.querySelector(".lb-label__main")?.appendChild(checkboxWrapper);
+		if (await TwitterPage.isLikesPage()) {
+			const includeRetweeters = this.createRetweetersLink();
+			this.confirmMessageElement?.querySelector(".lb-label__main")?.appendChild(includeRetweeters);
 		}
 
 		this.confirmMessageElement?.querySelector(".lb-label__main")?.appendChild(confirmButton);

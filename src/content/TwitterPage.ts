@@ -53,13 +53,21 @@ export default class TwitterPage {
 
 	static isTweetPage(): Promise<boolean> {
 		return new Promise<boolean>((resolve) => {
-			setTimeout(() => {
+			setTimeout(async () => {
 				resolve(
-					location.pathname.includes("status") &&
-						(location.pathname.endsWith("likes") || location.pathname.endsWith("retweets"))
+					(location.pathname.includes("status") && (await this.isLikesPage())) ||
+						(await this.isRetweetsPage())
 				);
 			}, 1);
 		});
+	}
+
+	static isLikesPage(): Promise<boolean> {
+		return new Promise((resolve) => resolve(location.pathname.endsWith("likes")));
+	}
+
+	static isRetweetsPage(): Promise<boolean> {
+		return new Promise((resolve) => resolve(location.pathname.endsWith("retweets")));
 	}
 
 	static async isBlockPage(): Promise<boolean> {

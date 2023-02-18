@@ -116,7 +116,7 @@
 		"description": "Message that is shown during or after collecting that tells the user that some users may hidden."
 	},
 	"ui_onlyListItems": {
-		"message": "Wir können nur Liker aus dieser Liste blocken.",
+		"message": "Wir können nur Accounts aus dieser Liste blocken.",
 		"description": "Message that tells the user, that only accounts that occur in the list can be blocked."
 	},
 	"ui_blockRetweeters": {
