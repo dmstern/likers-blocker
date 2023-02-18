@@ -1,8 +1,8 @@
+import { runtime, storage } from "webextension-polyfill";
 import Badge from "./Badge";
-import { UserInfo, UserSet } from "./UserInfo";
-import { storage, runtime } from "webextension-polyfill";
 import Cookies from "./Cookies";
 import settings from "./settings";
+import { BlockedUser, QueuedUser, User, UserSet } from "./UserInfo";
 
 const date = new Date();
 
@@ -32,19 +32,21 @@ const values = {
 	today: parseInt(`${date.getFullYear()}${date.getMonth()}${date.getDate()}`),
 };
 
+type StorageValue = boolean | number | string | User | User[] | BlockedUser[] | QueuedUser[];
+
 export default class Storage {
 	private static async prefix(key: Key) {
 		const id = await this.getIdentity();
 		return `${id}_${key}`;
 	}
 
-	private static async get(key: Key, groupedByUser = true): Promise<unknown> {
+	private static async get(key: Key, groupedByUser = true): Promise<StorageValue> {
 		const storageKey = groupedByUser ? await this.prefix(key) : key;
 		const value = await storage.local.get(storageKey);
 		return value[storageKey];
 	}
 
-	private static async set(key: Key, value: unknown, groupedByUser = true) {
+	private static async set(key: Key, value: StorageValue, groupedByUser = true) {
 		const storageKey = groupedByUser ? await this.prefix(key) : key;
 		storage.local.set({ [storageKey]: value })?.then();
 	}
@@ -56,7 +58,7 @@ export default class Storage {
 
 	static async getIdentity(): Promise<string> {
 		const idFromCookies = await Cookies.getIdentity();
-		const idFromStorage = await this.get(Key.userId, false);
+		const idFromStorage = (await this.get(Key.userId, false)) as string;
 		let identity = idFromStorage;
 
 		if (idFromCookies && idFromCookies !== idFromStorage) {
@@ -64,7 +66,7 @@ export default class Storage {
 			Storage.set(Key.userId, idFromCookies, false);
 		}
 
-		return identity as Promise<string>;
+		return new Promise<string>((resolve) => resolve(identity));
 	}
 
 	static async setIdentity(userId: string) {
@@ -110,11 +112,12 @@ export default class Storage {
 		this.set(Key.acceptedLanguage, value);
 	}
 
-	static async getUserInfo(): Promise<UserInfo> {
-		return (await this.get(Key.userInfo)) as Promise<UserInfo>;
+	static async getUserInfo(): Promise<User> {
+		const userInfo = (await this.get(Key.userInfo)) as User;
+		return new Promise<User>((resolve) => resolve(userInfo));
 	}
 
-	static setUserInfo(userInfo: UserInfo) {
+	static setUserInfo(userInfo: User) {
 		if (userInfo.errors) {
 			return;
 		}
@@ -192,8 +195,8 @@ export default class Storage {
 		}
 	}
 
-	static async getQueue(): Promise<UserInfo[]> {
-		let queued = (await this.get(Key.blockingQueue)) as UserInfo[] | undefined;
+	static async getQueue(): Promise<UserSet<QueuedUser>> {
+		let queued = (await this.get(Key.blockingQueue)) as QueuedUser[] | undefined;
 
 		if (!queued) {
 			queued = [];
@@ -201,81 +204,70 @@ export default class Storage {
 
 		Badge.updateBadgeCount(queued.length);
 
-		return queued;
+		return new UserSet<QueuedUser>(queued);
 	}
 
-	static async queue(user: UserInfo) {
+	static async queue(user: QueuedUser) {
 		const queue = await this.getQueue();
-
-		if (queue.includes(user)) {
-			return;
-		}
-
-		queue.push(user);
-		Badge.updateBadgeCount(queue.length);
-		this.set(Key.blockingQueue, queue);
+		queue.add(user);
+		Badge.updateBadgeCount(queue.size);
+		this.set(Key.blockingQueue, queue.toArray());
 	}
 
-	static async dequeue(user?: UserInfo) {
+	static async dequeue(user?: QueuedUser) {
 		const queue = await this.getQueue();
-
-		if (!user) {
-			user = queue.shift();
-		}
-
-		const set = new UserSet(queue);
 
 		if (user) {
-			set.delete(user);
+			queue.delete(user);
+		} else {
+			queue.shift();
 		}
 
-		const newQueue = set.getUsers();
-
-		this.set(Key.blockingQueue, newQueue);
+		this.set(Key.blockingQueue, queue.toArray());
 		//console.log("remaining: " + Array.from(set).length)
-		Badge.updateBadgeCount(newQueue.length);
+		Badge.updateBadgeCount(queue.size);
 		return user;
 	}
 
-	static async queueMulti(users: UserInfo[]) {
-		const queue: UserInfo[] = await this.getQueue();
-		const set: UserSet = new UserSet(queue.concat(users));
+	static async queueMulti(users: QueuedUser[]) {
+		const queue: UserSet<QueuedUser> = await this.getQueue();
 		//console.log("Queue Length: " + Array.from(set).length)
-		const newQueue = set.getUsers();
-		Badge.updateBadgeCount(newQueue.length);
-		this.set(Key.blockingQueue, newQueue);
+		queue.concat(users);
+		Badge.updateBadgeCount(queue.size);
+		this.set(Key.blockingQueue, queue.toArray());
 	}
 
 	static async queueEmpty(): Promise<boolean> {
 		const queue = await this.getQueue();
-		return queue.length === 0;
+		return queue.size === 0;
 	}
 
-	static async getBlockedAccounts(): Promise<UserInfo[]> {
-		let blocked = (await this.get(Key.blockedAccounts)) as UserInfo[] | undefined;
+	static async getBlockedAccounts(): Promise<UserSet<BlockedUser>> {
+		let blocked = (await this.get(Key.blockedAccounts)) as BlockedUser[] | undefined;
 
 		if (!blocked) {
 			blocked = [];
 		}
 
-		return blocked;
+		return new UserSet(blocked);
 	}
 
-	static async addBlockedMulti(users: UserInfo[]) {
-		const blocked: UserInfo[] = await this.getBlockedAccounts();
-		const set: UserSet = new UserSet(blocked.concat(users));
-		this.set(Key.blockedAccounts, set.getUsers());
+	static async addBlockedMulti(users: QueuedUser[]) {
+		const blocked: UserSet<BlockedUser> = await this.getBlockedAccounts();
+		const blockCandidates = users.map((user) => ({
+			screen_name: user.screen_name,
+			interacted_with: user.interacted_with,
+		}));
+
+		blocked.concat(blockCandidates);
+		this.set(Key.blockedAccounts, blocked.toArray());
 	}
 
-	static async addBlocked(userHandle: UserInfo) {
+	static async addBlocked(user: QueuedUser) {
 		const blocked = await this.getBlockedAccounts();
-
-		if (blocked.includes(userHandle)) {
-			return;
-		}
-
-		blocked.push(userHandle);
-		this.set(Key.blockedAccounts, blocked);
+		const { screen_name, interacted_with } = user;
+		blocked.add({ screen_name, interacted_with });
+		this.set(Key.blockedAccounts, blocked.toArray());
 	}
 
 	static async getBlockDelayInMinutes(): Promise<number> {

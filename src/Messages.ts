@@ -1,6 +1,6 @@
 import { runtime, tabs } from "webextension-polyfill";
 import { getTwitterTab } from "./Tabs";
-import { UserInfo } from "./UserInfo";
+import { QueuedUser, User } from "./UserInfo";
 
 enum Action {
 	getUserInfo = "getUserInfo",
@@ -13,13 +13,13 @@ interface Message {
 }
 
 export interface QueueUpdateData {
-	dequeuedUser: UserInfo;
+	dequeuedUser: User;
 	queueLength: number;
 	blockListLength: number;
 }
 
 export interface QueueUpdateMessage extends Message {
-	dequeuedUser: UserInfo;
+	dequeuedUser: User;
 	queueLength: number;
 	blockListLength: number;
 }
@@ -29,11 +29,11 @@ export interface GetUserInfoMessage extends Message {
 }
 
 export interface BlockMessage extends Message {
-	user: UserInfo;
+	user: QueuedUser;
 }
 
 export interface GetUserInfoResponse {
-	userInfo: UserInfo;
+	userInfo: User;
 }
 
 export interface BlockResponse {
@@ -41,7 +41,7 @@ export interface BlockResponse {
 }
 
 export default class Messenger {
-	static async sendBlockMessage(data: { user: UserInfo }): Promise<void | BlockResponse> {
+	static async sendBlockMessage(data: { user: User }): Promise<void | BlockResponse> {
 		const twitterTab = await getTwitterTab();
 		if (twitterTab) {
 			await tabs.sendMessage(twitterTab.id, { action: Action.block, ...data });
@@ -63,7 +63,7 @@ export default class Messenger {
 		}
 	}
 
-	static async addBlockListener(callback: (user: UserInfo) => Promise<BlockResponse>) {
+	static async addBlockListener(callback: (user: QueuedUser) => Promise<BlockResponse>) {
 		runtime.onMessage.addListener((message: BlockMessage) => {
 			console.log("✉ message from background", message);
 			if (message.action === Action.block) {

@@ -1,5 +1,5 @@
 import Storage from "./Storage";
-import { UserInfo } from "./UserInfo";
+import { QueuedUser, User } from "./UserInfo";
 const API_URL = "https://api.twitter.com/1.1/";
 
 enum Endpoint {
@@ -124,12 +124,11 @@ export default class APIService {
 		});
 	}
 
-	static async block(user: UserInfo): Promise<Response | undefined> {
+	static async block(user: QueuedUser): Promise<Response | undefined> {
 		console.info(`⛔ blocking ${user.screen_name}...`);
+		const isAlreadyBlocked: boolean = (await Storage.getBlockedAccounts()).has(user);
 
-		const blocklist: string[] = (await Storage.getBlockedAccounts()).map((user) => user.screen_name);
-
-		if (blocklist.includes(user.screen_name)) {
+		if (isAlreadyBlocked) {
 			console.warn(`${user.screen_name} is already blocked.`);
 			return;
 		}
@@ -149,7 +148,7 @@ export default class APIService {
 		return response;
 	}
 
-	static async getRetweeters(tweetId: string): Promise<UserInfo[]> {
+	static async getRetweeters(tweetId: string): Promise<User[]> {
 		// TODO: add pagination
 		const response = await this.sendGetRequest({
 			endpoint: Endpoint.retweeters,
