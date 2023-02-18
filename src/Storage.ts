@@ -1,5 +1,5 @@
 import Badge from "./Badge";
-import { UserInfo } from "./UserInfo";
+import { UserInfo, UserSet } from "./UserInfo";
 import { storage, runtime } from "webextension-polyfill";
 import Cookies from "./Cookies";
 import settings from "./settings";
@@ -192,8 +192,8 @@ export default class Storage {
 		}
 	}
 
-	static async getQueue(): Promise<string[]> {
-		let queued = (await this.get(Key.blockingQueue)) as string[] | undefined;
+	static async getQueue(): Promise<UserInfo[]> {
+		let queued = (await this.get(Key.blockingQueue)) as UserInfo[] | undefined;
 
 		if (!queued) {
 			queued = [];
@@ -204,44 +204,44 @@ export default class Storage {
 		return queued;
 	}
 
-	static async queue(userHandle: string) {
+	static async queue(user: UserInfo) {
 		const queue = await this.getQueue();
 
-		if (queue.includes(userHandle)) {
+		if (queue.includes(user)) {
 			return;
 		}
 
-		queue.push(userHandle);
+		queue.push(user);
 		Badge.updateBadgeCount(queue.length);
 		this.set(Key.blockingQueue, queue);
 	}
 
-	static async dequeue(userHandle?: string) {
+	static async dequeue(user?: UserInfo) {
 		const queue = await this.getQueue();
 
-		if (!userHandle) {
-			userHandle = queue.shift();
+		if (!user) {
+			user = queue.shift();
 		}
 
-		const set = new Set(queue);
+		const set = new UserSet(queue);
 
-		if (userHandle) {
-			set.delete(userHandle);
+		if (user) {
+			set.delete(user);
 		}
 
-		const newQueue = Array.from(set);
+		const newQueue = set.getUsers();
 
 		this.set(Key.blockingQueue, newQueue);
 		//console.log("remaining: " + Array.from(set).length)
 		Badge.updateBadgeCount(newQueue.length);
-		return userHandle;
+		return user;
 	}
 
-	static async queueMulti(userHandles: string[]) {
-		const queue: string[] = await this.getQueue();
-		const set: Set<string> = new Set<string>(queue.concat(userHandles));
+	static async queueMulti(users: UserInfo[]) {
+		const queue: UserInfo[] = await this.getQueue();
+		const set: UserSet = new UserSet(queue.concat(users));
 		//console.log("Queue Length: " + Array.from(set).length)
-		const newQueue = Array.from(set);
+		const newQueue = set.getUsers();
 		Badge.updateBadgeCount(newQueue.length);
 		this.set(Key.blockingQueue, newQueue);
 	}
@@ -251,8 +251,8 @@ export default class Storage {
 		return queue.length === 0;
 	}
 
-	static async getBlockedAccounts(): Promise<string[]> {
-		let blocked = (await this.get(Key.blockedAccounts)) as string[] | undefined;
+	static async getBlockedAccounts(): Promise<UserInfo[]> {
+		let blocked = (await this.get(Key.blockedAccounts)) as UserInfo[] | undefined;
 
 		if (!blocked) {
 			blocked = [];
@@ -261,13 +261,13 @@ export default class Storage {
 		return blocked;
 	}
 
-	static async addBlockedMulti(userHandles: string[]) {
-		const blocked: string[] = await this.getBlockedAccounts();
-		const set: Set<string> = new Set<string>(blocked.concat(userHandles));
-		this.set(Key.blockedAccounts, Array.from(set));
+	static async addBlockedMulti(users: UserInfo[]) {
+		const blocked: UserInfo[] = await this.getBlockedAccounts();
+		const set: UserSet = new UserSet(blocked.concat(users));
+		this.set(Key.blockedAccounts, set.getUsers());
 	}
 
-	static async addBlocked(userHandle: string) {
+	static async addBlocked(userHandle: UserInfo) {
 		const blocked = await this.getBlockedAccounts();
 
 		if (blocked.includes(userHandle)) {

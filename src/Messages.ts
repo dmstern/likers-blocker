@@ -13,13 +13,13 @@ interface Message {
 }
 
 export interface QueueUpdateData {
-	dequeuedUser: string;
+	dequeuedUser: UserInfo;
 	queueLength: number;
 	blockListLength: number;
 }
 
 export interface QueueUpdateMessage extends Message {
-	dequeuedUser: string;
+	dequeuedUser: UserInfo;
 	queueLength: number;
 	blockListLength: number;
 }
@@ -29,7 +29,7 @@ export interface GetUserInfoMessage extends Message {
 }
 
 export interface BlockMessage extends Message {
-	user: string;
+	user: UserInfo;
 }
 
 export interface GetUserInfoResponse {
@@ -41,7 +41,7 @@ export interface BlockResponse {
 }
 
 export default class Messenger {
-	static async sendBlockMessage(data: { user: string }): Promise<void | BlockResponse> {
+	static async sendBlockMessage(data: { user: UserInfo }): Promise<void | BlockResponse> {
 		const twitterTab = await getTwitterTab();
 		if (twitterTab) {
 			await tabs.sendMessage(twitterTab.id, { action: Action.block, ...data });
@@ -63,7 +63,7 @@ export default class Messenger {
 		}
 	}
 
-	static async addBlockListener(callback: (user: string) => Promise<BlockResponse>) {
+	static async addBlockListener(callback: (user: UserInfo) => Promise<BlockResponse>) {
 		runtime.onMessage.addListener((message: BlockMessage) => {
 			console.log("✉ message from background", message);
 			if (message.action === Action.block) {

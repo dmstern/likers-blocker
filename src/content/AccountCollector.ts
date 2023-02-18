@@ -1,11 +1,11 @@
-import { debounce, tryToAccessDOM } from "../util";
-import Icons from "./icons";
-import icons from "./icons";
+import { i18n } from "webextension-polyfill";
 import settings from "../settings";
+import Storage from "../Storage";
+import { UserSet } from "../UserInfo";
+import { debounce, tryToAccessDOM } from "../util";
+import { default as Icons, default as icons } from "./icons";
 import TextStyle from "./TextStyle";
 import TwitterPage, { AccountList } from "./TwitterPage";
-import Storage from "../Storage";
-import { i18n } from "webextension-polyfill";
 
 const TOPBAR_SELECTOR = {
 	mobile: "main > div > div > div > div > div > div",
@@ -17,7 +17,7 @@ export default class AccountCollector {
 	private uiIdleCounter: number;
 	private readonly lastCollectedUserCount: number[];
 	private blockButton: HTMLAnchorElement;
-	private collectedUsers: string[];
+	private collectedUsers: UserSet;
 	private confirmButton: HTMLLinkElement;
 	private confirmMessageElement: HTMLElement | null;
 	private legacyTwitter: boolean;
@@ -25,9 +25,10 @@ export default class AccountCollector {
 	private popupWrapper: HTMLElement;
 	private scrollInterval: number;
 	private topbar: HTMLElement | null | undefined;
+	private cachedTweedId: string;
 
 	private constructor() {
-		this.collectedUsers = [];
+		this.collectedUsers = new UserSet();
 		this.progressInPercent = 0;
 		this.uiIdleCounter = 0;
 		this.lastCollectedUserCount = [];
@@ -50,7 +51,13 @@ export default class AccountCollector {
 	}
 
 	public get tweetId() {
-		return location.href.replace(/https:\/\/twitter.com\/.*\/status\//g, "").replace("/likes", "");
+		if (!this.cachedTweedId) {
+			this.cachedTweedId = location.href
+				.replace(/https:\/\/twitter.com\/.*\/status\//g, "")
+				.replace("/likes", "");
+		}
+
+		return this.cachedTweedId;
 	}
 
 	private get loadingInfo() {
@@ -67,9 +74,9 @@ export default class AccountCollector {
 		return TwitterPage.getTextStyle(this.isLegacyTwitter);
 	}
 
-	private get users(): string[] {
-		return Array.from(new Set(this.collectedUsers));
-	}
+	// private get users(): UserInfo[] {
+	// 	return new UserSet(this.collectedUsers).getUsers();
+	// }
 
 	private get hasStateChangedToConfirm(): boolean {
 		return Array.from(this.popup.classList).some((className) => className === "lb-confirm");
@@ -229,7 +236,8 @@ export default class AccountCollector {
 			? (await this.getScrollList()).querySelectorAll("a.js-user-profile-link")
 			: (await this.getScrollList()).querySelectorAll('[data-testid="UserCell"] a[aria-hidden="true"]');
 		// Increase allowance for larger lists to avoid false-positive warnings:
-		const idleCounterAllowance = settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.users.length / 500);
+		const idleCounterAllowance =
+			settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.collectedUsers.length / 500);
 		const totalUserCount = await this.getTotalUsersCount();
 		const probablyAlmostReadyThreshold = totalUserCount < 100 ? 70 : totalUserCount < 200 ? 80 : 90;
 
@@ -238,12 +246,13 @@ export default class AccountCollector {
 		for (const userLink of users) {
 			const userUrl = userLink.href;
 			const userHandle = userUrl.replace("https://twitter.com/", "");
-			this.collectedUsers.push(userHandle);
+			const user = { screen_name: userHandle, interacted_with: this.tweetId };
+			this.collectedUsers.add(user);
 		}
 
 		const userCounter = document.querySelector(".lb-user-counter") as HTMLElement;
 		if (userCounter) {
-			userCounter.innerText = `${this.users.length.toLocaleString()}`;
+			userCounter.innerText = `${this.collectedUsers.length.toLocaleString()}`;
 		}
 
 		const lastTwoCollectionsAreIdentical =
@@ -265,7 +274,7 @@ export default class AccountCollector {
 		}
 
 		if (totalUserCount > 0) {
-			this.progressInPercent = Math.ceil((this.users.length / totalUserCount) * 100);
+			this.progressInPercent = Math.ceil((this.collectedUsers.length / totalUserCount) * 100);
 			const progressBarLabel = document.querySelector(".lb-progress-bar__label");
 			const progressBar = document.querySelector(".lb-progress-bar__inner") as HTMLElement;
 
@@ -277,7 +286,7 @@ export default class AccountCollector {
 			}
 		}
 
-		this.lastCollectedUserCount.push(this.users.length);
+		this.lastCollectedUserCount.push(this.collectedUsers.length);
 	}
 
 	private async createBlockButton() {
@@ -436,7 +445,7 @@ export default class AccountCollector {
 			this.confirmButton.addEventListener(
 				"click",
 				async () => {
-					await Storage.queueMulti(this.users);
+					await Storage.queueMulti(this.collectedUsers.getUsers());
 					confirmInfo.innerHTML = `<p>${i18n.getMessage("ui_confirm_clicked")}</p>`;
 					confirmButtonIcon.innerHTML = icons.check;
 					confirmButtonLabel.innerText = i18n.getMessage("ui_confirm_button_label");
@@ -566,7 +575,9 @@ export default class AccountCollector {
 		const confirmHeading = this.popup.querySelector(".lb-confirm-message h3 span");
 
 		if (confirmHeading) {
-			confirmHeading.innerHTML = `${this.users.length.toLocaleString()} ${confirmHeading.innerHTML}`;
+			confirmHeading.innerHTML = `${this.collectedUsers.length.toLocaleString()} ${
+				confirmHeading.innerHTML
+			}`;
 		}
 
 		this.popup.classList.add("lb-check", "lb-collected");
@@ -753,7 +764,7 @@ export default class AccountCollector {
 	private async startScrolling() {
 		(await this.getScrollList()).classList.add("lb-blur");
 		(await this.scrolly).scrollTo(0, 0);
-		this.collectedUsers = [];
+		this.collectedUsers = new UserSet();
 		this.scrollInterval = window.setInterval(async () => {
 			await this.scrollDown();
 		}, settings.SCROLL_INTERVAL);

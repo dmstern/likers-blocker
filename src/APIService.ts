@@ -124,23 +124,26 @@ export default class APIService {
 		});
 	}
 
-	static async block(screenName: string): Promise<Response | undefined> {
-		console.info(`⛔ blocking ${screenName}...`);
+	static async block(user: UserInfo): Promise<Response | undefined> {
+		console.info(`⛔ blocking ${user}...`);
 
-		const blocklist = (await Storage.getBlockedAccounts()) as string[];
+		const blocklist: string[] = (await Storage.getBlockedAccounts()).map((user) => user.screen_name);
 
-		if (blocklist.includes(screenName)) {
-			console.warn(`${screenName} is already blocked.`);
+		if (blocklist.includes(user.screen_name)) {
+			console.warn(`${user} is already blocked.`);
 			return;
 		}
 
-		const response = await this.sendPostRequest(Endpoint.block, this.getScreenNameBody(screenName));
+		const response = await this.sendPostRequest(
+			Endpoint.block,
+			this.getScreenNameBody(user.screen_name)
+		);
 
 		if (response.ok) {
 			console.info("✔ user blocked.");
-			Storage.addBlocked(screenName);
+			Storage.addBlocked(user);
 		} else {
-			Storage.queue(screenName);
+			Storage.queue(user);
 		}
 
 		return response;
