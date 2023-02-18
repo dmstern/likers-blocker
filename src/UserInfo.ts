@@ -31,7 +31,10 @@ export class UserSet {
 
 	delete(user: UserInfo) {
 		const foundUser = this.findUser(user);
-		this.users = this.users.splice(this.users.indexOf(foundUser), 1);
+		const index = this.users.indexOf(foundUser);
+		if (index > -1) {
+			this.users = this.users.splice(index, 1);
+		}
 	}
 
 	get length() {
