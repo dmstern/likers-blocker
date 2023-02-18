@@ -1,0 +1,60 @@
+.lb-label-wrapper {
+	display: inline-flex;
+	align-items: center;
+	margin-top: 0.6rem;
+}
+
+.lb-label {
+	transition-property: opacity, margin, visibility, max-height, transform;
+	transition-duration: 1s;
+	transition-timing-function: ease-in-out;
+	transform-origin: 0 0;
+	display: block !important;
+	opacity: 1;
+	position: relative;
+	max-height: 100%;
+	transform: scaleY(1);
+
+	label {
+		display: inline-flex;
+		align-items: center;
+	}
+
+	h3 {
+		margin-bottom: 1em;
+		color: $color-4;
+
+		&:first-of-type {
+			margin-left: 2rem;
+		}
+	}
+
+	.lb-text {
+		svg {
+			position: relative;
+			top: 0.15em;
+		}
+	}
+
+	&.lb-collecting {
+		h3 {
+			margin-top: -5px;
+		}
+
+		.lb-confirm & {
+			opacity: 0;
+			visibility: hidden;
+			transform: scaleY(0);
+			max-height: 0;
+		}
+	}
+
+	&.lb-confirm-message {
+		display: none !important;
+		opacity: 0;
+
+		h3 {
+			margin-top: 0;
+		}
+	}
+}

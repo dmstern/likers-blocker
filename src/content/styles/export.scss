@@ -1,0 +1,28 @@
+
+.lb-btn--export {
+	position: absolute;
+	top: -2.5rem;
+	right: 1rem;
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
+	border: 1px solid #3333;
+	background: white;
+	transition: all 200ms ease-in-out;
+	cursor: pointer;
+	box-shadow: 0 0 5px #0003;
+	opacity: 0.7;
+	color: $color-snow;
+
+	&:hover {
+		opacity: 1;
+		box-shadow: 0 0 10px #0007;
+		transform: scale(1.1);
+	}
+
+	> svg {
+		width: 1.9rem;
+		margin-left: -3px;
+		margin-bottom: -1px;
+	}
+}

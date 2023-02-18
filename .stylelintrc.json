@@ -1,0 +1,11 @@
+{
+	"overrides": [
+		{
+			"files": ["*.scss"],
+			"rules": {
+				"selector-class-pattern": ".([a-z]|-)*_*([a-z]|-)*"
+			},
+			"extends": "stylelint-config-standard-scss"
+		}
+	]
+}

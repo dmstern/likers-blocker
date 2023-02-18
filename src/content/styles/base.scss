@@ -1,0 +1,50 @@
+#react-root {
+	transition: filter ease 500ms;
+}
+
+.lb-hide {
+	opacity: 0 !important;
+}
+
+@keyframes rainbow {
+	@for $index from 0 to 9 {
+	 	#{$index * 10}% { color: hsl($index * 25, 89%, 53%); }
+	}
+
+	#{'100%'} { color: hsl(0deg 89% 53%); }
+}
+
+body {
+	--lb-popup-padding: 2rem;
+	--lb-close-button-padding: 9px;
+	--text-line-height: 19px;
+	--close-button-icon-spacing: 3.75px;
+	--link-color: #{$color-twitter};
+
+	&:not(.lb-block-page) {
+		.lb-blur {
+			filter: blur(2px);
+		}
+
+		.lb-textarea {
+			height: 0;
+			width: 0;
+			margin: 0;
+			padding: 0;
+			opacity: 0;
+		}
+	}
+
+	&.lb-block-page {
+		.lb-popup-wrapper {
+			position: relative;
+			background: transparent;
+		}
+	}
+
+	&.lb-block-page.many {
+		.lb-popup.lb-confirm {
+			width: 50%;
+		}
+	}
+}

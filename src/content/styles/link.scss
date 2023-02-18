@@ -1,0 +1,17 @@
+a[class*="lb-"] {
+	background-color: $background-color-transparent !important;
+}
+
+.lb-link {
+	display: flex;
+	align-items: center;
+
+	&,
+	&:visited {
+		color: var(--link-color);
+	}
+
+	svg {
+		margin-right: .5em;
+	}
+}

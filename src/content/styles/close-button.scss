@@ -1,0 +1,25 @@
+.lb-close-button {
+	border: none;
+	padding: var(--lb-close-button-padding);
+	cursor: pointer;
+	position: absolute;
+	left: calc(
+		var(--lb-popup-padding) - var(--lb-close-button-padding) - var(--close-button-icon-spacing)
+	);
+	top: calc(
+		var(--lb-popup-padding) - var(--lb-close-button-padding) - var(--close-button-icon-spacing) - 1px
+	);
+	border-radius: 50%;
+	z-index: 5000;
+	transition: background-color ease 500ms;
+
+	svg {
+		width: 1.5em;
+		height: 1.5em;
+		color: $color-4 !important;
+	}
+
+	&:not(:hover) {
+		background-color: $background-color-transparent !important;
+	}
+}
