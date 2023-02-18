@@ -10,7 +10,7 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"*://*.twitter.com/"
+				"*://*.twitter.com/*"
 			],
 			"js": [
 				"browser-polyfill.js",
