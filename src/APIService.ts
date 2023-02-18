@@ -125,12 +125,12 @@ export default class APIService {
 	}
 
 	static async block(user: UserInfo): Promise<Response | undefined> {
-		console.info(`⛔ blocking ${user}...`);
+		console.info(`⛔ blocking ${user.screen_name}...`);
 
 		const blocklist: string[] = (await Storage.getBlockedAccounts()).map((user) => user.screen_name);
 
 		if (blocklist.includes(user.screen_name)) {
-			console.warn(`${user} is already blocked.`);
+			console.warn(`${user.screen_name} is already blocked.`);
 			return;
 		}
 

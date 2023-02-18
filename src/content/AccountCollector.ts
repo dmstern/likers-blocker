@@ -74,10 +74,6 @@ export default class AccountCollector {
 		return TwitterPage.getTextStyle(this.isLegacyTwitter);
 	}
 
-	// private get users(): UserInfo[] {
-	// 	return new UserSet(this.collectedUsers).getUsers();
-	// }
-
 	private get hasStateChangedToConfirm(): boolean {
 		return Array.from(this.popup.classList).some((className) => className === "lb-confirm");
 	}
