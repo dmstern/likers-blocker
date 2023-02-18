@@ -55,12 +55,16 @@ async function blockTask(alarm) {
 			return;
 		}
 
-		runtime.sendMessage({
-			action: Action.queueUpdate,
-			dequeuedUser: user,
-			queueLength,
-			blockListLength,
-		});
+		runtime
+			.sendMessage({
+				action: Action.queueUpdate,
+				dequeuedUser: user,
+				queueLength,
+				blockListLength,
+			})
+			.catch(() => {
+				console.info("✉ UpdateQueue message was send, but popup is not open. You can ignore this.");
+			});
 
 		if (twitterTab) {
 			await tabs.sendMessage(twitterTab.id, { action: Action.block, user });
