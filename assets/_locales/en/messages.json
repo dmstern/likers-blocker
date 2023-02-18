@@ -151,29 +151,9 @@
 		"message": "Export",
 		"description": "Title of the export button"
 	},
-	"ui_copyToShare": {
-		"message": "Copy link to share block list.",
-		"description": "Label of the copy to clipboard button."
-	},
-	"ui_copied": {
-		"message": "Copied. Share the link with other persons to share your block list with them.",
-		"description": "Message that tells the user that the content of the block list has been copied to clipboard."
-	},
-	"ui_urlLimit": {
-		"message": "Due to a technical URL length limit, the block list may be divided into several links.",
-		"description": "Info that tells the user that the block list may be divided into several links."
-	},
 	"ui_takeAMoment": {
 		"message": "Depending on the number of blocked accounts, this may take a while.",
 		"description": "Info that the collection of blocked accounts to export them may take long."
-	},
-	"ui_divided": {
-		"message": "Divided into several links due to URL length limit.",
-		"description": "Message that is shown after the collection of blocked account to export them if the list was divided into several links."
-	},
-	"ui_confirmButtonLabel": {
-		"message": "Block part",
-		"description": "The block button label for blocking each portion of accounts in large lists."
 	},
 	"ui_warningHeading": {
 		"message": "Oops! Seems like your UI is hanging.",
