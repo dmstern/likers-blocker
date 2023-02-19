@@ -1,5 +1,5 @@
 a[class*="lb-"] {
-	background-color: $background-color-transparent !important;
+	background-color: $background-color-transparent;
 }
 
 .lb-link {
@@ -12,6 +12,8 @@ a[class*="lb-"] {
 	}
 
 	svg {
+		height: 1.2em;
+		width: auto;
 		margin-right: .5em;
 	}
 }

@@ -27,9 +27,13 @@
 	float: right;
 	margin-top: .5rem;
 
+	--color: inherit;
+	--background-color: var(--highlight-color);
+	--border-color: transparent;
 	--icon-spacing: .5rem;
 
-	body.lb-block-page & {
+	body.lb-block-page &,
+	body.lb-retweets-page & {
 		margin-top: 3rem;
 	}
 
@@ -52,7 +56,9 @@
 	}
 
 	svg {
-		transition: all 500ms ease-in-out;
+		--duration: 500ms;
+
+		transition: all var(--duration) ease-in-out;
 		margin-left: var(--icon-spacing);
 		height: 1.5rem;
 
@@ -71,8 +77,9 @@
 	}
 
 	&--clicked {
-		color: $color-success !important;
-		border-color: $color-success !important;
+		--color: #{$color-success};
+		--border-color: #{$color-success};
+		--background-color: transparent;
 
 		.lb-icon--check {
 			opacity: 1;
@@ -80,9 +87,17 @@
 		}
 
 		.lb-icon--send {
+			--delay: 200ms;
+
+			transition:
+				opacity var(--duration) ease-in-out,
+				visibility var(--duration) ease-in-out var(--delay),
+				width var(--duration) ease-in-out var(--delay),
+				transform var(--duration) ease-in-out;
 			opacity: 0;
 			visibility: hidden;
 			width: 0;
+			transform: translateX(100%);
 		}
 	}
 }

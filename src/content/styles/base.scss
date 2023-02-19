@@ -2,6 +2,17 @@
 	transition: filter ease 500ms;
 }
 
+:root {
+	--lb-popup-padding: 2rem;
+	--lb-close-button-padding: 9px;
+	--text-line-height: 19px;
+	--close-button-icon-spacing: 3.75px;
+	--link-color: #{$color-twitter};
+	--highlight-color: #{$color-twitter};
+	--color: rgb(231 233 234);
+	--background-color: rgb(0 0 0);
+}
+
 .lb-hide {
 	opacity: 0 !important;
 }
@@ -15,12 +26,6 @@
 }
 
 body {
-	--lb-popup-padding: 2rem;
-	--lb-close-button-padding: 9px;
-	--text-line-height: 19px;
-	--close-button-icon-spacing: 3.75px;
-	--link-color: #{$color-twitter};
-
 	&:not(.lb-block-page) {
 		.lb-blur {
 			filter: blur(2px);
