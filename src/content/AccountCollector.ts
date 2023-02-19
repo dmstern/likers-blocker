@@ -629,7 +629,7 @@ export default class AccountCollector {
 			const [csvFilename, , data] = await Exporter.prepareDownloadBlockList(blockedAccounts);
 			const downloadLink: HTMLAnchorElement = confirmButton.querySelector("a") as HTMLAnchorElement;
 
-			downloadLink.href = `data:text/plain;charset=utf-8,${encodeURIComponent(data)}`;
+			downloadLink.href = `data:text/csv;charset=utf-8,${encodeURIComponent(data)}`;
 			downloadLink.download = csvFilename;
 		}
 
