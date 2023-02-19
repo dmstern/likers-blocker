@@ -43,7 +43,6 @@ async function importBlockList() {
 			});
 
 			await Storage.queueMulti(blockedAccounts);
-			// await updateStats();
 		};
 		reader.readAsText(file);
 		fileInput.remove();
