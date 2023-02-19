@@ -21,6 +21,9 @@
 			]
 		}
 	],
+	"options_ui": {
+		"page": "options.html"
+	},
 	"permissions": [
 		"storage",
 		"webRequest",
