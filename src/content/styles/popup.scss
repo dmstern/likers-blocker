@@ -19,6 +19,10 @@
 	line-height: var(--text-line-height);
 	outline: none;
 
+	body.lb-block-page & {
+		opacity: 1;
+	}
+
 	@media (max-width: 440px) {
 		margin-left: 0;
 		left: 0;

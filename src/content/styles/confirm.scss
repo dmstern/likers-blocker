@@ -27,10 +27,17 @@
 	float: right;
 	margin-top: .5rem;
 
+	--icon-spacing: .5rem;
+
+	body.lb-block-page & {
+		margin-top: 3rem;
+	}
+
 	body.many & {
 		padding: 0 1.3em !important;
 	}
 
+	// Label wrapper:
 	> div > span {
 		display: flex;
 
@@ -38,11 +45,15 @@
 		> span {
 			align-self: center;
 		}
+
+		body.lb-block-page & {
+			flex-direction: row-reverse;
+		}
 	}
 
 	svg {
 		transition: all 500ms ease-in-out;
-		margin-left: .5rem;
+		margin-left: var(--icon-spacing);
 		height: 1.5rem;
 
 		&.lb-icon--external {
@@ -51,6 +62,11 @@
 
 		&.lb-icon--check {
 			margin-right: 1em;
+		}
+
+		body.lb-block-page & {
+			margin-left: 0;
+			margin-right: var(--icon-spacing);
 		}
 	}
 

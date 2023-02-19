@@ -18,7 +18,6 @@ export default class AccountCollector {
 	private readonly lastCollectedUserCount: number[];
 	private blockButton: HTMLAnchorElement;
 	private collectedUsers: UserSet<QueuedUser>;
-	private confirmButton: HTMLLinkElement;
 	private confirmMessageElement: HTMLElement | null;
 	private legacyTwitter: boolean;
 	private popup: HTMLElement;
@@ -133,7 +132,7 @@ export default class AccountCollector {
 			return -1;
 		}
 
-		if (await TwitterPage.isBlockPage()) {
+		if (await TwitterPage.isBlockExportPage()) {
 			return -1;
 		}
 
@@ -159,7 +158,7 @@ export default class AccountCollector {
 	}
 
 	private async getLimitMessage() {
-		if (await TwitterPage.isBlockPage()) {
+		if (await TwitterPage.isBlockExportPage()) {
 			return `${i18n.getMessage("ui_takeAMoment")}`;
 		} else {
 			return `${i18n.getMessage("ui_onlyListItems")}<br>${i18n.getMessage("ui_twitterHides")}`;
@@ -185,7 +184,7 @@ export default class AccountCollector {
 		const fallbackScrollList = document.querySelector("html");
 		let scrollList: HTMLElement | null;
 
-		if (await TwitterPage.isBlockPage()) {
+		if (await TwitterPage.isBlockExportPage()) {
 			scrollList = fallbackScrollList;
 		} else {
 			const topbar = await this.getTopbar();
@@ -362,6 +361,7 @@ export default class AccountCollector {
 			<span>${i18n.getMessage("ui_blockRetweeters")}</span>
 		`;
 		includeRetweetersLink.classList.add("lb-link");
+		includeRetweetersLink.title = i18n.getMessage("ui_retweetersHoverHint");
 		includeRetweetersLink.href = location.href.replace("likes", "retweets");
 
 		labelWrapper.appendChild(includeRetweetersLink);
@@ -418,64 +418,104 @@ export default class AccountCollector {
 	private async createConfirmButton() {
 		const areaWrapper = document.createElement("div");
 		const confirmInfo = document.createElement("div");
+		const isBlockExportPage = await TwitterPage.isBlockExportPage();
+
+		const getLabel = (section: string) => {
+			const labels = {
+				explanation: {
+					block: "ui_block_explanation",
+					queue: "ui_queue_explanation",
+				},
+				confirmTitle: {
+					block: "ui_confirm_title_block",
+					queue: "ui_confirm_title_queue",
+				},
+				buttonLabel: {
+					block: "ui_download",
+					queue: "ui_addToQueue",
+				},
+				icon: {
+					block: icons.download,
+					queue: icons.send,
+				},
+			};
+
+			const key = isBlockExportPage ? "block" : "queue";
+			console.log(isBlockExportPage, key, labels[section][key]);
+			return labels[section][key];
+		};
 
 		areaWrapper.classList.add("lb-confirm-wrapper");
 		confirmInfo.classList.add("lb-confirm-info");
 		confirmInfo.style.color = this.textStyle.color;
-		confirmInfo.innerHTML = `<p>${i18n.getMessage("ui_queue_explanation")}</p>`;
+		const explanationLabel = getLabel("explanation");
+		confirmInfo.innerHTML = `<p>${i18n.getMessage(explanationLabel)}</p>`;
 		areaWrapper.appendChild(confirmInfo);
 
-		if (!(await TwitterPage.isBlockPage())) {
-			const blockButton = this.blockButton;
-			this.confirmButton = blockButton.cloneNode(true) as HTMLLinkElement;
-			this.confirmButton.classList.add("lb-confirm-button");
-			this.confirmButton.classList.remove("lb-block-button");
+		const confirmButton = isBlockExportPage
+			? (document.querySelector("[data-testid=UserCell] [role=button]").cloneNode(true) as HTMLElement)
+			: (this.blockButton.cloneNode(true) as HTMLLinkElement);
+		confirmButton.classList.add("lb-confirm-button");
+		confirmButton.classList.remove("lb-block-button");
+		const confirmTitle = getLabel("confirmTitle");
+		confirmButton.title = i18n.getMessage(confirmTitle);
+		confirmButton.style.backgroundColor = TwitterPage.highlightColor;
+		areaWrapper.appendChild(confirmButton);
 
-			if (!this.isLegacyTwitter) {
-				this.confirmButton.querySelector("div > span")?.remove();
-			}
-
-			const confirmButtonLabel = this.isLegacyTwitter
-				? this.confirmButton
-				: (this.confirmButton.querySelector("div > span > span") as HTMLElement);
-
-			confirmButtonLabel.innerText = i18n.getMessage("ui_confirm");
-			const confirmButtonIcon = document.createElement("span");
-			confirmButtonIcon.innerHTML = icons.send;
-			const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
-			confirmButtonIconSvg && confirmButtonLabel?.parentElement?.append(confirmButtonIconSvg);
-			this.confirmButton.setAttribute("title", i18n.getMessage("ui_external"));
-
-			this.confirmButton.addEventListener(
-				"click",
-				async () => {
-					await Storage.queueMulti(this.collectedUsers.toArray());
-					confirmInfo.innerHTML = `<p>${i18n.getMessage("ui_confirm_clicked")}</p>`;
-					confirmButtonIcon.innerHTML = icons.check;
-					confirmButtonLabel.innerText = i18n.getMessage("ui_confirm_button_label");
-
-					const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
-					confirmButtonIconSvg && confirmButtonLabel?.parentElement?.prepend(confirmButtonIconSvg);
-					this.confirmButton.classList.add("lb-confirm-button--clicked");
-
-					// await browser.browserAction.openPopup();
-
-					this.confirmButton.addEventListener("click", async () => {
-						await this.closePopup();
-					});
-				},
-				{
-					once: true,
-				}
-			);
-
-			areaWrapper.appendChild(this.confirmButton);
+		if (!this.isLegacyTwitter && !isBlockExportPage) {
+			confirmButton.querySelector("div > span")?.remove();
 		}
+
+		const confirmButtonLabel = this.isLegacyTwitter
+			? confirmButton
+			: (confirmButton.querySelector("div > span > span") as HTMLElement);
+
+		confirmButtonLabel.innerText = i18n.getMessage(getLabel("buttonLabel"));
+		const confirmButtonIcon = document.createElement("span");
+		confirmButtonIcon.innerHTML = getLabel("icon");
+		const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
+		confirmButtonIconSvg && confirmButtonLabel?.parentElement?.append(confirmButtonIconSvg);
+
+		confirmButton.addEventListener(
+			"click",
+			() => {
+				if (isBlockExportPage) {
+					console.log("TODO: imlement download here");
+				} else {
+					this.addToQueue(confirmInfo, confirmButtonIcon, confirmButtonLabel, confirmButton);
+				}
+			},
+			{
+				once: !isBlockExportPage,
+			}
+		);
 
 		return areaWrapper;
 	}
 
-	private createConfirmMessageElement() {
+	private async addToQueue(
+		confirmInfo: HTMLElement,
+		confirmButtonIcon: HTMLElement,
+		confirmButtonLabel: HTMLElement,
+		confirmButton: HTMLElement
+	) {
+		await Storage.queueMulti(this.collectedUsers.toArray());
+		confirmInfo.innerHTML = `<p>${i18n.getMessage("ui_confirm_clicked")}</p>`;
+		confirmButtonIcon.innerHTML = icons.check;
+		confirmButtonLabel.innerText = i18n.getMessage("ui_confirm_button_label");
+
+		const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
+		confirmButtonIconSvg && confirmButtonLabel?.parentElement?.prepend(confirmButtonIconSvg);
+		confirmButton.classList.add("lb-confirm-button--clicked");
+
+		// await browser.browserAction.openPopup();
+
+		confirmButton.addEventListener("click", async () => {
+			await this.closePopup();
+		});
+	}
+
+	private async createConfirmMessageElement() {
 		this.confirmMessageElement = this.loadingInfo?.cloneNode() as HTMLElement | null;
 		if (!this.confirmMessageElement) {
 			return;
@@ -484,12 +524,18 @@ export default class AccountCollector {
 		Object.assign(this.confirmMessageElement.style, this.textStyle);
 		this.confirmMessageElement.classList.remove("lb-collecting");
 		this.confirmMessageElement.classList.add("lb-confirm-message");
+
+		const confirmHeadingAddon = (await TwitterPage.isBlockExportPage())
+			? ""
+			: `<span>${i18n.getMessage("ui_blockAll")}?</span>`;
+
 		this.confirmMessageElement.innerHTML = `
 			<h3>
-			<span>${i18n.getMessage("ui_usersFound")}</span>
-			<span>${i18n.getMessage("ui_blockAll")}?</span>
+				<span>${i18n.getMessage("ui_usersFound")}.</span>
+				${confirmHeadingAddon}
 			</h3>
 			<div class="lb-label__main"></div>`;
+
 		this.popup.appendChild(this.confirmMessageElement);
 	}
 
@@ -610,7 +656,7 @@ export default class AccountCollector {
 
 	private async setUpBlockButton() {
 		const shouldDisplayOnThisPage =
-			(await TwitterPage.isBlockPage()) ||
+			(await TwitterPage.isBlockExportPage()) ||
 			(await TwitterPage.isTweetPage()) ||
 			(await TwitterPage.isListPage()) !== false;
 
@@ -638,7 +684,7 @@ export default class AccountCollector {
 			</div>`;
 
 		await this.createPopup(popupInner);
-		this.createConfirmMessageElement();
+		await this.createConfirmMessageElement();
 		const confirmButton = await this.createConfirmButton();
 
 		if (await TwitterPage.isLikesPage()) {
@@ -730,7 +776,7 @@ export default class AccountCollector {
 	}
 
 	private async setUpExportButton() {
-		if (!(await TwitterPage.isBlockPage())) {
+		if (!(await TwitterPage.isBlockExportPage())) {
 			return;
 		}
 
@@ -746,7 +792,7 @@ export default class AccountCollector {
 			return;
 		}
 
-		if (!(await TwitterPage.isBlockPage())) {
+		if (!(await TwitterPage.isBlockExportPage())) {
 			return;
 		}
 
@@ -756,7 +802,7 @@ export default class AccountCollector {
 		exportBtn.setAttribute("aria-label", i18n.getMessage("ui_export"));
 		exportBtn.setAttribute("title", i18n.getMessage("ui_export"));
 		exportBtn.classList.add("lb-btn--export");
-		exportBtn.style.backgroundColor = TwitterPage.twitterBrandColor;
+		exportBtn.style.backgroundColor = TwitterPage.highlightColor;
 
 		blockedListContainer.appendChild(exportBtn);
 

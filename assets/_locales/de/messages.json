@@ -92,12 +92,16 @@
 		"description": "Label for the Block all button"
 	},
 	"ui_usersFound": {
-		"message": "Nutzer gefunden.",
+		"message": "Nutzer gefunden",
 		"description": "Message how many users have been collected. Gets prefixed the number of collected users."
 	},
 	"ui_queue_explanation": {
 		"message": "Die Accounts sind noch nicht blockiert. Um sie zu blockieren, füge sie zur Warteschlange hinzu. Sie werden dann nach und nach im Hintergrund abgearbeitet, um nicht gegen das Block-Limit von Twitter zu verstoßen.",
 		"description": "Explanation text that is displayed after collecting and before adding accounts to queue."
+	},
+	"ui_block_explanation": {
+		"message": "Speichere die .csv-Datei auf deinem Rechner, um sie bpsw. jemandem zum Importieren zu schicken oder die gleiche Blockliste für mehrere Accounts zu verwenden.",
+		"description": "Explanation text that is displayed after collecting and before adding downloading the exported."
 	},
 	"ui_collectingUsernames": {
 		"message": "Sammle Nutzernamen ein",
@@ -123,17 +127,21 @@
 		"message": "Auch alle Retweeter blockieren?",
 		"description": "Label of the checkbox where the user can chose to also block retweeters of the liked tweet."
 	},
-	"ui_onlyDirectRetweeters": {
-		"message": "Beinhaltet nur direkte Retweeter ohne Kommentar",
+	"ui_retweetersHoverHint": {
+		"message": "Öffnet Link in neuem Tab. Beinhaltet nur direkte Retweeter ohne Kommentar",
 		"description": "Title (tooltip) of the retweeters checkbox"
 	},
 	"ui_ok": {
 		"message": "OK",
 		"description": "Label of the OK button"
 	},
-	"ui_confirm": {
+	"ui_addToQueue": {
 		"message": "Zur Warteschlange hinzfügen",
 		"description": "Label of the confirm button"
+	},
+	"ui_download": {
+		"message": "Blockliste herunterladen",
+		"description": "Label of the download button in export view"
 	},
 	"ui_confirm_title": {
 		"message": "Fügt die eingesammelten Accounts zur Block-Warteschlange hinzu. Diese werden dann im Hintergrund allmählich geblockt.",
