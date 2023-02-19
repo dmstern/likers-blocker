@@ -214,17 +214,10 @@ export default class Storage {
 		this.set(Key.blockingQueue, queue.toArray());
 	}
 
-	static async dequeue(user?: QueuedUser) {
+	static async dequeue(): Promise<QueuedUser> {
 		const queue = await this.getQueue();
-
-		if (user) {
-			queue.delete(user);
-		} else {
-			queue.shift();
-		}
-
+		const user = queue.shift();
 		this.set(Key.blockingQueue, queue.toArray());
-		//console.log("remaining: " + Array.from(set).length)
 		Badge.updateBadgeCount(queue.size);
 		return user;
 	}
@@ -247,6 +240,7 @@ export default class Storage {
 
 		if (!blocked) {
 			blocked = [];
+			Storage.set(Key.blockedAccounts, blocked);
 		}
 
 		return new UserSet(blocked);
