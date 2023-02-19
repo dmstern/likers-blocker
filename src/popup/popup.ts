@@ -117,7 +117,6 @@ async function getUserInfo() {
 
 	if (!userInfo || userInfo?.errors?.length) {
 		//send request to get user info to other tab
-
 		userInfo = (await Messenger.sendGetUserInfoMessage()).userInfo;
 	}
 
@@ -151,74 +150,7 @@ function alignRightButton() {
 	}
 }
 
-// async function downloadBlockList() {
-// 	const blockedAccounts = await Storage.getBlockedAccounts();
-// 	if (blockedAccounts.size == 0) {
-// 		return;
-// 	}
-
-// 	// single column CSV file
-// 	await Exporter.prepareDownloadBlockList(blockedAccounts);
-// 	const csvFilename = "blocked_accounts.csv";
-// 	const file = new File(
-// 		[
-// 			blockedAccounts
-// 				.toArray()
-// 				.map((user) => user.screen_name)
-// 				.join("\n"),
-// 		],
-// 		csvFilename,
-// 		{
-// 			type: "text/csv",
-// 		}
-// 	);
-// 	const downloadUrl = URL.createObjectURL(file);
-// 	await downloads.download({
-// 		url: downloadUrl,
-// 		conflictAction: "uniquify",
-// 		filename: csvFilename,
-// 	});
-// }
-
-// async function importBlockList() {
-// 	console.debug("importBlockList");
-// 	const fileInput = document.createElement("input");
-// 	fileInput.type = "file";
-// 	fileInput.accept = ".csv";
-// 	fileInput.style.display = "none";
-// 	document.body.appendChild(fileInput);
-// 	console.debug("fileInput appended");
-// 	fileInput.click();
-// 	fileInput.addEventListener("change", () => {
-// 		console.debug("fileInput change");
-// 		if (!fileInput.files || !fileInput.files[0]) {
-// 			console.debug("not file");
-// 			return;
-// 		}
-
-// 		const file = fileInput.files[0];
-// 		console.debug(file);
-// 		const reader = new FileReader();
-// 		reader.onload = async (e) => {
-// 			if (!e.target) {
-// 				return;
-// 			}
-
-// 			// TODO: parse csv to json:
-// 			// const text = e.target.result as string;
-// 			// console.log("Importing: ");
-// 			// const blockedAccounts = text.split(",\n");
-// 			// await Storage.queueMulti(blockedAccounts);
-// 			await updateStats();
-// 		};
-// 		reader.readAsText(file);
-// 		fileInput.remove();
-// 	});
-// }
-
-// const downloadListButton = document.querySelector("#downloadBlockList");
 const importListButton = document.querySelector("#importBlockList");
-// downloadListButton?.addEventListener("click", downloadBlockList);
 importListButton?.addEventListener("click", () => {
 	runtime.openOptionsPage();
 });
