@@ -1,4 +1,5 @@
 import { downloads, i18n } from "webextension-polyfill";
+import Exporter from "../Exporter";
 import Messenger from "../Messages";
 import Storage from "../Storage";
 import { User } from "../UserInfo";
@@ -50,10 +51,28 @@ async function updateStats() {
 	const blockListLabel = blockListNode.parentElement;
 	const queueListLabel = queueListNode.parentElement;
 	const truckIcon = document.querySelector(".stats__truck-icon") as HTMLElement;
+	const downloadButton = document.querySelector("#downloadBlockList") as HTMLAnchorElement;
+
+	console.log(downloadButton);
 
 	// Conditions:
 	const isBlocking = queueLength > 0;
 	const hasBlocked = blockedLength > 0;
+
+	// Download Button:
+	if (downloadButton) {
+		console.log(downloadButton);
+		const { filename, url } = Exporter.prepareDownloadBlockList(blockedAccounts);
+		console.log(downloadButton, blockedLength);
+		if (blockedLength > 0) {
+			downloadButton.href = url;
+			downloadButton.download = filename;
+			downloadButton.classList.remove("disabled");
+		} else {
+			downloadButton.removeAttribute("href");
+			downloadButton.classList.add("disabled");
+		}
+	}
 
 	// if (updateInstantly) {
 	queueListNode.innerHTML = queueLength.toLocaleString();
@@ -132,33 +151,34 @@ function alignRightButton() {
 	}
 }
 
-async function downloadBlockList() {
-	const blockedAccounts = await Storage.getBlockedAccounts();
-	if (blockedAccounts.size == 0) {
-		return;
-	}
+// async function downloadBlockList() {
+// 	const blockedAccounts = await Storage.getBlockedAccounts();
+// 	if (blockedAccounts.size == 0) {
+// 		return;
+// 	}
 
-	// single column CSV file
-	const csvFilename = "blocked_accounts.csv";
-	const file = new File(
-		[
-			blockedAccounts
-				.toArray()
-				.map((user) => user.screen_name)
-				.join("\n"),
-		],
-		csvFilename,
-		{
-			type: "text/csv",
-		}
-	);
-	const downloadUrl = URL.createObjectURL(file);
-	await downloads.download({
-		url: downloadUrl,
-		conflictAction: "uniquify",
-		filename: csvFilename,
-	});
-}
+// 	// single column CSV file
+// 	await Exporter.prepareDownloadBlockList(blockedAccounts);
+// 	const csvFilename = "blocked_accounts.csv";
+// 	const file = new File(
+// 		[
+// 			blockedAccounts
+// 				.toArray()
+// 				.map((user) => user.screen_name)
+// 				.join("\n"),
+// 		],
+// 		csvFilename,
+// 		{
+// 			type: "text/csv",
+// 		}
+// 	);
+// 	const downloadUrl = URL.createObjectURL(file);
+// 	await downloads.download({
+// 		url: downloadUrl,
+// 		conflictAction: "uniquify",
+// 		filename: csvFilename,
+// 	});
+// }
 
 async function importBlockList() {
 	const fileInput = document.createElement("input");
@@ -191,9 +211,9 @@ async function importBlockList() {
 	});
 }
 
-const downloadListButton = document.querySelector("#downloadBlockList");
+// const downloadListButton = document.querySelector("#downloadBlockList");
 const importListButton = document.querySelector("#importBlockList");
-downloadListButton?.addEventListener("click", downloadBlockList);
+// downloadListButton?.addEventListener("click", downloadBlockList);
 importListButton?.addEventListener("click", importBlockList);
 
 (function () {
