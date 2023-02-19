@@ -1,7 +1,7 @@
-$font-family: "Ubuntu", "Roboto", "Arial", "Helvetica", sans-serif;
-$background-color: var(--background-color);
-$button-background-color: transparent;
-$button-background-color-hover: var(--background-color--hover);
+@import "../sass-commons/base";
+@import "../sass-commons/button";
+@import "../sass-commons/icon";
+@import "../sass-commons/links";
 
 @keyframes drive {
 	0% {
@@ -45,93 +45,8 @@ $button-background-color-hover: var(--background-color--hover);
 	}
 }
 
-:root {
-	--color-light: #d2d3dd;
-	--color-lighter: #dfe0e7;
-	--color-dark: #232327;
-	--color-light-dark: #404046;
-	--color--success: #559730;
-	--color--brand: #e1285c;
-	--color--twitter-brand: rgb(29 161 242);
-	--drive-way: 46px;
-	--border-color: rgb(126 126 126 / 50%);
-}
-
-body {
-	--background-color: var(--color-light);
-	--background-color--hover: var(--color-lighter);
-	--color: var(--color-dark);
-	--color--hover: var(--color-light-dark);
-
-	font-size: 16px;
-	font-family: $font-family;
-	padding: 1.5rem;
-	width: 550px;
-	height: auto;
-	background-color: $background-color;
-	color: var(--color);
-	margin-right: 17px;
-
-	@media (prefers-color-scheme: light) {
-		--background-color: var(--color-light);
-		--background-color--hover: var(--color-lighter);
-		--color: var(--color-dark);
-		--color--hover: var(--color-light-dark);
-	}
-	
-	@media (prefers-color-scheme: dark) {
-		--background-color: var(--color-dark);
-		--background-color--hover: var(--color-light-dark);
-		--color: var(--color-lighter);
-		--color--hover: var(--color-light);
-	}	
-}
-
-h1 {
-	margin-top: 0;
-	font-size: 140%;
-}
-
-hr {
-	border-top: none;
-	border-bottom: 1px dashed rgb(120 120 120 / 50%);
-	margin: 1.5em 0;
-}
-
-p {
-	&:last-child {
-		margin-bottom: 0;
-	}
-}
-
-.lb-logo {
-	float: right;
-}
-
-a {
-	color: inherit;
-	text-decoration: none;
-	display: inline-flex;
-	align-items: center;
-
-	> svg {
-		margin-right: 0.5em;
-	}
-
-	&:hover {
-		color: var(--color--hover);
-		color: var(--color--twitter-brand);
-	}
-}
-
 .login-link {
 	margin-left: 1rem;
-}
-
-ul {
-	li {
-		margin-bottom: 0.5em;
-	}
 }
 
 .main__inactive-content {
@@ -199,92 +114,6 @@ main.logged-in {
 	justify-content: space-between;
 }
 
-.btn {
-	border: 1.5px solid var(--border-color);
-	font-size: 1rem;
-	border-radius: 7px;
-	padding: 0.7em;
-	margin-right: 0.5em;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	text-decoration: none;
-	color: inherit;
-	transition: all ease 300ms;
-	background-color: $button-background-color;
-
-	&.disabled {
-		opacity: .7;
-		cursor: default;
-
-		&:hover {
-			color: var(--color);
-		}
-	}
-
-	&:not(.disabled) {
-		cursor: pointer;
-		
-		&:hover {
-			background-color: $button-background-color-hover;
-			color: var(--color);
-		}
-	}
-
-	&__icon {
-		margin-right: 0.5em;
-	}
-
-	&--issue {
-		position: absolute;
-		top: 0;
-	}
-}
-
-svg.w-6.h-6 {
-	width: auto;
-	height: 1.2em;
-}
-
-.links {
-	display: flex;
-	position: relative;
-	margin-top: 1rem;
-}
-
-.link {
-	display: inline-flex;
-	align-items: center;
-
-	&:hover {
-		text-decoration: underline;
-	}
-
-	&__icon {
-		margin-right: 0.5em;
-		display: inline-block;
-	}
-
-	&.website-link {
-		&::after {
-			content: "|";
-			opacity: 0.5;
-			display: inline-block;
-			margin-left: 0.5em;
-			margin-right: 0.5em;
-		}
-	}
-}
-
-footer {
-	margin-top: 1.5rem;
-}
-
-header {
-	opacity: 0.7;
-	margin-bottom: 1.5rem;
-}
-
 li.donation {
 	list-style: none;
 	display: flex;
@@ -334,11 +163,6 @@ summary {
 			margin-right: 0.5em;
 		}
 	}
-}
-
-label[for="theme-switcher"] {
-	display: flex;
-	align-items: center;
 }
 
 .instructions {
