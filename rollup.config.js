@@ -30,7 +30,7 @@ function sassPlugin(filename) {
 	return sass({
 		output: (styles) => {
 			writeFileSync(`${targetFolder}/${filename}.css`, styles);
-			writeFileSync(`${chromeTargetFolder}/${filename}`, styles);
+			writeFileSync(`${chromeTargetFolder}/${filename}.css`, styles);
 		},
 	});
 }
