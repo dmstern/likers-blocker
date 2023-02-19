@@ -626,11 +626,10 @@ export default class AccountCollector {
 		if (await TwitterPage.isBlockExportPage()) {
 			await Storage.addBlockedMulti(this.collectedUsers.toArray());
 			const blockedAccounts = await Storage.getBlockedAccounts();
-			const [csvFilename, , data] = await Exporter.prepareDownloadBlockList(blockedAccounts);
+			const { filename, url } = Exporter.prepareDownloadBlockList(blockedAccounts);
 			const downloadLink: HTMLAnchorElement = confirmButton.querySelector("a") as HTMLAnchorElement;
-
-			downloadLink.href = `data:text/csv;charset=utf-8,${encodeURIComponent(data)}`;
-			downloadLink.download = csvFilename;
+			downloadLink.href = url;
+			downloadLink.download = filename;
 		}
 
 		const confirmHeading = this.popup.querySelector(".lb-confirm-message h3 span");

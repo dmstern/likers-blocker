@@ -1,23 +1,30 @@
 import { BlockedUser, UserSet } from "./UserInfo";
 
 export default class Exporter {
-	static async prepareDownloadBlockList(
-		users: UserSet<BlockedUser>
-	): Promise<[string, string, string]> {
+	static prepareDownloadBlockList(users: UserSet<BlockedUser>): {
+		filename: string;
+		url: string;
+		mimeType: string;
+		data: string;
+		encoding: string;
+	} {
 		if (!users.size) {
 			return;
 		}
 
 		// single column CSV file
-		const csvFilename = "blocklist.csv";
+		const filename = "blocklist.csv";
 		const data = users
 			.toArray()
-			.map((user) => user.screen_name)
+			.map((user) => {
+				const { screen_name, interacted_with } = user;
+				return `${screen_name},https://twitter.com${interacted_with}`;
+			})
 			.join("\n");
-		const file = new File([data], csvFilename, {
-			type: "text/csv",
-		});
-		const downloadUrl = URL.createObjectURL(file);
-		return [csvFilename, downloadUrl, data];
+		const mimeType = "text/csv";
+		const encoding = "utf-8";
+		const url = `data:${mimeType};charset=${encoding},${encodeURIComponent(data)}`;
+
+		return { filename, url, mimeType, data, encoding };
 	}
 }

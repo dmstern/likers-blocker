@@ -54,6 +54,7 @@ $button-background-color-hover: var(--background-color--hover);
 	--color--brand: #e1285c;
 	--color--twitter-brand: rgb(29 161 242);
 	--drive-way: 46px;
+	--border-color: rgb(126 126 126 / 50%);
 }
 
 body {
@@ -199,8 +200,9 @@ main.logged-in {
 }
 
 .btn {
-	border: 1px solid rgb(120 120 120 / 40%);
-	border-radius: 4px;
+	border: 1.5px solid var(--border-color);
+	font-size: 1rem;
+	border-radius: 7px;
 	padding: 0.7em;
 	margin-right: 0.5em;
 	display: inline-flex;
@@ -210,10 +212,23 @@ main.logged-in {
 	color: inherit;
 	transition: all ease 300ms;
 	background-color: $button-background-color;
-	cursor: pointer;
 
-	&:hover {
-		background-color: $button-background-color-hover;
+	&.disabled {
+		opacity: .7;
+		cursor: default;
+
+		&:hover {
+			color: var(--color);
+		}
+	}
+
+	&:not(.disabled) {
+		cursor: pointer;
+		
+		&:hover {
+			background-color: $button-background-color-hover;
+			color: var(--color);
+		}
 	}
 
 	&__icon {
@@ -250,7 +265,7 @@ svg.w-6.h-6 {
 		display: inline-block;
 	}
 
-	&:first-of-type {
+	&.website-link {
 		&::after {
 			content: "|";
 			opacity: 0.5;
@@ -263,7 +278,6 @@ svg.w-6.h-6 {
 
 footer {
 	margin-top: 1.5rem;
-	opacity: 0.7;
 }
 
 header {
