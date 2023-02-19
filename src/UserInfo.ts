@@ -94,7 +94,7 @@ export class UserSet<UserType extends User | BlockedUser | QueuedUser> {
 		return this.users;
 	}
 
-	find(user: AbstractUser): UserType {
+	find(user: AbstractUser): UserType | undefined {
 		return this.users.find((item) => item.screen_name === user.screen_name);
 	}
 

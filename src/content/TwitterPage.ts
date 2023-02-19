@@ -27,7 +27,7 @@ export default class TwitterPage {
 		return this.isMobile ? "mobile" : "desktop";
 	}
 
-	static getTextStyle(isLegacyTwitter): TextStyle {
+	static getTextStyle(isLegacyTwitter: boolean): TextStyle {
 		let textElement: HTMLElement | null;
 
 		if (isLegacyTwitter) {
@@ -53,19 +53,22 @@ export default class TwitterPage {
 	static isTweetPage(): Promise<boolean> {
 		return new Promise<boolean>((resolve) => {
 			setTimeout(async () => {
-				resolve(
-					(location.pathname.includes("status") && (await this.isLikesPage())) ||
-						(await this.isRetweetsPage())
-				);
+				const isLikesOrRetweets = (await this.isLikesPage()) || (await this.isRetweetsPage());
+				const isTweetPage = location.pathname.includes("status") && isLikesOrRetweets;
+				resolve(isTweetPage);
 			}, 1);
 		});
 	}
 
 	static isLikesPage(): Promise<boolean> {
-		return new Promise((resolve) => resolve(location.pathname.endsWith("likes")));
+		const isLikesPage = location.pathname.endsWith("likes");
+		document.body.classList.toggle("lb-likes-page", isLikesPage);
+		return new Promise((resolve) => resolve(isLikesPage));
 	}
 
 	static isRetweetsPage(): Promise<boolean> {
+		const isLikesPage = location.pathname.endsWith("retweets");
+		document.body.classList.toggle("lb-retweets-page", isLikesPage);
 		return new Promise((resolve) => resolve(location.pathname.endsWith("retweets")));
 	}
 

@@ -1,4 +1,8 @@
 .lb-block-button {
+	--background-color: transparent;
+	--color: var(--highlight-color);
+	--border-color: var(--border-color);
+
 	margin-right: 0 !important;
 
 	@media (min-width: 620px) AND (max-width: 698px) {

@@ -1,4 +1,5 @@
 import { i18n } from "webextension-polyfill";
+import Exporter from "../Exporter";
 import settings from "../settings";
 import Storage from "../Storage";
 import { QueuedUser, UserSet } from "../UserInfo";
@@ -47,16 +48,6 @@ export default class AccountCollector {
 			document.body.classList.add("lb-legacy-twitter");
 		}
 		this.legacyTwitter = legacyTwitter;
-	}
-
-	public get tweetId() {
-		if (!this.cachedTweedId) {
-			this.cachedTweedId = location.href
-				.replace(/https:\/\/twitter.com\/.*\/status\//g, "")
-				.replace("/likes", "");
-		}
-
-		return this.cachedTweedId;
 	}
 
 	private get loadingInfo() {
@@ -246,7 +237,7 @@ export default class AccountCollector {
 			const userHandle = userUrl.replace("https://twitter.com/", "");
 			const user = {
 				screen_name: userHandle,
-				interacted_with: this.tweetId,
+				interacted_with: location.pathname,
 				profile_image_url_https: profileUrl,
 			};
 
@@ -312,8 +303,9 @@ export default class AccountCollector {
 		this.blockButton.dataset.testid = "blockAll";
 		this.blockButton.tabIndex = 0;
 		this.blockButton.innerHTML = followButton ? followButton.innerHTML : "";
-		this.blockButton.style.color = TwitterPage.highlightColor;
-		this.blockButton.style.borderColor = TwitterPage.highlightColor;
+		this.blockButton.style.color = "var(--color)";
+		this.blockButton.style.borderColor = "var(--border-color)";
+		this.blockButton.style.backgroundColor = "var(--background-color);";
 
 		const blockButtonLabel = this.isLegacyTwitter
 			? this.blockButton
@@ -383,7 +375,7 @@ export default class AccountCollector {
 		});
 	}
 
-	private async createFinishButton() {
+	private async createFinishButton(confirmButton: HTMLDivElement) {
 		const finishButton = document.createElement("button") as HTMLButtonElement;
 		finishButton.innerHTML = `${Icons.forward}${Icons.smile}`;
 		finishButton.tabIndex = 0;
@@ -406,7 +398,7 @@ export default class AccountCollector {
 				async () => {
 					finishButton.disabled = true;
 					this.popup.classList.remove("lb-popup--has-warning");
-					await this.finishCollecting();
+					await this.finishCollecting(confirmButton);
 				},
 				{
 					once: true,
@@ -415,7 +407,7 @@ export default class AccountCollector {
 		});
 	}
 
-	private async createConfirmButton() {
+	private async createConfirmButton(): Promise<HTMLDivElement> {
 		const areaWrapper = document.createElement("div");
 		const confirmInfo = document.createElement("div");
 		const isBlockExportPage = await TwitterPage.isBlockExportPage();
@@ -441,7 +433,6 @@ export default class AccountCollector {
 			};
 
 			const key = isBlockExportPage ? "block" : "queue";
-			console.log(isBlockExportPage, key, labels[section][key]);
 			return labels[section][key];
 		};
 
@@ -452,14 +443,23 @@ export default class AccountCollector {
 		confirmInfo.innerHTML = `<p>${i18n.getMessage(explanationLabel)}</p>`;
 		areaWrapper.appendChild(confirmInfo);
 
-		const confirmButton = isBlockExportPage
-			? (document.querySelector("[data-testid=UserCell] [role=button]").cloneNode(true) as HTMLElement)
-			: (this.blockButton.cloneNode(true) as HTMLLinkElement);
+		let confirmButton: HTMLAnchorElement | HTMLDivElement;
+
+		if (isBlockExportPage) {
+			const firstOriginalBlockButton = document.querySelector("[data-testid=UserCell] [role=button]");
+			confirmButton = document.createElement("a");
+			confirmButton.innerHTML = firstOriginalBlockButton.innerHTML;
+			confirmButton.classList.add(...firstOriginalBlockButton.classList);
+		} else {
+			confirmButton = this.blockButton.cloneNode(true) as HTMLAnchorElement;
+		}
+
 		confirmButton.classList.add("lb-confirm-button");
 		confirmButton.classList.remove("lb-block-button");
 		const confirmTitle = getLabel("confirmTitle");
 		confirmButton.title = i18n.getMessage(confirmTitle);
-		confirmButton.style.backgroundColor = TwitterPage.highlightColor;
+		confirmButton.style.backgroundColor = "var(--background-color)";
+		confirmButton.style.color = "var(--color)";
 		areaWrapper.appendChild(confirmButton);
 
 		if (!this.isLegacyTwitter && !isBlockExportPage) {
@@ -476,19 +476,17 @@ export default class AccountCollector {
 		const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
 		confirmButtonIconSvg && confirmButtonLabel?.parentElement?.append(confirmButtonIconSvg);
 
-		confirmButton.addEventListener(
-			"click",
-			() => {
-				if (isBlockExportPage) {
-					console.log("TODO: imlement download here");
-				} else {
+		if (!isBlockExportPage) {
+			confirmButton.addEventListener(
+				"click",
+				() => {
 					this.addToQueue(confirmInfo, confirmButtonIcon, confirmButtonLabel, confirmButton);
+				},
+				{
+					once: !isBlockExportPage,
 				}
-			},
-			{
-				once: !isBlockExportPage,
-			}
-		);
+			);
+		}
 
 		return areaWrapper;
 	}
@@ -552,6 +550,9 @@ export default class AccountCollector {
 		this.popup.classList.add("lb-popup");
 		this.popup.style.background = TwitterPage.backgroundColor;
 		this.popup.style.color = TwitterPage.highlightColor;
+		this.popup.style.setProperty("--background-color", TwitterPage.backgroundColor);
+		this.popup.style.setProperty("--color", this.textStyle.color);
+		this.popup.style.setProperty("--highlight-color", TwitterPage.highlightColor);
 		this.popup.innerHTML = content;
 
 		window.setTimeout(() => {
@@ -581,13 +582,13 @@ export default class AccountCollector {
 		window.setTimeout(circleTabInModalPopup, 0);
 	};
 
-	private async initBlockAction() {
+	private async initBlockAction(confirmButton: HTMLDivElement) {
 		const popupLabel = this.popup.querySelector(".lb-label") as HTMLElement;
 		Object.assign(popupLabel.style, this.textStyle);
-		await this.startScrolling();
+		await this.startScrolling(confirmButton);
 	}
 
-	private async scrollDown() {
+	private async scrollDown(confirmButton: HTMLDivElement) {
 		console.debug("scrollDown()");
 		const scrolly = await this.scrolly;
 		const scrollListIsSmall = scrolly.scrollHeight < scrolly.clientHeight * 2;
@@ -609,11 +610,11 @@ export default class AccountCollector {
 				scrolledToBottom,
 				scrollListIsSmall,
 			});
-			await this.finishCollecting();
+			await this.finishCollecting(confirmButton);
 		}
 	}
 
-	private async finishCollecting(): Promise<void> {
+	private async finishCollecting(confirmButton: HTMLDivElement): Promise<void> {
 		if (this.hasStateChangedToConfirm) {
 			return;
 		}
@@ -621,6 +622,16 @@ export default class AccountCollector {
 		console.debug("finishCollecting()");
 
 		this.stopScrolling();
+
+		if (await TwitterPage.isBlockExportPage()) {
+			await Storage.addBlockedMulti(this.collectedUsers.toArray());
+			const blockedAccounts = await Storage.getBlockedAccounts();
+			const [csvFilename, , data] = await Exporter.prepareDownloadBlockList(blockedAccounts);
+			const downloadLink: HTMLAnchorElement = confirmButton.querySelector("a") as HTMLAnchorElement;
+
+			downloadLink.href = `data:text/plain;charset=utf-8,${encodeURIComponent(data)}`;
+			downloadLink.download = csvFilename;
+		}
 
 		const confirmHeading = this.popup.querySelector(".lb-confirm-message h3 span");
 
@@ -695,9 +706,9 @@ export default class AccountCollector {
 		this.confirmMessageElement?.querySelector(".lb-label__main")?.appendChild(confirmButton);
 
 		await this.createCloseButton();
-		await this.createFinishButton();
 		await this.createFooter();
-		await this.initBlockAction();
+		await this.createFinishButton(confirmButton);
+		await this.initBlockAction(confirmButton);
 	}
 
 	private async createFooter() {
@@ -811,12 +822,12 @@ export default class AccountCollector {
 		});
 	}
 
-	private async startScrolling() {
+	private async startScrolling(confirmButton: HTMLDivElement) {
 		(await this.getScrollList()).classList.add("lb-blur");
 		(await this.scrolly).scrollTo(0, 0);
 		this.collectedUsers = new UserSet();
 		this.scrollInterval = window.setInterval(async () => {
-			await this.scrollDown();
+			await this.scrollDown(confirmButton);
 		}, settings.SCROLL_INTERVAL);
 	}
 
