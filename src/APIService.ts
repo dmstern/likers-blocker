@@ -138,10 +138,11 @@ export default class APIService {
 			this.getScreenNameBody(user.screen_name)
 		);
 
-		if (response.ok) {
+		if (response && response.ok) {
 			console.info("✔ user blocked.");
 			Storage.addBlocked(user);
 		} else {
+			console.error("📡 did not block", response);
 			Storage.queue(user);
 		}
 
