@@ -6,8 +6,7 @@ export default class TwitterPage {
 	}
 
 	static get twitterBrandColor() {
-		const homeLink = document.querySelector("a[href='/home'] svg");
-		return homeLink ? window.getComputedStyle(homeLink).color : "#1A8CD8";
+		return "#1A8CD8";
 	}
 
 	static get highlightColor() {
@@ -70,7 +69,7 @@ export default class TwitterPage {
 		return new Promise((resolve) => resolve(location.pathname.endsWith("retweets")));
 	}
 
-	static async isBlockPage(): Promise<boolean> {
+	static async isBlockExportPage(): Promise<boolean> {
 		return new Promise((resolve) => {
 			setTimeout(() => {
 				const isBlockPage =
@@ -78,7 +77,7 @@ export default class TwitterPage {
 					location.href.endsWith("settings/content_preferences") ||
 					location.href.endsWith("settings/mute_and_block");
 
-				document.querySelector("body")?.classList[`${isBlockPage ? "add" : "remove"}`]("lb-block-page");
+				document.querySelector("body")?.classList.toggle("lb-block-page", isBlockPage);
 
 				resolve(isBlockPage);
 			}, 1);

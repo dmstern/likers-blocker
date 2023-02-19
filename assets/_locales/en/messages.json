@@ -92,12 +92,16 @@
 		"description": "Label for the Block all button"
 	},
 	"ui_usersFound": {
-		"message": "users found.",
+		"message": "users found",
 		"description": "Message how many users have been collected. Gets prefixed the number of collected users."
 	},
 	"ui_queue_explanation": {
 		"message": "The users are not blocked yet. To block them, add them to the blocking queue. They will be processed bit by bit in background to not violate the block limit of Twitter.",
 		"description": "Explanation text that is displayed after collecting and before adding accounts to queue."
+	},
+	"ui_block_explanation": {
+		"message": "Save the .csv file on your computer to share it with others or to use it with multiple accounts.",
+		"description": "Explanation text that is displayed after collecting and before adding downloading the exported."
 	},
 	"ui_collectingUsernames": {
 		"message": "Collecting usernames",
@@ -123,7 +127,7 @@
 		"message": "Also block retweeters?",
 		"description": "Label of the checkbox where the user can chose to also block retweeters of the liked tweet."
 	},
-	"ui_onlyDirectRetweeters": {
+	"ui_retweetersHoverHint": {
 		"message": "Only includes direct retweeters without a comment.",
 		"description": "Title (tooltip) of the retweeters checkbox"
 	},
@@ -131,9 +135,13 @@
 		"message": "OK",
 		"description": "Label of the OK button"
 	},
-	"ui_confirm": {
+	"ui_addToQueue": {
 		"message": "Add to queue",
 		"description": "Label of the confirm button"
+	},
+	"ui_download": {
+		"message": "Download blocklist",
+		"description": "Label of the download button in export view"
 	},
 	"ui_confirm_title": {
 		"message": "Adds the collected accounts to the blocking queue. These will be blocked bit by bit in background.",
