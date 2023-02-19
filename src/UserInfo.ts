@@ -20,28 +20,6 @@ export interface AbstractUser {
 	screen_name: string;
 }
 
-export class QueuedUserImpl implements QueuedUser {
-	screen_name: string;
-	profile_image_url_https: string;
-	interacted_with: string;
-
-	constructor(user: QueuedUser) {
-		const { screen_name, profile_image_url_https, interacted_with } = user;
-		this.screen_name = screen_name;
-		this.profile_image_url_https = profile_image_url_https;
-		this.interacted_with = interacted_with;
-	}
-
-	toBlockedUser(): BlockedUser {
-		const { screen_name, interacted_with } = this;
-
-		return {
-			screen_name,
-			interacted_with,
-		};
-	}
-}
-
 export class UserSet<UserType extends User | BlockedUser | QueuedUser> {
 	private users: UserType[];
 

@@ -90,6 +90,12 @@ const config = [
 		output,
 		plugins: [...plugins.commons, sassPlugin("popup")],
 	},
+	{
+		external: ["webextension-polyfill"],
+		input: "src/options/options.ts",
+		output,
+		plugins: [...plugins.commons, sassPlugin("options")],
+	},
 ];
 
 export default config;

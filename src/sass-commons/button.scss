@@ -1,0 +1,41 @@
+.btn {
+	border: 1.5px solid var(--border-color);
+	font-size: 1rem;
+	border-radius: 7px;
+	padding: 0.7em;
+	margin-right: 0.5em;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	color: inherit;
+	transition: all ease 300ms;
+	background-color: $button-background-color;
+
+	&.disabled {
+		opacity: .7;
+		cursor: default;
+
+		&:hover {
+			color: var(--color);
+		}
+	}
+
+	&:not(.disabled) {
+		cursor: pointer;
+		
+		&:hover {
+			background-color: $button-background-color-hover;
+			color: var(--color);
+		}
+	}
+
+	&__icon {
+		margin-right: 0.5em;
+	}
+
+	&--issue {
+		position: absolute;
+		top: 0;
+	}
+}
