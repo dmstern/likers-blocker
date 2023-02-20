@@ -1,5 +1,5 @@
 import { i18n, runtime } from "webextension-polyfill";
-import Exporter from "../Exporter";
+import icons from "../content/icons";
 import Messenger from "../Messages";
 import Storage from "../Storage";
 import { User } from "../UserInfo";
@@ -32,6 +32,16 @@ function localizeUI() {
 	});
 }
 
+function injectIcons() {
+	const elements = document.querySelectorAll("[data-icon]");
+
+	elements.forEach((element) => {
+		if (element instanceof HTMLElement) {
+			element.innerHTML = icons[element.dataset.icon];
+		}
+	});
+}
+
 async function updateStats() {
 	// updateInstantly = true) {
 	// Stats:
@@ -51,28 +61,10 @@ async function updateStats() {
 	const blockListLabel = blockListNode.parentElement;
 	const queueListLabel = queueListNode.parentElement;
 	const truckIcon = document.querySelector(".stats__truck-icon") as HTMLElement;
-	const downloadButton = document.querySelector("#downloadBlockList") as HTMLAnchorElement;
-
-	console.log(downloadButton);
 
 	// Conditions:
 	const isBlocking = queueLength > 0;
 	const hasBlocked = blockedLength > 0;
-
-	// Download Button:
-	if (downloadButton) {
-		console.log(downloadButton);
-		const { filename, url } = Exporter.prepareDownloadBlockList(blockedAccounts);
-		console.log(downloadButton, blockedLength);
-		if (blockedLength > 0) {
-			downloadButton.href = url;
-			downloadButton.download = filename;
-			downloadButton.classList.remove("disabled");
-		} else {
-			downloadButton.removeAttribute("href");
-			downloadButton.classList.add("disabled");
-		}
-	}
 
 	// if (updateInstantly) {
 	queueListNode.innerHTML = queueLength.toLocaleString();
@@ -141,23 +133,29 @@ async function getUserInfo() {
 	userNameElement.innerHTML = `@${screeName}`;
 }
 
-function alignRightButton() {
-	const rightButton: HTMLElement | null = document.querySelector(".btn--issue");
-	const leftButton = rightButton?.parentElement?.children[0];
+function alignRightButtons() {
+	const rightButtons: NodeListOf<HTMLElement> = document.querySelectorAll(".btn--issue");
 
-	if (leftButton && rightButton) {
-		rightButton.style.left = getComputedStyle(leftButton).width;
-	}
+	rightButtons.forEach((button) => {
+		const parentLeft = button.parentElement.getBoundingClientRect().left;
+		const left = button.getBoundingClientRect().left;
+
+		setTimeout(() => {
+			button.style.left = `${left - parentLeft}px`;
+			button.style.position = "absolute";
+		}, 1);
+	});
 }
 
-const importListButton = document.querySelector("#importBlockList");
-importListButton?.addEventListener("click", () => {
+const optionsButton = document.querySelector("#options");
+optionsButton?.addEventListener("click", () => {
 	runtime.openOptionsPage();
 });
 
 (function () {
 	localizeUI();
-	alignRightButton();
+	injectIcons();
+	alignRightButtons();
 	updateStats();
 	getUserInfo();
 
