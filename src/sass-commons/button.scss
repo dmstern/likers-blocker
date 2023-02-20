@@ -34,12 +34,16 @@
 		margin-right: 0.5em;
 	}
 
+	&--icon-only svg {
+		margin: 0;
+	}
+
 	&--options {
 		position: absolute;
 		right: 0;
-	}
 
-	&--icon-only svg {
-		margin: 0;
+		svg:not(:first-of-type) {
+			margin-left: .5rem;
+		}
 	}
 }
