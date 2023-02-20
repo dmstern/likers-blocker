@@ -12,16 +12,22 @@
 <body>
 	<div class="import-export">
 
+		<div class="import-export__include-checkbox">
+			<label for="includePreviouslyBlocked" data-label="options_include_previously_blocked">
+			</label>
+			<input type="checkbox" name="includePreviouslyBlocked" id="includePreviouslyBlocked">
+		</div>
+
 		<div class="import-export__buttons">
 			<button class="btn" id="importBlockList">
 				<span data-icon="import"></span>
 				<span data-label="options_import">Import Blocklist</span>
 			</button>
 
-			<button class="btn" id="downloadBlockList">
+			<a class="btn" id="downloadBlockList" role="button">
 				<span data-icon="download"></span>
 				<span data-label="options_export">Export Blocklist</span>
-			</button>
+			</a>
 		</div>
 
 		<details class="import-export__status-message" id="statusMessage">
