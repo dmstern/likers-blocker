@@ -1,6 +1,6 @@
 import { runtime, storage } from "webextension-polyfill";
-import Badge from "./Badge";
 import Cookies from "./Cookies";
+import Messenger from "./Messages";
 import settings from "./settings";
 import { BlockedUser, QueuedUser, User, UserSet } from "./UserInfo";
 
@@ -202,7 +202,7 @@ export default class Storage {
 			queued = [];
 		}
 
-		Badge.updateBadgeCount(queued.length);
+		Messenger.sendQueueUpdateMessage({ queueLength: queued.length });
 
 		return new UserSet<QueuedUser>(queued);
 	}
@@ -210,7 +210,7 @@ export default class Storage {
 	static async queue(user: QueuedUser) {
 		const queue = await this.getQueue();
 		queue.add(user);
-		Badge.updateBadgeCount(queue.size);
+		Messenger.sendQueueUpdateMessage({ queueLength: queue.size });
 		this.set(Key.blockingQueue, queue.toArray());
 	}
 
@@ -218,15 +218,15 @@ export default class Storage {
 		const queue = await this.getQueue();
 		const user = queue.shift();
 		this.set(Key.blockingQueue, queue.toArray());
-		Badge.updateBadgeCount(queue.size);
+		Messenger.sendQueueUpdateMessage({ queueLength: queue.size });
 		return user;
 	}
 
 	static async queueMulti(users: QueuedUser[]) {
 		const queue: UserSet<QueuedUser> = await this.getQueue();
-		//console.log("Queue Length: " + Array.from(set).length)
+		// console.log("Queue Length: " + Array.from(set).length)
 		queue.concat(users);
-		Badge.updateBadgeCount(queue.size);
+		Messenger.sendQueueUpdateMessage({ queueLength: queue.size });
 		this.set(Key.blockingQueue, queue.toArray());
 	}
 

@@ -83,4 +83,7 @@ async function createBlockAlarm() {
 	interceptTwitterRequests();
 	Badge.setColor();
 	Storage.getQueue().then((queue) => Badge.updateBadgeCount(queue.size));
+	Messenger.addQueueUpdateListener(async ({ queueLength }) => {
+		await Badge.updateBadgeCount(queueLength);
+	});
 })();
