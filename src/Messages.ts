@@ -13,15 +13,17 @@ interface Message {
 }
 
 export interface QueueUpdateData {
-	dequeuedUser: User;
+	queuedUser?: User;
+	dequeuedUser?: User;
 	queueLength: number;
-	blockListLength: number;
+	blockListLength?: number;
 }
 
 export interface QueueUpdateMessage extends Message {
-	dequeuedUser: User;
+	queuedUser?: User;
+	dequeuedUser?: User;
 	queueLength: number;
-	blockListLength: number;
+	blockListLength?: number;
 }
 
 export interface GetUserInfoMessage extends Message {
@@ -81,11 +83,12 @@ export default class Messenger {
 		});
 	}
 
-	static async addQueueUpdateListener(callback: () => Promise<void>) {
+	static async addQueueUpdateListener(callback: (queueUpdate: QueueUpdateData) => Promise<void>) {
 		runtime.onMessage.addListener((message: QueueUpdateMessage) => {
 			console.log("✉ message from background", message);
 			if (message.action === Action.queueUpdate) {
-				return callback();
+				const { dequeuedUser, queueLength, blockListLength } = message;
+				return callback({ dequeuedUser, queueLength, blockListLength });
 			}
 		});
 	}
