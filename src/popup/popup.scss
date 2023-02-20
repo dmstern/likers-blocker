@@ -2,6 +2,11 @@
 @import "../sass-commons/button";
 @import "../sass-commons/icon";
 @import "../sass-commons/links";
+@import "../sass-commons/label";
+@import "../sass-commons/stats";
+@import "../sass-commons/user-info";
+@import "../sass-commons/instructions";
+@import "../sass-commons/donation";
 
 @keyframes drive {
 	0% {
@@ -45,10 +50,6 @@
 	}
 }
 
-.login-link {
-	margin-left: 1rem;
-}
-
 .main__inactive-content {
 	display: flex;
 	align-items: center;
@@ -64,89 +65,8 @@ main.logged-in {
 	}
 }
 
-.user-info {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 1em;
-	width: 100%;
-	font-size: 0.8rem;
-	color: var(--color--hover);
-	opacity: .9;
-}
-
-.user-info__logged-in {
-	display: flex;
-	align-items: center;
-}
-
-.user-info__profile-picture {
-	border-radius: 50%;
-	margin: 0 .3rem;
-}
-
-.stats__block-list.active {
-	svg {
-		color: var(--color--brand);
-	}
-}
-
-.stats__truck-icon {
-	width: 32px;
-	height: auto;
-	opacity: .7;
-	transform: translateX(calc(var(--drive-way) * -1)) rotateY(90deg);
-}
-
-.stats--blocking {
-	.stats__truck-icon {
-		animation-name: drive;
-		animation-duration: var(--drive-duration, 10s);
-		animation-iteration-count: infinite;
-		animation-timing-function: linear;
-		animation-fill-mode: both;
-		opacity: 1;
-	}
-}
-
-.import-export {
-	display: flex;
-	justify-content: space-between;
-}
-
-li.donation {
-	list-style: none;
-	display: flex;
-	align-items: center;
-	margin-left: -1em;
-
-	&__icon {
-		margin-right: 0.5em;
-	}
-}
-
-.twitter-link {
-	text-align: right;
-	margin-left: 1em;
-}
-
-.share-icon {
-	width: 1.5rem !important;
-	height: 1.5rem !important;
-}
-
 .space {
 	flex-grow: 1;
-}
-
-.label {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-
-	&__icon {
-		margin-right: .5em;
-	}
 }
 
 summary {
@@ -159,47 +79,8 @@ summary {
 	}
 
 	.label {
-		&__icon {
+		.icon {
 			margin-right: 0.5em;
-		}
-	}
-}
-
-.instructions {
-	.icon-bulb {
-		display: none;
-	}
-
-	&[open] {
-		.icon-bulb {
-			display: block;
-			color: var(--color--success);
-		}
-	
-		.icon-question {
-			display: none;
-		}
-	}
-}
-
-.like[open] {
-	.btn {
-		&__icon {
-			color: var(--color--brand);
-		}
-	}
-}
-
-.stats {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 1rem;
-
-	&__queue {
-		&.active {
-			.label__icon {
-				color: var(--color--twitter-brand);
-			}
 		}
 	}
 }

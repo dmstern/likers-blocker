@@ -1,0 +1,37 @@
+.stats {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 1rem;
+
+	&__queue {
+		&.active {
+			.icon {
+				color: var(--color--twitter-brand);
+			}
+		}
+	}
+}
+
+.stats__block-list.active {
+	svg {
+		color: var(--color--brand);
+	}
+}
+
+.truck-icon {
+	width: 32px;
+	height: auto;
+	opacity: .7;
+	transform: translateX(calc(var(--drive-way) * -1)) rotateY(90deg);
+}
+
+.stats--blocking {
+	.truck-icon {
+		animation-name: drive;
+		animation-duration: var(--drive-duration, 10s);
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+		animation-fill-mode: both;
+		opacity: 1;
+	}
+}

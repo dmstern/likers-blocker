@@ -1,0 +1,18 @@
+li.donation {
+	list-style: none;
+	display: flex;
+	align-items: center;
+	margin-left: -1em;
+
+	.icon {
+		margin-right: 0.5em;
+	}
+}
+
+.like[open] {
+	.btn {
+		.icon {
+			color: var(--color--brand);
+		}
+	}
+}
