@@ -1,5 +1,5 @@
 import { i18n } from "webextension-polyfill";
-import Exporter from "../Exporter";
+import FileManager from "../FileManager";
 import settings from "../settings";
 import Storage from "../Storage";
 import { QueuedUser, UserSet } from "../UserInfo";
@@ -626,7 +626,7 @@ export default class AccountCollector {
 		if (await TwitterPage.isBlockExportPage()) {
 			await Storage.addBlockedMulti(this.collectedUsers.toArray());
 			const blockedAccounts = await Storage.getBlockedAccounts();
-			const { filename, url } = Exporter.prepareDownloadBlockList(blockedAccounts);
+			const { filename, url } = FileManager.getDownloadLinkForBlockList(blockedAccounts);
 			const downloadLink: HTMLAnchorElement = confirmButton.querySelector("a") as HTMLAnchorElement;
 			downloadLink.href = url;
 			downloadLink.download = filename;
