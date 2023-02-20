@@ -1,12 +1,7 @@
+@import "../sass-commons/font";
 @import "../sass-commons/base";
+@import "./body";
 @import "../sass-commons/button";
 @import "../sass-commons/icon";
 @import "../sass-commons/links";
 @import "../sass-commons/import-export";
-
-body {
-	height: 350px;
-	width: 600px;
-	max-width: 100%;
-	max-height: 100%;
-}
