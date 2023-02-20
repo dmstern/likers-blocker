@@ -27,6 +27,8 @@
 		&:hover {
 			background-color: $button-background-color-hover;
 			color: var(--color);
+
+			--icon-color: var(--color--twitter-brand);
 		}
 	}
 
