@@ -13,6 +13,7 @@ $button-background-color-hover: var(--background-color--hover);
 	--color--twitter-brand: rgb(29 161 242);
 	--drive-way: 46px;
 	--border-color: rgb(126 126 126 / 50%);
+	--body-padding: 1.5rem;
 }
 
 html {
@@ -29,7 +30,7 @@ body {
 	box-sizing: border-box;
 	font-size: 16px;
 	font-family: $font-family;
-	padding: 1.5rem;
+	padding: var(--body-padding);
 	width: 550px;
 	height: auto;
 	background-color: $background-color;
