@@ -24,7 +24,7 @@ async function updateStats() {
 	const statsWrapperNode = document.querySelector(".stats") as HTMLElement;
 	const blockListLabel = blockListNode.parentElement;
 	const queueListLabel = queueListNode.parentElement;
-	const truckIcon = document.querySelector(".stats__truck-icon") as HTMLElement;
+	const truckIcon = document.querySelector(".stats .truck-icon") as HTMLElement;
 
 	// Conditions:
 	const isBlocking = queueLength > 0;
@@ -61,7 +61,7 @@ async function updateStats() {
 	// Calculate space between queue and blockedList for drive way:
 	const { left, width } = queueListLabel.getBoundingClientRect();
 	const blockLeftEdge = blockListLabel.getBoundingClientRect().left;
-	const truckWidth = truckIcon.clientWidth;
+	const truckWidth = truckIcon?.clientWidth;
 	const difference = blockLeftEdge - left - width - truckWidth;
 
 	statsWrapperNode.style.setProperty("--drive-way", `${Math.round(difference / 2)}px`);
