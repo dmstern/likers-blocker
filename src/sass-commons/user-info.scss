@@ -7,14 +7,18 @@
 	font-size: 0.8rem;
 	color: var(--color--hover);
 	opacity: .9;
-}
 
-.user-info__logged-in {
-	display: flex;
-	align-items: center;
-}
+	&__logged-in {
+		display: flex;
+		align-items: center;
+	}
 
-.user-info__profile-picture {
-	border-radius: 50%;
-	margin: 0 .3rem;
+	&__user-name {
+		font-weight: 600;
+	}
+
+	&__profile-picture {
+		border-radius: 50%;
+		margin: 0 .3rem;
+	}
 }

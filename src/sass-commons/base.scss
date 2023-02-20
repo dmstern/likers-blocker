@@ -1,4 +1,4 @@
-$font-family: "Ubuntu", "Roboto", "Arial", "Helvetica", sans-serif;
+$font-family: "Inter", "Roboto", "Ubuntu", "Arial", "Helvetica", sans-serif;
 $background-color: var(--background-color);
 $button-background-color: transparent;
 $button-background-color-hover: var(--background-color--hover);
@@ -30,9 +30,9 @@ body {
 	--color: var(--color-dark);
 	--color--hover: var(--color-light-dark);
 
+	font-family: $font-family;
 	box-sizing: border-box;
 	font-size: 16px;
-	font-family: $font-family;
 	padding: var(--body-padding);
 	width: 550px;
 	height: auto;

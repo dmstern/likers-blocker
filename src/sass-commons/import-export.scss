@@ -4,6 +4,11 @@
 		justify-content: space-between;
 	}
 
+	.btn {
+		font-size: 16px;
+		font-family: $font-family;
+	}
+
 	&__status-message {
 		--summary-offset: 4px;
 
