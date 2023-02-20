@@ -12,7 +12,7 @@
 		text-decoration: underline;
 	}
 
-	&__icon {
+	.icon {
 		margin-right: 0.5em;
 		display: inline-block;
 	}
@@ -26,4 +26,13 @@
 			margin-right: 0.5em;
 		}
 	}
+}
+
+.login-link {
+	margin-left: 1rem;
+}
+
+.twitter-link {
+	text-align: right;
+	margin-left: 1em;
 }
