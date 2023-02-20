@@ -1,46 +1,10 @@
-import { i18n, runtime } from "webextension-polyfill";
-import icons from "../content/icons";
+import { runtime } from "webextension-polyfill";
+import { injectIcons } from "../content/icons";
+import { localizeUI } from "../Localization";
 import Messenger from "../Messages";
 import Storage from "../Storage";
 import { User } from "../UserInfo";
 import "./popup.scss";
-
-function replaceData(dataName: string, callback: (element: HTMLElement, message: string) => void) {
-	const elements = document.querySelectorAll(`[data-${dataName}]`) as NodeListOf<HTMLElement>;
-	elements.forEach((element: HTMLElement) => {
-		const messageName = element.dataset[dataName];
-
-		if (!messageName) {
-			return;
-		}
-
-		callback(element, i18n.getMessage(messageName));
-	});
-}
-
-function localizeUI() {
-	replaceData("label", (element, message) => {
-		element.innerHTML = message;
-	});
-
-	replaceData("href", (element, message) => {
-		element.setAttribute("href", message);
-	});
-
-	replaceData("title", (element, message) => {
-		element.setAttribute("title", message);
-	});
-}
-
-function injectIcons() {
-	const elements = document.querySelectorAll("[data-icon]");
-
-	elements.forEach((element) => {
-		if (element instanceof HTMLElement) {
-			element.innerHTML = icons[element.dataset.icon];
-		}
-	});
-}
 
 async function updateStats() {
 	// updateInstantly = true) {
@@ -147,17 +111,17 @@ function alignRightButtons() {
 	});
 }
 
-const optionsButton = document.querySelector("#options");
-optionsButton?.addEventListener("click", () => {
-	runtime.openOptionsPage();
-});
-
 (function () {
 	localizeUI();
 	injectIcons();
 	alignRightButtons();
 	updateStats();
 	getUserInfo();
+
+	const optionsButton = document.querySelector("#options");
+	optionsButton?.addEventListener("click", () => {
+		runtime.openOptionsPage();
+	});
 
 	Messenger.addQueueUpdateListener(async () => {
 		updateStats();

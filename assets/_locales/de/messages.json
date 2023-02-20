@@ -27,6 +27,10 @@
 		"message": "Nach dem Auslesen werden die Accounts zur Block-Warteschlange hinzugefügt und im Hintegrund blockiert.",
 		"description": "Usage guide step 4"
 	},
+	"popup_options": {
+		"message": "Import / Export / Einstellungen",
+		"description": "Label or title for options button in popup window."
+	},
 	"popup_logged_in_as": {
 		"message": "Eingeloggt als",
 		"description": "Label: logged in as"
@@ -42,14 +46,6 @@
 	"popup_like": {
 		"message": "Gefällt mir",
 		"description": "Label for the Like button"
-	},
-	"popup_export": {
-		"message": "Blockliste exportieren",
-		"description": "Label for the export button in the popup window."
-	},
-	"popup_import": {
-		"message": "Blockliste importieren",
-		"description": "Label for the import button in the popup window."
 	},
 	"popup_donate": {
 		"message": "Schön, dass dir unsere Arbeit gefällt! 😊<br /> Wir machen das in unserer Freizeit. Das Tool ist und bleibt kostenlos und werbefrei. Vielleicht möchtest du uns ein kleines Trinkgeld als Motivation da lassen?",
@@ -178,5 +174,13 @@
 	"ui_newRelease": {
 		"message": "Du hast die neuste Likers Blocker Version. 🎉 Schau dir an, was es neues gibt.",
 		"description": "New Release icon title"
+	},
+	"options_export": {
+		"message": "Blockliste exportieren",
+		"description": "Label for the export button in the options page."
+	},
+	"options_import": {
+		"message": "Blockliste importieren",
+		"description": "Label for the import button in the options page."
 	}
 }

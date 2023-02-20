@@ -1,17 +1,12 @@
+import { injectIcons } from "../content/icons";
 import Exporter from "../Exporter";
+import { localizeUI } from "../Localization";
 import Messenger from "../Messages";
 import Storage from "../Storage";
 import { QueuedUser } from "../UserInfo";
 import "./options.scss";
 
 const disabledClass = "disabled";
-
-const importListButton = document.querySelector("#importBlockList");
-importListButton?.addEventListener("click", importBlockList);
-
-Messenger.addQueueUpdateListener(async () => {
-	updateDownloadButton();
-});
 
 async function updateDownloadButton() {
 	const blockedAccounts = await Storage.getBlockedAccounts();
@@ -77,3 +72,15 @@ async function importBlockList() {
 		fileInput.remove();
 	});
 }
+
+(function () {
+	localizeUI();
+	injectIcons();
+
+	const importListButton = document.querySelector("#importBlockList");
+	importListButton?.addEventListener("click", importBlockList);
+
+	Messenger.addQueueUpdateListener(async () => {
+		updateDownloadButton();
+	});
+})();
