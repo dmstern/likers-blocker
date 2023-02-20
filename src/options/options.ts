@@ -34,7 +34,7 @@ async function importBlockList() {
 
 				return {
 					screen_name,
-					interacted_with,
+					interacted_with: interacted_with.replace("https://twitter.com", ""),
 					profile_image_url_https: "",
 				};
 			});
