@@ -190,5 +190,9 @@
 	"options_import_error": {
 		"message": "Dateiformat fehlerhaft. Blockliste nicht importiert.",
 		"description": "Error message if the import failed."
+	},
+	"options_include_previously_blocked": {
+		"message": "Alle bereits geblockten Accounts einschließen",
+		"description": "Checkbox label: include previously blocked accounts without LikersBlocker."
 	}
 }

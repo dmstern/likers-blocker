@@ -9,6 +9,13 @@
 		font-family: $font-family;
 	}
 
+	&__include-checkbox {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		margin-bottom: 1em;
+	}
+
 	&__status-message {
 		--summary-offset: 4px;
 
