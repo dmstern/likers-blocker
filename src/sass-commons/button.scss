@@ -34,8 +34,12 @@
 		margin-right: 0.5em;
 	}
 
-	&--issue {
+	&--options {
 		position: absolute;
-		top: 0;
+		right: 0;
+	}
+
+	&--icon-only svg {
+		margin: 0;
 	}
 }

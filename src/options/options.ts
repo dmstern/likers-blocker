@@ -1,9 +1,38 @@
+import Exporter from "../Exporter";
+import Messenger from "../Messages";
 import Storage from "../Storage";
 import { QueuedUser } from "../UserInfo";
 import "./options.scss";
 
+const disabledClass = "disabled";
+
 const importListButton = document.querySelector("#importBlockList");
 importListButton?.addEventListener("click", importBlockList);
+
+Messenger.addQueueUpdateListener(async () => {
+	updateDownloadButton();
+});
+
+async function updateDownloadButton() {
+	const blockedAccounts = await Storage.getBlockedAccounts();
+	const downloadButton = document.querySelector("#downloadBlockList") as HTMLAnchorElement;
+
+	if (!downloadButton) {
+		return;
+	}
+
+	const { filename, url } = Exporter.prepareDownloadBlockList(blockedAccounts);
+
+	if (blockedAccounts.size > 0) {
+		downloadButton.href = url;
+		downloadButton.download = filename;
+		downloadButton.classList.remove(disabledClass);
+	} else {
+		downloadButton.removeAttribute("href");
+		downloadButton.classList.add(disabledClass);
+	}
+}
+
 async function importBlockList() {
 	console.debug("importBlockList");
 	const fileInput = document.createElement("input");
