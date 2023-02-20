@@ -3,8 +3,8 @@ import typescript from "@rollup/plugin-typescript";
 import sass from "rollup-plugin-sass";
 import prettier from "rollup-plugin-prettier";
 import eslint from "@rollup/plugin-eslint";
-import copy from "rollup-plugin-copy";
 import { writeFileSync } from "fs";
+import copy from "rollup-plugin-copy";
 
 const targetFolder = "dist";
 const chromeTargetFolder = "dist_chrome";
@@ -88,13 +88,31 @@ const config = [
 		external: ["webextension-polyfill"],
 		input: "src/popup/popup.ts",
 		output,
-		plugins: [...plugins.commons, sassPlugin("popup")],
+		plugins: [
+			...plugins.commons,
+			sassPlugin("popup"),
+			copy({
+				targets: [
+					{ src: "src/popup/popup.html", dest: targetFolder },
+					{ src: "src/popup/popup.html", dest: chromeTargetFolder },
+				],
+			}),
+		],
 	},
 	{
 		external: ["webextension-polyfill"],
 		input: "src/options/options.ts",
 		output,
-		plugins: [...plugins.commons, sassPlugin("options")],
+		plugins: [
+			...plugins.commons,
+			sassPlugin("options"),
+			copy({
+				targets: [
+					{ src: "src/options/options.html", dest: targetFolder },
+					{ src: "src/options/options.html", dest: chromeTargetFolder },
+				],
+			}),
+		],
 	},
 ];
 
