@@ -182,5 +182,13 @@
 	"ui_newRelease": {
 		"message": "You installed the latest LikersBlocker version. 🎉 See what's new.",
 		"description": "New Release icon title"
+	},
+	"options_import_success": {
+		"message": "Blocklist successfully imported. Processing queue...",
+		"description": "Success message if the import was successful."
+	},
+	"options_import_error": {
+		"message": "Error: Wrong file format. Blocklist not imported.",
+		"description": "Error message if the import failed."
 	}
 }

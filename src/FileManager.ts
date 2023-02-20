@@ -18,6 +18,20 @@ function usersToCSV(users: UserSet<BlockedUser>): string {
 		: "";
 }
 
+function parseCSV(csv: string): QueuedUser[] {
+	const rows = csv.split("\n");
+
+	return rows.map((row) => {
+		const [screen_name, interacted_with] = row.split(",");
+
+		return {
+			screen_name,
+			interacted_with: interacted_with.replace("https://twitter.com", ""),
+			profile_image_url_https: "",
+		};
+	});
+}
+
 export default class FileManager {
 	static getDownloadLinkForBlockList(users: UserSet<BlockedUser>): {
 		filename: string;
@@ -42,44 +56,51 @@ export default class FileManager {
 		});
 	}
 
-	static async importBlockList() {
+	static async importBlockList(): Promise<QueuedUser[]> {
 		const fileInput = document.createElement("input");
 		fileInput.type = "file";
 		fileInput.accept = ".csv";
 		fileInput.style.display = "none";
 		document.body.appendChild(fileInput);
 		fileInput.click();
-		fileInput.addEventListener("change", () => {
-			if (!fileInput.files || !fileInput.files[0]) {
-				console.debug("not file");
-				return;
-			}
 
-			const file = fileInput.files[0];
-			const reader = new FileReader();
-			reader.onload = async (e) => {
-				if (!e.target) {
+		return new Promise((resolve, reject) => {
+			fileInput.addEventListener("change", () => {
+				if (!fileInput.files || !fileInput.files[0]) {
+					console.error("not a file");
+					reject();
 					return;
 				}
 
-				// TODO: parse csv to json:
-				const text = e.target.result as string;
-				console.log("Importing: ", text);
-				const rows = text.split("\n");
-				const blockedAccounts: QueuedUser[] = rows.map((row) => {
-					const [screen_name, interacted_with] = row.split(",");
+				try {
+					const file = fileInput.files[0];
+					const reader = new FileReader();
+					reader.onload = async (e) => {
+						if (!e.target) {
+							return;
+						}
 
-					return {
-						screen_name,
-						interacted_with: interacted_with.replace("https://twitter.com", ""),
-						profile_image_url_https: "",
+						const text = e.target.result as string;
+						console.info("Importing: ", text);
+
+						try {
+							const blockedAccounts = parseCSV(text);
+							await Storage.queueMulti(blockedAccounts);
+							resolve(blockedAccounts);
+						} catch (error) {
+							reject(error);
+							console.log(error);
+						}
 					};
-				});
 
-				await Storage.queueMulti(blockedAccounts);
-			};
-			reader.readAsText(file);
-			fileInput.remove();
+					reader.readAsText(file);
+				} catch (error) {
+					console.error("Import failed.", error);
+					reject(error);
+				} finally {
+					fileInput.remove();
+				}
+			});
 		});
 	}
 }

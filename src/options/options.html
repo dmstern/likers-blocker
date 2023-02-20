@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,21 +8,30 @@
 	<link rel="stylesheet" href="options.css">
 	<title>LikersBlocker Options</title>
 </head>
+
 <body>
 	<div class="import-export">
 
-		<button class="btn" id="importBlockList">
-			<span data-icon="import"></span>
-			<span data-label="options_import">Import Blocklist</span>
-		</button>
+		<div class="import-export__buttons">
+			<button class="btn" id="importBlockList">
+				<span data-icon="import"></span>
+				<span data-label="options_import">Import Blocklist</span>
+			</button>
 
-		<button class="btn" id="downloadBlockList">
-			<span data-icon="download"></span>
-			<span data-label="options_export">Export Blocklist</span>
-		</button>
+			<button class="btn" id="downloadBlockList">
+				<span data-icon="download"></span>
+				<span data-label="options_export">Export Blocklist</span>
+			</button>
+		</div>
+
+		<details class="import-export__status-message" id="statusMessage">
+			<summary></summary>
+			<div class="details"></div>
+		</details>
 
 	</div>
 
 	<script src="options.js"></script>
 </body>
+
 </html>
