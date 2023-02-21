@@ -1,5 +1,5 @@
 import typescript from "@rollup/plugin-typescript";
-// import { terser } from "rollup-plugin-terser";
+import { terser } from "rollup-plugin-terser";
 import sass from "rollup-plugin-sass";
 import prettier from "rollup-plugin-prettier";
 import eslint from "@rollup/plugin-eslint";
@@ -60,7 +60,6 @@ const plugins = {
 	}),
 	commons: [
 		typescript(),
-		// terser(),
 		prettier({
 			tabWidth: 2,
 			singleQuote: false,
@@ -70,6 +69,10 @@ const plugins = {
 		}),
 	],
 };
+
+if (process.env.NODE_ENV === "production") {
+	plugins.commons.push(terser());
+}
 
 const config = [
 	{
