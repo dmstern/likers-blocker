@@ -30,13 +30,13 @@
 
 	&__status-message {
 		--summary-offset: 0px;
+		--padding-vertical: 1rem;
 
 		display: flex;
 		align-items: center;
 		opacity: 0;
 		visibility: hidden;
-		padding: calc(1rem - var(--summary-offset)) 1rem calc(1rem + 2px) 1rem;
-		margin: 1rem 0;
+		padding: 0 var(--padding-vertical);
 		border-radius: 3px;
 		transition: all 500ms ease;
 		transform: scaleY(0);
@@ -59,6 +59,8 @@
 		&.error,
 		&.warning,
 		&.info {
+			padding: calc(1rem - var(--summary-offset)) var(--padding-vertical) calc(1rem + 2px) var(--padding-vertical);
+			margin: 1rem 0;
 			opacity: 1;
 			visibility: visible;
 			color: #FFF;
