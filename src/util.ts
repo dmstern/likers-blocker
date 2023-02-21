@@ -1,4 +1,4 @@
-function debounce(func: (...args) => any, wait: number, immediate?: boolean) {
+function debounce(func: (...args) => void, wait: number, immediate?: boolean) {
 	let timeout: number;
 
 	return function (...args) {
