@@ -1,6 +1,6 @@
 import { runtime, tabs } from "webextension-polyfill";
 import { getTwitterTab } from "./Tabs";
-import { QueuedUser, User } from "./UserInfo";
+import { User } from "./UserInfo";
 
 enum Action {
 	getUserInfo = "getUserInfo",
