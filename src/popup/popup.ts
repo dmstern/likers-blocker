@@ -1,5 +1,5 @@
 import { runtime } from "webextension-polyfill";
-import { injectIcons } from "../content/icons";
+import { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
 import Messenger from "../Messages";
 import settings from "../settings";
