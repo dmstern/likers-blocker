@@ -2,6 +2,7 @@ import { runtime } from "webextension-polyfill";
 import { injectIcons } from "../content/icons";
 import { localizeUI } from "../Localization";
 import Messenger from "../Messages";
+import settings from "../settings";
 import Storage from "../Storage";
 import { User } from "../UserInfo";
 import "./popup.scss";
@@ -15,7 +16,7 @@ async function updateStats() {
 	const blockedLength = blockedAccounts.size || 0;
 
 	// Durations:
-	const blockPeriodInMinutes = await Storage.getBlockPeriodInMinutes();
+	const blockPeriodInMinutes = settings.BLOCK_PERIOD_IN_MINUTES;
 	const driveWayInSeconds = (blockPeriodInMinutes * 60) / 2;
 
 	// Nodes:

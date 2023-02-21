@@ -2,6 +2,7 @@ import { alarms, webRequest, WebRequest } from "webextension-polyfill";
 import APIService from "../APIService";
 import Badge from "../Badge";
 import Messenger from "../Messages";
+import settings from "../settings";
 import Storage from "../Storage";
 
 function logURL(details: WebRequest.OnBeforeSendHeadersDetailsType): void {
@@ -41,9 +42,8 @@ async function blockTask(alarm) {
 
 	console.info("⏳ starting block task...");
 
-	const blockAccountsAtOnce = await Storage.getBlockAccountsAtOnce();
-	const intervalBetweenBlockAccounts =
-		(await Storage.getIntervalBetweenBlockAccountsInSeconds()) * 1000;
+	const blockAccountsAtOnce = await Storage.getBlocksPerMinute();
+	const blockInterval = Math.floor((60 / blockAccountsAtOnce) * 1000);
 
 	for (let i = 0; i < blockAccountsAtOnce; i++) {
 		const user = await Storage.dequeue();
@@ -62,7 +62,7 @@ async function blockTask(alarm) {
 
 		APIService.block(user);
 
-		await new Promise((r) => setTimeout(r, intervalBetweenBlockAccounts));
+		await new Promise((r) => setTimeout(r, blockInterval));
 	}
 }
 
@@ -72,8 +72,8 @@ function interceptTwitterRequests() {
 
 async function createBlockAlarm() {
 	alarms.create("blockTask", {
-		delayInMinutes: await Storage.getBlockDelayInMinutes(),
-		periodInMinutes: await Storage.getBlockPeriodInMinutes(),
+		delayInMinutes: settings.BLOCK_DELAY_IN_MINUTES,
+		periodInMinutes: settings.BLOCK_PERIOD_IN_MINUTES,
 	});
 
 	alarms.onAlarm.addListener(blockTask);
