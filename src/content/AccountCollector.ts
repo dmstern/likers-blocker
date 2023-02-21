@@ -4,7 +4,7 @@ import settings from "../settings";
 import Storage from "../Storage";
 import { QueuedUser, UserSet } from "../UserInfo";
 import { debounce, tryToAccessDOM } from "../util";
-import { default as Icons, default as icons } from "./icons";
+import icons from "../icons";
 import TextStyle from "./TextStyle";
 import TwitterPage, { AccountList } from "./TwitterPage";
 
@@ -319,7 +319,7 @@ export default class AccountCollector {
 
 		// add blockIcon:
 		const blockIconWrapper = document.createElement("span");
-		blockIconWrapper.innerHTML = Icons.block;
+		blockIconWrapper.innerHTML = icons.block;
 		blockIconWrapper.style.marginRight = ".3em";
 		const blockButtonWrapper = this.isLegacyTwitter
 			? this.blockButton
@@ -362,7 +362,7 @@ export default class AccountCollector {
 
 	private async createCloseButton() {
 		const closeButton = document.createElement("button") as HTMLButtonElement;
-		closeButton.innerHTML = Icons.close;
+		closeButton.innerHTML = icons.close;
 		closeButton.tabIndex = 0;
 		closeButton.classList.add("lb-close-button");
 		closeButton.title = i18n.getMessage("ui_cancel");
@@ -377,7 +377,7 @@ export default class AccountCollector {
 
 	private async createFinishButton(confirmButton: HTMLDivElement) {
 		const finishButton = document.createElement("button") as HTMLButtonElement;
-		finishButton.innerHTML = `${Icons.forward}${Icons.smile}`;
+		finishButton.innerHTML = `${icons.forward}${icons.smile}`;
 		finishButton.tabIndex = 0;
 		finishButton.classList.add("lb-finish-button");
 		finishButton.title = i18n.getMessage("ui_finish");
@@ -692,7 +692,7 @@ export default class AccountCollector {
 				<div class="lb-progress-bar">
 					<div class="lb-progress-bar__inner" style="background-color: ${TwitterPage.highlightColor}">
 						<span class="lb-progress-bar__label">0%</span>
-						${Icons.checkmark}
+						${icons.checkmark}
 					</div>
 				</div>
 			</div>`;
@@ -724,35 +724,35 @@ export default class AccountCollector {
 					<a class="lb-footer__link lb-footer__link--new-release ${isNewRelease ? "sparkle" : ""}"
 						href="https://github.com/dmstern/likers-blocker/releases" target="_blank" title="${i18n.getMessage(
 							"ui_newRelease"
-						)}">${Icons.sparkles}</a>
+						)}">${icons.sparkles}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--donate ${await AccountCollector.getBadgeClass(
 						"donate"
 					)}" href="https://github.com/dmstern/likers-blocker#donate" target="_blank" title="${i18n.getMessage(
 			"popup_tip"
-		)}">${Icons.gift}</a>
+		)}">${icons.gift}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__item--report ${await AccountCollector.getBadgeClass(
 						"report"
 					)}" href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank" title="${i18n.getMessage(
 			"popup_reportBug"
-		)}">${Icons.issue}</a>
+		)}">${icons.issue}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--share ${await AccountCollector.getBadgeClass(
 						"share"
 					)}" href="${i18n.getMessage("tweet_text")}" target="_blank" title="${i18n.getMessage(
 			"popup_share"
-		)}">${Icons.share}</a>
+		)}">${icons.share}</a>
 				</li>
 				<li class="lb-footer__item">
 					<a class="icon--twitter lb-footer__link lb-footer__link--follow ${await AccountCollector.getBadgeClass(
 						"follow"
 					)}" href="https://twitter.com/LikersBlocker" target="_blank" title="${i18n.getMessage(
 			"popup_follow"
-		)}">${Icons.twitter}</a>
+		)}">${icons.twitter}</a>
 				</li>
 			</ul>
 			`;
@@ -812,7 +812,7 @@ export default class AccountCollector {
 
 		const exportBtn = document.createElement("button");
 
-		exportBtn.innerHTML = Icons.share;
+		exportBtn.innerHTML = icons.share;
 		exportBtn.setAttribute("aria-label", i18n.getMessage("ui_export"));
 		exportBtn.setAttribute("title", i18n.getMessage("ui_export"));
 		exportBtn.classList.add("lb-btn--export");
