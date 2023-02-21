@@ -9,11 +9,15 @@
 		font-family: $font-family;
 	}
 
-	&__include-checkbox {
+	&__include-old {
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
 		margin-bottom: 1em;
+
+		svg {
+			margin-left: .5em;
+		}
 	}
 
 	&__status-message {
