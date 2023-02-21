@@ -19,6 +19,10 @@ $button-background-color-hover: var(--background-color--hover);
 	--body-padding: 1.5rem;
 }
 
+* {
+	box-sizing: border-box;
+}
+
 html {
 	width: 100%;
 	height: 100%;

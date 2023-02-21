@@ -27,6 +27,7 @@ enum Key {
 	blockAccountsAtOnce = "blockAccountsAtOnce",
 	intervalBetweenBlockAccountsInSeconds = "intervalBetweenBlockAccountsInSeconds",
 	blocksPerMinute = "blocksPerMinute",
+	scrollsPerMinute = "scrollsPerMinute",
 }
 
 const values = {
@@ -280,5 +281,22 @@ export default class Storage {
 		}
 
 		return blocksPerMinute;
+	}
+
+	static async setScrollsPerMinute(value: number) {
+		this.set(Key.scrollsPerMinute, value, false);
+	}
+
+	static async getScrollsPerMinute(): Promise<number> {
+		let scrollsPerMinute: number = await (this.get(Key.scrollsPerMinute, false) as Promise<
+			number | undefined
+		>);
+
+		if (scrollsPerMinute === undefined || scrollsPerMinute === null) {
+			scrollsPerMinute = 60_000 / settings.SCROLL_INTERVAL;
+			this.setScrollsPerMinute(scrollsPerMinute);
+		}
+
+		return scrollsPerMinute;
 	}
 }
