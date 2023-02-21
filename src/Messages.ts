@@ -49,7 +49,11 @@ export default class Messenger {
 	static async sendGetUserInfoMessage(): Promise<GetUserInfoResponse> {
 		const twitterTab = await getTwitterTab();
 		if (twitterTab) {
-			return await tabs.sendMessage(twitterTab.id, { action: Action.getUserInfo });
+			try {
+				return await tabs.sendMessage(twitterTab.id, { action: Action.getUserInfo });
+			} catch (error) {
+				console.error("✉ Message was send but no receiver listens to it.");
+			}
 		}
 	}
 

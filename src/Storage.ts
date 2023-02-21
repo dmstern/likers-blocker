@@ -266,11 +266,13 @@ export default class Storage {
 	}
 
 	static async setBlocksPerMinute(value: number) {
-		this.set(Key.blocksPerMinute, value);
+		this.set(Key.blocksPerMinute, value, false);
 	}
 
 	static async getBlocksPerMinute(): Promise<number> {
-		let blocksPerMinute: number = await (this.get(Key.blocksPerMinute) as Promise<number | undefined>);
+		let blocksPerMinute: number = await (this.get(Key.blocksPerMinute, false) as Promise<
+			number | undefined
+		>);
 
 		if (blocksPerMinute === undefined || blocksPerMinute === null) {
 			blocksPerMinute = settings.BLOCKS_PER_MINUTE;
