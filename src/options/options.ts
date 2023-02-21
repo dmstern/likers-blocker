@@ -11,9 +11,9 @@ import "./options.scss";
 	const importListButton = document.querySelector("#importBlockList");
 	const downloadButton = document.querySelector("#downloadBlockList") as HTMLAnchorElement;
 	const statusMessage = document.querySelector("#statusMessage");
-	const includePreviouslyBlocked = document.querySelector(
-		"#includePreviouslyBlocked"
-	) as HTMLInputElement;
+	// const includePreviouslyBlocked = document.querySelector(
+	// 	"#includePreviouslyBlocked"
+	// ) as HTMLInputElement;
 	const errorDetails = statusMessage.querySelector(".details");
 	const statusMessageSummary = statusMessage.querySelector("summary .label");
 
@@ -43,27 +43,27 @@ import "./options.scss";
 	});
 
 	downloadButton.addEventListener("click", async () => {
-		const shouldInclude = includePreviouslyBlocked.checked;
-		if (shouldInclude) {
-			console.debug("user wants to collect previously blocked account first. return.");
-			return;
-		}
+		// const shouldInclude = includePreviouslyBlocked.checked;
+		// if (shouldInclude) {
+		// 	console.debug("user wants to collect previously blocked account first. return.");
+		// 	return;
+		// }
 
 		await FileManager.downloadBlockList();
 	});
 
-	includePreviouslyBlocked.addEventListener("click", () => {
-		console.log("checkbox change");
-		const shouldInclude = includePreviouslyBlocked.checked;
+	// includePreviouslyBlocked.addEventListener("click", () => {
+	// 	console.log("checkbox change");
+	// 	const shouldInclude = includePreviouslyBlocked.checked;
 
-		if (shouldInclude) {
-			downloadButton.href = "https://twitter.com/settings/blocked/all";
-			downloadButton.target = "_blank";
-			downloadButton.removeAttribute("role");
-		} else {
-			downloadButton.removeAttribute("href");
-			downloadButton.removeAttribute("target");
-			downloadButton.role = "button";
-		}
-	});
+	// 	if (shouldInclude) {
+	// 		downloadButton.href = "https://twitter.com/settings/blocked/all";
+	// 		downloadButton.target = "_blank";
+	// 		downloadButton.removeAttribute("role");
+	// 	} else {
+	// 		downloadButton.removeAttribute("href");
+	// 		downloadButton.removeAttribute("target");
+	// 		downloadButton.role = "button";
+	// 	}
+	// });
 })();
