@@ -194,5 +194,13 @@
 	"options_include_previously_blocked": {
 		"message": "Include also previously (without LikersBlocker) blocked accounts",
 		"description": "Checkbox label: include previously blocked accounts without LikersBlocker."
+	},
+	"options_block_speed": {
+		"message": "Block speed in bpm (blocks per minute)",
+		"description": "Options label: block speed"
+	},
+	"options_block_speed_hint": {
+		"message": "bpm  = blocks per minute",
+		"description": "Hint: Explaining the unit of block speed (blocks per minute)"
 	}
 }

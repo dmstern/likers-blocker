@@ -5,5 +5,9 @@
 
 	svg {
 		margin-right: .5em;
+
+		&:last-of-type {
+			margin-left: .5em;
+		}
 	}
 }
