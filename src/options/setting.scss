@@ -7,7 +7,12 @@
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
-  	position: relative;
+		position: relative;
+	}
+
+	&__label {
+		flex-grow: 1;
+		justify-content: flex-start;
 	}
 
 	&__value {
@@ -15,24 +20,28 @@
 		border-radius: 4px;
 		padding: .5em 1em;
 		width: 5rem;
+		margin: 0 1rem;
 		text-align: center;
-		color: hsl(var(--hue) 90% 50%);
+
+		&--colored {
+			color: hsl(var(--hue) 90% 50%);
+		}
 	}
 
 	&__status-message {
-		--summary-offset: 4px;
+		--summary-offset: 0px;
 
 		display: flex;
+		align-items: center;
 		opacity: 0;
 		visibility: hidden;
 		padding: calc(1rem - var(--summary-offset)) 1rem calc(1rem + 2px) 1rem;
 		margin: 1rem 0;
 		border-radius: 3px;
-		line-height: 1;
 		transition: all 500ms ease;
 		transform: scaleY(0);
 
-		> svg {
+		>svg {
 			margin-right: .5em;
 		}
 
@@ -47,27 +56,42 @@
 		}
 
 		&.success,
-		&.error {
+		&.error,
+		&.warning,
+		&.info {
 			opacity: 1;
 			visibility: visible;
 			color: #FFF;
 			transform: scaleY(100%);
 		}
-		
+
 		&.success {
 			background-color: var(--color--success);
+		}
 
-			summary::marker {
-				content: "";
-			}
+		&.info {
+			background-color: var(--color--info);
+		}
+
+		&.warning {
+			background-color: var(--color--warning);
 		}
 
 		&.error {
 			background-color: var(--color--error);
 
+			--summary-offset: 4px;
+
 			.details {
 				margin: 1rem 0;
 				font-family: monospace;
+			}
+		}
+
+		&:not(.error) {
+			// TODO: more general: if has no details
+			summary::marker {
+				content: "";
 			}
 		}
 	}

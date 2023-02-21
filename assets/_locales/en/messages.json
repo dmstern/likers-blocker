@@ -199,6 +199,18 @@
 		"message": "Block speed in bpm (blocks per minute)",
 		"description": "Options label: block speed"
 	},
+	"options_scroll_speed": {
+		"message": "Scrolling speed when collecting users",
+		"description": "Options label: scroll speed"
+	},
+	"options_scroll_speed_hint": {
+		"message": "Scrolling speed in (spm = scrolls per minute). ⚠ Too fast scrolling stop the collector too early.",
+		"description": "Hint: Explaining the unit of scroll speed (scrolls per minute)"
+	},
+	"options_scroll_speed_warning": {
+		"message": "Too fast scrolling could stop the collecting process too early.",
+		"description": "Warning that too fast scrolling when collecting users may stop the collecting process to early."
+	},
 	"options_block_speed_hint": {
 		"message": "bpm  = blocks per minute",
 		"description": "Hint: Explaining the unit of block speed (blocks per minute)"

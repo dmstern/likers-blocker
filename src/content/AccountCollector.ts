@@ -825,9 +825,11 @@ export default class AccountCollector {
 		(await this.getScrollList()).classList.add("lb-blur");
 		(await this.scrolly).scrollTo(0, 0);
 		this.collectedUsers = new UserSet();
+		const scrollsPerMinute = await Storage.getScrollsPerMinute();
+		const scrollInterval = Math.round((60 / scrollsPerMinute) * 1000);
 		this.scrollInterval = window.setInterval(async () => {
 			await this.scrollDown(confirmButton);
-		}, settings.SCROLL_INTERVAL);
+		}, scrollInterval);
 	}
 
 	private stopScrolling = () => {
