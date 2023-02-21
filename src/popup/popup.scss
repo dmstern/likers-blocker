@@ -56,14 +56,24 @@
 	align-items: center;
 }
 
-main.logged-in {
+main {
 	.main__inactive-content {
-		display: none;
+		display: flex;
 	}
 
 	.main__active-content {
-		display: block;
+		display: none;
 	}
+
+	&.logged-in {
+		.main__inactive-content {
+			display: none;
+		}
+	
+		.main__active-content {
+			display: block;
+		}
+	}	
 }
 
 .space {
