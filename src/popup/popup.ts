@@ -74,7 +74,8 @@ async function getUserInfo() {
 
 	if (!userInfo || userInfo?.errors?.length) {
 		//send request to get user info to other tab
-		userInfo = (await Messenger.sendGetUserInfoMessage()).userInfo;
+		const messageResponse = await Messenger.sendGetUserInfoMessage();
+		userInfo = messageResponse?.userInfo;
 	}
 
 	if (!userInfo || userInfo.errors?.length) {
