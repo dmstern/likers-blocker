@@ -2,12 +2,15 @@ import { i18n } from "webextension-polyfill";
 import icons, { injectIcons } from "../content/icons";
 import FileManager from "../FileManager";
 import { localizeUI } from "../Localization";
+import Storage from "../Storage";
 import "./options.scss";
 
 (function () {
 	localizeUI();
 	injectIcons();
 
+	const blockSpeedSlider = document.querySelector("#blockSpeed") as HTMLInputElement;
+	const blockSpeedValueDisplay = blockSpeedSlider.parentElement.querySelector(".setting__value");
 	const importListButton = document.querySelector("#importBlockList");
 	const downloadButton = document.querySelector("#downloadBlockList") as HTMLAnchorElement;
 	const statusMessage = document.querySelector("#statusMessage");
@@ -66,4 +69,23 @@ import "./options.scss";
 	// 		downloadButton.role = "button";
 	// 	}
 	// });
+
+	Storage.getBlocksPerMinute().then((blocksPerMinute) => {
+		if (!blockSpeedValueDisplay || !blockSpeedSlider) {
+			return;
+		}
+		blockSpeedValueDisplay.innerHTML = blocksPerMinute.toString();
+		blockSpeedSlider.value = blocksPerMinute.toString();
+	});
+
+	blockSpeedSlider.addEventListener("input", (event) => {
+		const blocksPerMinute = (event.target as HTMLInputElement).value;
+		const valueDisplay = blockSpeedSlider.parentElement.querySelector(".setting__value");
+
+		if (valueDisplay !== undefined && valueDisplay !== null) {
+			valueDisplay.innerHTML = blocksPerMinute;
+		}
+
+		Storage.setBlocksPerMinute(Number.parseInt(blocksPerMinute));
+	});
 })();
