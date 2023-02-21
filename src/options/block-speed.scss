@@ -1,4 +1,24 @@
 .block-speed {
 	display: flex;
 	align-items: center;
+
+	option {
+		::before {
+			content: "";
+			width: 2px;
+			height: 5px;
+			display: inline-block;
+			background: red;
+		}
+	}
+
+	.range-scale {
+		position: absolute;
+		width: $range-width;
+		height: 5px;
+		right: 2px;
+		bottom: -1px;
+		opacity: .5;
+		background: linear-gradient(90deg, rgb(45 181 40 / 100%) 20%, rgb(209 186 28 / 100%) 40%, rgb(209 186 28 / 100%) 52%, rgb(154 53 13 / 100%) 55%, rgb(255 0 0 / 100%) 100%);
+	}
 }

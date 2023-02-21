@@ -1,4 +1,19 @@
 .setting {
-	display: flex;
-	justify-content: space-between;
+	width: 100%;
+
+	&__content {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+  	position: relative;
+	}
+
+	&__addon {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	input[type="range"] {
+		width: $range-width;
+	}
 }

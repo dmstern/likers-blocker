@@ -39,13 +39,44 @@
 	</div>
 
 	<div class="block-speed setting">
-		<label for="blockSpeed" class="label" data-title="options_block_speed_hint">
-			<span data-icon="blockSpeed"></span>
-			<span data-label="options_block_speed" class="label__text"></span>
-			<span data-icon="question"></span>
-		</label>
-		<div class="setting__value"></div>
-		<input type="range" min="0" max="60" name="block-speed" id="blockSpeed">
+		<div class="setting__content">
+			<label for="blockSpeed" class="label" data-title="options_block_speed_hint">
+				<span data-icon="blockSpeed"></span>
+				<span data-label="options_block_speed" class="label__text"></span>
+				<span data-icon="question"></span>
+			</label>
+			<div class="setting__value"></div>
+			<input type="range" min="0" max="60" name="block-speed" id="blockSpeed" list="blockSpeedValues">
+			<datalist id="blockSpeedValues">
+				<option value="0"></option>
+				<option value="2"></option>
+				<option value="3"></option>
+				<option value="4"></option>
+				<option value="5"></option>
+				<option value="6"></option>
+				<option value="7"></option>
+				<option value="8"></option>
+				<option value="9"></option>
+				<option value="10""></option>
+				<option value="12""></option>
+				<option value="14""></option>
+				<option value="16""></option>
+				<option value="18""></option>
+				<option value="20""></option>
+				<option value="25""></option>
+				<option value="30""></option>
+				<option value="35""></option>
+				<option value="40""></option>
+				<option value="45""></option>
+				<option value="50""></option>
+				<option value="55""></option>
+				<option value="60""></option>
+			</datalist>
+			<div class="range-scale"></div>
+		</div>
+		<div class="setting__addon">
+
+		</div>
 	</div>
 
 	<script src="options.js"></script>
