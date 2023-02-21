@@ -30,6 +30,8 @@
 		border-radius: 3px;
 		line-height: 1;
 		transition: all 500ms ease;
+		transform: scaleY(0);
+		max-height: 0;
 
 		> svg {
 			margin-right: .5em;
@@ -50,6 +52,8 @@
 			opacity: 1;
 			visibility: visible;
 			color: #FFF;
+			transform: scaleY(100%);
+			max-height: 6em;
 		}
 		
 		&.success {
