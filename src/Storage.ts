@@ -265,54 +265,6 @@ export default class Storage {
 		this.set(Key.blockedAccounts, blocked.toArray());
 	}
 
-	static async getBlockDelayInMinutes(): Promise<number> {
-		let value = await (this.get(Key.blockDelayInMinutes) as Promise<number>);
-
-		if (value === undefined || value === null) {
-			value = settings.BLOCK_DELAY_IN_MINUTES;
-			this.set(Key.blockDelayInMinutes, value);
-		}
-
-		return value;
-	}
-
-	static async getBlockPeriodInMinutes(): Promise<number> {
-		let value: number = await (this.get(Key.blockPeriodInMinutes) as Promise<number>);
-
-		if (value === undefined || value === null) {
-			value = settings.BLOCK_PERIOD_IN_MINUTES;
-			this.set(Key.blockPeriodInMinutes, value);
-		}
-
-		return value;
-	}
-
-	static async getBlockAccountsAtOnce(): Promise<number> {
-		let value: number = await (this.get(Key.blockAccountsAtOnce) as Promise<number>);
-
-		if (value === undefined || value === null) {
-			value = settings.BLOCK_ACCOUNTS_AT_ONCE;
-			this.set(Key.blockAccountsAtOnce, value);
-		}
-
-		return value;
-	}
-
-	static async getIntervalBetweenBlockAccountsInSeconds(): Promise<number> {
-		let value: number = await (this.get(Key.intervalBetweenBlockAccountsInSeconds) as Promise<number>);
-
-		if (value === undefined || value === null) {
-			value = settings.INTERVAL_BETWEEN_BLOCKED_ACCOUNTS_IN_SECONDS;
-			this.set(Key.intervalBetweenBlockAccountsInSeconds, value);
-		}
-
-		return value;
-	}
-
-	static async setBlockDelayInMinutes(value: number) {
-		this.set(Key.blockDelayInMinutes, value);
-	}
-
 	static async setBlocksPerMinute(value: number) {
 		this.set(Key.blocksPerMinute, value);
 	}
@@ -326,17 +278,5 @@ export default class Storage {
 		}
 
 		return blocksPerMinute;
-	}
-
-	static async setBlockPeriodInMinutes(value: number) {
-		this.set(Key.blockPeriodInMinutes, value);
-	}
-
-	static async setBlockAccountsAtOnce(value: number) {
-		this.set(Key.blockAccountsAtOnce, value);
-	}
-
-	static async setIntervalBetweenBlockAccounts(value: number) {
-		this.set(Key.intervalBetweenBlockAccountsInSeconds, value);
 	}
 }
