@@ -685,6 +685,10 @@ export default class AccountCollector {
 					<span class="lb-user-counter"></span>
 				</h3>
 				<p class="lb-text">${await this.getLimitMessage()}</p>
+				<p class="lb-text">
+					${icons.speedometer}&nbsp;
+					${i18n.getMessage("ui_scrollSpeed")}
+				</p>
 				<div class="lb-progress-bar">
 					<div class="lb-progress-bar__inner" style="background-color: ${TwitterPage.highlightColor}">
 						<span class="lb-progress-bar__label">0%</span>
