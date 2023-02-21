@@ -8,7 +8,7 @@
 		"build": "rollup --config rollup.config.js",
 		"lint": "eslint src/**/*.ts",
 		"fix": "eslint src/**/*.ts src/*.ts --fix",
-		"version": "node util/release.js && npm run prettier && npm run build && git add .",
+		"version": "node util/release.js && npm run build && git add .",
 		"postversion": "node util/zip.js",
 		"publish_edge": "node util/publish_edge.js"
 	},
