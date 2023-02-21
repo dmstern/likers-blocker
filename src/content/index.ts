@@ -1,6 +1,5 @@
 import Storage from "../Storage";
 import AccountCollector from "./AccountCollector";
-import APIService from "../APIService";
 import Messenger from "../Messages";
 import "./styles/index.scss";
 
@@ -25,12 +24,6 @@ Messenger.addUserInfoListener(async () => {
 		Storage.setUserInfo(userInfo);
 		return Promise.resolve({ userInfo });
 	}
-});
-
-Messenger.addBlockListener(async (user) => {
-	console.log("block user", user);
-	const response = await APIService.block(user);
-	return Promise.resolve({ blockDispatch: response?.ok ? true : false });
 });
 
 AccountCollector.run();

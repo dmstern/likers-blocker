@@ -30,10 +30,6 @@ export interface GetUserInfoMessage extends Message {
 	action: Action.getUserInfo;
 }
 
-export interface BlockMessage extends Message {
-	user: QueuedUser;
-}
-
 export interface GetUserInfoResponse {
 	userInfo: User;
 }
@@ -63,15 +59,6 @@ export default class Messenger {
 		} catch (error) {
 			console.info("✉ Message was send but no receiver listens to it.");
 		}
-	}
-
-	static async addBlockListener(callback: (user: QueuedUser) => Promise<BlockResponse>) {
-		runtime.onMessage.addListener((message: BlockMessage) => {
-			console.log("✉ message from background", message);
-			if (message.action === Action.block) {
-				return callback(message.user);
-			}
-		});
 	}
 
 	static async addUserInfoListener(callback: () => Promise<GetUserInfoResponse>) {

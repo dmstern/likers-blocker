@@ -1,4 +1,5 @@
 import { alarms, webRequest, WebRequest } from "webextension-polyfill";
+import APIService from "../APIService";
 import Badge from "../Badge";
 import Messenger from "../Messages";
 import Storage from "../Storage";
@@ -59,7 +60,7 @@ async function blockTask(alarm) {
 			blockListLength,
 		});
 
-		Messenger.sendBlockMessage({ user });
+		APIService.block(user);
 
 		await new Promise((r) => setTimeout(r, intervalBetweenBlockAccounts));
 	}
