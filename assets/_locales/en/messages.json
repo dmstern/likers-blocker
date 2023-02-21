@@ -202,5 +202,15 @@
 	"options_block_speed_hint": {
 		"message": "bpm  = blocks per minute",
 		"description": "Hint: Explaining the unit of block speed (blocks per minute)"
+	},
+	"options_block_speed_warning": {
+		"message": "Warning: More than $danger$ blocks per minute could cause force-logout or account suspension.",
+		"description": "Warning about account suspension or force-logout for block speed values over about 30.",
+		"placeholders": {
+      "danger" : {
+        "content" : "$1",
+        "example" : "30"
+      }
+    }
 	}
 }
