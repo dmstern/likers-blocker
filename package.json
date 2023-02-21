@@ -4,8 +4,9 @@
 	"description": "Block all visible likers (and optionally all retweeters) of a tweet on Twitter.",
 	"main": "dist/script.js",
 	"scripts": {
-		"start": "rollup -w --config rollup.config.js",
-		"build": "rollup --config rollup.config.js",
+		"start": "NODE_ENV=development rollup -w --config rollup.config.js",
+		"build": "NODE_ENV=production rollup --config rollup.config.js",
+		"buildDev": "NODE_ENV=development rollup --config rollup.config.js",
 		"lint": "eslint src/**/*.ts",
 		"fix": "eslint src/**/*.ts src/*.ts --fix",
 		"version": "node util/release.js && npm run build && git add .",
