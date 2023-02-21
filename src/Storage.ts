@@ -293,7 +293,7 @@ export default class Storage {
 		>);
 
 		if (scrollsPerMinute === undefined || scrollsPerMinute === null) {
-			scrollsPerMinute = 60_000 / settings.SCROLL_INTERVAL;
+			scrollsPerMinute = Math.round(60_000 / settings.SCROLL_INTERVAL);
 			this.setScrollsPerMinute(scrollsPerMinute);
 		}
 

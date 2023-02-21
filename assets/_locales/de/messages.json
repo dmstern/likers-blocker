@@ -87,6 +87,10 @@
 		"message": "Alle Blockieren",
 		"description": "Label for the Block all button"
 	},
+	"ui_scrollSpeed": {
+		"message": "Soll ich schneller scrollen? Du kannst die Scrollgeschwindigkeit in den Einstellungen anpassen. Klicke dazu auf das Extension-Icon oben rechts in deinem Browser.",
+		"description": "Label for the options button in the collecting window."
+	},
 	"ui_usersFound": {
 		"message": "Nutzer gefunden",
 		"description": "Message how many users have been collected. Gets prefixed the number of collected users."
@@ -204,7 +208,7 @@
 		"description": "Options label: scroll speed"
 	},
 	"options_scroll_speed_hint": {
-		"message": "Scrollgeschwindigkeit beim Einsammeln in SpM (Scrolls pro Minute). ⚠ Zu schnelles beendet das Einsammeln evtl. vorzeitig.",
+		"message": "Scrollgeschwindigkeit beim Einsammeln in SpM (Scrolls pro Minute). Die Änderung wird erst beim nächsten mal Einsammeln wirksam.",
 		"description": "Hint: Explaining the unit of scroll speed (scrolls per minute)"
 	},
 	"options_scroll_speed_warning": {

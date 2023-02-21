@@ -95,6 +95,10 @@
 		"message": "Block all",
 		"description": "Label for the Block all button"
 	},
+	"ui_scrollSpeed": {
+		"message": "Want to speed up scrolling? You can adapt the scrolling speed in the settings by clicking on the extension icon in the top right corner of your browser.",
+		"description": "Label for the options button in the collecting window."
+	},
 	"ui_usersFound": {
 		"message": "users found",
 		"description": "Message how many users have been collected. Gets prefixed the number of collected users."
@@ -204,7 +208,7 @@
 		"description": "Options label: scroll speed"
 	},
 	"options_scroll_speed_hint": {
-		"message": "Scrolling speed in (spm = scrolls per minute). ⚠ Too fast scrolling stop the collector too early.",
+		"message": "Scrolling speed in (spm = scrolls per minute). The change will apply if you start the collecting process the next time.",
 		"description": "Hint: Explaining the unit of scroll speed (scrolls per minute)"
 	},
 	"options_scroll_speed_warning": {
