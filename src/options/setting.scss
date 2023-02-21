@@ -1,6 +1,8 @@
 .setting {
 	width: 100%;
 
+	--hue: 100;
+
 	&__content {
 		display: flex;
 		justify-content: space-between;
@@ -8,9 +10,64 @@
   	position: relative;
 	}
 
-	&__addon {
+	&__value {
+		background-color: rgb(160 160 160 / 30%);
+		border-radius: 4px;
+		padding: .5em 1em;
+		width: 5rem;
+		text-align: center;
+		color: hsl(var(--hue) 90% 50%);
+	}
+
+	&__status-message {
+		--summary-offset: 4px;
+
 		display: flex;
-		justify-content: flex-end;
+		opacity: 0;
+		visibility: hidden;
+		padding: calc(1rem - var(--summary-offset)) 1rem calc(1rem + 2px) 1rem;
+		margin: 1rem 0;
+		border-radius: 3px;
+		line-height: 1;
+		transition: all 500ms ease;
+
+		> svg {
+			margin-right: .5em;
+		}
+
+		summary .label {
+			display: inline-flex;
+			align-items: center;
+			transform: translateY(var(--summary-offset));
+
+			svg {
+				margin-right: .5em;
+			}
+		}
+
+		&.success,
+		&.error {
+			opacity: 1;
+			visibility: visible;
+			color: #FFF;
+		}
+		
+		&.success {
+			background-color: var(--color--success);
+
+			summary::marker {
+				content: "";
+			}
+		}
+
+		&.error {
+			background-color: var(--color--error);
+
+			.details {
+				margin: 1rem 0;
+				font-family: monospace;
+			}
+		}
 	}
 
 	input[type="range"] {

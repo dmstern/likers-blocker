@@ -10,7 +10,7 @@
 </head>
 
 <body>
-	<div class="import-export">
+	<div class="setting import-export">
 
 		<div class="import-export__include-old">
 			<a href="http://twitter.com/settings/blocked/all" target="_blank" rel="noopener noreferrer">
@@ -19,7 +19,7 @@
 			</a>
 		</div>
 
-		<div class="import-export__buttons">
+		<div class="setting__content">
 			<button class="btn" id="importBlockList">
 				<span data-icon="import"></span>
 				<span data-label="options_import">Import Blocklist</span>
@@ -31,14 +31,14 @@
 			</a>
 		</div>
 
-		<details class="import-export__status-message" id="statusMessage">
+		<details class="setting__status-message" id="importStatusMessage">
 			<summary><span class="label"></span></summary>
 			<div class="details"></div>
 		</details>
 
 	</div>
 
-	<div class="block-speed setting">
+	<div class="setting block-speed">
 		<div class="setting__content">
 			<label for="blockSpeed" class="label" data-title="options_block_speed_hint">
 				<span data-icon="blockSpeed"></span>
@@ -74,8 +74,9 @@
 			</datalist>
 			<div class="range-scale"></div>
 		</div>
-		<div class="setting__addon">
-
+		<div class="setting__status-message">
+			<span data-icon="warn"></span>
+			<span data-label="options_block_speed_warning"></span>
 		</div>
 	</div>
 

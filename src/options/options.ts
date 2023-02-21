@@ -2,44 +2,47 @@ import { i18n } from "webextension-polyfill";
 import icons, { injectIcons } from "../content/icons";
 import FileManager from "../FileManager";
 import { localizeUI } from "../Localization";
+import settings from "../settings";
 import Storage from "../Storage";
 import "./options.scss";
+
+const blockSpeedSlider = document.querySelector("#blockSpeed") as HTMLInputElement;
+const blockSpeedValueDisplay = blockSpeedSlider?.parentElement.querySelector(
+	".setting__value"
+) as HTMLElement;
+const importListButton = document.querySelector("#importBlockList");
+const downloadButton = document.querySelector("#downloadBlockList") as HTMLAnchorElement;
+const importStatusMessage = document.querySelector("#importStatusMessage");
+// const includePreviouslyBlocked = document.querySelector(
+// 	"#includePreviouslyBlocked"
+// ) as HTMLInputElement;
+const errorDetails = importStatusMessage.querySelector(".details");
+const statusMessageSummary = importStatusMessage.querySelector("summary .label");
 
 (function () {
 	localizeUI();
 	injectIcons();
 
-	const blockSpeedSlider = document.querySelector("#blockSpeed") as HTMLInputElement;
-	const blockSpeedValueDisplay = blockSpeedSlider.parentElement.querySelector(".setting__value");
-	const importListButton = document.querySelector("#importBlockList");
-	const downloadButton = document.querySelector("#downloadBlockList") as HTMLAnchorElement;
-	const statusMessage = document.querySelector("#statusMessage");
-	// const includePreviouslyBlocked = document.querySelector(
-	// 	"#includePreviouslyBlocked"
-	// ) as HTMLInputElement;
-	const errorDetails = statusMessage.querySelector(".details");
-	const statusMessageSummary = statusMessage.querySelector("summary .label");
-
 	console.log(statusMessageSummary);
 
 	importListButton?.addEventListener("click", () => {
-		statusMessage.classList.remove("success");
-		statusMessage.classList.remove("error");
+		importStatusMessage.classList.remove("success");
+		importStatusMessage.classList.remove("error");
 		statusMessageSummary.innerHTML = "";
 		errorDetails.innerHTML = "";
 
 		FileManager.importBlockList()
 			.then(() => {
-				statusMessage.classList.add("success");
+				importStatusMessage.classList.add("success");
 				statusMessageSummary.innerHTML = `${icons.checkmark} ${i18n.getMessage(
 					"options_import_success"
 				)}`;
 				setTimeout(() => {
-					statusMessage.classList.remove("success");
+					importStatusMessage.classList.remove("success");
 				}, 5000);
 			})
 			.catch((error) => {
-				statusMessage.classList.add("error");
+				importStatusMessage.classList.add("error");
 				statusMessageSummary.innerHTML = `${icons.error} ${i18n.getMessage("options_import_error")}`;
 				errorDetails.innerHTML = error;
 			});
@@ -71,21 +74,33 @@ import "./options.scss";
 	// });
 
 	Storage.getBlocksPerMinute().then((blocksPerMinute) => {
-		if (!blockSpeedValueDisplay || !blockSpeedSlider) {
-			return;
+		if (blockSpeedSlider) {
+			setBlocksPerMinuteValue(blocksPerMinute);
+			blockSpeedSlider.value = blocksPerMinute.toString();
 		}
-		blockSpeedValueDisplay.innerHTML = blocksPerMinute.toString();
-		blockSpeedSlider.value = blocksPerMinute.toString();
 	});
 
 	blockSpeedSlider.addEventListener("input", (event) => {
-		const blocksPerMinute = (event.target as HTMLInputElement).value;
-		const valueDisplay = blockSpeedSlider.parentElement.querySelector(".setting__value");
+		const value = (event.target as HTMLInputElement).value;
+		const blocksPerMinute = Number.parseInt(value);
 
-		if (valueDisplay !== undefined && valueDisplay !== null) {
-			valueDisplay.innerHTML = blocksPerMinute;
-		}
-
-		Storage.setBlocksPerMinute(Number.parseInt(blocksPerMinute));
+		setBlocksPerMinuteValue(blocksPerMinute);
+		Storage.setBlocksPerMinute(blocksPerMinute);
 	});
 })();
+
+function setBlocksPerMinuteValue(value: number) {
+	if (blockSpeedValueDisplay) {
+		const statusMessage = blockSpeedValueDisplay
+			.closest(".setting")
+			.querySelector(".setting__status-message") as HTMLElement;
+		const statusMessageLabel = statusMessage?.querySelector("[data-label]") as HTMLElement;
+		statusMessageLabel.innerHTML = i18n.getMessage(
+			statusMessageLabel.dataset.label,
+			settings.BLOCKS_PER_MINUTE_DANGER_ZONE.toString()
+		);
+		statusMessage?.classList.toggle("error", value > settings.BLOCKS_PER_MINUTE_DANGER_ZONE);
+		blockSpeedValueDisplay.innerHTML = value.toString();
+		blockSpeedValueDisplay.style.setProperty("--hue", `${(value * 100) / -60 + 100} `);
+	}
+}
