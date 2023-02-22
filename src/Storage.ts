@@ -204,13 +204,15 @@ export default class Storage {
 			queued = [];
 		}
 
+		Messenger.sendQueueUpdateMessage({ queueLength: queued.length });
+
 		return new UserSet<QueuedUser>(queued);
 	}
 
 	static async queue(user: QueuedUser) {
 		const queue = await this.getQueue();
-		queue.add(user);
-		Messenger.sendQueueUpdateMessage({ queueLength: queue.size, queuedUser: user });
+		const hasAdded = queue.add(user);
+		Messenger.sendQueueUpdateMessage({ queueLength: queue.size, queuedUser: hasAdded ? user : null });
 		this.set(Key.blockingQueue, queue.toArray());
 	}
 
