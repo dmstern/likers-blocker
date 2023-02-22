@@ -226,7 +226,7 @@
 		"description": "Warning that too fast scrolling when collecting users may stop the collecting process to early."
 	},
 	"options_block_speed_hint": {
-		"message": "bpm  = blocks per minute. The change will apply after a minute or less.",
+		"message": "bpm  = blocks per minute",
 		"description": "Hint: Explaining the unit of block speed (blocks per minute)"
 	},
 	"options_block_speed_warning": {
