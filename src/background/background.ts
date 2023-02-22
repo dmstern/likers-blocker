@@ -47,18 +47,10 @@ async function blockTask(alarm) {
 
 	for (let i = 0; i < blockAccountsAtOnce; i++) {
 		const user = await Storage.dequeue();
-		const queueLength = (await Storage.getQueue()).size;
-		const blockListLength = (await Storage.getBlockedAccounts()).size;
 
 		if (!user) {
 			return;
 		}
-
-		Messenger.sendQueueUpdateMessage({
-			dequeuedUser: user,
-			queueLength,
-			blockListLength,
-		});
 
 		APIService.block(user);
 
@@ -85,6 +77,7 @@ async function createBlockAlarm() {
 	Badge.setColor();
 	Storage.getQueue().then((queue) => Badge.updateBadgeCount(queue.size));
 	Messenger.addQueueUpdateListener(async ({ queueLength }) => {
-		await Badge.updateBadgeCount(queueLength);
+		console.log("==============================queue update listener ==========================");
+		return Badge.updateBadgeCount(queueLength);
 	});
 })();
