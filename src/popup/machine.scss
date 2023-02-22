@@ -143,6 +143,7 @@
 		bottom: 36px;
 		right: 10px;
 		transition: transform linear var(--run-duration), bottom linear var(--run-duration) var(--run-duration);
+		background-size: 100%;
 		
 		&--blocking {
 			transform-origin: 100% 100%;
