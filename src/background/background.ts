@@ -35,17 +35,25 @@ function logURL(details: WebRequest.OnBeforeSendHeadersDetailsType): void {
 	}
 }
 
+const blockIntervals: NodeJS.Timeout[] = [];
+
 async function blockTask(alarm) {
 	if (alarm.name != "blockTask") {
 		return;
 	}
+
+	blockIntervals.forEach((interval) => clearInterval(interval));
 
 	console.info("⏳ starting block task...");
 
 	const blockAccountsAtOnce = await Storage.getBlocksPerMinute();
 	const blockInterval = Math.floor((60 / blockAccountsAtOnce) * 1000);
 
-	for (let i = 0; i < blockAccountsAtOnce; i++) {
+	const startBlocking = async () => {
+		if (i >= blockAccountsAtOnce) {
+			blockIntervals.forEach((interval) => clearInterval(interval));
+		}
+
 		const user = await Storage.dequeue();
 
 		if (!user) {
@@ -53,9 +61,13 @@ async function blockTask(alarm) {
 		}
 
 		APIService.block(user);
+		i++;
+	};
 
-		await new Promise((r) => setTimeout(r, blockInterval));
-	}
+	let i = 0;
+	blockIntervals.push(setInterval(startBlocking, blockInterval));
+
+	startBlocking();
 }
 
 function interceptTwitterRequests() {
@@ -69,7 +81,7 @@ async function createBlockAlarm() {
 	});
 
 	alarms.onAlarm.addListener(blockTask);
-	// blockTask({ name: "blockTask" });
+	blockTask({ name: "blockTask" });
 }
 
 (function () {
@@ -83,8 +95,14 @@ async function createBlockAlarm() {
 		return Badge.updateBadgeCount(queueLength);
 	});
 
-	// Messenger.addBlockSpeedUpdateListener(() => {
-	// 	alarms.clear("blockTask");
-	// 	createBlockAlarm();
-	// });
+	Messenger.addBlockSpeedUpdateListener(() => {
+		alarms.clear("blockTask");
+		blockIntervals.forEach((interval) => clearInterval(interval));
+		alarms.create("blockTask", {
+			delayInMinutes: settings.BLOCK_DELAY_IN_MINUTES,
+			periodInMinutes: settings.BLOCK_PERIOD_IN_MINUTES,
+		});
+
+		blockTask({ name: "blockTask" });
+	});
 })();
