@@ -1,4 +1,6 @@
 .user-info {
+	display: flex;
+	align-items: center;
 	justify-content: space-between;
 	margin-bottom: 1em;
 	width: 100%;
@@ -7,7 +9,7 @@
 	opacity: .9;
 
 	&__logged-in {
-		display: flex;
+		display: inline-flex;
 		align-items: center;
 	}
 
