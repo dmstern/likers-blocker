@@ -203,6 +203,13 @@ function setIndexToElement(avatar: HTMLElement, index: number) {
 		runtime.openOptionsPage();
 	});
 
+	// Messenger.addBlockListener(async ({ blockSuccessful }) => {
+	// 	console.log({ blockSuccessful });
+	// 	if (blockSuccessful) {
+	// 		runAnimation();
+	// 	}
+	// });
+
 	Messenger.addQueueUpdateListener(async ({ dequeuedUser }) => {
 		updateStats();
 

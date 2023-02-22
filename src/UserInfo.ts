@@ -35,12 +35,13 @@ export class UserSet<UserType extends User | BlockedUser | QueuedUser> {
 		}
 	}
 
-	add(user: UserType) {
+	add(user: UserType): boolean {
 		if (this.find(user)) {
-			return;
+			return false;
 		}
 
 		this.users.push(user);
+		return true;
 	}
 
 	concat(users: UserType[]) {
