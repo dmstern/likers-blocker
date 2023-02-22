@@ -2,6 +2,23 @@
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 1rem;
+	position: relative;
+
+	.label__text {
+		display: block;
+	}
+
+	&__value {
+		@include value;
+
+		display: inline-block;
+		margin-top: .5rem;
+	}
+
+	// &__queue,
+	// &__block-list {
+		
+	// }
 
 	&__queue {
 		&.active {
@@ -10,28 +27,14 @@
 			}
 		}
 	}
-}
 
-.stats__block-list.active {
-	svg {
-		color: var(--color--brand);
-	}
-}
+	&__block-list {
+		text-align: right;
 
-.truck-icon {
-	width: 32px;
-	height: auto;
-	opacity: .7;
-	transform: translateX(calc(var(--drive-way) * -1)) rotateY(90deg);
-}
-
-.stats--blocking {
-	.truck-icon {
-		animation-name: drive;
-		animation-duration: var(--drive-duration, 10s);
-		animation-iteration-count: infinite;
-		animation-timing-function: linear;
-		animation-fill-mode: both;
-		opacity: 1;
+		&.active {
+			svg {
+				color: var(--color--brand);
+			}
+		}
 	}
 }

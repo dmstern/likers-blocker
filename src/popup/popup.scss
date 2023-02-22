@@ -4,10 +4,13 @@
 @import "../sass-commons/icon";
 @import "../sass-commons/links";
 @import "../sass-commons/label";
+@import "../sass-commons/value";
+@import "../sass-commons/truck";
 @import "../sass-commons/stats";
 @import "../sass-commons/user-info";
 @import "../sass-commons/instructions";
 @import "../sass-commons/donation";
+@import "./machine";
 
 @keyframes drive {
 	0% {

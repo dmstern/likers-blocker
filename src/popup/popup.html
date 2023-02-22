@@ -37,7 +37,7 @@
 
 	</header>
 
-	<main class="main">
+	<main class="main blocking">
 		<div class="main__inactive-content">
 			<span data-label="popup_not_logged_in"></span>
 			<a href="https://twitter.com/login" target="_blank" class="login-link">
@@ -61,24 +61,40 @@
 			<div class="stats">
 
 				<!-- Queue: -->
-				<div class="stats__queue label">
-					<span data-icon="queue"></span>
-					<span id="blockQueueStats">0</span>&nbsp;
+				<div class="stats__queue">
+					<!-- <span data-icon="queue"></span> -->
 					<span class="label__text" data-label="popup_queue"></span>
+					<span id="blockQueueStats" class="stats__value">0</span>&nbsp;
 				</div>
 
 				<!-- Truck: -->
-				<div class="stats__status">
+				<!-- <div class="stats__status truck">
 					<span data-icon="truck"></span>
-				</div>
+				</div> -->
 
 				<!-- Blocked: -->
-				<div class="stats__block-list label">
-					<span data-icon="trash"></span>
-					<span id="blockListStats">0</span>&nbsp;
+				<div class="stats__block-list">
+					<!-- <span data-icon="trash"></span> -->
 					<span class="label__text" data-label="popup_list"></span>
+					<span id="blockListStats" class="stats__value">0</span>&nbsp;
 				</div>
 
+
+				<!-- Machine: -->
+				<div class="machine">
+					<div class="machine__inner">
+						<div class="machine__stand"></div>
+						<div class="machine__band machine__band--right">
+							<span data-icon="gear"></span>
+							<span data-icon="gear"></span>
+						</div>
+						<div class="machine__band machine__band--up">
+							<span data-icon="gear"></span>
+							<span data-icon="gear"></span>
+						</div>
+						<span data-icon="trashOpen"></span>
+					</div>
+				</div>
 			</div>
 
 		</div>

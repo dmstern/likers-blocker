@@ -1,0 +1,85 @@
+@keyframes run {
+	from { 
+		transform: rotate(0deg);
+	}
+
+	to { 
+		transform: rotate(360deg);
+	}
+}
+
+.machine {
+	--length: 91px;
+	--thickness: 18px;
+	--band-thickness: 2px;
+	--blocks-per-minute: 10;
+	--run-duration: calc(60s / var(--blocks-per-minute));
+	--band-rotate: -17deg;
+	--stand-height: 24px;
+
+  position: absolute;
+  display: block;
+	transform: translate(-82%, 0);
+  width: var(--length);
+	height: var(--thickness);
+  left: 50%;
+	bottom: 0;
+
+	&__inner {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		display: block;
+	}	
+
+	&__band {
+		border: var(--band-thickness) solid currentcolor;
+		width: var(--length);
+		height: var(--thickness);
+		border-radius: calc(var(--thickness) / 2);
+		display: flex;
+		justify-content: space-between;
+		background-color: var(--background-color);
+		transform-origin: calc(var(--thickness) / 2);
+		transition: all 500ms ease;
+		position: absolute;
+		bottom: 0;
+
+		&--right {
+			transform: translateX(calc(var(--length) * -1));
+		}
+
+		&--up {
+			transform: rotate(var(--band-rotate));
+		}
+
+		.gear-icon {
+			width: calc(var(--thickness) - (var(--band-thickness) * 2));
+			height: calc(var(--thickness) - (var(--band-thickness) * 2));
+
+			.blocking & {
+				animation: run var(--run-duration) linear infinite;
+			}
+		}
+	}
+
+	&__stand {
+		// display: none;
+		position: absolute;
+		left: 67%;
+		bottom: 0;
+		width: 7px;
+		height: var(--stand-height);
+		background-color: currentcolor;
+		border-radius: 2px;
+	}
+
+	.trash-icon {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		width: 1.7rem;
+		height: 1.7rem;
+		transform: translateX(50%)
+	}
+}

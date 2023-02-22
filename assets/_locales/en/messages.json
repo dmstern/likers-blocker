@@ -80,11 +80,11 @@
 		"description": "label of the contact link"
 	},
 	"popup_queue": {
-		"message": " will be blocked",
+		"message": "Will be blocked:",
 		"description": "Label of the queue counter"
 	},
 	"popup_list": {
-		"message": "Accounts are blocked",
+		"message": "Blocked accounts:",
 		"description": "Label of the blocklist counter"
 	},
 	"tweet_text": {
