@@ -5,7 +5,7 @@ import { User } from "./UserInfo";
 enum Action {
 	getUserInfo = "getUserInfo",
 	queueUpdate = "queueUpdate",
-	// blockSpeedUpdate = "blockSpeedUpdate",
+	blockSpeedUpdate = "blockSpeedUpdate",
 }
 
 interface Message {
@@ -35,24 +35,24 @@ export interface GetUserInfoResponse {
 }
 
 export default class Messenger {
-	// static async sendBlockSpeedUpdate() {
-	// 	const action = Action.blockSpeedUpdate;
+	static async sendBlockSpeedUpdate() {
+		const action = Action.blockSpeedUpdate;
 
-	// 	try {
-	// 		await runtime.sendMessage({ action });
-	// 	} catch (error) {
-	// 		console.info("✉ Message was send but no receiver listens to it.", action);
-	// 	}
-	// }
+		try {
+			await runtime.sendMessage({ action });
+		} catch (error) {
+			console.info("✉ Message was send but no receiver listens to it.", action);
+		}
+	}
 
-	// static async addBlockSpeedUpdateListener(callback: () => void) {
-	// 	runtime.onMessage.addListener((message: Message) => {
-	// 		console.log("✉ message from background", message);
-	// 		if (message.action === Action.blockSpeedUpdate) {
-	// 			callback();
-	// 		}
-	// 	});
-	// }
+	static async addBlockSpeedUpdateListener(callback: () => void) {
+		runtime.onMessage.addListener((message: Message) => {
+			console.log("✉ message from background", message);
+			if (message.action === Action.blockSpeedUpdate) {
+				callback();
+			}
+		});
+	}
 
 	static async sendGetUserInfoMessage(): Promise<GetUserInfoResponse> {
 		const twitterTab = await getTwitterTab();
