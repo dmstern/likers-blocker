@@ -1,3 +1,4 @@
+import Badge from "../Badge";
 import Messenger from "../Messages";
 import Storage from "../Storage";
 import AccountCollector from "./AccountCollector";
@@ -27,3 +28,7 @@ Messenger.addUserInfoListener(async () => {
 });
 
 AccountCollector.run();
+
+Messenger.addQueueUpdateListener(async ({ queueLength }) => {
+	return Badge.updateBadgeCount(queueLength);
+});

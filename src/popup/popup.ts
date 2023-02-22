@@ -1,4 +1,5 @@
 import { i18n, runtime } from "webextension-polyfill";
+import Badge from "../Badge";
 import { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
 import Messenger from "../Messages";
@@ -187,5 +188,9 @@ async function initBlockSpeedometer() {
 		if (dequeuedUser) {
 			runAnimation();
 		}
+	});
+
+	Messenger.addQueueUpdateListener(async ({ queueLength }) => {
+		return Badge.updateBadgeCount(queueLength);
 	});
 })();
