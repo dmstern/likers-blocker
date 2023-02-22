@@ -72,11 +72,11 @@
 		"description": "label of the contact link"
 	},
 	"popup_queue": {
-		"message": "in der Warteschlange",
+		"message": "In der Warteschlange:",
 		"description": "Label of the queue counter"
 	},
 	"popup_list": {
-		"message": "Accounts sind geblockt",
+		"message": "Bereits geblockte Accounts:",
 		"description": "Label of the blocklist counter"
 	},
 	"tweet_text": {
