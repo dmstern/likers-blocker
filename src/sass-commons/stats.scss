@@ -15,14 +15,20 @@
 		margin-top: 1rem;
 	}
 
-	// &__queue,
-	// &__block-list {
-		
-	// }
+	&__queue,
+	&__block-list {
+		&.active {
+			.stats__value {
+				filter: brightness(120%);
+				font-weight: bold;
+			}
+		}	
+	}
 
 	&__queue {
 		&.active {
-			svg {
+			svg,
+			.stats__value {
 				color: var(--color--twitter-brand);
 			}
 		}
@@ -32,8 +38,9 @@
 		text-align: right;
 
 		&.active {
-			svg {
-				color: var(--color--brand);
+			svg,
+			.stats__value {
+				color: var(--color--success);
 			}
 		}
 	}
