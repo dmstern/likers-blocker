@@ -19,7 +19,8 @@
 
   position: absolute;
   display: block;
-	transform: translate(-65%, 0);
+
+	// transform: translate(-65%, 0);
   width: var(--length);
 	height: var(--thickness);
   left: 50%;
@@ -59,7 +60,7 @@
 			height: calc(var(--thickness) - (var(--band-thickness) * 2));
 
 			.blocking & {
-				animation: run var(--run-duration) linear infinite;
+				animation: run var(--run-duration) linear;
 			}
 		}
 	}
@@ -76,12 +77,12 @@
 	}
 
 	&__floor {
-		width: 230%;
+		width: 246%;
 		height: var(--thickness);
 		background-color: var(--background-color);
 		position: absolute;
 		transform: translateX(calc(var(--length) * -1));
-		left: -4px;
+		left: -17px;
 		bottom: calc(var(--thickness) * -1);
 	}
 	
@@ -109,10 +110,8 @@
 		height: auto;
 		transform-origin: 100% 100%;
 		transition: all 500ms ease;
-	}
 
-	&.open-trash {
-		.icon.trash-lid {
+		.blocking & {
 			transform: rotate(100deg)
 		}
 	}
