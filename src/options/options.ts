@@ -1,4 +1,5 @@
 import { i18n } from "webextension-polyfill";
+import Badge from "../Badge";
 import FileManager from "../FileManager";
 import icons, { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
@@ -156,3 +157,7 @@ function setScrollsPerMinuteValue(value: number) {
 	statusMessage?.classList.toggle("warning", value > settings.SCROLLS_PER_MINUTE_DANGER_ZONE);
 	scrollSpeedValueDisplay.style.setProperty("--hue", `${getHue()} `);
 }
+
+Messenger.addQueueUpdateListener(async ({ queueLength }) => {
+	return Badge.updateBadgeCount(queueLength);
+});
