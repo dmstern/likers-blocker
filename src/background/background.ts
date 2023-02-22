@@ -77,7 +77,6 @@ async function createBlockAlarm() {
 	Badge.setColor();
 	Storage.getQueue().then((queue) => Badge.updateBadgeCount(queue.size));
 	Messenger.addQueueUpdateListener(async ({ queueLength }) => {
-		console.log("==============================queue update listener ==========================");
 		return Badge.updateBadgeCount(queueLength);
 	});
 })();
