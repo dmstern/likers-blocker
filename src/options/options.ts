@@ -2,8 +2,10 @@ import { i18n } from "webextension-polyfill";
 import FileManager from "../FileManager";
 import icons, { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
+// import Messenger from "../Messages";
 import settings from "../settings";
 import Storage from "../Storage";
+// import { debounce } from "../util";
 import "./options.scss";
 
 // Block speed elements:
@@ -97,6 +99,8 @@ const importStatusMessage = document.querySelector("#importStatusMessage");
 
 		setBlocksPerMinuteValue(blocksPerMinute);
 		Storage.setBlocksPerMinute(blocksPerMinute);
+
+		// debounce(Messenger.sendBlockSpeedUpdate, 2000);
 	});
 
 	Storage.getScrollsPerMinute().then((scrollsPerMinute) => {

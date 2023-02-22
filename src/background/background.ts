@@ -69,14 +69,22 @@ async function createBlockAlarm() {
 	});
 
 	alarms.onAlarm.addListener(blockTask);
+	// blockTask({ name: "blockTask" });
 }
 
 (function () {
 	createBlockAlarm();
 	interceptTwitterRequests();
+
 	Badge.setColor();
 	Storage.getQueue().then((queue) => Badge.updateBadgeCount(queue.size));
+
 	Messenger.addQueueUpdateListener(async ({ queueLength }) => {
 		return Badge.updateBadgeCount(queueLength);
 	});
+
+	// Messenger.addBlockSpeedUpdateListener(() => {
+	// 	alarms.clear("blockTask");
+	// 	createBlockAlarm();
+	// });
 })();
