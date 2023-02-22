@@ -1,6 +1,6 @@
+import Messenger from "../Messages";
 import Storage from "../Storage";
 import AccountCollector from "./AccountCollector";
-import Messenger from "../Messages";
 import "./styles/index.scss";
 
 //listen to messages from background

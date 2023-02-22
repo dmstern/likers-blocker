@@ -1,10 +1,10 @@
 import { i18n } from "webextension-polyfill";
 import FileManager from "../FileManager";
+import icons from "../icons";
 import settings from "../settings";
 import Storage from "../Storage";
 import { QueuedUser, UserSet } from "../UserInfo";
 import { debounce, tryToAccessDOM } from "../util";
-import icons from "../icons";
 import TextStyle from "./TextStyle";
 import TwitterPage, { AccountList } from "./TwitterPage";
 

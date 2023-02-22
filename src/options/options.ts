@@ -1,6 +1,6 @@
 import { i18n } from "webextension-polyfill";
-import icons, { injectIcons } from "../icons";
 import FileManager from "../FileManager";
+import icons, { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
 import settings from "../settings";
 import Storage from "../Storage";

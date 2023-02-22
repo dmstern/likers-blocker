@@ -3,22 +3,16 @@ import { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
 import Messenger from "../Messages";
 import settings from "../settings";
-// import settings from "../settings";
 import Storage from "../Storage";
 import { User } from "../UserInfo";
 import "./popup.scss";
 
 async function updateStats() {
-	// updateInstantly = true) {
 	// Stats:
 	const queue = await Storage.getQueue();
 	const blockedAccounts = await Storage.getBlockedAccounts();
 	const queueLength = queue.size || 0;
 	const blockedLength = blockedAccounts.size || 0;
-
-	// Durations:
-	// const blockPeriodInMinutes = settings.BLOCK_PERIOD_IN_MINUTES;
-	// const driveWayInSeconds = (blockPeriodInMinutes * 60) / 2;
 
 	// Nodes:
 	const blockListNode = document.querySelector("#blockListStats") as HTMLElement;
@@ -32,42 +26,13 @@ async function updateStats() {
 	const hasQueue = queueLength > 0;
 	const hasBlocked = blockedLength > 0;
 
-	// if (updateInstantly) {
 	queueListNode.innerHTML = queueLength.toLocaleString();
 	blockListNode.innerHTML = blockedLength.toLocaleString();
-	// } else {
-	// 	console.log("👂 Event listener should be added");
-	// 	// sync update of numbers to truck animations:
-	// 	truckIcon.addEventListener(
-	// 		"animationiteration animationstart",
-	// 		() => {
-	// 			console.log("🧙‍♂️ animationiteration update stats");
-	// 			queueListNode.innerHTML = queueLength.toLocaleString();
-	// 			// update blocklist later to fit truck animation:
-	// 			setTimeout(() => {
-	// 				console.log("🧙‍♂️ timeout: update blocklist");
-	// 				blockListNode.innerHTML = blockedLength.toLocaleString();
-	// 			}, driveWayInSeconds * 1000);
-	// 		},
-	// 		{
-	// 			once: true,
-	// 		}
-	// 	);
-	// }
 
 	// Set or remove css classes for coloring and animations:
 	statsWrapperNode.classList.toggle("has-queue", hasQueue);
 	queueListLabel.classList.toggle("active", hasQueue);
 	blockListLabel.classList.toggle("active", hasBlocked);
-
-	// Calculate space between queue and blockedList for drive way:
-	// const { left, width } = queueListLabel.getBoundingClientRect();
-	// const blockLeftEdge = blockListLabel.getBoundingClientRect().left;
-	// const truckWidth = truckIcon?.clientWidth;
-	// const difference = blockLeftEdge - left - width - truckWidth;
-
-	// statsWrapperNode.style.setProperty("--drive-way", `${Math.round(difference / 2)}px`);
-	// statsWrapperNode.style.setProperty("--drive-duration", `${driveWayInSeconds}s`);
 }
 
 async function getUserInfo() {
@@ -202,13 +167,6 @@ function setIndexToElement(avatar: HTMLElement, index: number) {
 	optionsButton?.addEventListener("click", () => {
 		runtime.openOptionsPage();
 	});
-
-	// Messenger.addBlockListener(async ({ blockSuccessful }) => {
-	// 	console.log({ blockSuccessful });
-	// 	if (blockSuccessful) {
-	// 		runAnimation();
-	// 	}
-	// });
 
 	Messenger.addQueueUpdateListener(async ({ dequeuedUser }) => {
 		updateStats();
