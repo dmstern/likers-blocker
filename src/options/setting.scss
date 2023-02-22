@@ -16,12 +16,10 @@
 	}
 
 	&__value {
-		background-color: rgb(160 160 160 / 30%);
-		border-radius: 4px;
-		padding: .5em 1em;
-		width: 5rem;
+		@include value;
+
 		margin: 0 1rem;
-		text-align: center;
+		margin-top: .5rem;
 
 		&--colored {
 			color: hsl(var(--hue) 90% 50%);
