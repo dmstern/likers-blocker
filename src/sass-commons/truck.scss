@@ -4,7 +4,7 @@
 	opacity: .7;
 	transform: translateX(calc(var(--drive-way) * -1)) rotateY(90deg);
 
-	.stats--blocking & {
+	.blocking & {
 		animation-name: drive;
 		animation-duration: var(--drive-duration, 10s);
 		animation-iteration-count: infinite;
