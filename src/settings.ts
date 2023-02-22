@@ -12,4 +12,8 @@ export default {
 	SCROLLS_PER_MINUTE_MIN: 10,
 	SCROLLS_PER_MINUTE_MAX: 200,
 	SCROLLS_PER_MINUTE_DANGER_ZONE: 80,
+	DEFAULT_PROFILE_IMG: {
+		normal: "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+		mini: "https://abs.twimg.com/sticky/default_profile_images/default_profile_mini.png",
+	},
 };

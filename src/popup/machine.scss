@@ -8,12 +8,24 @@
 	}
 }
 
+@keyframes open {
+	0% {
+		transform: rotate(0deg)
+	}
+
+	60% {
+		transform: rotate(100deg)
+	}
+}
+
 .machine {
 	--length: 100px;
 	--thickness: 18px;
 	--band-thickness: 2px;
-	--blocks-per-minute: 10;
-	--run-duration: calc(60s / var(--blocks-per-minute));
+
+	// --blocks-per-minute: 10;
+	// --run-duration: calc(60s / var(--blocks-per-minute));
+	--run-duration: 1s;
 	--band-rotate: -20deg;
 	--stand-height: 24px;
 
@@ -26,6 +38,12 @@
   left: 50%;
 	bottom: 0;
 	color: var(--color-light);
+	opacity: .3;
+	transition: all 500ms ease;
+	
+	.has-queue & {
+		opacity: 1;
+	}
 
 	&__inner {
 		position: relative;
@@ -82,7 +100,7 @@
 		background-color: var(--background-color);
 		position: absolute;
 		transform: translateX(calc(var(--length) * -1));
-		left: -17px;
+		left: -25px;
 		bottom: calc(var(--thickness) * -1);
 	}
 	
@@ -99,7 +117,8 @@
 		bottom: 0;
 		width: 1.4rem;
 		height: 1.4rem;
-		transform: translateX(50%)
+		transform: translateX(50%);
+		background-color: var(--background-color);
 	}
 
 	.icon.trash-lid {
@@ -109,10 +128,42 @@
 		width: 1.4rem;
 		height: auto;
 		transform-origin: 100% 100%;
-		transition: all 500ms ease;
 
 		.blocking & {
-			transform: rotate(100deg)
+			animation: open calc(var(--run-duration) * 2) ease alternate;
+		}
+	}
+
+	&__avatar {
+		position: absolute;
+		border-radius: 50%;
+		width: 14px;
+		height: 14px;
+		border: 1px solid currentcolor;
+		bottom: 36px;
+		right: 10px;
+		transition: transform linear var(--run-duration), bottom linear var(--run-duration) var(--run-duration);
+		
+		&--blocking {
+			transform-origin: 100% 100%;
+			transform: translate(15%, 21%) rotate(120deg);
+			bottom: 13px;
+		}
+		
+		&--up {
+			transform: translate(calc(var(--index) * -16px), calc(var(--index) * 6px));
+		}
+
+		&--right {
+			transform: translate(calc(var(--index) * -16px), 28px);
+		}
+
+		&--upcoming {
+			transform: translate(calc(-189px), 36px);
+		}
+
+		&--hidden {
+			transform: translate(-189px, 51px);
 		}
 	}
 }
