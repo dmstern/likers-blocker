@@ -87,6 +87,16 @@
 		"message": "Blocked accounts:",
 		"description": "Label of the blocklist counter"
 	},
+	"popup_block_speed": {
+		"message": "Block speed: $bpm$ bpm:",
+		"description": "Label of the block speed display in the popup window.",
+		"placeholders": {
+      "bpm" : {
+        "content" : "$1",
+        "example" : "2"
+      }
+    }
+	},
 	"tweet_text": {
 		"message": "https://twitter.com/share?text=Found a racist or otherwise disgusting tweet and people even like those stuff? @LikersBlocker helps you to get rid of those people within seconds.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech",
 		"description": "href for the tweet button. Contains a prefilled tweet text."

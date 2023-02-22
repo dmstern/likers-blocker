@@ -1,4 +1,4 @@
-import { runtime } from "webextension-polyfill";
+import { i18n, runtime } from "webextension-polyfill";
 import { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
 import Messenger from "../Messages";
@@ -17,7 +17,7 @@ async function updateStats() {
 	// Nodes:
 	const blockListNode = document.querySelector("#blockListStats") as HTMLElement;
 	const queueListNode = document.querySelector("#blockQueueStats") as HTMLElement;
-	const statsWrapperNode = document.querySelector(".stats") as HTMLElement;
+	const main = document.querySelector("main") as HTMLElement;
 	const blockListLabel = blockListNode.parentElement;
 	const queueListLabel = queueListNode.parentElement;
 	// const truckIcon = document.querySelector(".stats .truck-icon") as HTMLElement;
@@ -30,7 +30,7 @@ async function updateStats() {
 	blockListNode.innerHTML = blockedLength.toLocaleString();
 
 	// Set or remove css classes for coloring and animations:
-	statsWrapperNode.classList.toggle("has-queue", hasQueue);
+	main.classList.toggle("has-queue", hasQueue);
 	queueListLabel.classList.toggle("active", hasQueue);
 	blockListLabel.classList.toggle("active", hasBlocked);
 }
@@ -100,10 +100,10 @@ async function initQueueAnimation() {
 }
 
 function runAnimation() {
-	const statsWrapperNode = document.querySelector(".stats") as HTMLElement;
-	statsWrapperNode.classList.remove("blocking");
+	const main = document.querySelector("main");
+	main?.classList.remove("blocking");
 	setTimeout(() => {
-		statsWrapperNode.classList.add("blocking");
+		main.classList.add("blocking");
 	}, 1);
 
 	const avatars = document.querySelectorAll(".machine__avatar") as NodeListOf<HTMLElement>;
@@ -155,9 +155,22 @@ function setIndexToElement(avatar: HTMLElement, index: number) {
 	}
 }
 
+async function initBlockSpeedometer() {
+	const speedometer = document.querySelector(".block-speedometer") as HTMLElement;
+	const label = speedometer.querySelector("[data-label]") as HTMLElement;
+
+	console.log({ speedometer, label }, label.dataset.label);
+
+	if (speedometer && label) {
+		const blockSpeed = await Storage.getBlocksPerMinute();
+		label.innerHTML = i18n.getMessage(label.dataset.label, blockSpeed.toString());
+	}
+}
+
 (function () {
 	localizeUI();
 	injectIcons();
+	initBlockSpeedometer();
 	alignRightButtons();
 	updateStats();
 	getUserInfo();

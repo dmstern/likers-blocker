@@ -1,0 +1,7 @@
+.block-speedometer {
+	display: none;
+	
+	.has-queue & {
+		display: inline-flex;
+	}
+}
