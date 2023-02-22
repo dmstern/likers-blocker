@@ -9,21 +9,22 @@
 }
 
 .machine {
-	--length: 91px;
+	--length: 100px;
 	--thickness: 18px;
 	--band-thickness: 2px;
 	--blocks-per-minute: 10;
 	--run-duration: calc(60s / var(--blocks-per-minute));
-	--band-rotate: -17deg;
+	--band-rotate: -20deg;
 	--stand-height: 24px;
 
   position: absolute;
   display: block;
-	transform: translate(-82%, 0);
+	transform: translate(-65%, 0);
   width: var(--length);
 	height: var(--thickness);
   left: 50%;
 	bottom: 0;
+	color: var(--color-light);
 
 	&__inner {
 		position: relative;
@@ -43,7 +44,7 @@
 		transform-origin: calc(var(--thickness) / 2);
 		transition: all 500ms ease;
 		position: absolute;
-		bottom: 0;
+		bottom: calc(var(--thickness) * -0.5);
 
 		&--right {
 			transform: translateX(calc(var(--length) * -1));
@@ -74,12 +75,45 @@
 		border-radius: 2px;
 	}
 
+	&__floor {
+		width: 230%;
+		height: var(--thickness);
+		background-color: var(--background-color);
+		position: absolute;
+		transform: translateX(calc(var(--length) * -1));
+		left: -4px;
+		bottom: calc(var(--thickness) * -1);
+	}
+	
+	&__floor-border {
+		border-radius: var(--band-thickness);
+		width: 100%;
+		height: var(--band-thickness);
+		background-color: currentcolor;
+	}
+
 	.trash-icon {
 		position: absolute;
 		right: 0;
 		bottom: 0;
-		width: 1.7rem;
-		height: 1.7rem;
+		width: 1.4rem;
+		height: 1.4rem;
 		transform: translateX(50%)
+	}
+
+	.icon.trash-lid {
+		position: absolute;
+		right: -11px;
+		bottom: 20px;
+		width: 1.4rem;
+		height: auto;
+		transform-origin: 100% 100%;
+		transition: all 500ms ease;
+	}
+
+	&.open-trash {
+		.icon.trash-lid {
+			transform: rotate(100deg)
+		}
 	}
 }
