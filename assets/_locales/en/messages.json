@@ -210,15 +210,15 @@
 		"description": "Checkbox label: include previously blocked accounts without LikersBlocker."
 	},
 	"options_block_speed": {
-		"message": "Block speed in bpm (blocks per minute)",
+		"message": "Block speed in bpm",
 		"description": "Options label: block speed"
 	},
 	"options_scroll_speed": {
-		"message": "Scrolling speed when collecting users",
+		"message": "Collecting speed",
 		"description": "Options label: scroll speed"
 	},
 	"options_scroll_speed_hint": {
-		"message": "Scrolling speed in (spm = scrolls per minute). The change will apply if you start the collecting process the next time.",
+		"message": "Scrolling speed when collecting users in (spm = scrolls per minute). The change will apply if you start the collecting process the next time.",
 		"description": "Hint: Explaining the unit of scroll speed (scrolls per minute)"
 	},
 	"options_scroll_speed_warning": {
