@@ -2,6 +2,7 @@ import { i18n } from "webextension-polyfill";
 import Messenger from "../Messages";
 import settings from "../settings";
 import Storage from "../Storage";
+import "./block-speed-slider.scss";
 
 const blockSpeedSlider = document.querySelector("#blockSpeed") as HTMLInputElement;
 const blockSpeedValueDisplay = blockSpeedSlider?.parentElement.querySelector(
