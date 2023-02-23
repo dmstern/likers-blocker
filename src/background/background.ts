@@ -91,11 +91,11 @@ async function createBlockAlarm() {
 	Badge.setColor();
 	Storage.getQueue().then((queue) => Badge.updateBadgeCount(queue.size));
 
-	Messenger.addQueueUpdateListener(async ({ queueLength }) => {
+	Messenger.onQueueUpdate(async ({ queueLength }) => {
 		return Badge.updateBadgeCount(queueLength);
 	});
 
-	Messenger.addBlockSpeedUpdateListener(() => {
+	Messenger.onBlockSpeedUpdate(() => {
 		alarms.clear("blockTask");
 		blockIntervals.forEach((interval) => clearInterval(interval));
 		alarms.create("blockTask", {

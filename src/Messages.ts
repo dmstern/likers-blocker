@@ -45,16 +45,16 @@ export default class Messenger {
 		}
 	}
 
-	static async addBlockSpeedUpdateListener(callback: () => void) {
+	static async onBlockSpeedUpdate(callback: () => void) {
 		runtime.onMessage.addListener((message: Message) => {
-			console.log("✉ message from background", message);
 			if (message.action === Action.blockSpeedUpdate) {
+				console.log("✉ message from background", message);
 				callback();
 			}
 		});
 	}
 
-	static async sendGetUserInfoMessage(): Promise<GetUserInfoResponse> {
+	static async sendGetUserInfo(): Promise<GetUserInfoResponse> {
 		const twitterTab = await getTwitterTab();
 		const action = Action.getUserInfo;
 
@@ -67,7 +67,7 @@ export default class Messenger {
 		}
 	}
 
-	static async sendQueueUpdateMessage(data: QueueUpdateData) {
+	static async sendQueueUpdate(data: QueueUpdateData) {
 		const twitterTab = await getTwitterTab();
 		const action = Action.queueUpdate;
 
@@ -80,19 +80,19 @@ export default class Messenger {
 		}
 	}
 
-	static async addUserInfoListener(callback: () => Promise<GetUserInfoResponse>) {
+	static async onGetUserInfo(callback: () => Promise<GetUserInfoResponse>) {
 		runtime.onMessage.addListener((message: GetUserInfoMessage) => {
-			console.log("✉ message from background", message);
 			if (message.action === Action.getUserInfo) {
+				console.log("✉ message from background", message);
 				return callback();
 			}
 		});
 	}
 
-	static async addQueueUpdateListener(callback: (queueUpdate: QueueUpdateData) => Promise<void>) {
+	static async onQueueUpdate(callback: (queueUpdate: QueueUpdateData) => Promise<void>) {
 		runtime.onMessage.addListener((message: QueueUpdateMessage) => {
-			console.log("✉ message from background", message);
 			if (message.action === Action.queueUpdate) {
+				console.log("✉ message from background", message);
 				const { dequeuedUser, queueLength, blockListLength } = message;
 				return callback({ dequeuedUser, queueLength, blockListLength });
 			}
