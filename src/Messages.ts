@@ -48,7 +48,7 @@ export default class Messenger {
 	static async onBlockSpeedUpdate(callback: () => void) {
 		runtime.onMessage.addListener((message: Message) => {
 			if (message.action === Action.blockSpeedUpdate) {
-				console.log("✉ message from background", message);
+				console.debug("✉ message from background", message);
 				callback();
 			}
 		});
@@ -62,7 +62,7 @@ export default class Messenger {
 			try {
 				return await tabs.sendMessage(twitterTab.id, { action });
 			} catch (error) {
-				console.error("✉ Message was send but no receiver listens to it.", action);
+				console.warn("✉ Message was send but no receiver listens to it.", action);
 			}
 		}
 	}
@@ -83,7 +83,7 @@ export default class Messenger {
 	static async onGetUserInfo(callback: () => Promise<GetUserInfoResponse>) {
 		runtime.onMessage.addListener((message: GetUserInfoMessage) => {
 			if (message.action === Action.getUserInfo) {
-				console.log("✉ message from background", message);
+				console.debug("✉ message from background", message);
 				return callback();
 			}
 		});
@@ -92,7 +92,7 @@ export default class Messenger {
 	static async onQueueUpdate(callback: (queueUpdate: QueueUpdateData) => Promise<void>) {
 		runtime.onMessage.addListener((message: QueueUpdateMessage) => {
 			if (message.action === Action.queueUpdate) {
-				console.log("✉ message from background", message);
+				console.debug("✉ message from background", message);
 				const { dequeuedUser, queueLength, blockListLength } = message;
 				return callback({ dequeuedUser, queueLength, blockListLength });
 			}
