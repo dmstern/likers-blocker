@@ -1,6 +1,7 @@
 import { i18n } from "webextension-polyfill";
 import FileManager from "../FileManager";
 import icons from "../icons";
+import "./import-export.scss";
 
 export default class ImportExport {
 	static init() {

@@ -1,5 +1,4 @@
-$range-width: 100px;
-
+@import "../sass-commons/variables";
 @import "../sass-commons/font";
 @import "../sass-commons/base";
 @import "../sass-commons/button";
@@ -9,7 +8,4 @@ $range-width: 100px;
 @import "../sass-commons/value";
 @import "./body";
 @import "./setting";
-@import "./import-export";
-@import "./block-speed";
-@import "./scroll-speed";
 @import "./range-scale";
