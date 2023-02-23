@@ -6,7 +6,7 @@ import Storage from "../Storage";
 const blockIntervals: NodeJS.Timeout[] = [];
 
 export default class Blocker {
-	static readonly alarmName: "blockTask";
+	static readonly alarmName: string = "blockTask";
 	private static blocksInCurrentIterationCount = 0;
 
 	static init() {
