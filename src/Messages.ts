@@ -72,9 +72,10 @@ export default class Messenger {
 		const action = Action.queueUpdate;
 
 		try {
-			await runtime.sendMessage({ action, ...data });
-			await tabs.sendMessage(twitterTab.id, { action, ...data });
-			return new Promise((r) => r);
+			return Promise.all([
+				runtime.sendMessage({ action, ...data }),
+				tabs.sendMessage(twitterTab.id, { action, ...data }),
+			]);
 		} catch (error) {
 			console.info("✉ Message was send but no receiver listens to it.", action);
 		}
