@@ -10,29 +10,6 @@ export default class Blocker {
 	private static isRunning = false;
 	private static blocksInCurrentIterationCount = 0;
 
-	private static init() {
-		if (this.isRunning) {
-			return;
-		}
-
-		alarms.create(Blocker.alarmName, {
-			delayInMinutes: settings.BLOCK_DELAY_IN_MINUTES,
-			periodInMinutes: settings.BLOCK_PERIOD_IN_MINUTES,
-		});
-
-		this.isRunning = true;
-	}
-
-	static stop() {
-		this.clearIntervals();
-		alarms.clear(Blocker.alarmName);
-		this.isRunning = false;
-	}
-
-	private static clearIntervals() {
-		blockIntervals.forEach((interval) => clearInterval(interval));
-	}
-
 	static async run() {
 		this.clearIntervals();
 		this.init();
@@ -48,6 +25,25 @@ export default class Blocker {
 		await this.processBlocking(blocksPerMinute);
 	}
 
+	static stop() {
+		this.clearIntervals();
+		alarms.clear(Blocker.alarmName);
+		this.isRunning = false;
+	}
+
+	private static init() {
+		if (this.isRunning) {
+			return;
+		}
+
+		alarms.create(Blocker.alarmName, {
+			delayInMinutes: settings.BLOCK_DELAY_IN_MINUTES,
+			periodInMinutes: settings.BLOCK_PERIOD_IN_MINUTES,
+		});
+
+		this.isRunning = true;
+	}
+
 	private static async processBlocking(blocksPerMinute: number): Promise<number> {
 		if (this.blocksInCurrentIterationCount >= blocksPerMinute) {
 			this.clearIntervals();
@@ -61,5 +57,9 @@ export default class Blocker {
 
 		APIService.block(user);
 		this.blocksInCurrentIterationCount++;
+	}
+
+	private static clearIntervals() {
+		blockIntervals.forEach((interval) => clearInterval(interval));
 	}
 }
