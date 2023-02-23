@@ -1,5 +1,6 @@
 import { alarms } from "webextension-polyfill";
 import APIService from "../APIService";
+import Badge from "../Badge";
 import settings from "../settings";
 import Storage from "../Storage";
 
@@ -55,8 +56,10 @@ export default class Blocker {
 			return;
 		}
 
-		APIService.block(user);
+		await APIService.block(user);
+		const queue = await Storage.getQueue();
 		this.blocksInCurrentIterationCount++;
+		Badge.updateBadgeCount(queue.size);
 	}
 
 	private static clearIntervals() {
