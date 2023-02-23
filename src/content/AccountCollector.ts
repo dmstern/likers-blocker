@@ -506,8 +506,6 @@ export default class AccountCollector {
 		confirmButtonIconSvg && confirmButtonLabel?.parentElement?.prepend(confirmButtonIconSvg);
 		confirmButton.classList.add("lb-confirm-button--clicked");
 
-		// await browser.browserAction.openPopup();
-
 		confirmButton.addEventListener("click", async () => {
 			await this.closePopup();
 		});

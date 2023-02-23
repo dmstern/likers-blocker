@@ -71,14 +71,14 @@ export default class Messenger {
 		const twitterTab = await getTwitterTab();
 		const action = Action.queueUpdate;
 
-		try {
-			return Promise.all([
-				runtime.sendMessage({ action, ...data }),
-				tabs.sendMessage(twitterTab.id, { action, ...data }),
-			]);
-		} catch (error) {
-			console.info("✉ Message was send but no receiver listens to it.", action);
+		const messageReceivers = [runtime.sendMessage({ action, ...data })];
+		if (twitterTab && twitterTab.id) {
+			messageReceivers.push(tabs.sendMessage(twitterTab.id, { action, ...data }));
 		}
+
+		return Promise.all(messageReceivers).catch((error) => {
+			console.info("✉ Message was send but no receiver listens to it.", action, error);
+		});
 	}
 
 	static async onGetUserInfo(callback: () => Promise<GetUserInfoResponse>) {
