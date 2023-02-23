@@ -31,12 +31,11 @@ export default class APIService {
 		const authorization = (await Storage.getAuthToken()) as string;
 		const acceptedLanguage = (await Storage.getAcceptedLanguage()) as string;
 		const lang = await Storage.getLanguage();
-		console.log("authorization " + authorization);
+		console.debug("authorization " + authorization);
 		if (!csrf || !authorization) {
 			throw new Error("CSRF or Authorization not set");
 		}
-		console.log(acceptedLanguage);
-		console.log("Prevent Preflight: " + preventPreflight);
+		console.debug("Prevent Preflight: " + preventPreflight);
 		const ContentType =
 			method === Method.POST ? "application/x-www-form-urlencoded" : "application/json";
 		if (preventPreflight) {
@@ -45,7 +44,7 @@ export default class APIService {
 				authorization: authorization,
 			};
 		}
-		console.log(ContentType);
+		console.debug(ContentType);
 		return {
 			"User-Agent": navigator.userAgent,
 			Accept: "*/*",
