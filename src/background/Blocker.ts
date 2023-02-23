@@ -7,18 +7,26 @@ const blockIntervals: NodeJS.Timeout[] = [];
 
 export default class Blocker {
 	static readonly alarmName: string = "blockTask";
+	private static isRunning = false;
 	private static blocksInCurrentIterationCount = 0;
 
-	static init() {
+	private static init() {
+		if (this.isRunning) {
+			return;
+		}
+
 		alarms.create(Blocker.alarmName, {
 			delayInMinutes: settings.BLOCK_DELAY_IN_MINUTES,
 			periodInMinutes: settings.BLOCK_PERIOD_IN_MINUTES,
 		});
+
+		this.isRunning = true;
 	}
 
 	static stop() {
 		this.clearIntervals();
 		alarms.clear(Blocker.alarmName);
+		this.isRunning = false;
 	}
 
 	private static clearIntervals() {
@@ -27,6 +35,7 @@ export default class Blocker {
 
 	static async run() {
 		this.clearIntervals();
+		this.init();
 		this.blocksInCurrentIterationCount = 0;
 
 		console.info("⏳ starting block task...");

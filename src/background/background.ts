@@ -12,7 +12,6 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 		}
 	});
 
-	Blocker.init();
 	Blocker.run();
 	WebRequestInterceptor.interceptTwitterRequests();
 	Badge.setColor();
@@ -24,7 +23,6 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 
 	Messenger.onBlockSpeedUpdate(() => {
 		Blocker.stop();
-		Blocker.init();
 		Blocker.run();
 	});
 })();
