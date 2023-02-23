@@ -41,7 +41,7 @@ async function getUserInfo() {
 
 	if (!userInfo || userInfo?.errors?.length) {
 		//send request to get user info to other tab
-		const messageResponse = await Messenger.sendGetUserInfoMessage();
+		const messageResponse = await Messenger.sendGetUserInfo();
 		userInfo = messageResponse?.userInfo;
 	}
 
@@ -182,7 +182,7 @@ async function initBlockSpeedometer() {
 		runtime.openOptionsPage();
 	});
 
-	Messenger.addQueueUpdateListener(async ({ dequeuedUser }) => {
+	Messenger.onQueueUpdate(async ({ dequeuedUser }) => {
 		updateStats();
 
 		if (dequeuedUser) {
@@ -190,7 +190,7 @@ async function initBlockSpeedometer() {
 		}
 	});
 
-	Messenger.addQueueUpdateListener(async ({ queueLength }) => {
+	Messenger.onQueueUpdate(async ({ queueLength }) => {
 		return Badge.updateBadgeCount(queueLength);
 	});
 })();

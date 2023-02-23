@@ -5,7 +5,7 @@ import AccountCollector from "./AccountCollector";
 import "./styles/index.scss";
 
 //listen to messages from background
-Messenger.addUserInfoListener(async () => {
+Messenger.onGetUserInfo(async () => {
 	let userInfo = await Storage.getUserInfo();
 
 	if (userInfo && userInfo.screen_name) {
@@ -29,6 +29,6 @@ Messenger.addUserInfoListener(async () => {
 
 AccountCollector.run();
 
-Messenger.addQueueUpdateListener(async ({ queueLength }) => {
+Messenger.onQueueUpdate(async ({ queueLength }) => {
 	return Badge.updateBadgeCount(queueLength);
 });

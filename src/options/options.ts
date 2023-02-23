@@ -158,6 +158,6 @@ function setScrollsPerMinuteValue(value: number) {
 	scrollSpeedValueDisplay.style.setProperty("--hue", `${getHue()} `);
 }
 
-Messenger.addQueueUpdateListener(async ({ queueLength }) => {
+Messenger.onQueueUpdate(async ({ queueLength }) => {
 	return Badge.updateBadgeCount(queueLength);
 });
