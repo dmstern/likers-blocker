@@ -18,7 +18,16 @@ export default class BlockSpeedometer {
 		}
 
 		if (speedometer && label) {
-			label.innerHTML = i18n.getMessage(label.dataset.label, blockSpeed.toString());
+			const labelText = i18n.getMessage(label.dataset.label, blockSpeed.toString());
+			if (blockSpeed > 0) {
+				label.innerHTML = labelText
+					.split(" ")
+					.map((word) => `<span>${word}</span>`)
+					.join("&nbsp;");
+				label.style.setProperty("--hue", `${(blockSpeed * 100) / -60 + 100} `);
+			} else {
+				label.innerHTML = labelText;
+			}
 		}
 	}
 }
