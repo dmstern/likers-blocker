@@ -19,6 +19,11 @@ export default class Blocker {
 		console.info("⏳ starting block task...");
 
 		const blocksPerMinute = await Storage.getBlocksPerMinute();
+
+		if (blocksPerMinute < 1) {
+			return;
+		}
+
 		const blockInterval = Math.floor((60 / blocksPerMinute) * 1000);
 
 		blockIntervals.push(setInterval(() => this.processBlocking(blocksPerMinute), blockInterval));
