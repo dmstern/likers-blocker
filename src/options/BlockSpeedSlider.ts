@@ -3,6 +3,7 @@ import Messenger from "../Messages";
 import settings from "../settings";
 import Storage from "../Storage";
 import "./block-speed-slider.scss";
+import "../sass-commons/speedometer-icon.scss";
 
 const blockSpeedSlider = document.querySelector("#blockSpeed") as HTMLInputElement;
 const blockSpeedValueDisplay = blockSpeedSlider?.parentElement.querySelector(
@@ -12,6 +13,8 @@ const blockSpeedValueDisplay = blockSpeedSlider?.parentElement.querySelector(
 export default class BlockSpeedSlider {
 	static init() {
 		Storage.getBlocksPerMinute().then((blocksPerMinute) => {
+			document.body.style.setProperty("--block-speed-max", settings.BLOCKS_PER_MINUTE_MAX.toString());
+
 			if (blockSpeedSlider) {
 				blockSpeedSlider.min = settings.BLOCKS_PER_MINUTE_MIN.toString();
 				blockSpeedSlider.max = settings.BLOCKS_PER_MINUTE_MAX.toString();
@@ -44,6 +47,7 @@ function setBlocksPerMinuteValue(value: number) {
 		statusMessageLabel.dataset.label,
 		settings.BLOCKS_PER_MINUTE_DANGER_ZONE.toString()
 	);
+	document.body.style.setProperty("--block-speed", `${value}`);
 	statusMessage?.classList.toggle("error", value > settings.BLOCKS_PER_MINUTE_DANGER_ZONE);
 	blockSpeedValueDisplay.innerHTML = value.toString();
 	blockSpeedValueDisplay.classList.toggle("setting__value--colored", value > 0);

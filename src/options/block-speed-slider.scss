@@ -1,4 +1,8 @@
 .block-speed-slider {
+	.range-scale {
+		background: linear-gradient(90deg, rgb(45 181 40 / 100%) 20%, rgb(209 186 28 / 100%) 40%, rgb(209 186 28 / 100%) 52%, rgb(154 53 13 / 100%) 55%, rgb(255 0 0 / 100%) 100%);
+	}
+
 	option {
 		::before {
 			content: "";

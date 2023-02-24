@@ -1,0 +1,42 @@
+.speedometer-icon {
+	position: relative;
+
+	.speedometer-blank {
+		position: relative;
+		left: 0;
+		top: 0;
+	}
+
+	&__gradient {
+		position: absolute;
+		left: 1px;
+		top: 3px;
+		width: 62%;
+		height: 55%;
+		border-radius: 50px 50px 10px 10px;
+		opacity: .6;
+		background: linear-gradient(90deg, rgb(45 181 40) 0%, rgb(209 186 28) 50%, rgb(154 13 13) 100%);
+
+		&::after {
+			position: absolute;
+			content: "";
+			width: 100%;
+			height: 134%;
+			background: var(--background-color);
+			border-radius: 50%;
+			left: 50%;
+			transform: translateX(-50%) scale(.7);
+			transform-origin: 50% 50%;
+		}
+	}
+
+	.speedometer-needle {
+		position: absolute;
+		left: 0;
+		bottom: 4px;
+		margin: 0 !important;
+		transform: rotate(calc((var(--block-speed) / var(--block-speed-max, 60)) * 220deg));
+		transition: all 600ms ease;
+		transform-origin: 49% 64%;
+	}
+}
