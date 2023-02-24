@@ -11,7 +11,7 @@ export default class Badge {
 		action.setBadgeTextColor({ color: "#FFFFFF" });
 	}
 
-	static updateBadgeCount(length: number) {
+	static updateBadgeCount(length: number): void {
 		if (!action) {
 			return;
 		}
