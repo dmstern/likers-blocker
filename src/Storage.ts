@@ -6,7 +6,7 @@ import { BlockedUser, QueuedUser, User, UserSet } from "./UserInfo";
 
 const date = new Date();
 
-enum Key {
+export enum Key {
 	includeRetweeters = "includeRetweeters",
 	hideBadgeShare = "hideBadgeShare",
 	hideBadgeDonate = "hideBadgeDonate",
@@ -50,12 +50,12 @@ export default class Storage {
 
 	private static async set(key: Key, value: StorageValue, groupedByUser = true) {
 		const storageKey = groupedByUser ? await this.prefix(key) : key;
-		storage.local.set({ [storageKey]: value })?.then();
+		await storage.local.set({ [storageKey]: value });
 	}
 
-	private static async remove(key: Key, groupedByUser = true) {
+	static async remove(key: Key, groupedByUser = true) {
 		const storageKey = groupedByUser ? await this.prefix(key) : key;
-		storage.local.remove(storageKey)?.then();
+		await storage.local.remove(storageKey);
 	}
 
 	static async getIdentity(): Promise<string> {

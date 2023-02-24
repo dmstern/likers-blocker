@@ -238,5 +238,9 @@
         "example" : "30"
       }
     }
+	},
+	"options_reset": {
+		"message": "Reset settings",
+		"description": "Reset settings button label."
 	}
 }
