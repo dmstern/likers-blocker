@@ -46,5 +46,6 @@ function setBlocksPerMinuteValue(value: number) {
 	);
 	statusMessage?.classList.toggle("error", value > settings.BLOCKS_PER_MINUTE_DANGER_ZONE);
 	blockSpeedValueDisplay.innerHTML = value.toString();
+	blockSpeedValueDisplay.classList.toggle("setting__value--colored", value > 0);
 	blockSpeedValueDisplay.style.setProperty("--hue", `${(value * 100) / -60 + 100} `);
 }

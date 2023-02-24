@@ -41,7 +41,7 @@
 	opacity: .3;
 	transition: all 500ms ease;
 	
-	.has-queue & {
+	.has-queue:not(.blocker-sleeping) & {
 		opacity: 1;
 	}
 

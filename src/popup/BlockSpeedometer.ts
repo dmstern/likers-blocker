@@ -9,9 +9,15 @@ export default class BlockSpeedometer {
 	private async init() {
 		const speedometer = document.querySelector(".block-speedometer") as HTMLElement;
 		const label = speedometer.querySelector("[data-label]") as HTMLElement;
+		const main = document.querySelector("main") as HTMLElement;
+		const blockSpeed = await Storage.getBlocksPerMinute();
+
+		if (main) {
+			main.style.setProperty("--block-speed", blockSpeed.toString());
+			main.classList.toggle("blocker-sleeping", blockSpeed < 1);
+		}
 
 		if (speedometer && label) {
-			const blockSpeed = await Storage.getBlocksPerMinute();
 			label.innerHTML = i18n.getMessage(label.dataset.label, blockSpeed.toString());
 		}
 	}
