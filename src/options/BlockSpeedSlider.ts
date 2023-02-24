@@ -11,6 +11,8 @@ const blockSpeedValueDisplay = blockSpeedSlider?.parentElement.querySelector(
 ) as HTMLElement;
 
 export default class BlockSpeedSlider {
+	private static hasEventListener: boolean;
+
 	static init() {
 		Storage.getBlocksPerMinute().then((blocksPerMinute) => {
 			document.body.style.setProperty("--block-speed-max", settings.BLOCKS_PER_MINUTE_MAX.toString());
@@ -23,13 +25,18 @@ export default class BlockSpeedSlider {
 			}
 		});
 
+		if (!this.hasEventListener) {
+			this.addEventListener();
+			this.hasEventListener = true;
+		}
+	}
+	private static addEventListener() {
 		blockSpeedSlider.addEventListener("input", (event) => {
 			const value = (event.target as HTMLInputElement).value;
 			const blocksPerMinute = Number.parseInt(value);
 
 			setBlocksPerMinuteValue(blocksPerMinute);
 			Storage.setBlocksPerMinute(blocksPerMinute);
-
 			Messenger.sendBlockSpeedUpdate();
 		});
 	}

@@ -238,5 +238,9 @@
         "example" : "30"
       }
     }
+	},
+	"options_reset": {
+		"message": "Auf Standardeinstellungen zurücksetzen",
+		"description": "Reset settings button label."
 	}
 }

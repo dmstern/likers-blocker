@@ -9,6 +9,8 @@ const scrollSpeedValueDisplay = scrollSpeedSlider?.parentElement.querySelector(
 ) as HTMLElement;
 
 export default class ScrollSpeedSlider {
+	static hasEventListener: boolean;
+
 	static init() {
 		Storage.getScrollsPerMinute().then((scrollsPerMinute) => {
 			if (scrollSpeedSlider) {
@@ -19,6 +21,13 @@ export default class ScrollSpeedSlider {
 			}
 		});
 
+		if (!this.hasEventListener) {
+			this.addEventListener();
+			this.hasEventListener = true;
+		}
+	}
+
+	private static addEventListener() {
 		scrollSpeedSlider.addEventListener("input", (event) => {
 			const value = (event.target as HTMLInputElement).value;
 			const scrollsPerMinute = Number.parseInt(value);

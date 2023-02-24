@@ -46,7 +46,7 @@
 				<span data-icon="question"></span>
 			</label>
 			<div class="setting__value setting__value--colored"></div>
-			<input type="range" name="scroll-speed" id="scrollSpeed">
+			<input type="range" name="scroll-speed" id="scrollSpeed" class="setting__input">
 			<div class="range-scale"></div>
 		</div>
 		<div class="setting__status-message">
@@ -68,7 +68,7 @@
 				<span data-icon="question"></span>
 			</label>
 			<div class="setting__value setting__value--colored"></div>
-			<input type="range" min="0" max="60" name="block-speed" id="blockSpeed" list="blockSpeedValues">
+			<input type="range" min="0" max="60" name="block-speed" id="blockSpeed" list="blockSpeedValues" class="setting__input">
 			<datalist id="blockSpeedValues">
 				<option value="0"></option>
 				<option value="1"></option>
@@ -101,6 +101,13 @@
 			<span data-icon="warn"></span>
 			<span data-label="options_block_speed_warning"></span>
 		</div>
+	</div>
+
+	<div class="setting reset">
+		<button class="btn" id="resetButton">
+			<span data-icon="reset"></span>
+			<span data-label="options_reset">Reset</span>
+		</button>
 	</div>
 
 	<script src="options.js"></script>
