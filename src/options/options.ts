@@ -16,5 +16,6 @@ import ScrollSpeedSlider from "./ScrollSpeedSlider";
 })();
 
 Messenger.onQueueUpdate(async ({ queueLength }) => {
+	console.debug("📫 Popup: QueueUpdate Message", "🤔💭");
 	return Badge.updateBadgeCount(queueLength);
 });
