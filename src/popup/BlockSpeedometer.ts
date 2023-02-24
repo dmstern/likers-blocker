@@ -1,5 +1,7 @@
 import { i18n } from "webextension-polyfill";
 import Storage from "../Storage";
+import "../sass-commons/speedometer-icon.scss";
+import settings from "../settings";
 
 export default class BlockSpeedometer {
 	constructor() {
@@ -9,13 +11,11 @@ export default class BlockSpeedometer {
 	private async init() {
 		const speedometer = document.querySelector(".block-speedometer") as HTMLElement;
 		const label = speedometer.querySelector("[data-label]") as HTMLElement;
-		const main = document.querySelector("main") as HTMLElement;
 		const blockSpeed = await Storage.getBlocksPerMinute();
 
-		if (main) {
-			main.style.setProperty("--block-speed", blockSpeed.toString());
-			main.classList.toggle("blocker-sleeping", blockSpeed < 1);
-		}
+		document.body.style.setProperty("--block-speed", blockSpeed.toString());
+		document.body.style.setProperty("--block-speed-max", settings.BLOCKS_PER_MINUTE_MAX.toString());
+		document.body.classList.toggle("blocker-sleeping", blockSpeed < 1);
 
 		if (speedometer && label) {
 			const labelText = i18n.getMessage(label.dataset.label, blockSpeed.toString());
