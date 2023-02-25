@@ -1,6 +1,6 @@
 import { downloads } from "webextension-polyfill";
 import Storage from "./Storage";
-import { BlockedUser, QueuedUser, UserSet } from "./UserInfo";
+import { BlockedUser, QueuedUser, UserSet } from "./User";
 
 const filename = "blocklist.csv";
 const mimeType = "text/csv";
