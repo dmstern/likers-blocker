@@ -10,8 +10,13 @@
 	--color--brand: #e1285c;
 	--color--twitter-brand: rgb(29 161 242);
 	--drive-way: 46px;
-	--border-color: rgb(126 126 126 / 50%);
+	--border-color: rgb(126 126 126 / 30%);
 	--body-padding: 1.5rem;
+	--highlight-color: var(--color--twitter-brand);
+	--background-color: var(--color-light);
+	--background-color--hover: var(--highlight-color);
+	--color: var(--color-dark);
+	--color--hover: var(--color-light-dark);
 }
 
 * {
@@ -24,11 +29,6 @@ html {
 }
 
 body {
-	--background-color: var(--color-light);
-	--background-color--hover: var(--color-lighter);
-	--color: var(--color-dark);
-	--color--hover: var(--color-light-dark);
-
 	font-family: $font-family;
 	box-sizing: border-box;
 	font-size: 16px;
@@ -41,14 +41,16 @@ body {
 
 	@media (prefers-color-scheme: light) {
 		--background-color: var(--color-light);
-		--background-color--hover: var(--color-lighter);
+
+		// --background-color--hover: var(--color-lighter);
 		--color: var(--color-dark);
 		--color--hover: var(--color-light-dark);
 	}
 	
 	@media (prefers-color-scheme: dark) {
 		--background-color: var(--color-dark);
-		--background-color--hover: var(--color-light-dark);
+
+		// --background-color--hover: var(--color-light-dark);
 		--color: var(--color-lighter);
 		--color--hover: var(--color-light);
 	}	
