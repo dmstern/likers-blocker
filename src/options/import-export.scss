@@ -5,22 +5,26 @@
 	margin: 0 0 2rem;
 
 	input[type="file"] {
-		cursor: pointer;
-		font-family: $font-family;
+		@include button;
+
+		--divider-color: var(--border-color);
+
+		padding: 0;
 
 		&::file-selector-button  {
-			@include button;
+			font-family: $font-family;
+			background-color: transparent;
+			border: none;
+			color: inherit;
+			border-right: 2px solid var(--divider-color);
+			height: 100%;
+			padding: $button-padding;
+			margin-right: $button-padding;
+			transition: all 500ms ease;
+		}
 
-			box-shadow: $button-shadow;
-
-			&:hover {
-				background-color: $button-background-color-hover;
-				color: var(--color);
-				box-shadow: $button-shadow;
-
-				--shadow-width: 6px;
-				--shadow-distance: 2px;
-			}
+		&:hover {
+			--divider-color: hsla(0deg 0% 100% / 50%);
 		}
 	}
 

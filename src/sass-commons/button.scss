@@ -2,7 +2,7 @@
 	border: 2px solid var(--border-color);
 	font-size: 16px;
 	border-radius: 7px;
-	padding: 0.7em;
+	padding: $button-padding;
 	margin-right: 0.5em;
 	display: inline-flex;
 	align-items: center;
@@ -14,8 +14,9 @@
 	cursor: pointer;
 	box-shadow: $button-shadow;
 
-	--shadow-width: 0;
-	--shadow-distance: 0;
+	--shadow-width: 3px;
+	--shadow-distance: 2px;
+	--border-color: hsla(0deg 0% 50% / 20%);
 
 	&.disabled {
 		opacity: .7;
@@ -38,6 +39,10 @@
 			--shadow-distance: 2px;
 		}
 	}
+}
+
+.btn {
+	@include button;
 
 	&--danger {
 		--icon-color: var(--color--error);
@@ -70,8 +75,4 @@
 			margin-left: .5rem;
 		}
 	}
-}
-
-.btn {
-	@include button;
 }
