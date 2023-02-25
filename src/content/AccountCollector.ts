@@ -294,8 +294,12 @@ export default class AccountCollector {
 			if (progressBarLabel) {
 				progressBarLabel.innerHTML = `${this.progressInPercent}%`;
 			}
+
 			if (progressBar) {
-				progressBar.style.width = `${this.progressInPercent}%`;
+				progressBar.style.setProperty("--progress", this.progressInPercent.toString());
+				if (this.progressInPercent > 10) {
+					progressBar.classList.add("lb-progress-bar__inner--large");
+				}
 			}
 		}
 
