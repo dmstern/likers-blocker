@@ -2,11 +2,14 @@
 @import "../sass-commons/button";
 
 .import-export {
+	margin: 0 0 2rem;
+
 	input[type="file"] {
 		cursor: pointer;
+		font-family: $font-family;
 
 		&::file-selector-button  {
-			@include button;
+			@include button;	
 		}
 	}
 
@@ -27,6 +30,10 @@
 		.label {
 			align-self: flex-start;
 		}
+	}
+
+	&__export .btn {
+		margin: 0;
 	}
 
 	&__buttons {

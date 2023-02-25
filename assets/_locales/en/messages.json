@@ -48,7 +48,7 @@
 		"description": "Label for the Like button"
 	},
 	"popup_export": {
-		"message": "Export Blocklist",
+		"message": "Export Blocklist:",
 		"description": "Label for the export button in the popup window."
 	},
 	"popup_import": {
@@ -198,7 +198,7 @@
 		"description": "New Release icon title"
 	},
 	"options_import": {
-		"message": "Import block list",
+		"message": "Import block list:",
 		"description": "Heading for the import button in the options page."
 	},
 	"options_download": {
