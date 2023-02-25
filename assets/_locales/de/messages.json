@@ -202,12 +202,16 @@
 		"description": "Label for the import button in the options page."
 	},
 	"options_import_success": {
-		"message": "Blockliste mit $count$ Accounts erfolgreich importiert. Warteschlange wird abgearbeitet...",
+		"message": "Blockliste mit $count$ Accounts erfolgreich importiert. $added$ neue Accounts wurden zur Warteschlange hinzugefügt...",
 		"description": "Success message if the import was successful.",
 		"placeholders": {
       "count" : {
         "content" : "$1",
         "example" : "1000"
+      },
+      "added" : {
+        "content" : "$2",
+        "example" : "300"
       }
     }
 	},

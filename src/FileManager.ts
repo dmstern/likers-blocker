@@ -30,7 +30,7 @@ export default class FileManager {
 		});
 	}
 
-	static async importBlockList(files: FileList): Promise<QueuedUser[]> {
+	static async importBlockList(files: FileList): Promise<[QueuedUser[], number]> {
 		return new Promise((resolve, reject) => {
 			if (!files || !files[0]) {
 				console.error("not a file");
@@ -54,8 +54,8 @@ export default class FileManager {
 						console.debug("⚙ parsed:", blockedAccounts);
 
 						if (blockedAccounts.length) {
-							await Storage.queueMulti(blockedAccounts);
-							resolve(blockedAccounts);
+							const added = await Storage.queueMulti(blockedAccounts);
+							resolve([blockedAccounts, added]);
 						} else {
 							reject(new Error("empty"));
 						}

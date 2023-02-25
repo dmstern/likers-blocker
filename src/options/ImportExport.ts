@@ -22,11 +22,11 @@ export default class ImportExport {
 			errorDetails.innerHTML = "";
 
 			FileManager.importBlockList((event.target as HTMLInputElement).files)
-				.then((importedAccounts) => {
+				.then(([importedAccounts, added]) => {
 					importStatusMessage.classList.add("success");
 					statusMessageSummary.innerHTML = `${icons.checkmark} ${i18n.getMessage(
 						"options_import_success",
-						importedAccounts.length.toString()
+						[importedAccounts.length.toString(), added.toString()]
 					)}`;
 				})
 				.catch((error: Error) => {
