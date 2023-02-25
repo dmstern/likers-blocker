@@ -241,7 +241,26 @@ export default class AccountCollector {
 				profile_image_url_https: profileUrl,
 			};
 
-			this.collectedUsers.add(user);
+			const wasAdded = this.collectedUsers.add(user);
+
+			if (wasAdded) {
+				const avatarsWrapper = document.querySelector(".lb-truck-animation__avatars");
+
+				if (avatarsWrapper) {
+					const clonedProfileImg = profileImg.cloneNode() as HTMLImageElement;
+
+					if (clonedProfileImg.src) {
+						clonedProfileImg.src = clonedProfileImg.src.replace("normal", "mini");
+						clonedProfileImg.removeAttribute("class");
+					}
+
+					const avatar = document.createElement("span");
+					avatar.classList.add("lb-truck-animation__avatar");
+					avatar.style.setProperty("--index", this.collectedUsers.size.toString());
+					avatar.append(clonedProfileImg);
+					avatarsWrapper.prepend(avatar);
+				}
+			}
 		}
 
 		const userCounter = document.querySelector(".lb-user-counter") as HTMLElement;
@@ -481,6 +500,7 @@ export default class AccountCollector {
 				"click",
 				() => {
 					this.addToQueue(confirmInfo, confirmButtonIcon, confirmButtonLabel, confirmButton);
+					this.popup.classList.add("lb-confirmed");
 				},
 				{
 					once: !isBlockExportPage,
@@ -717,6 +737,15 @@ export default class AccountCollector {
 		const isNewRelease = await Storage.getIsNewRelease();
 
 		footer.innerHTML = `
+			<div class="lb-truck-animation">
+				<div class="lb-truck-animation__avatars">
+					<div class="lb-truck-animation__hider"></div>
+				</div>
+				<div class="lb-truck-animation__truck">
+						${icons.truckSolid}
+				</div>
+			</div>
+
 			<ul class="lb-footer__inner">
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--new-release ${isNewRelease ? "sparkle" : ""}"
