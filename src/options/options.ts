@@ -1,4 +1,5 @@
 import { storage } from "webextension-polyfill";
+import Badge from "../Badge";
 import { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
 import Storage, { Key } from "../Storage";
@@ -29,6 +30,10 @@ import ScrollSpeedSlider from "./ScrollSpeedSlider";
 	if (clearButton) {
 		clearButton.addEventListener("click", async () => {
 			await storage.local.clear();
+			BlockSpeedSlider.init();
+			ScrollSpeedSlider.init();
+			const queue = await Storage.getQueue();
+			Badge.updateBadgeCount(queue.size);
 		});
 	}
 })();

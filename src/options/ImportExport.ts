@@ -15,7 +15,6 @@ export default class ImportExport {
 		// ) as HTMLInputElement;
 
 		importListButton?.addEventListener("click", () => {
-			console.log("click import");
 			const errorDetails = importStatusMessage.querySelector(".details");
 			const statusMessageSummary = importStatusMessage.querySelector("summary .label");
 
