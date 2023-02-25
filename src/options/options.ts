@@ -1,8 +1,6 @@
 import { storage } from "webextension-polyfill";
-import Badge from "../Badge";
 import { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
-import Messenger from "../Messages";
 import Storage, { Key } from "../Storage";
 import BlockSpeedSlider from "./BlockSpeedSlider";
 import ImportExport from "./ImportExport";
@@ -15,11 +13,6 @@ import ScrollSpeedSlider from "./ScrollSpeedSlider";
 	ImportExport.init();
 	BlockSpeedSlider.init();
 	ScrollSpeedSlider.init();
-
-	Messenger.onQueueUpdate(async ({ queueLength }) => {
-		console.debug("📫 Popup: QueueUpdate Message", "🤔💭");
-		return Badge.updateBadgeCount(queueLength);
-	});
 
 	const resetButton = document.querySelector("#resetButton");
 	const clearButton = document.querySelector("#clearButton");
