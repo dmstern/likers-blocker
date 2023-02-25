@@ -1,5 +1,5 @@
 import Storage from "./Storage";
-import { QueuedUser, User } from "./UserInfo";
+import { QueuedUser } from "./User";
 const API_URL = "https://api.twitter.com/1.1/";
 
 enum Endpoint {
@@ -24,6 +24,10 @@ interface GetParams {
 export default class APIService {
 	private static getScreenNameBody(screenName: string): string {
 		return `screen_name=${screenName}`;
+	}
+
+	private static getIdBody(id: string): string {
+		return `user_id=${id}`;
 	}
 
 	private static async getHeaders(method: Method, preventPreflight = false): Promise<HeadersInit> {
@@ -109,19 +113,19 @@ export default class APIService {
 	// 	return (await response).json();
 	// }
 
-	static async lookupUsersById(userIds: string[]): Promise<Response> {
-		return this.sendGetRequest({
-			endpoint: Endpoint.lookupUsers,
-			params: { user_id: userIds.join(",") },
-		});
-	}
+	// static async lookupUsersById(userIds: string[]): Promise<Response> {
+	// 	return this.sendGetRequest({
+	// 		endpoint: Endpoint.lookupUsers,
+	// 		params: { user_id: userIds.join(",") },
+	// 	});
+	// }
 
-	static async lookupUsersByScreenName(screenNames: string[]): Promise<Response> {
-		return this.sendGetRequest({
-			endpoint: Endpoint.lookupUsers,
-			params: { screen_name: screenNames.join(",") },
-		});
-	}
+	// static async lookupUsersByScreenName(screenNames: string[]): Promise<Response> {
+	// 	return this.sendGetRequest({
+	// 		endpoint: Endpoint.lookupUsers,
+	// 		params: { screen_name: screenNames.join(",") },
+	// 	});
+	// }
 
 	static async block(user: QueuedUser): Promise<Response | undefined> {
 		console.info(`⛔ blocking ${user.screen_name}...`);
@@ -132,35 +136,33 @@ export default class APIService {
 			return;
 		}
 
-		const response = await this.sendPostRequest(
-			Endpoint.block,
-			this.getScreenNameBody(user.screen_name)
-		);
+		const body = user.screen_name ? this.getScreenNameBody(user.screen_name) : this.getIdBody(user.id);
+		const response = await this.sendPostRequest(Endpoint.block, body);
 
 		if (response && response.ok) {
-			console.info("✔ user blocked.");
+			console.info("%c✔ user blocked.", "color: YellowGreen");
 			Storage.addBlocked(user);
 		} else {
-			console.error("📡 did not block", response);
+			console.error("🛑 did not block", response);
 			Storage.queue(user);
 		}
 
 		return response;
 	}
 
-	static async getRetweeters(tweetId: string): Promise<User[]> {
-		// TODO: add pagination
-		const response = await this.sendGetRequest({
-			endpoint: Endpoint.retweeters,
-			segment: tweetId,
-		});
+	// static async getRetweeters(tweetId: string): Promise<User[]> {
+	// 	// TODO: add pagination
+	// 	const response = await this.sendGetRequest({
+	// 		endpoint: Endpoint.retweeters,
+	// 		segment: tweetId,
+	// 	});
 
-		return new Promise((resolve, reject) => {
-			if (!response.ok) {
-				reject();
-			}
+	// 	return new Promise((resolve, reject) => {
+	// 		if (!response.ok) {
+	// 			reject();
+	// 		}
 
-			response.json().then((userInfos) => resolve(userInfos));
-		});
-	}
+	// 		response.json().then((userInfos) => resolve(userInfos));
+	// 	});
+	// }
 }

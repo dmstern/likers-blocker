@@ -1,6 +1,6 @@
 import { runtime, tabs } from "webextension-polyfill";
 import { getTwitterTab } from "./Tabs";
-import { User } from "./UserInfo";
+import { QueuedUser, UserInfo } from "./User";
 
 enum Action {
 	getUserInfo = "getUserInfo",
@@ -13,15 +13,15 @@ interface Message {
 }
 
 export interface QueueUpdateData {
-	queuedUser?: User;
-	dequeuedUser?: User;
+	queuedUser?: QueuedUser;
+	dequeuedUser?: QueuedUser;
 	queueLength: number;
 	blockListLength?: number;
 }
 
 export interface QueueUpdateMessage extends Message {
-	queuedUser?: User;
-	dequeuedUser?: User;
+	queuedUser?: QueuedUser;
+	dequeuedUser?: QueuedUser;
 	queueLength: number;
 	blockListLength?: number;
 }
@@ -31,7 +31,7 @@ export interface GetUserInfoMessage extends Message {
 }
 
 export interface GetUserInfoResponse {
-	userInfo: User;
+	userInfo: UserInfo;
 }
 
 export default class Messenger {
