@@ -3,7 +3,7 @@ import FileManager from "../FileManager";
 import icons from "../icons";
 import settings from "../settings";
 import Storage from "../Storage";
-import { QueuedUser, UserSet } from "../UserInfo";
+import { QueuedUser, UserSet } from "../User";
 import { debounce, tryToAccessDOM } from "../util";
 import TextStyle from "./TextStyle";
 import TwitterPage, { AccountList } from "./TwitterPage";

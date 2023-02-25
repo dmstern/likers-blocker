@@ -1,7 +1,7 @@
 import Messenger from "../Messages";
 import settings from "../settings";
 import Storage from "../Storage";
-import { UserInfo } from "../UserInfo";
+import { UserInfo } from "../User";
 
 export default class LoginDisplay {
 	private main: HTMLElement;
