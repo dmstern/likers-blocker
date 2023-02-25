@@ -195,6 +195,10 @@
 	},
 	"options_import": {
 		"message": "Blockliste importieren",
+		"description": "Heading for the import button in the options page."
+	},
+	"options_download": {
+		"message": "CSV herunterladen",
 		"description": "Label for the import button in the options page."
 	},
 	"options_import_success": {

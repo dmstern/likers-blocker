@@ -1,9 +1,10 @@
-.btn {
+@mixin button {
 	border: 1.5px solid var(--border-color);
 	font-size: 16px;
 	border-radius: 7px;
 	padding: 0.7em;
-	margin-right: 0.5em;
+
+	// margin-right: 0.5em;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -63,4 +64,8 @@
 			margin-left: .5rem;
 		}
 	}
+}
+
+.btn {
+	@include button;
 }

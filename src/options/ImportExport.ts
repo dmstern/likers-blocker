@@ -5,7 +5,7 @@ import "./import-export.scss";
 
 export default class ImportExport {
 	static init() {
-		const importListButton = document.querySelector("#importBlockList");
+		const importListButton = document.querySelector("#importBlockList") as HTMLInputElement;
 		const downloadButton = document.querySelector("#downloadBlockList") as HTMLAnchorElement;
 		const importStatusMessage = document.querySelector("#importStatusMessage");
 
@@ -13,7 +13,7 @@ export default class ImportExport {
 		// 	"#includePreviouslyBlocked"
 		// ) as HTMLInputElement;
 
-		importListButton?.addEventListener("click", () => {
+		importListButton?.addEventListener("change", (event) => {
 			const errorDetails = importStatusMessage.querySelector(".details");
 			const statusMessageSummary = importStatusMessage.querySelector("summary .label");
 
@@ -21,7 +21,7 @@ export default class ImportExport {
 			statusMessageSummary.innerHTML = "";
 			errorDetails.innerHTML = "";
 
-			FileManager.importBlockList()
+			FileManager.importBlockList((event.target as HTMLInputElement).files)
 				.then(() => {
 					importStatusMessage.classList.add("success");
 					statusMessageSummary.innerHTML = `${icons.checkmark} ${i18n.getMessage(

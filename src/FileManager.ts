@@ -30,57 +30,46 @@ export default class FileManager {
 		});
 	}
 
-	static async importBlockList(): Promise<QueuedUser[]> {
-		const fileInput = document.createElement("input");
-		fileInput.type = "file";
-		fileInput.accept = ".csv";
-		fileInput.style.display = "none";
-		document.body.appendChild(fileInput);
-		fileInput.click();
-
+	static async importBlockList(files: FileList): Promise<QueuedUser[]> {
 		return new Promise((resolve, reject) => {
-			fileInput.addEventListener("change", () => {
-				if (!fileInput.files || !fileInput.files[0]) {
-					console.error("not a file");
-					reject(new Error("not a file."));
-					return;
-				}
+			if (!files || !files[0]) {
+				console.error("not a file");
+				reject(new Error("not a file."));
+				return;
+			}
 
-				try {
-					const file = fileInput.files[0];
-					const reader = new FileReader();
-					reader.onload = async (e) => {
-						if (!e.target) {
-							return;
+			try {
+				const file = files[0];
+				const reader = new FileReader();
+				reader.onload = async (e) => {
+					if (!e.target) {
+						return;
+					}
+
+					const text = e.target.result as string;
+					console.info("Importing: ", text);
+
+					try {
+						const blockedAccounts: QueuedUser[] = parseCSV(text);
+						console.debug("⚙ parsed:", blockedAccounts);
+
+						if (blockedAccounts.length) {
+							await Storage.queueMulti(blockedAccounts);
+							resolve(blockedAccounts);
+						} else {
+							reject(new Error("empty"));
 						}
+					} catch (error) {
+						reject(error);
+						console.error(error);
+					}
+				};
 
-						const text = e.target.result as string;
-						console.info("Importing: ", text);
-
-						try {
-							const blockedAccounts: QueuedUser[] = parseCSV(text);
-							console.debug("⚙ parsed:", blockedAccounts);
-
-							if (blockedAccounts.length) {
-								await Storage.queueMulti(blockedAccounts);
-								resolve(blockedAccounts);
-							} else {
-								reject(new Error("empty"));
-							}
-						} catch (error) {
-							reject(error);
-							console.error(error);
-						}
-					};
-
-					reader.readAsText(file);
-				} catch (error) {
-					console.error("Import failed.", error);
-					reject(error);
-				} finally {
-					fileInput.remove();
-				}
-			});
+				reader.readAsText(file);
+			} catch (error) {
+				console.error("Import failed.", error);
+				reject(error);
+			}
 		});
 	}
 }
