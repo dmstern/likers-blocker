@@ -224,12 +224,21 @@ export default class Storage {
 		return user;
 	}
 
-	static async queueMulti(users: QueuedUser[]) {
+	/**
+	 * Add multiple users to queue.
+	 * @param users a UserSet of the users to be queued
+	 * @returns the number of new added users
+	 */
+	static async queueMulti(users: QueuedUser[]): Promise<number> {
 		const queue: UserSet<QueuedUser> = await this.getQueue();
-		// console.log("Queue Length: " + Array.from(set).length)
-		queue.concat(users);
+		const blockedAccounts: UserSet<BlockedUser> = await this.getBlockedAccounts();
+		const newUsers = users.filter((user) => !blockedAccounts.has(user));
+		const addedUsersCount: number = queue.merge(newUsers);
+
 		Messenger.sendQueueUpdate({ queueLength: queue.size });
 		this.set(Key.blockingQueue, queue.toArray());
+
+		return addedUsersCount;
 	}
 
 	static async queueEmpty(): Promise<boolean> {
@@ -255,7 +264,7 @@ export default class Storage {
 			interacted_with: user.interacted_with,
 		}));
 
-		blocked.concat(blockCandidates);
+		blocked.merge(blockCandidates);
 		this.set(Key.blockedAccounts, blocked.toArray());
 	}
 
