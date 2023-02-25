@@ -6,56 +6,6 @@ const filename = "blocklist.csv";
 const mimeType = "text/csv";
 const encoding = "utf-8";
 
-function usersToCSV(users: UserSet<BlockedUser>): string {
-	return users.size
-		? users
-				.toArray()
-				.map((user) => {
-					const { screen_name, interacted_with } = user;
-					return `${screen_name},https://twitter.com${interacted_with}`;
-				})
-				.join("\n")
-		: "";
-}
-
-function parseCSV(csv: string): QueuedUser[] {
-	if (!csv) {
-		return [];
-	}
-
-	const rows = csv.split("\n");
-
-	return rows.map((row) => {
-		const [firstColumn, secondColumn] = row.split(",");
-		let interacted_with = "";
-		let id: string;
-		let screen_name = "";
-
-		// Compatibility with RedBlock exports (fist column is the id):
-		if (isScreenName(firstColumn)) {
-			screen_name = firstColumn;
-		} else {
-			id = firstColumn;
-		}
-
-		if (secondColumn && secondColumn.startsWith("https://twitter.com")) {
-			interacted_with = secondColumn.replace("https://twitter.com", "");
-		}
-
-		const baseUser = id ? { id } : { screen_name };
-
-		return {
-			...baseUser,
-			interacted_with,
-			profile_image_url_https: "",
-		};
-	});
-}
-
-function isScreenName(value: string) {
-	return /\D/.test(value);
-}
-
 export default class FileManager {
 	static getDownloadLinkForBlockList(users: UserSet<BlockedUser>): {
 		filename: string;
@@ -92,7 +42,7 @@ export default class FileManager {
 			fileInput.addEventListener("change", () => {
 				if (!fileInput.files || !fileInput.files[0]) {
 					console.error("not a file");
-					reject();
+					reject(new Error("not a file."));
 					return;
 				}
 
@@ -118,7 +68,7 @@ export default class FileManager {
 								reject(new Error("empty"));
 							}
 						} catch (error) {
-							reject({ level: "error", error });
+							reject(error);
 							console.error(error);
 						}
 					};
@@ -133,4 +83,73 @@ export default class FileManager {
 			});
 		});
 	}
+}
+
+function isScreenName(value: string) {
+	return /\D/.test(value);
+}
+
+function validateScreenName(screenName: string): boolean {
+	const forbiddenCharacters = ["-", "}", "{", "[", "]", "$", "%", " ", "]"];
+	if (forbiddenCharacters.some((char) => screenName.includes(char))) {
+		return false;
+	}
+
+	if (/\s*/.test(screenName)) {
+		return false;
+	}
+
+	return true;
+}
+
+function parseCSV(csv: string): QueuedUser[] {
+	if (!csv) {
+		return [];
+	}
+
+	const rows = csv.split("\n");
+
+	return rows
+		.map((row) => {
+			const [firstColumn, secondColumn] = row.split(",");
+			let interacted_with = "";
+			let id: string;
+			let screen_name = "";
+
+			// Compatibility with RedBlock exports (fist column is the id):
+			if (isScreenName(firstColumn)) {
+				if (!validateScreenName(firstColumn)) {
+					throw new Error("invalid blocklist format");
+				}
+
+				screen_name = firstColumn;
+			} else {
+				id = firstColumn;
+			}
+
+			if (secondColumn && secondColumn.startsWith("https://twitter.com")) {
+				interacted_with = secondColumn.replace("https://twitter.com", "");
+			}
+
+			const baseUser = id ? { id } : { screen_name };
+
+			return {
+				...baseUser,
+				interacted_with,
+				profile_image_url_https: "",
+			};
+		})
+		.filter((user) => user && (user.screen_name || user.id));
+}
+
+function usersToCSV(users: UserSet<BlockedUser>): string {
+	return users.size
+		? users
+				.toArray()
+				.map((user) => {
+					const { screen_name, interacted_with } = user;
+					return `${screen_name},https://twitter.com${interacted_with}`;
+				})
+				.join("\n")
+		: "";
 }

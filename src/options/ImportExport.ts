@@ -17,8 +17,7 @@ export default class ImportExport {
 			const errorDetails = importStatusMessage.querySelector(".details");
 			const statusMessageSummary = importStatusMessage.querySelector("summary .label");
 
-			importStatusMessage.classList.remove("success");
-			importStatusMessage.classList.remove("error");
+			importStatusMessage.classList.remove("success", "error", "warning", "info");
 			statusMessageSummary.innerHTML = "";
 			errorDetails.innerHTML = "";
 
@@ -38,6 +37,7 @@ export default class ImportExport {
 						statusMessageSummary.innerHTML = `${icons.error} ${i18n.getMessage(
 							"options_import_error"
 						)}`;
+						console.error(error);
 						errorDetails.innerHTML = error.message;
 					}
 				})
