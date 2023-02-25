@@ -42,10 +42,11 @@
 
 	&__hider {
 		position: absolute;
-		top: 1px;
-		left: 0;
 		width: calc(var(--avatar-width) + 4px);
-		height: calc(var(--avatar-width) + 4px);
+		height: 27px;
+		top: 0;
+		left: -2px;
+		border-radius: 4px;
 		background-color: var(--highlight-color);
 		z-index: 1;
 	}

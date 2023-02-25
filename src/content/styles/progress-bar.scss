@@ -15,7 +15,7 @@
 
 	&__inner {
 		position: relative;
-		width: 0;
+		width: calc(var(--progress, 0) * 1%);
 		min-width: calc(1em);
 		display: block;
 		border-radius: 4px;
@@ -37,13 +37,17 @@
 	}
 
 	&__label {
+		display: inline-block;
 		line-height: 1em;
 		font-weight: bold;
 		font-size: 1rem;
-		transition: transform 500ms ease-in-out;
-		transform: translateX(0);
-		display: block;
+		transition: all 500ms ease-in-out;
+		transform: translateX(140%);
 
+		.lb-progress-bar__inner--large & {
+			transform: translateX(0);
+		}
+		
 		.lb-block-page & {
 			opacity: 0;
 			visibility: hidden;
