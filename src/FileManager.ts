@@ -81,10 +81,18 @@ function isScreenName(value: string) {
 function validateScreenName(screenName: string): boolean {
 	const forbiddenCharacters = ["-", "}", "{", "[", "]", "$", "%", " ", "]"];
 	if (forbiddenCharacters.some((char) => screenName.includes(char))) {
+		// console.debug(
+		// 	`%cforbiden characters in: ${screenName}`,
+		// 	"background-color: OrangeRed; border-radius:2px;"
+		// );
 		return false;
 	}
 
-	if (/\s*/.test(screenName)) {
+	if (/\s/.test(screenName)) {
+		// console.log(
+		// 	`%ccontains whitespace: ${screenName}`,
+		// 	"background-color: OrangeRed; border-radius:2px;"
+		// );
 		return false;
 	}
 
