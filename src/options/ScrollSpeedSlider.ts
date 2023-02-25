@@ -2,7 +2,6 @@ import settings from "../settings";
 import Storage from "../Storage";
 import "./block-speed-slider.scss";
 
-// Scroll speed elements:
 const scrollSpeedSlider = document.querySelector("#scrollSpeed") as HTMLInputElement;
 const scrollSpeedValueDisplay = scrollSpeedSlider?.parentElement.querySelector(
 	".setting__value"

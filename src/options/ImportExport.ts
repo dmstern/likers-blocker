@@ -5,7 +5,6 @@ import "./import-export.scss";
 
 export default class ImportExport {
 	static init() {
-		// Import / export elements:
 		const importListButton = document.querySelector("#importBlockList");
 		const downloadButton = document.querySelector("#downloadBlockList") as HTMLAnchorElement;
 		const importStatusMessage = document.querySelector("#importStatusMessage");
@@ -29,14 +28,23 @@ export default class ImportExport {
 					statusMessageSummary.innerHTML = `${icons.checkmark} ${i18n.getMessage(
 						"options_import_success"
 					)}`;
-					setTimeout(() => {
-						importStatusMessage.classList.remove("success");
-					}, 5000);
 				})
-				.catch((error) => {
-					importStatusMessage.classList.add("error");
-					statusMessageSummary.innerHTML = `${icons.error} ${i18n.getMessage("options_import_error")}`;
-					errorDetails.innerHTML = error;
+				.catch((error: Error) => {
+					if (error.message === "empty") {
+						importStatusMessage.classList.add("warning");
+						statusMessageSummary.innerHTML = `${icons.warn} ${i18n.getMessage("options_import_empty")}`;
+					} else {
+						importStatusMessage.classList.add("error");
+						statusMessageSummary.innerHTML = `${icons.error} ${i18n.getMessage(
+							"options_import_error"
+						)}`;
+						errorDetails.innerHTML = error.message;
+					}
+				})
+				.finally(() => {
+					setTimeout(() => {
+						importStatusMessage.classList.remove("success", "warning", "info");
+					}, 5000);
 				});
 		});
 
