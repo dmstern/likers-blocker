@@ -190,11 +190,11 @@
 		"description": "New Release icon title"
 	},
 	"options_export": {
-		"message": "Blockliste exportieren",
+		"message": "Blockliste exportieren:",
 		"description": "Label for the export button in the options page."
 	},
 	"options_import": {
-		"message": "Blockliste importieren",
+		"message": "Blockliste importieren:",
 		"description": "Heading for the import button in the options page."
 	},
 	"options_download": {
