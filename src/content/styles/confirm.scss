@@ -32,15 +32,6 @@
 	--border-color: transparent;
 	--icon-spacing: .5rem;
 
-	body.lb-block-page &,
-	body.lb-retweets-page & {
-		margin-top: 3rem;
-	}
-
-	body.many & {
-		padding: 0 1.3em !important;
-	}
-
 	// Label wrapper:
 	> div > span {
 		display: flex;
@@ -76,12 +67,12 @@
 		}
 	}
 
-	&--clicked {
+	.lb-confirmed & {
 		--color: #{$color-success};
 		--border-color: #{$color-success};
 		--background-color: transparent;
 
-		animation: move-up 1s ease-in-out 2s forwards;
+		animation: move-up 2.5s ease 2400ms forwards;
 
 		.lb-icon--check {
 			opacity: 1;
@@ -102,10 +93,31 @@
 			transform: translateX(100%);
 		}
 	}
+
+	body.lb-block-page &,
+	body.lb-retweets-page & {
+		margin-top: 3rem;
+	}
+
+	body.many & {
+		padding: 0 1.3em !important;
+	}
 }
 
 @keyframes move-up {
-	to {
-		margin-top: -1rem;
+	0% {
+		margin-top: 0;
+	}
+
+	40% {
+		margin-top: -14px;
+	}
+
+	60% {
+		margin-top: -14px;
+	}
+
+	100% {
+		margin-top: 0;
 	}
 }
