@@ -36,7 +36,7 @@
 		bottom: 4px;
 		margin: 0 !important;
 		transform: rotate(calc((var(--block-speed) / var(--block-speed-max, 60)) * 220deg));
-		transition: all 600ms ease;
+		transition: all 150ms linear;
 		transform-origin: 49% 64%;
 	}
 }
