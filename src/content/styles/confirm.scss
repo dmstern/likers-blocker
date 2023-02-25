@@ -81,6 +81,8 @@
 		--border-color: #{$color-success};
 		--background-color: transparent;
 
+		animation: move-up 1s ease-in-out 2s forwards;
+
 		.lb-icon--check {
 			opacity: 1;
 			visibility: visible;
@@ -99,5 +101,11 @@
 			width: 0;
 			transform: translateX(100%);
 		}
+	}
+}
+
+@keyframes move-up {
+	to {
+		margin-top: -1rem;
 	}
 }
