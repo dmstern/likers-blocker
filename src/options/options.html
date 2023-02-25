@@ -20,15 +20,26 @@
 		</div>
 
 		<div class="setting__content">
-			<button class="btn" id="importBlockList">
-				<span data-icon="import"></span>
-				<span data-label="options_import">Import Blocklist</span>
-			</button>
 
-			<a class="btn" id="downloadBlockList" role="button">
-				<span data-icon="download"></span>
-				<span data-label="options_export">Export Blocklist</span>
-			</a>
+			<div class="import-export__import">
+				<div class="label">
+					<span data-icon="import"></span>
+					<span data-label="options_import">Import Blocklist</span>
+				</div>
+				<input type="file" accept="csv" id="importBlockList">
+			</div>
+
+			<div class="import-export__export">
+				<div class="label">
+					<span data-icon="export"></span>
+					<span data-label="options_export">Export Blocklist</span>
+				</div>
+				<a class="btn" id="downloadBlockList" role="button">
+					<span data-icon="download"></span>
+					<span data-label="options_download">Download</span>
+				</a>
+			</div>
+
 		</div>
 
 		<details class="setting__status-message" id="importStatusMessage">

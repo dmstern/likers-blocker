@@ -1,14 +1,37 @@
 @import "../sass-commons/variables";
+@import "../sass-commons/button";
 
 .import-export {
+	input[type="file"] {
+		cursor: pointer;
+
+		&::file-selector-button  {
+			@include button;
+		}
+	}
+
+	&__import,
+	&__export {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		justify-content: flex-end;
+
+		.label {
+			font-weight: bold;
+			margin-bottom: 1rem;
+		}
+	}
+
+	&__import {
+		.label {
+			align-self: flex-start;
+		}
+	}
+
 	&__buttons {
 		display: flex;
 		justify-content: space-between;
-	}
-
-	.btn {
-		font-size: 16px;
-		font-family: $font-family;
 	}
 
 	&__include-old {
