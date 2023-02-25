@@ -206,12 +206,16 @@
 		"description": "Label for the import button in the options page."
 	},
 	"options_import_success": {
-		"message": "Block list with $count$ users successfully imported. Processing queue...",
+		"message": "Block list with $count$ users successfully imported. $added$ new were added to queue...",
 		"description": "Success message if the import was successful.",
 		"placeholders": {
       "count" : {
         "content" : "$1",
         "example" : "1000"
+      },
+      "added" : {
+        "content" : "$2",
+        "example" : "300"
       }
     }
 	},
