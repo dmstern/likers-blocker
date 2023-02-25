@@ -1,5 +1,6 @@
 .setting {
 	width: 100%;
+	margin: .5rem 0;
 
 	--hue: 100;
 
@@ -27,7 +28,7 @@
 	}
 
 	&__status-message {
-		--summary-offset: 0px;
+		--summary-offset: -2px;
 		--padding-vertical: 1rem;
 
 		display: flex;
@@ -43,13 +44,18 @@
 			margin-right: .5em;
 		}
 
-		summary .label {
-			display: inline-flex;
-			align-items: center;
-			transform: translateY(var(--summary-offset));
-
-			svg {
-				margin-right: .5em;
+		summary {
+		  display: flex;
+		  align-items: center;
+	
+			.label {
+				display: inline-flex;
+				align-items: center;
+				transform: translateY(var(--summary-offset));
+				
+				svg {
+					margin-right: .5em;
+				}
 			}
 		}
 

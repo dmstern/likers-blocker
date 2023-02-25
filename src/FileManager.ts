@@ -19,6 +19,10 @@ function usersToCSV(users: UserSet<BlockedUser>): string {
 }
 
 function parseCSV(csv: string): QueuedUser[] {
+	if (!csv) {
+		return [];
+	}
+
 	const rows = csv.split("\n");
 
 	return rows.map((row) => {
@@ -104,12 +108,17 @@ export default class FileManager {
 						console.info("Importing: ", text);
 
 						try {
-							const blockedAccounts = parseCSV(text);
+							const blockedAccounts: QueuedUser[] = parseCSV(text);
 							console.debug("⚙ parsed:", blockedAccounts);
-							await Storage.queueMulti(blockedAccounts);
-							resolve(blockedAccounts);
+
+							if (blockedAccounts.length) {
+								await Storage.queueMulti(blockedAccounts);
+								resolve(blockedAccounts);
+							} else {
+								reject(new Error("empty"));
+							}
 						} catch (error) {
-							reject(error);
+							reject({ level: "error", error });
 							console.error(error);
 						}
 					};
