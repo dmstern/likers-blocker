@@ -242,5 +242,13 @@
 	"options_reset": {
 		"message": "Reset settings",
 		"description": "Reset settings button label."
+	},
+	"options_clear": {
+		"message": "Clear all data",
+		"description": "Clear data button label"
+	},
+	"options_clear_hint": {
+		"message": "All user settings, block list, queue will be removed from your browser",
+		"description": "Clear extension data button hover hint"
 	}
 }

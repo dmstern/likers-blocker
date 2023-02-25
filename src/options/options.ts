@@ -1,3 +1,4 @@
+import { storage } from "webextension-polyfill";
 import Badge from "../Badge";
 import { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
@@ -21,6 +22,7 @@ import ScrollSpeedSlider from "./ScrollSpeedSlider";
 	});
 
 	const resetButton = document.querySelector("#resetButton");
+	const clearButton = document.querySelector("#clearButton");
 
 	if (resetButton) {
 		resetButton.addEventListener("click", async () => {
@@ -28,6 +30,12 @@ import ScrollSpeedSlider from "./ScrollSpeedSlider";
 			await Storage.remove(Key.scrollsPerMinute, false);
 			BlockSpeedSlider.init();
 			ScrollSpeedSlider.init();
+		});
+	}
+
+	if (clearButton) {
+		clearButton.addEventListener("click", async () => {
+			await storage.local.clear();
 		});
 	}
 })();
