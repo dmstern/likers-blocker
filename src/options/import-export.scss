@@ -9,7 +9,18 @@
 		font-family: $font-family;
 
 		&::file-selector-button  {
-			@include button;	
+			@include button;
+
+			box-shadow: $button-shadow;
+
+			&:hover {
+				background-color: $button-background-color-hover;
+				color: var(--color);
+				box-shadow: $button-shadow;
+
+				--shadow-width: 6px;
+				--shadow-distance: 2px;
+			}
 		}
 	}
 

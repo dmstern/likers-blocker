@@ -1,5 +1,5 @@
 @mixin button {
-	border: 1.5px solid var(--border-color);
+	border: 2px solid var(--border-color);
 	font-size: 16px;
 	border-radius: 7px;
 	padding: 0.7em;
@@ -11,10 +11,18 @@
 	color: inherit;
 	transition: all ease 300ms;
 	background-color: $button-background-color;
+	cursor: pointer;
+	box-shadow: $button-shadow;
+
+	--shadow-width: 0;
+	--shadow-distance: 0;
 
 	&.disabled {
 		opacity: .7;
 		cursor: default;
+
+		--shadow-width: 0;
+		--shadow-distance: 0;
 
 		&:hover {
 			color: var(--color);
@@ -22,13 +30,12 @@
 	}
 
 	&:not(.disabled) {
-		cursor: pointer;
-		
 		&:hover {
 			background-color: $button-background-color-hover;
 			color: var(--color);
 
-			--icon-color: var(--color--twitter-brand);
+			--shadow-width: 6px;
+			--shadow-distance: 2px;
 		}
 	}
 

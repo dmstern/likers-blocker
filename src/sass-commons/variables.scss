@@ -3,3 +3,4 @@ $background-color: var(--background-color);
 $button-background-color: transparent;
 $button-background-color-hover: var(--background-color--hover);
 $range-width: 100px;
+$button-shadow: 0 var(--shadow-distance) var(--shadow-width) hsl(0deg 0% 0% / 40%);
