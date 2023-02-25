@@ -242,5 +242,13 @@
 	"options_reset": {
 		"message": "Auf Standardeinstellungen zurücksetzen",
 		"description": "Reset settings button label."
+	},
+	"options_clear": {
+		"message": "Alle Daten löschen",
+		"description": "Clear data button label"
+	},
+	"options_clear_hint": {
+		"message": "Alle Einstellungen, Blocklisten & Wartenschlange werden aus deinem Browser gelöscht.",
+		"description": "Clear extension data button hover hint"
 	}
 }

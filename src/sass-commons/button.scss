@@ -1,6 +1,6 @@
 .btn {
 	border: 1.5px solid var(--border-color);
-	font-size: 1rem;
+	font-size: 16px;
 	border-radius: 7px;
 	padding: 0.7em;
 	margin-right: 0.5em;
@@ -32,12 +32,27 @@
 		}
 	}
 
+	&--danger {
+		--icon-color: var(--color--error);
+		
+		&:not(.disabled):hover {
+			background: var(--color--error);
+			color: var(--color-light);
+
+			--icon-color: currentcolor;
+		}
+	}
+
 	svg {
 		margin-right: 0.5em;
 	}
-
+	
 	&--icon-only svg {
 		margin: 0;
+	}
+
+	span + svg {
+		margin-left: .5em;
 	}
 
 	&--options {
