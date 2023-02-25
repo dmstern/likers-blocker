@@ -2,7 +2,7 @@ import { runtime, storage } from "webextension-polyfill";
 import Cookies from "./Cookies";
 import Messenger from "./Messages";
 import settings from "./settings";
-import { BlockedUser, QueuedUser, User, UserSet } from "./UserInfo";
+import { BlockedUser, QueuedUser, UserInfo, UserSet } from "./User";
 
 const date = new Date();
 
@@ -34,7 +34,7 @@ const values = {
 	today: parseInt(`${date.getFullYear()}${date.getMonth()}${date.getDate()}`),
 };
 
-type StorageValue = boolean | number | string | User | User[] | BlockedUser[] | QueuedUser[];
+type StorageValue = boolean | number | string | UserInfo | UserInfo[] | BlockedUser[] | QueuedUser[];
 
 export default class Storage {
 	private static async prefix(key: Key) {
@@ -114,12 +114,12 @@ export default class Storage {
 		this.set(Key.acceptedLanguage, value);
 	}
 
-	static async getUserInfo(): Promise<User> {
-		const userInfo = (await this.get(Key.userInfo)) as User;
-		return new Promise<User>((resolve) => resolve(userInfo));
+	static async getUserInfo(): Promise<UserInfo> {
+		const userInfo = (await this.get(Key.userInfo)) as UserInfo;
+		return new Promise<UserInfo>((resolve) => resolve(userInfo));
 	}
 
-	static setUserInfo(userInfo: User) {
+	static setUserInfo(userInfo: UserInfo) {
 		if (userInfo.errors) {
 			return;
 		}
@@ -261,8 +261,22 @@ export default class Storage {
 
 	static async addBlocked(user: QueuedUser) {
 		const blocked = await this.getBlockedAccounts();
-		const { screen_name, interacted_with } = user;
-		blocked.add({ screen_name, interacted_with });
+		const blockedUser: BlockedUser = {};
+
+		if (user.screen_name) {
+			blockedUser.screen_name = user.screen_name;
+		}
+
+		if (user.id) {
+			blockedUser.id = user.id;
+		}
+
+		if (user.interacted_with) {
+			blockedUser.interacted_with = user.interacted_with;
+		}
+
+		blocked.add(blockedUser);
+		console.log(`%c${blocked.toArray()}`, "background: RedOrange");
 		this.set(Key.blockedAccounts, blocked.toArray());
 	}
 

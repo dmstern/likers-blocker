@@ -22,14 +22,34 @@ function parseCSV(csv: string): QueuedUser[] {
 	const rows = csv.split("\n");
 
 	return rows.map((row) => {
-		const [screen_name, interacted_with] = row.split(",");
+		const [firstColumn, secondColumn] = row.split(",");
+		let interacted_with = "";
+		let id: string;
+		let screen_name = "";
+
+		// Compatibility with RedBlock exports (fist column is the id):
+		if (isScreenName(firstColumn)) {
+			screen_name = firstColumn;
+		} else {
+			id = firstColumn;
+		}
+
+		if (secondColumn && secondColumn.startsWith("https://twitter.com")) {
+			interacted_with = secondColumn.replace("https://twitter.com", "");
+		}
+
+		const baseUser = id ? { id } : { screen_name };
 
 		return {
-			screen_name,
-			interacted_with: interacted_with.replace("https://twitter.com", ""),
+			...baseUser,
+			interacted_with,
 			profile_image_url_https: "",
 		};
 	});
+}
+
+function isScreenName(value: string) {
+	return /\D/.test(value);
 }
 
 export default class FileManager {
@@ -85,11 +105,12 @@ export default class FileManager {
 
 						try {
 							const blockedAccounts = parseCSV(text);
+							console.debug("⚙ parsed:", blockedAccounts);
 							await Storage.queueMulti(blockedAccounts);
 							resolve(blockedAccounts);
 						} catch (error) {
 							reject(error);
-							console.log(error);
+							console.error(error);
 						}
 					};
 

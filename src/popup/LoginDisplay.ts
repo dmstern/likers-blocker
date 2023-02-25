@@ -1,11 +1,11 @@
 import Messenger from "../Messages";
 import settings from "../settings";
 import Storage from "../Storage";
-import { User } from "../UserInfo";
+import { UserInfo } from "../UserInfo";
 
 export default class LoginDisplay {
 	private main: HTMLElement;
-	private userInfo: User | undefined;
+	private userInfo: UserInfo | undefined;
 
 	constructor() {
 		this.init();

@@ -1,26 +1,24 @@
-export interface User {
-	screen_name: string;
+export interface UserInfo {
+	screen_name?: string;
 	profile_image_url_https?: string;
 	id?: number;
 	errors?: { code: number; message: string }[];
 }
 
-export interface BlockedUser {
-	screen_name: string;
-	interacted_with: string;
+interface AbstractUser {
+	screen_name?: string;
+	id?: string;
 }
 
-export interface QueuedUser {
-	screen_name: string;
-	profile_image_url_https: string;
-	interacted_with: string;
+export interface BlockedUser extends AbstractUser {
+	interacted_with?: string;
 }
 
-export interface AbstractUser {
-	screen_name: string;
+export interface QueuedUser extends BlockedUser {
+	profile_image_url_https?: string;
 }
 
-export class UserSet<UserType extends User | BlockedUser | QueuedUser> {
+export class UserSet<UserType extends AbstractUser> {
 	private users: UserType[];
 
 	constructor(users?: UserType[]) {
@@ -36,7 +34,11 @@ export class UserSet<UserType extends User | BlockedUser | QueuedUser> {
 	}
 
 	add(user: UserType): boolean {
-		if (this.find(user)) {
+		if (!user.id && !user.screen_name) {
+			return false;
+		}
+
+		if (this.has(user)) {
 			return false;
 		}
 
@@ -73,8 +75,14 @@ export class UserSet<UserType extends User | BlockedUser | QueuedUser> {
 		return this.users;
 	}
 
-	find(user: AbstractUser): UserType | undefined {
-		return this.users.find((item) => item.screen_name === user.screen_name);
+	private find(user: AbstractUser): UserType | undefined {
+		return this.users.find((item) => {
+			if (item.screen_name) {
+				return item.screen_name === user.screen_name;
+			} else if (item.id) {
+				return item.id === user.id;
+			}
+		});
 	}
 
 	has(user: AbstractUser): boolean {
