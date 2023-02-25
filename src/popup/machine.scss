@@ -139,7 +139,7 @@
 		border-radius: 50%;
 		width: 14px;
 		height: 14px;
-		border: 1px solid currentcolor;
+		border: 1px solid hsla(0deg 0% 100% / 50%);
 		bottom: 36px;
 		right: 10px;
 		transition: transform linear var(--run-duration), bottom linear var(--run-duration) var(--run-duration);
