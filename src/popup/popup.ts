@@ -7,6 +7,7 @@ import BlockMachine from "./BlockMachine";
 import BlockSpeedometer from "./BlockSpeedometer";
 import LoginDisplay from "./LoginDisplay";
 import "./popup.scss";
+import Status from "./Stats";
 import Stats from "./Stats";
 
 function alignRightButtons() {
@@ -30,12 +31,7 @@ function alignRightButtons() {
 	new LoginDisplay();
 	new BlockSpeedometer();
 
-	let stats: Stats;
-	Stats.init().then((instance) => {
-		stats = instance;
-		stats.update();
-	});
-
+	Status.update();
 	BlockMachine.init();
 
 	const optionsButton = document.querySelector("#options");
@@ -45,7 +41,7 @@ function alignRightButtons() {
 
 	Messenger.onQueueUpdate(async ({ dequeuedUser, queueLength }) => {
 		console.debug("📫 Popup: QueueUpdate Message");
-		stats.update();
+		Stats.update();
 
 		if (dequeuedUser) {
 			BlockMachine.runAnimation();
