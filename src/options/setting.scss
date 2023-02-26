@@ -27,6 +27,10 @@
 		}
 	}
 
+	&.reset {
+		padding-bottom: 1rem;
+	}
+
 	&__status-message {
 		--summary-offset: -2px;
 		--padding-vertical: 1rem;
