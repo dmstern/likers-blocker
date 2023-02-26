@@ -1,15 +1,21 @@
 import Storage from "../Storage";
 
 export default class Status {
-	queueLength: number;
-	blockedLength: number;
-	blockListNode: HTMLElement;
-	queueListNode: HTMLElement;
-	main: HTMLElement;
-	blockListLabel: HTMLElement;
-	queueListLabel: HTMLElement;
+	static queueLength: number;
+	static blockedLength: number;
+	static blockListNode: HTMLElement;
+	static queueListNode: HTMLElement;
+	static main: HTMLElement;
+	static blockListLabel: HTMLElement;
+	static queueListLabel: HTMLElement;
 
-	private constructor(queueLength: number, blockedLength: number) {
+	private static async init() {
+		// Values:
+		const queue = await Storage.getQueue();
+		const blockedAccounts = await Storage.getBlockedAccounts();
+		const queueLength = queue.size || 0;
+		const blockedLength = blockedAccounts.size || 0;
+
 		this.queueLength = queueLength;
 		this.blockedLength = blockedLength;
 
@@ -20,17 +26,8 @@ export default class Status {
 		this.queueListLabel = this.queueListNode.parentElement;
 	}
 
-	static async init(): Promise<Status> {
-		// Values:
-		const queue = await Storage.getQueue();
-		const blockedAccounts = await Storage.getBlockedAccounts();
-		const queueLength = queue.size || 0;
-		const blockedLength = blockedAccounts.size || 0;
-
-		return new Promise((resolve) => resolve(new Status(queueLength, blockedLength)));
-	}
-
-	async update() {
+	static async update() {
+		await this.init();
 		const hasQueue = this.queueLength > 0;
 		const hasBlocked = this.blockedLength > 0;
 
