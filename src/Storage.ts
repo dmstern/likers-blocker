@@ -231,6 +231,8 @@ export default class Storage {
 	 */
 	static async queueMulti(users: QueuedUser[]): Promise<number> {
 		const queue: UserSet<QueuedUser> = await this.getQueue();
+
+		// Avoid adding already blocked accounts to queue:
 		const blockedAccounts: UserSet<BlockedUser> = await this.getBlockedAccounts();
 		const newUsers = users.filter((user) => !blockedAccounts.has(user));
 		const addedUsersCount: number = queue.merge(newUsers);
