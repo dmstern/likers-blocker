@@ -25,7 +25,6 @@ export default class AccountCollector {
 	private popupWrapper: HTMLElement;
 	private scrollInterval: number;
 	private topbar: HTMLElement | null | undefined;
-	private cachedTweedId: string;
 
 	private constructor() {
 		this.collectedUsers = new UserSet();
@@ -483,7 +482,7 @@ export default class AccountCollector {
 		confirmButton.title = i18n.getMessage(confirmTitle);
 		confirmButton.style.backgroundColor = "var(--background-color)";
 		confirmButton.style.color = "var(--color)";
-		areaWrapper.appendChild(confirmButton);
+		this.popup.appendChild(confirmButton);
 
 		if (!this.isLegacyTwitter && !isBlockExportPage) {
 			confirmButton.querySelector("div > span")?.remove();
@@ -500,38 +499,53 @@ export default class AccountCollector {
 		confirmButtonIconSvg && confirmButtonLabel?.parentElement?.append(confirmButtonIconSvg);
 
 		if (!isBlockExportPage) {
-			confirmButton.addEventListener(
-				"click",
-				() => {
-					this.addToQueue(confirmInfo, confirmButtonIcon, confirmButtonLabel, confirmButton);
-					this.popup.classList.add("lb-confirmed");
-				},
-				{
-					once: !isBlockExportPage,
-				}
-			);
+			confirmButton.addEventListener("click", () => {
+				this.addToQueue(confirmInfo, confirmButtonIcon, confirmButtonLabel);
+				this.popup.classList.add("lb-confirmed");
+			});
 		}
 
+		await this.createConfirmCloseButton(confirmButton);
 		return areaWrapper;
+	}
+
+	async createConfirmCloseButton(confirmButton: HTMLAnchorElement) {
+		const confirmCloseButton = confirmButton.cloneNode(true) as HTMLElement;
+		confirmCloseButton.classList.add("lb-confirm-button--done");
+		this.popup.appendChild(confirmCloseButton);
+
+		console.log(confirmCloseButton);
+
+		const confirmCloseButtonLabel = this.isLegacyTwitter
+			? confirmCloseButton
+			: (confirmCloseButton.querySelector("div > span > span") as HTMLElement);
+
+		confirmCloseButtonLabel.innerText = i18n.getMessage("ui_confirm_button_label");
+		const confirmCloseButtonIcon = document.createElement("span");
+		confirmCloseButtonIcon.innerHTML = icons.check;
+		const confirmCloseButtonIconSvg = confirmCloseButtonIcon.querySelector("svg");
+		confirmCloseButtonIconSvg &&
+			confirmCloseButtonLabel?.parentElement?.append(confirmCloseButtonIconSvg);
+		confirmCloseButton.addEventListener("click", async () => {
+			await this.closePopup();
+		});
 	}
 
 	private async addToQueue(
 		confirmInfo: HTMLElement,
 		confirmButtonIcon: HTMLElement,
-		confirmButtonLabel: HTMLElement,
-		confirmButton: HTMLElement
+		confirmButtonLabel: HTMLElement
 	) {
-		await Storage.queueMulti(this.collectedUsers.toArray());
-		confirmInfo.innerHTML = `<p>${i18n.getMessage("ui_confirm_clicked")}</p>`;
-		confirmButtonIcon.innerHTML = icons.check;
-		confirmButtonLabel.innerText = i18n.getMessage("ui_confirm_button_label");
+		const addedCount = await Storage.queueMulti(this.collectedUsers.toArray());
+		confirmInfo.innerHTML = `<p>${i18n.getMessage("ui_confirm_clicked", [addedCount.toString()])}</p>`;
 
 		const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
 		confirmButtonIconSvg && confirmButtonLabel?.parentElement?.prepend(confirmButtonIconSvg);
 
-		confirmButton.addEventListener("click", async () => {
-			await this.closePopup();
-		});
+		const addedCountLabel = document.createElement("div");
+		addedCountLabel.classList.add("lb-added-count-label");
+		addedCountLabel.innerHTML = `+${addedCount}`;
+		this.popup.append(addedCountLabel);
 	}
 
 	private async createConfirmMessageElement() {
