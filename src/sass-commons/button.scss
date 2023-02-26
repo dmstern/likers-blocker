@@ -1,5 +1,6 @@
 @mixin button {
 	border: 2px solid var(--button-border-color);
+	font-family: $font-family;
 	font-size: 16px;
 	border-radius: 7px;
 	padding: $button-padding;
@@ -13,6 +14,10 @@
 	background-color: $button-background-color;
 	cursor: pointer;
 	box-shadow: $button-shadow;
+
+	&:last-child {
+		margin-right: 0;
+	}
 
 	--shadow-width: 3px;
 	--shadow-distance: 2px;
@@ -48,7 +53,6 @@
 		
 		&:not(.disabled):hover {
 			background: var(--color--error);
-			color: var(--color--light);
 
 			--icon-color: currentcolor;
 		}
