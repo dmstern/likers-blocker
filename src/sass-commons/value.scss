@@ -1,5 +1,5 @@
 @mixin value {
-	background-color: rgb(160 160 160 / 30%);
+	background-color: var(--value-field-color);
 	border-radius: 4px;
 	padding: .5em 1em;
 	min-width: 5rem;
