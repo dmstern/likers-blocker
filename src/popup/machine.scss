@@ -37,9 +37,9 @@
 	height: var(--thickness);
   left: 50%;
 	bottom: 0;
-	color: var(--color-light);
 	opacity: .3;
 	transition: all 500ms ease;
+	color: var(--graphics-color);
 	
 	.has-queue:not(.blocker-sleeping) & {
 		opacity: 1;
@@ -139,7 +139,7 @@
 		border-radius: 50%;
 		width: 14px;
 		height: 14px;
-		border: 1px solid hsla(0deg 0% 100% / 50%);
+		border: 1px solid var(--border-color);
 		bottom: 36px;
 		right: 10px;
 		transition: transform linear var(--run-duration), bottom linear var(--run-duration) var(--run-duration);
