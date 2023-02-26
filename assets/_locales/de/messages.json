@@ -158,8 +158,14 @@
 		"description": "MouseOver text that will be shown when hovering the confirmation button."
 	},
 	"ui_confirm_clicked": {
-		"message": "Alles klar. Ich blocke dann mal... Das kann eine Weile dauern, da du sonst bei Überschreiten des Block-Limits ausgeloggt oder gesperrt werden könntest. Du findest die Warteschlange oben rechts unter dem Extension-Icon.",
-		"description": "Confirmation message that is shown after user confirmed the queueing of the collected users."
+		"message": "Alles klar, habe $added_count$ neue Accounts zur Warteschlange hinzugefügt. Das Blocken kann eine Weile dauern, da du sonst bei Überschreiten des Block-Limits ausgeloggt oder gesperrt werden könntest. Du findest die Warteschlange oben rechts unter dem Extension-Icon.",
+		"description": "Confirmation message that is shown after user confirmed the queueing of the collected users.",
+		"placeholders":{
+			"added_count": {
+				"content": "$1",
+				"example": "33"
+			}
+		}
 	},
 	"ui_confirm_button_label": {
 		"message": "Fertig.",

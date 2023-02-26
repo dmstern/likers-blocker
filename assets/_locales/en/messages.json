@@ -166,8 +166,14 @@
 		"description": "MouseOver text that will be shown when hovering the confirmation button."
 	},
 	"ui_confirm_clicked": {
-		"message": "OK. I'll block them... This will take some time to not to violate Twitter's block limits and risk logout or account suspension. You can find the blocking queue under the extension icon in the top right of your browser window.",
-		"description": "Confirmation message that is shown after user confirmed the queueing of the collected users."
+		"message": "OK. I'll block $added_count$ new accounts... This will take some time to not to violate Twitter's block limits and risk logout or account suspension. You can find the blocking queue under the extension icon in the top right of your browser window.",
+		"description": "Confirmation message that is shown after user confirmed the queueing of the collected users.",
+		"placeholders":{
+			"added_count": {
+				"content": "$1",
+				"example": "33"
+			}
+		}
 	},
 	"ui_confirm_button_label": {
 		"message": "Done.",
