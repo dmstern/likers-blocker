@@ -53,20 +53,6 @@ body {
 	color: var(--color);
 	margin-right: 17px;
 
-	@media (prefers-color-scheme: light) {
-		--highlight-color: var(--highlight-color);
-		--background-color: var(--background-color);
-		--button-background-color--hover: var(--button-background-color--hover);
-		--color: var(--color);
-		--color--decent: var(--color--decent);
-		--border-color: var(--border-color);
-		--button-border-color: var(--button-border-color);
-		--button-hover-color: var(--button-hover-color);
-		--graphics-color: var(--graphics-color);
-		--value-field-color: var(--value-field-color);
-		--colored-value--light: var(--colored-value--light);
-	}
-	
 	@media (prefers-color-scheme: dark) {
 		--background-color: var(--color--dark);
 		--color: var(--color--lighter);
