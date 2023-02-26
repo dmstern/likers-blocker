@@ -1,12 +1,13 @@
 .setting {
 	width: 100%;
-	margin: .5rem 0;
+	margin: 1rem 0;
 
 	--hue: 100;
 
 	&__content {
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 		width: 100%;
 		position: relative;
 	}
@@ -14,13 +15,17 @@
 	&__label {
 		flex-grow: 1;
 		justify-content: flex-start;
+
+		& >:first-child {
+			margin-top: 2px;
+		}
 	}
 
 	&__value {
 		@include value;
 
 		margin: 0 1rem;
-		margin-top: .5rem;
+		width: 6rem;
 
 		&--colored {
 			color: hsl(var(--hue) 90% var(--colored-value--light));
