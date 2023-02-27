@@ -1,4 +1,8 @@
+@import "./mixins";
+
 .lb-finish-button {
+	@include inherit-color-to-children;
+
 	border: none;
 	padding: var(--lb-close-button-padding);
 	cursor: pointer;
@@ -31,7 +35,6 @@
 	svg {
 		width: 1.8em;
 		height: 1.8em;
-		color: $color-4 !important;
 		margin-top: 2px;
 		opacity: 1;
 		visibility: visible;
