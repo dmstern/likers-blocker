@@ -38,7 +38,7 @@ export default class BlockSpeedSlider {
 			setBlocksPerMinuteValue(blocksPerMinute);
 		});
 
-		blockSpeedSlider.addEventListener("mouseup", () => {
+		blockSpeedSlider.addEventListener("mouseup", (event) => {
 			const value = (event.target as HTMLInputElement).value;
 			const blocksPerMinute = Number.parseInt(value);
 
