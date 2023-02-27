@@ -8,7 +8,7 @@
 	--color--gray-transparent: hsla(0deg 0% 50% / 30%);
 	--color--dark-transparent: hsl(0deg 0% 5% / 40%);
 	--color--light-dark: #404046;
-	--color--dark: #232327;
+	--color--dark: #23222B;
 	--color--success: #559730;
 	--color--error: #b51535;
 	--color--info: #318ce1;
@@ -54,7 +54,7 @@ body {
 	padding: var(--body-padding);
 	width: 550px;
 	height: auto;
-	background-color: $background-color;
+	background-color: var(--background-color);
 	color: var(--color);
 	margin-right: 17px;
 

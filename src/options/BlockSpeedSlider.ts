@@ -56,6 +56,11 @@ function setBlocksPerMinuteValue(value: number) {
 		.closest(".setting")
 		.querySelector(".setting__status-message") as HTMLElement;
 	const statusMessageLabel = statusMessage?.querySelector("[data-label]") as HTMLElement;
+
+	if (!statusMessageLabel) {
+		return;
+	}
+
 	statusMessageLabel.innerHTML = i18n.getMessage(
 		statusMessageLabel.dataset.label,
 		settings.BLOCKS_PER_MINUTE_DANGER_ZONE.toString()

@@ -238,8 +238,12 @@
 		"description": "Error message if the import failed."
 	},
 	"options_include_previously_blocked": {
-		"message": "Include also previously (without LikersBlocker) blocked accounts",
-		"description": "Checkbox label: include previously blocked accounts without LikersBlocker."
+		"message": "Include also previously blocked accounts",
+		"description": "Link label: include previously blocked accounts without LikersBlocker."
+	},
+	"options_include_previously_blocked_hint": {
+		"message": "Lets you collect and download a list of all previously (without Likers Blocker) blocked accounts.",
+		"description": "Link explanation (mouse over text): include previously blocked accounts without LikersBlocker."
 	},
 	"options_block_speed": {
 		"message": "Block speed in bpm",

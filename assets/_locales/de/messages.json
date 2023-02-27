@@ -233,6 +233,10 @@
 		"message": "Alle bereits geblockten Accounts einschließen",
 		"description": "Checkbox label: include previously blocked accounts without LikersBlocker."
 	},
+	"options_include_previously_blocked_hint": {
+		"message": "Damit kannst du in deinen Twitter-Einstellungen alle vormals (ohne LikersBlocker) geblockten Accounts einsammeln und herunterladen.",
+		"description": "Link explanation (mouse over text): include previously blocked accounts without LikersBlocker."
+	},
 	"options_block_speed": {
 		"message": "Blockiergeschwindigkeit",
 		"description": "Options label: block speed"

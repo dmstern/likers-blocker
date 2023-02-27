@@ -1,3 +1,5 @@
+@import "../sass-commons/media-queries";
+
 .setting {
 	width: 100%;
 	margin: 1rem 0;
@@ -10,14 +12,34 @@
 		align-items: center;
 		width: 100%;
 		position: relative;
+
+		@include small-screen {
+			flex-direction: column;
+			align-items: flex-start;
+		}
 	}
 
 	&__label {
 		flex-grow: 1;
 		justify-content: flex-start;
 
+		@include small-screen {
+			margin-bottom: 1rem;
+		}
+
 		& >:first-child {
 			margin-top: 2px;
+		}
+	}
+
+	&__value-wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		position: relative;
+
+		@include small-screen {
+			width: 100%;
 		}
 	}
 
@@ -31,6 +53,10 @@
 		&--colored {
 			color: hsl(var(--hue) 90% var(--colored-value--light));
 			box-shadow: $button-shadow;
+		}
+
+		@include small-screen {
+			margin: 0;
 		}
 	}
 

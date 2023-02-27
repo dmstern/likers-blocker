@@ -1,3 +1,5 @@
+@import "./media-queries";
+
 @mixin button {
 	border: 2px solid var(--button-border-color);
 	font-family: $font-family;
@@ -13,6 +15,12 @@
 	transition: all ease 300ms;
 	background-color: $button-background-color;
 	cursor: pointer;
+	white-space: nowrap;
+	max-width: 100%;
+
+	@include small-screen {
+		margin-bottom: .5rem;
+	}
 
 	&:last-child {
 		margin-right: 0;
