@@ -1,0 +1,5 @@
+@mixin inherit-color-to-children {
+	* {
+		color: inherit !important;
+	}
+}

@@ -1,3 +1,5 @@
+@import "./mixins";
+
 .lb-block-button {
 	--background-color: transparent;
 	--color: var(--highlight-color);
@@ -5,16 +7,14 @@
 
 	margin-right: 0 !important;
 
+	@include inherit-color-to-children;
+
 	@media (min-width: 620px) AND (max-width: 698px) {
 		margin-right: 6px !important;
 	}
 
 	@media (max-width: 621px) {
 		margin-right: 3px !important;
-	}
-
-	* {
-		color: $color-4 !important;
 	}
 
 	svg {

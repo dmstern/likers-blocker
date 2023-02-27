@@ -1,4 +1,8 @@
+@import "./mixins";
+
 .lb-close-button {
+	@include inherit-color-to-children;
+
 	border: none;
 	padding: var(--lb-close-button-padding);
 	cursor: pointer;
@@ -16,7 +20,6 @@
 	svg {
 		width: 1.5em;
 		height: 1.5em;
-		color: $color-4 !important;
 	}
 
 	&:not(:hover) {
