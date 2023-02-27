@@ -1,5 +1,6 @@
 .block-speedometer {
 	display: none;
+	cursor: pointer;
 	
 	.has-queue & {
 		display: inline-flex;
