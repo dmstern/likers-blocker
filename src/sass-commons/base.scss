@@ -1,14 +1,14 @@
 :root {
 	// color values:
 	--color--extra-light: hsl(0deg 0% 95%);
-	--color--extra-light-transparent: hsl(0deg 0% 71% / 64%);
-	--color--extra-light-extra-transparent: hsl(0deg 0% 71% / 20%);
-	--color--dark-transparent: hsl(0deg 0% 5% / 40%);
 	--color--light: #d2d3dd;
 	--color--lighter: #dfe0e7;
-	--color--dark: #232327;
-	--color--light-dark: #404046;
+	--color--extra-light-transparent: hsl(0deg 0% 71% / 64%);
+	--color--extra-light-extra-transparent: hsl(0deg 0% 71% / 20%);
 	--color--gray-transparent: hsla(0deg 0% 50% / 30%);
+	--color--dark-transparent: hsl(0deg 0% 5% / 40%);
+	--color--light-dark: #404046;
+	--color--dark: #232327;
 	--color--success: #559730;
 	--color--error: #b51535;
 	--color--info: #318ce1;
