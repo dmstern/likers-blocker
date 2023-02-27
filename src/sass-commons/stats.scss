@@ -13,6 +13,10 @@
 
 		display: inline-block;
 		margin-top: 1rem;
+
+		.active & {
+			box-shadow: $button-shadow;
+		}
 	}
 
 	&__queue,
