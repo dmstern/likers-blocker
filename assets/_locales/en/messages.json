@@ -88,7 +88,7 @@
 		"description": "Label of the blocklist counter"
 	},
 	"popup_block_speed": {
-		"message": "Block speed: $bpm$ bpm:",
+		"message": "Block speed: $bpm$ bpm",
 		"description": "Label of the block speed display in the popup window.",
 		"placeholders": {
       "bpm" : {
