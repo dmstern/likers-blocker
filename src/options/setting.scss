@@ -26,9 +26,11 @@
 
 		margin: 0 1rem;
 		width: 6rem;
+		box-shadow: none;
 
 		&--colored {
 			color: hsl(var(--hue) 90% var(--colored-value--light));
+			box-shadow: $button-shadow;
 		}
 	}
 
