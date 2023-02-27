@@ -2,5 +2,5 @@ $font-family: "Inter", "Roboto", "Ubuntu", "Arial", "Helvetica", sans-serif;
 $background-color: var(--background-color);
 $button-background-color: transparent;
 $range-width: 100px;
-$button-shadow: 0 var(--shadow-distance) var(--shadow-width) hsl(0deg 0% 5% / 40%);
+$button-shadow: 0 var(--shadow-distance) var(--shadow-width) var(--shadow-color);
 $button-padding: 0.7em;

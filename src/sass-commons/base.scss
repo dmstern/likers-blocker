@@ -3,6 +3,7 @@
 	--color--extra-light: hsl(0deg 0% 95%);
 	--color--extra-light-transparent: hsl(0deg 0% 71% / 64%);
 	--color--extra-light-extra-transparent: hsl(0deg 0% 71% / 20%);
+	--color--dark-transparent: hsl(0deg 0% 5% / 40%);
 	--color--light: #d2d3dd;
 	--color--lighter: #dfe0e7;
 	--color--dark: #232327;
@@ -27,10 +28,13 @@
 	--graphics-color: var(--color--light-dark);
 	--value-field-color: var(--color--extra-light-transparent);
 	--colored-value--light: 30%;
+	--shadow-color: var(--color--dark-transparent);
 
 	// other values:
 	--drive-way: 46px;
 	--body-padding: 1.5rem;
+	--shadow-width: 3px;
+	--shadow-distance: 2px;
 }
 
 * {
@@ -52,6 +56,11 @@ body {
 	background-color: $background-color;
 	color: var(--color);
 	margin-right: 17px;
+
+	@media (prefers-color-scheme: light) {
+		--value-field-color: var(--color--extra-light-extra-transparent);
+		--color--dark-transparent: hsl(0deg 0% 21.6% / 40%);
+	}
 
 	@media (prefers-color-scheme: dark) {
 		--background-color: var(--color--dark);
