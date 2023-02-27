@@ -5,9 +5,7 @@
 		display: inline-flex;
 	}
 
-	[data-label] span {
-		&:nth-child(2) {
-			color: hsl(var(--hue) 90% 50%);
-		}
+	&__label {
+		color: hsl(var(--hue) 90% 50%);
 	}
 }

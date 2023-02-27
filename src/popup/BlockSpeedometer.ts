@@ -22,7 +22,10 @@ export default class BlockSpeedometer {
 			if (blockSpeed > 0) {
 				label.innerHTML = labelText
 					.split(" ")
-					.map((word) => `<span>${word}</span>`)
+					.map(
+						(word) =>
+							`<span class="${/\d/.test(word) ? "block-speedometer__label" : ""}">${word}</span>`
+					)
 					.join("&nbsp;");
 				label.style.setProperty("--hue", `${(blockSpeed * 100) / -60 + 100} `);
 			} else {
