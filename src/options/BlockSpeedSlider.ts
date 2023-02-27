@@ -36,6 +36,12 @@ export default class BlockSpeedSlider {
 			const blocksPerMinute = Number.parseInt(value);
 
 			setBlocksPerMinuteValue(blocksPerMinute);
+		});
+
+		blockSpeedSlider.addEventListener("mouseup", () => {
+			const value = (event.target as HTMLInputElement).value;
+			const blocksPerMinute = Number.parseInt(value);
+
 			Storage.setBlocksPerMinute(blocksPerMinute);
 			Messenger.sendBlockSpeedUpdate();
 		});
