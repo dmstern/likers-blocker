@@ -1,5 +1,10 @@
+@import "./variables";
+
 @mixin value {
+	--shadow-distance: 1px;
+
 	background-color: var(--value-field-color);
+	box-shadow: $button-shadow;
 	border-radius: 4px;
 	padding: .5em 1em;
 	min-width: 5rem;
