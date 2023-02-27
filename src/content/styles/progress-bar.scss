@@ -11,7 +11,11 @@
 .lb-progress-bar {
 	width: 100%;
 	padding: 1rem 0;
-	color: $color-snow;
+	color: inherit;
+
+	.lb-check & {
+		color: $color-snow;
+	}
 
 	&__inner {
 		position: relative;
@@ -46,6 +50,7 @@
 
 		.lb-progress-bar__inner--large & {
 			transform: translateX(0);
+			color: $color-snow;
 		}
 		
 		.lb-block-page & {
