@@ -27,6 +27,7 @@ export default class FileManager {
 			url: downloadUrl,
 			conflictAction: "uniquify",
 			filename: filename,
+			saveAs: true,
 		});
 	}
 
