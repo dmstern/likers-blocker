@@ -13,7 +13,6 @@
 	transition: all ease 300ms;
 	background-color: $button-background-color;
 	cursor: pointer;
-	box-shadow: $button-shadow;
 
 	&:last-child {
 		margin-right: 0;
@@ -35,7 +34,9 @@
 		&:hover {
 			background-color: var(--button-background-color--hover);
 			color: var(--button-hover-color);
-
+			box-shadow: $button-shadow;
+			border-color: var(--button-hover-border-color);
+			
 			--shadow-width: 6px;
 			--shadow-distance: 2px;
 		}
