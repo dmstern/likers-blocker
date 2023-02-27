@@ -23,7 +23,8 @@
 	--color: var(--color--dark);
 	--color--decent: var(--color--light-dark);
 	--border-color: var(--color--gray-transparent);
-	--button-border-color: var(--color--extra-light-extra-transparent);
+	--button-border-color: var(--color--extra-light-transparent);
+	--button-hover-border-color: var(--color--extra-light-extra-transparent);
 	--button-hover-color: var(--color--extra-light);
 	--graphics-color: var(--color--light-dark);
 	--value-field-color: var(--color--extra-light-transparent);
@@ -70,6 +71,7 @@ body {
 		--button-background-color--hover: var(--highlight-color);
 		--border-color: var(--color--gray-transparent);
 		--button-border-color: var(--color--gray-transparent);
+		--button-hover-border-color: var(--color--gray-transparent);
 		--graphics-color: var(--color--light);
 		--value-field-color: var(--color--gray-transparent);
 		--colored-value--light: 50%;
