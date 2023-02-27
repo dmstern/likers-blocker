@@ -203,6 +203,10 @@
 		"message": "You installed the latest LikersBlocker version. 🎉 See what's new.",
 		"description": "New Release icon title"
 	},
+	"options_export": {
+		"message": "Export block list:",
+		"description": "Label for the export button in the options page."
+	},
 	"options_import": {
 		"message": "Import block list:",
 		"description": "Heading for the import button in the options page."
