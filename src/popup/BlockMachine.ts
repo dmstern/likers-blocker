@@ -1,5 +1,13 @@
+import { i18n } from "webextension-polyfill";
 import Storage from "../Storage";
 import settings from "../settings";
+import icons from "../icons";
+
+const classes = {
+	blockSuccess: "block--success",
+	blockFail: "block--fail",
+	unauthenticated: "unauthenticated",
+};
 
 export default class BlockMachine {
 	static async init() {
@@ -22,11 +30,25 @@ export default class BlockMachine {
 		});
 	}
 
-	static runAnimation() {
+	private static clearStateClasses() {
 		const main = document.querySelector("main");
-		main?.classList.remove("blocking");
+		Object.values(classes).forEach((cssClass) => main?.classList.remove(cssClass));
+	}
+
+	static runBlockAnimation() {
+		const main = document.querySelector("main");
+		if (!main) {
+			return;
+		}
+
+		this.clearStateClasses();
+
 		setTimeout(() => {
-			main.classList.add("blocking");
+			main.classList.add(classes.blockSuccess);
+			const trashLid = document.querySelector(".machine__trash .icon.trash-lid");
+			trashLid.addEventListener("animationend", () => {
+				main.classList.remove(classes.blockSuccess);
+			});
 		}, 1);
 
 		const avatars = document.querySelectorAll(".machine__avatar") as NodeListOf<HTMLElement>;
@@ -40,6 +62,32 @@ export default class BlockMachine {
 			index = index - 1;
 			setIndexToElement(avatar, index);
 		});
+	}
+
+	static runFailAnimation(response: Response) {
+		const main = document.querySelector("main");
+		if (!main) {
+			return;
+		}
+
+		this.clearStateClasses();
+		const errorSign = document.querySelector(".error-sign");
+		const trash = document.querySelector(".machine__trash");
+
+		setTimeout(() => {
+			main?.classList.add(classes.blockFail);
+			main?.classList.toggle(classes.unauthenticated, response.status === 401);
+
+			trash.addEventListener("animationend", () => {
+				main?.classList.remove(classes.blockFail);
+			});
+		}, 1);
+
+		if (response.status === 401) {
+			if (errorSign) {
+				errorSign.innerHTML = `${icons.warn}<span>${i18n.getMessage("popup_unauthenticated")}</span>`;
+			}
+		}
 	}
 }
 

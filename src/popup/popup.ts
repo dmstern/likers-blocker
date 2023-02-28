@@ -39,14 +39,18 @@ function alignRightButtons() {
 		runtime.openOptionsPage();
 	});
 
-	Messenger.onQueueUpdate(async ({ dequeuedUser, queueLength }) => {
+	Messenger.onQueueUpdate(async ({ queueLength }) => {
 		console.debug("📫 Popup: QueueUpdate Message");
 		Stats.update();
 
-		if (dequeuedUser) {
-			BlockMachine.runAnimation();
-		}
-
 		Badge.updateBadgeCount(queueLength);
+	});
+
+	Messenger.onBlock(({ success, response }) => {
+		if (success) {
+			BlockMachine.runBlockAnimation();
+		} else {
+			BlockMachine.runFailAnimation(response);
+		}
 	});
 })();

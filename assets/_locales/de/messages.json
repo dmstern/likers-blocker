@@ -79,6 +79,10 @@
 		"message": "Bereits geblockte Accounts:",
 		"description": "Label of the blocklist counter"
 	},
+	"popup_unauthenticated": {
+		"message": "Du wurdest ausgeloggt.",
+		"description": "Label of error sign when Twitter force-logged-out the user."
+	},
 	"popup_block_speed": {
 		"message": "Blockiergeschwindigkeit: $bpm$ BpM",
 		"description": "Label of the block speed display in the popup window.",
