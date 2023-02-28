@@ -35,15 +35,12 @@ export default class BlockMachine {
 	}
 
 	static runBlockAnimation() {
-		console.log("this.runBlockAnimation");
 		this.clearStateClasses();
 
 		setTimeout(() => {
-			console.log("setTimeout");
 			document.body.classList.add(classes.blockSuccess);
 			const trashLid = document.querySelector(".machine__trash .icon.trash-lid");
 			trashLid.addEventListener("animationend", () => {
-				console.log("animationend");
 				document.body.classList.remove(classes.blockSuccess);
 			});
 		}, 1);
