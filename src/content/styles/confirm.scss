@@ -23,11 +23,13 @@
 	padding: 0 2em !important;
 	text-decoration: none;
 	line-height: 1.3rem !important;
-	transition: all 1500ms ease-in-out;
 	min-height: 2.5rem;
 	position: absolute !important;
 	right: var(--lb-popup-padding);
 	bottom: 0;
+	transition-property: all !important;
+	transition-duration: 1500ms !important;
+	transition-timing-function: ease-in-out !important;
 
 	--color: #{$color-snow};
 	--background-color: var(--highlight-color);
