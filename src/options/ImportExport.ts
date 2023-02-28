@@ -13,6 +13,10 @@ export default class ImportExport {
 		// 	"#includePreviouslyBlocked"
 		// ) as HTMLInputElement;
 
+		importListButton?.addEventListener("click", () => {
+			document.body.classList.add("select-file");
+		});
+
 		importListButton?.addEventListener("change", (event) => {
 			const errorDetails = importStatusMessage.querySelector(".details");
 			const statusMessageSummary = importStatusMessage.querySelector("summary .label");
@@ -43,6 +47,8 @@ export default class ImportExport {
 					}
 				})
 				.finally(() => {
+					document.body.classList.remove("select-file");
+
 					setTimeout(() => {
 						importStatusMessage.classList.remove("success", "warning", "info");
 					}, 5000);
