@@ -1,7 +1,7 @@
 import { i18n } from "webextension-polyfill";
-import Storage from "../Storage";
-import settings from "../settings";
 import icons from "../icons";
+import settings from "../settings";
+import Storage from "../Storage";
 
 const classes = {
 	blockSuccess: "block--success",
@@ -31,23 +31,20 @@ export default class BlockMachine {
 	}
 
 	private static clearStateClasses() {
-		const main = document.querySelector("main");
-		Object.values(classes).forEach((cssClass) => main?.classList.remove(cssClass));
+		document.body.classList.remove(...Object.values(classes));
 	}
 
 	static runBlockAnimation() {
-		const main = document.querySelector("main");
-		if (!main) {
-			return;
-		}
-
+		console.log("this.runBlockAnimation");
 		this.clearStateClasses();
 
 		setTimeout(() => {
-			main.classList.add(classes.blockSuccess);
+			console.log("setTimeout");
+			document.body.classList.add(classes.blockSuccess);
 			const trashLid = document.querySelector(".machine__trash .icon.trash-lid");
 			trashLid.addEventListener("animationend", () => {
-				main.classList.remove(classes.blockSuccess);
+				console.log("animationend");
+				document.body.classList.remove(classes.blockSuccess);
 			});
 		}, 1);
 
@@ -64,26 +61,22 @@ export default class BlockMachine {
 		});
 	}
 
-	static runFailAnimation(response: Response) {
-		const main = document.querySelector("main");
-		if (!main) {
-			return;
-		}
-
+	static runFailAnimation(status: number) {
 		this.clearStateClasses();
 		const errorSign = document.querySelector(".error-sign");
 		const trash = document.querySelector(".machine__trash");
+		const isUnauthenticated = status === 401;
 
 		setTimeout(() => {
-			main?.classList.add(classes.blockFail);
-			main?.classList.toggle(classes.unauthenticated, response.status === 401);
+			document.body.classList.add(classes.blockFail);
+			document.body.classList.toggle(classes.unauthenticated, isUnauthenticated);
 
 			trash.addEventListener("animationend", () => {
-				main?.classList.remove(classes.blockFail);
+				document.body.classList.remove(classes.blockFail);
 			});
 		}, 1);
 
-		if (response.status === 401) {
+		if (isUnauthenticated) {
 			if (errorSign) {
 				errorSign.innerHTML = `${icons.warn}<span>${i18n.getMessage("popup_unauthenticated")}</span>`;
 			}

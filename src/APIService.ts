@@ -1,5 +1,5 @@
-import Storage from "./Storage";
 import Messenger from "./Messages";
+import Storage from "./Storage";
 import { QueuedUser } from "./User";
 const API_URL = "https://api.twitter.com/1.1/";
 
@@ -149,7 +149,7 @@ export default class APIService {
 			Storage.queue(user);
 		}
 
-		Messenger.sendBlock({ success: wasSuccessful, response });
+		await Messenger.sendBlock({ success: wasSuccessful, status: response.status });
 		return response;
 	}
 
