@@ -1,7 +1,10 @@
+import { QueuedUser } from "./../User";
 import { i18n } from "webextension-polyfill";
 import icons from "../icons";
 import settings from "../settings";
 import Storage from "../Storage";
+
+const loadAvatarsAtOnce = 14;
 
 const classes = {
 	blockSuccess: "block--success",
@@ -10,31 +13,33 @@ const classes = {
 };
 
 export default class BlockMachine {
+	static get accountsWrapper() {
+		return document.querySelector(".machine__accounts");
+	}
+
 	static async init() {
 		const queue = await Storage.getQueue();
-		const previewItemsInQueue = queue.toArray().slice(0, 50);
-		const accountsWrapper = document.querySelector(".machine__accounts");
-
-		if (!accountsWrapper) {
-			return;
-		}
-
+		const previewItemsInQueue = queue.toArray().slice(0, loadAvatarsAtOnce);
 		previewItemsInQueue.forEach((user, index) => {
-			const avatar = document.createElement("span");
-			const profileImgUrl = user.profile_image_url_https || settings.DEFAULT_PROFILE_IMG.mini;
-			avatar.style.backgroundImage = `url(${profileImgUrl.replace("normal", "mini")}`;
-			avatar.title = user.screen_name ? `@${user.screen_name}` : user.id.toString();
-			avatar.classList.add("machine__avatar");
-			setIndexToElement(avatar, index);
-			accountsWrapper.prepend(avatar);
+			this.renderAvatar(user, index);
 		});
+	}
+
+	private static renderAvatar(user: QueuedUser, index: number) {
+		const avatar = document.createElement("span");
+		const profileImgUrl = user.profile_image_url_https || settings.DEFAULT_PROFILE_IMG.mini;
+		avatar.style.backgroundImage = `url(${profileImgUrl.replace("normal", "mini")}`;
+		avatar.title = user.screen_name ? `@${user.screen_name}` : user.id.toString();
+		avatar.classList.add("machine__avatar");
+		setIndexToElement(avatar, index);
+		this.accountsWrapper.prepend(avatar);
 	}
 
 	private static clearStateClasses() {
 		document.body.classList.remove(...Object.values(classes));
 	}
 
-	static runBlockAnimation() {
+	static async runBlockAnimation() {
 		this.clearStateClasses();
 
 		setTimeout(() => {
@@ -56,6 +61,15 @@ export default class BlockMachine {
 			index = index - 1;
 			setIndexToElement(avatar, index);
 		});
+
+		await this.loadNextUserFromQueue();
+	}
+
+	private static async loadNextUserFromQueue() {
+		const queue = await Storage.getQueue();
+		const index = loadAvatarsAtOnce - 1;
+		const nextUser = queue.toArray().at(index);
+		this.renderAvatar(nextUser, index);
 	}
 
 	static runFailAnimation(status: number) {
