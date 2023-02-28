@@ -11,7 +11,7 @@
 		--divider-color: var(--border-color);
 
 		padding: 0;
-		max-width: 20.3rem;
+		max-width: 100%;
 
 		&::file-selector-button  {
 			font-family: $font-family;
@@ -34,7 +34,6 @@
 	&__export {
 		display: flex;
 		flex-direction: column;
-		align-items: flex-start;
 		justify-content: flex-end;
 		
 		@include small-screen {
@@ -49,6 +48,10 @@
 
 	&__import {
 		margin-right: .5rem;
+
+		@include medium-screen {
+			max-width: 59%;
+		}
 
 		.label {
 			align-self: flex-start;
@@ -71,6 +74,12 @@
 		align-items: center;
 		justify-content: flex-end;
 		margin-bottom: 1em;
+
+		@include small-screen {
+			a {
+				align-items: baseline;
+			}
+		}
 
 		svg {
 			margin-left: .5em;
