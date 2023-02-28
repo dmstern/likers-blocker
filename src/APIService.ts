@@ -1,4 +1,5 @@
 import Messenger from "./Messages";
+import Notification, { Notify } from "./Notification";
 import Storage from "./Storage";
 import { QueuedUser } from "./User";
 const API_URL = "https://api.twitter.com/1.1/";
@@ -129,7 +130,7 @@ export default class APIService {
 	// }
 
 	static async block(user: QueuedUser): Promise<Response | undefined> {
-		console.info(`⛔ blocking ${user.screen_name}...`);
+		console.info(`👊 blocking ${user.screen_name}...`);
 		const isAlreadyBlocked: boolean = (await Storage.getBlockedAccounts()).has(user);
 
 		if (isAlreadyBlocked) {
@@ -147,6 +148,10 @@ export default class APIService {
 		} else {
 			console.error("🛑 did not block", response);
 			Storage.queue(user);
+
+			if (response.status === 401) {
+				await Notification.push(Notify.unauthenticated);
+			}
 		}
 
 		await Messenger.sendBlock({ success: wasSuccessful, status: response.status });
