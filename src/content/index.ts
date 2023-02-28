@@ -1,5 +1,6 @@
 import Messenger from "../Messages";
 import Storage from "../Storage";
+import { tryToAccessDOM } from "../util";
 import AccountCollector from "./AccountCollector";
 import { injectFonts } from "./Fonts";
 import "./styles/index.scss";
@@ -13,8 +14,8 @@ import "./styles/index.scss";
 			return Promise.resolve({ userInfo });
 		}
 
-		const profileLink = document.querySelector("a[data-testid=AppTabBar_Profile_Link]");
-		const profileImg = document.querySelector(
+		const profileLink = await tryToAccessDOM("a[data-testid=AppTabBar_Profile_Link]");
+		const profileImg = await tryToAccessDOM(
 			'header[role="banner"] [data-testid^="UserAvatar-Container"] div img'
 		);
 

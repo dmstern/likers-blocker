@@ -1,23 +1,28 @@
+import { tabs } from "webextension-polyfill";
 import Messenger from "../Messages";
 import settings from "../settings";
 import Storage from "../Storage";
 import { UserInfo } from "../User";
+
+const timeToLoadTwitter = 5000;
 
 export default class LoginDisplay {
 	private main: HTMLElement;
 	private userInfo: UserInfo | undefined;
 
 	constructor() {
-		this.init();
+		this.initLoginLink();
+		this.initLoginStatus();
 	}
 
-	private async init() {
+	private async initLoginStatus() {
 		this.userInfo = await Storage.getUserInfo();
 
 		if (!this.userInfo || this.userInfo?.errors?.length) {
 			//send request to get user info to other tab
-			const messageResponse = await Messenger.sendGetUserInfo();
-			this.userInfo = messageResponse?.userInfo;
+			// const messageResponse = await Messenger.sendGetUserInfo();
+			// this.userInfo = messageResponse?.userInfo;
+			this.userInfo = await Storage.getUserInfo();
 		}
 
 		if (!this.userInfo || this.userInfo.errors?.length) {
@@ -26,6 +31,28 @@ export default class LoginDisplay {
 
 		this.main = document.querySelector("main") as HTMLElement;
 		this.setLoggedIn();
+	}
+
+	initLoginLink() {
+		const loginLink = document.querySelector("#loginLink");
+		if (loginLink) {
+			loginLink.addEventListener("click", async (event) => {
+				event.preventDefault();
+
+				const twitterTab = await tabs.create({
+					active: true,
+					url: "https://twitter.com/login",
+				});
+
+				setTimeout(async () => {
+					const userInfoResponse = await Messenger.sendGetUserInfo(twitterTab);
+					const userInfo = userInfoResponse?.userInfo;
+					if (userInfo) {
+						Storage.setUserInfo(userInfo);
+					}
+				}, timeToLoadTwitter);
+			});
+		}
 	}
 
 	setLoggedIn() {
