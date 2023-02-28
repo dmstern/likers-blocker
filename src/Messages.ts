@@ -6,6 +6,7 @@ enum Action {
 	getUserInfo = "getUserInfo",
 	queueUpdate = "queueUpdate",
 	blockSpeedUpdate = "blockSpeedUpdate",
+	block = "block",
 }
 
 interface Message {
@@ -19,6 +20,11 @@ export interface QueueUpdateData {
 	blockListLength?: number;
 }
 
+export interface BlockData {
+	success: boolean;
+	response: Response;
+}
+
 export interface QueueUpdateMessage extends Message {
 	queuedUser?: QueuedUser;
 	dequeuedUser?: QueuedUser;
@@ -30,11 +36,28 @@ export interface GetUserInfoMessage extends Message {
 	action: Action.getUserInfo;
 }
 
+export interface BlockMessage extends Message {
+	action: Action.block;
+	success: boolean;
+	response: Response;
+}
+
 export interface GetUserInfoResponse {
 	userInfo: UserInfo;
 }
 
 export default class Messenger {
+	static async sendBlock(data: BlockData) {
+		const { success, response } = data;
+		const message = { action: Action.block, success, response };
+
+		try {
+			await runtime.sendMessage(message);
+		} catch (error) {
+			console.info("✉ Message was send but no receiver listens to it.", message);
+		}
+	}
+
 	static async sendBlockSpeedUpdate() {
 		const message = { action: Action.blockSpeedUpdate };
 
@@ -67,6 +90,17 @@ export default class Messenger {
 		} catch (error) {
 			console.info("✉ Message was send but no receiver listens to it.", message, error);
 		}
+	}
+
+	static onBlock(callback: (data: BlockData) => void): void {
+		runtime.onMessage.addListener((message: BlockMessage) => {
+			if (message.action === Action.block) {
+				const { success, response } = message;
+				console.debug("✉ message from background", message);
+				callback({ success, response });
+				return true;
+			}
+		});
 	}
 
 	static onBlockSpeedUpdate(callback: () => void): void {

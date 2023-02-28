@@ -1,4 +1,5 @@
 import Storage from "./Storage";
+import Messenger from "./Messages";
 import { QueuedUser } from "./User";
 const API_URL = "https://api.twitter.com/1.1/";
 
@@ -138,8 +139,9 @@ export default class APIService {
 
 		const body = user.screen_name ? this.getScreenNameBody(user.screen_name) : this.getIdBody(user.id);
 		const response = await this.sendPostRequest(Endpoint.block, body);
+		const wasSuccessful = response && response.ok;
 
-		if (response && response.ok) {
+		if (wasSuccessful) {
 			console.info("%c✔ user blocked.", "color: YellowGreen");
 			Storage.addBlocked(user);
 		} else {
@@ -147,6 +149,7 @@ export default class APIService {
 			Storage.queue(user);
 		}
 
+		Messenger.sendBlock({ success: wasSuccessful, response });
 		return response;
 	}
 

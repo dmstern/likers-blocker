@@ -1,0 +1,24 @@
+.error-sign {
+	width: 200px;
+	height: 50px;
+	border-radius: 3px;
+	border: 4px dashed var(--color--error);
+	background-color: var(--color--warning);
+	transition: all 500ms;
+	opacity: 0;
+	visibility: hidden;
+	position: absolute;
+	left: 50%;
+	top: 1.5rem;
+	transform: translateX(-50%) rotateX(-90deg);
+	transform-origin: 0 0;
+	box-shadow: $button-shadow;
+
+	--shadow-width: 3rem;
+
+	.blocking--fail & {
+		visibility: visible;
+		opacity: 1;
+		transform: translateX(-50%) rotateX(0deg);
+	}
+}

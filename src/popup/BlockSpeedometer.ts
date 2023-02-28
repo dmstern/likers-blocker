@@ -13,6 +13,7 @@ export default class BlockSpeedometer {
 		const label = speedometer.querySelector("[data-label]") as HTMLElement;
 		const blockSpeed = await Storage.getBlocksPerMinute();
 
+		document.body.classList.toggle("block-speed-fast", blockSpeed > 30);
 		document.body.style.setProperty("--block-speed", blockSpeed.toString());
 		document.body.style.setProperty("--block-speed-max", settings.BLOCKS_PER_MINUTE_MAX.toString());
 		document.body.classList.toggle("blocker-sleeping", blockSpeed < 1);

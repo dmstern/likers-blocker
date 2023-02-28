@@ -18,21 +18,26 @@
 	}
 }
 
+@keyframes shake {
+	from {
+		transform: translate(45%) rotate(-3deg);
+	}
+	
+	to {
+		transform: translate(55%) rotate(3deg);
+	}
+}
+
 .machine {
 	--length: 100px;
 	--thickness: 18px;
 	--band-thickness: 2px;
-
-	// --blocks-per-minute: 10;
-	// --run-duration: calc(60s / var(--blocks-per-minute));
-	--run-duration: 1s;
+	--run-duration: 1000ms;
 	--band-rotate: -20deg;
 	--stand-height: 24px;
 
   position: absolute;
   display: block;
-
-	// transform: translate(-65%, 0);
   width: var(--length);
 	height: var(--thickness);
   left: 50%;
@@ -40,6 +45,10 @@
 	opacity: .3;
 	transition: all 500ms ease;
 	color: var(--graphics-color);
+
+	.block-speed-fast & {
+		--run-duration: 500ms;
+	}
 	
 	.has-queue:not(.blocker-sleeping) & {
 		opacity: 1;
@@ -77,14 +86,13 @@
 			width: calc(var(--thickness) - (var(--band-thickness) * 2));
 			height: calc(var(--thickness) - (var(--band-thickness) * 2));
 
-			.blocking & {
+			.block--success & {
 				animation: run var(--run-duration) linear;
 			}
 		}
 	}
 
 	&__stand {
-		// display: none;
 		position: absolute;
 		left: 67%;
 		bottom: 0;
@@ -111,25 +119,38 @@
 		background-color: currentcolor;
 	}
 
-	.trash-icon {
+	&__trash {
 		position: absolute;
 		right: 0;
-		bottom: 0;
+		bottom: -4px;
+		transition: all calc(var(--run-duration) / 3) ease var(--run-duration);
+		transform: translateX(50%);
+
+		.block--fail & {
+			color: var(--color--error);
+			animation: shake calc(var(--run-duration) / 10) linear 10 var(--run-duration) alternate;
+		}
+
+		.block--success & {
+			color: var(--color--success);
+		}
+	}
+
+	.trash-icon {
 		width: 1.4rem;
 		height: 1.4rem;
-		transform: translateX(50%);
 		background-color: var(--background-color);
 	}
 
 	.icon.trash-lid {
 		position: absolute;
-		right: -11px;
-		bottom: 20px;
+    top: -4px;
+		right: 0;
 		width: 1.4rem;
 		height: auto;
 		transform-origin: 100% 100%;
 
-		.blocking & {
+		.block--success & {
 			animation: open calc(var(--run-duration) * 2) ease alternate;
 		}
 	}
@@ -150,7 +171,7 @@
 			transform: translate(15%, 21%) rotate(120deg);
 			bottom: 13px;
 		}
-		
+
 		&--up {
 			transform: translate(calc(var(--index) * -16px), calc(var(--index) * 6px));
 		}

@@ -287,7 +287,6 @@ export default class Storage {
 		}
 
 		blocked.add(blockedUser);
-		console.log(`%c${blocked.toArray()}`, "background: RedOrange");
 		this.set(Key.blockedAccounts, blocked.toArray());
 	}
 
