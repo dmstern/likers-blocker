@@ -49,7 +49,7 @@
 	&__import {
 		margin-right: .5rem;
 
-		@include medium-screen {
+		@include medium-screen-up {
 			max-width: 59%;
 		}
 
