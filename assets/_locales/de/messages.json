@@ -268,8 +268,12 @@
     }
 	},
 	"options_reset": {
+		"message": "Einstellungen zurücksetzen",
+		"description": "Reset settings button label. (may not be too long)"
+	},
+	"options_reset_hint": {
 		"message": "Auf Standardeinstellungen zurücksetzen",
-		"description": "Reset settings button label."
+		"description": "Reset settings button mouseover hint. (may be longer than the label)"
 	},
 	"options_clear": {
 		"message": "Alle Daten löschen",

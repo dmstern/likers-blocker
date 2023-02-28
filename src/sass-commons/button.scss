@@ -17,10 +17,7 @@
 	cursor: pointer;
 	white-space: nowrap;
 	max-width: 100%;
-
-	@include small-screen {
-		margin-bottom: .5rem;
-	}
+	text-overflow: ellipsis;
 
 	&:last-child {
 		margin-right: 0;
@@ -83,5 +80,16 @@
 		svg:not(:first-of-type) {
 			margin-left: .5rem;
 		}
+	}
+
+	&--reset {
+		@include medium-screen {
+			max-width: 59%;
+		}
+	}
+
+	&__label {
+		max-width: 100%;
+		text-overflow: ellipsis;
 	}
 }

@@ -277,7 +277,11 @@
 	},
 	"options_reset": {
 		"message": "Reset settings",
-		"description": "Reset settings button label."
+		"description": "Reset settings button label. (may not be too long)"
+	},
+	"options_reset_hint": {
+		"message": "Reset settings",
+		"description": "Reset settings button mouseover hint. (may be longer than the label)"
 	},
 	"options_clear": {
 		"message": "Clear all data",

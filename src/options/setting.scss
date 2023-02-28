@@ -62,6 +62,17 @@
 
 	&.reset {
 		padding-bottom: 1rem;
+		max-width: 100%;
+		display: flex;
+
+		@include small-screen {
+			flex-direction: column;
+
+			.btn {
+				margin-bottom: .5rem;
+				margin-right: 0;
+			}
+		}
 	}
 
 	&__status-message {
