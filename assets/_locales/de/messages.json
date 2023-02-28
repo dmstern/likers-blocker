@@ -286,5 +286,13 @@
 	"options_clear_hint": {
 		"message": "Alle Einstellungen, Blocklisten & Wartenschlange werden aus deinem Browser gelöscht.",
 		"description": "Clear extension data button hover hint"
+	},
+	"notification_unauthenticated_title": {
+		"message": "Du wurdest ausgeloggt.",
+		"description": "Notification title if user was force-logged-out."
+	},
+	"notification_unauthenticated_content": {
+		"message": "Anscheinend hast du zu schnell geblock oder das BlockLimit überschritten. Melde dich bitte neu bei Twitter an und Blocke langsamer.",
+		"description": "Notification content if user was force-logged-out."
 	}
 }
