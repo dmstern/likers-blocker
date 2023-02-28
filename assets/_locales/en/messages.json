@@ -294,5 +294,13 @@
 	"options_clear_hint": {
 		"message": "All user settings, block list, queue will be removed from your browser",
 		"description": "Clear extension data button hover hint"
+	},
+	"notification_unauthenticated_title": {
+		"message": "You have been logged out.",
+		"description": "Notification title if user was force-logged-out."
+	},
+	"notification_unauthenticated_content": {
+		"message": "Apparently you have blocked too fast or exceeded the block limit. Please login again and block slower.",
+		"description": "Notification content if user was force-logged-out."
 	}
 }
