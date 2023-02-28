@@ -45,9 +45,9 @@ function alignRightButtons() {
 		Badge.updateBadgeCount(queueLength);
 	});
 
-	Messenger.onBlock(({ success, status }) => {
+	Messenger.onBlock(async ({ success, status }) => {
 		if (success) {
-			BlockMachine.runBlockAnimation();
+			await BlockMachine.runBlockAnimation();
 		} else {
 			BlockMachine.runFailAnimation(status);
 		}

@@ -104,14 +104,13 @@ export default class Messenger {
 		}
 	}
 
-	static onBlock(callback: (data: BlockData) => void): void {
+	static onBlock(callback: (data: BlockData) => Promise<void>): void {
 		runtime.onMessage.addListener((message: BlockMessage) => {
 			if (message.action === Action.block) {
 				console.log("========= on block", Action.block);
 				const { success, status } = message;
 				this.log(message);
-				callback({ success, status });
-				return true;
+				return callback({ success, status });
 			}
 		});
 	}
