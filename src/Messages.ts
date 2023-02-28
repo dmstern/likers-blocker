@@ -1,5 +1,4 @@
-import { runtime, tabs } from "webextension-polyfill";
-import { getTwitterTab } from "./Tabs";
+import { runtime, Tabs, tabs } from "webextension-polyfill";
 import { QueuedUser, UserInfo } from "./User";
 
 enum Action {
@@ -78,13 +77,16 @@ export default class Messenger {
 		}
 	}
 
-	static async sendGetUserInfo(): Promise<GetUserInfoResponse> {
-		const twitterTab = await getTwitterTab();
+	static async sendGetUserInfo(twitterTab: Tabs.Tab): Promise<GetUserInfoResponse> {
+		// if (!twitterTab) {
+		// 	twitterTab = await getTwitterTab();
+		// }
+
 		const message = { action: Action.getUserInfo };
 
 		if (twitterTab) {
 			try {
-				return await tabs.sendMessage(twitterTab.id, message);
+				return tabs.sendMessage(twitterTab.id, message);
 			} catch (error) {
 				this.log(message, error);
 			}
