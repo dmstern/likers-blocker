@@ -7,7 +7,6 @@ import BlockMachine from "./BlockMachine";
 import BlockSpeedometer from "./BlockSpeedometer";
 import LoginDisplay from "./LoginDisplay";
 import "./popup.scss";
-import Status from "./Stats";
 import Stats from "./Stats";
 
 function alignRightButtons() {
@@ -31,7 +30,7 @@ function alignRightButtons() {
 	new LoginDisplay();
 	new BlockSpeedometer();
 
-	Status.update();
+	Stats.update();
 	BlockMachine.init();
 
 	const optionsButton = document.querySelector("#options");
@@ -46,11 +45,11 @@ function alignRightButtons() {
 		Badge.updateBadgeCount(queueLength);
 	});
 
-	Messenger.onBlock(({ success, response }) => {
+	Messenger.onBlock(({ success, status }) => {
 		if (success) {
 			BlockMachine.runBlockAnimation();
 		} else {
-			BlockMachine.runFailAnimation(response);
+			BlockMachine.runFailAnimation(status);
 		}
 	});
 })();

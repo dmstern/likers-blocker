@@ -22,7 +22,7 @@ export interface QueueUpdateData {
 
 export interface BlockData {
 	success: boolean;
-	response: Response;
+	status: number;
 }
 
 export interface QueueUpdateMessage extends Message {
@@ -39,7 +39,7 @@ export interface GetUserInfoMessage extends Message {
 export interface BlockMessage extends Message {
 	action: Action.block;
 	success: boolean;
-	response: Response;
+	status: number;
 }
 
 export interface GetUserInfoResponse {
@@ -47,14 +47,24 @@ export interface GetUserInfoResponse {
 }
 
 export default class Messenger {
+	private static log(message: Message, error?: Error) {
+		if (error) {
+			console.info("✉ Message was send but no receiver listens to it.", message, error);
+		} else {
+			console.debug("✉ message from background", message);
+		}
+	}
+
 	static async sendBlock(data: BlockData) {
-		const { success, response } = data;
-		const message = { action: Action.block, success, response };
+		const { success, status } = data;
+		const message = { action: Action.block, success, status };
+
+		console.log("sendBlock Message", message);
 
 		try {
 			await runtime.sendMessage(message);
 		} catch (error) {
-			console.info("✉ Message was send but no receiver listens to it.", message);
+			this.log(message, error);
 		}
 	}
 
@@ -64,7 +74,7 @@ export default class Messenger {
 		try {
 			await runtime.sendMessage(message);
 		} catch (error) {
-			console.info("✉ Message was send but no receiver listens to it.", message);
+			this.log(message, error);
 		}
 	}
 
@@ -76,7 +86,7 @@ export default class Messenger {
 			try {
 				return await tabs.sendMessage(twitterTab.id, message);
 			} catch (error) {
-				console.warn("✉ Message was send but no receiver listens to it.", message);
+				this.log(message, error);
 			}
 		}
 	}
@@ -88,16 +98,17 @@ export default class Messenger {
 		try {
 			await runtime.sendMessage(message);
 		} catch (error) {
-			console.info("✉ Message was send but no receiver listens to it.", message, error);
+			this.log(message, error);
 		}
 	}
 
 	static onBlock(callback: (data: BlockData) => void): void {
 		runtime.onMessage.addListener((message: BlockMessage) => {
 			if (message.action === Action.block) {
-				const { success, response } = message;
-				console.debug("✉ message from background", message);
-				callback({ success, response });
+				console.log("========= on block", Action.block);
+				const { success, status } = message;
+				this.log(message);
+				callback({ success, status });
 				return true;
 			}
 		});
@@ -106,7 +117,7 @@ export default class Messenger {
 	static onBlockSpeedUpdate(callback: () => void): void {
 		runtime.onMessage.addListener((message: Message) => {
 			if (message.action === Action.blockSpeedUpdate) {
-				console.debug("✉ message from background", message);
+				this.log(message);
 				callback();
 				return true;
 			}
@@ -116,7 +127,7 @@ export default class Messenger {
 	static onGetUserInfo(callback: () => Promise<GetUserInfoResponse>): void {
 		runtime.onMessage.addListener((message: GetUserInfoMessage) => {
 			if (message.action === Action.getUserInfo) {
-				console.debug("✉ message from background", message);
+				this.log(message);
 				return callback();
 			}
 		});
@@ -125,7 +136,7 @@ export default class Messenger {
 	static onQueueUpdate(callback: (queueUpdate: QueueUpdateData) => void): void {
 		runtime.onMessage.addListener((message: QueueUpdateMessage) => {
 			if (message.action === Action.queueUpdate) {
-				console.debug("✉ message from background", message);
+				this.log(message);
 				const { dequeuedUser, queueLength, blockListLength } = message;
 				callback({ dequeuedUser, queueLength, blockListLength });
 				return true;
