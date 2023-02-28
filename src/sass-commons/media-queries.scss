@@ -10,6 +10,12 @@
 	}	
 }
 
+@mixin medium-screen-up {
+	@media screen and (min-width: 402px) {
+		@content;
+	}	
+}
+
 @mixin large-screen {
 	@media screen and (min-width: 568px) {
 		@content;
