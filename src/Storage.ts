@@ -210,15 +210,15 @@ export default class Storage {
 	}
 
 	private static async setQueueLength(queueLength: number): Promise<void> {
-		await this.set(Key.queueLength, queueLength);
-		await Messenger.sendQueueUpdate({ queueLength });
+		this.set(Key.queueLength, queueLength);
+		Messenger.sendQueueUpdate({ queueLength });
 	}
 
 	private static async increaseQueueLength(): Promise<void> {
 		let queueLength: number = await this.getQueueLength();
 		queueLength++;
 
-		await Messenger.sendQueueUpdate({ queueLength });
+		Messenger.sendQueueUpdate({ queueLength });
 
 		this.set(Key.queueLength, queueLength);
 	}
@@ -227,7 +227,7 @@ export default class Storage {
 		let queueLength: number = await this.getQueueLength();
 		queueLength--;
 
-		await Messenger.sendQueueUpdate({ queueLength });
+		Messenger.sendQueueUpdate({ queueLength });
 
 		this.set(Key.queueLength, queueLength);
 	}
@@ -256,7 +256,7 @@ export default class Storage {
 		}
 
 		const queueLength = queued.length;
-		await this.setQueueLength(queueLength);
+		this.setQueueLength(queueLength);
 
 		return new UserSet<QueuedUser>(queued);
 	}
@@ -280,7 +280,7 @@ export default class Storage {
 			await this.decreaseQueueLength();
 		}
 
-		await this.set(Key.blockingQueue, queue.toArray());
+		this.set(Key.blockingQueue, queue.toArray());
 		return user;
 	}
 
@@ -297,8 +297,8 @@ export default class Storage {
 		const newUsers = users.filter((user) => !blockedAccounts.has(user));
 		const addedUsersCount: number = queue.merge(newUsers);
 
-		await this.set(Key.blockingQueue, queue.toArray());
-		await this.setQueueLength(queue.size);
+		this.set(Key.blockingQueue, queue.toArray());
+		this.setQueueLength(queue.size);
 
 		return addedUsersCount;
 	}
@@ -328,8 +328,8 @@ export default class Storage {
 
 		blocked.merge(blockCandidates);
 
-		await this.set(Key.blockListLength, blocked.size);
-		await this.set(Key.blockedAccounts, blocked.toArray());
+		this.set(Key.blockListLength, blocked.size);
+		this.set(Key.blockedAccounts, blocked.toArray());
 	}
 
 	static async addBlocked(user: QueuedUser) {
