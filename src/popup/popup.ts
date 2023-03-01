@@ -39,7 +39,7 @@ function alignRightButtons() {
 	});
 
 	Messenger.onQueueUpdate(async ({ queueLength }) => {
-		console.debug("📫 Popup: QueueUpdate Message");
+		// console.debug("📫 Popup: QueueUpdate Message");
 		Stats.update();
 
 		Badge.updateBadgeCount(queueLength);

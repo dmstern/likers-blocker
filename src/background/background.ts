@@ -19,7 +19,6 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 	Storage.getQueue().then((queue) => Badge.updateBadgeCount(queue.size));
 
 	Messenger.onQueueUpdate(({ queueLength }) => {
-		console.debug("📫 Background: QueueUpdate Message ========== ");
 		Badge.updateBadgeCount(queueLength);
 	});
 

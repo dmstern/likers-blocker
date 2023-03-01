@@ -526,8 +526,6 @@ export default class AccountCollector {
 		confirmCloseButton.classList.add("lb-confirm-button--done");
 		this.popup.appendChild(confirmCloseButton);
 
-		console.log(confirmCloseButton);
-
 		const confirmCloseButtonLabel = this.isLegacyTwitter
 			? confirmCloseButton
 			: (confirmCloseButton.querySelector("div > span > span") as HTMLElement);

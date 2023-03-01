@@ -17,7 +17,6 @@ export default class FileManager {
 	}
 
 	static async downloadBlockList() {
-		console.debug("downloadBlockList");
 		const users = await Storage.getBlockedAccounts();
 		const file = new File([usersToCSV(users)], filename, {
 			type: mimeType,
