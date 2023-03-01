@@ -194,6 +194,8 @@ export default class AccountCollector {
 	private async changeStateToConfirm() {
 		console.debug("changeStateToConfirm()");
 		this.popup.classList.add("lb-confirm");
+		const avatarsWrapper = document.querySelector(".lb-truck-animation__avatars");
+		avatarsWrapper?.remove();
 		(await this.getScrollList()).classList.remove("lb-blur");
 	}
 
@@ -243,22 +245,7 @@ export default class AccountCollector {
 			const wasAdded = this.collectedUsers.add(user);
 
 			if (wasAdded) {
-				const avatarsWrapper = document.querySelector(".lb-truck-animation__avatars");
-
-				if (avatarsWrapper) {
-					const clonedProfileImg = profileImg.cloneNode() as HTMLImageElement;
-
-					if (clonedProfileImg.src) {
-						clonedProfileImg.src = clonedProfileImg.src.replace("normal", "mini");
-						clonedProfileImg.removeAttribute("class");
-					}
-
-					const avatar = document.createElement("span");
-					avatar.classList.add("lb-truck-animation__avatar");
-					avatar.style.setProperty("--index", this.collectedUsers.size.toString());
-					avatar.append(clonedProfileImg);
-					avatarsWrapper.prepend(avatar);
-				}
+				this.renderAvatar(profileImg);
 			}
 		}
 
@@ -303,6 +290,31 @@ export default class AccountCollector {
 		}
 
 		this.lastCollectedUserCount.push(this.collectedUsers.size);
+	}
+
+	private renderAvatar(profileImg: HTMLImageElement) {
+		const avatarsWrapper = document.querySelector(".lb-truck-animation__avatars");
+
+		if (!avatarsWrapper) {
+			return;
+		}
+
+		const clonedProfileImg = profileImg.cloneNode() as HTMLImageElement;
+
+		if (clonedProfileImg.src) {
+			clonedProfileImg.src = clonedProfileImg.src.replace("normal", "mini");
+			clonedProfileImg.removeAttribute("class");
+		}
+
+		const avatar = document.createElement("span");
+		avatar.classList.add("lb-truck-animation__avatar");
+		avatar.style.setProperty("--index", this.collectedUsers.size.toString());
+		avatar.append(clonedProfileImg);
+		avatarsWrapper.prepend(avatar);
+
+		avatar.addEventListener("animationend", () => {
+			avatar.remove();
+		});
 	}
 
 	private async createBlockButton() {
