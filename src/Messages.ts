@@ -98,11 +98,11 @@ export default class Messenger {
 		}
 	}
 
-	static async sendLogin() {
+	static async sendLogin(): Promise<UserInfo> {
 		const message = { action: Action.login };
 
 		try {
-			await runtime.sendMessage(message);
+			return await runtime.sendMessage(message);
 		} catch (error) {
 			this.log(message, error);
 		}
@@ -149,7 +149,7 @@ export default class Messenger {
 		});
 	}
 
-	static onLogin(callback: () => Promise<void>): void {
+	static onLogin(callback: () => Promise<UserInfo>): void {
 		runtime.onMessage.addListener((message: LoginMessage) => {
 			if (message.action === Action.login) {
 				this.log(message);
