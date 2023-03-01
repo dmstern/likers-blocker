@@ -2,6 +2,7 @@ import { alarms, tabs } from "webextension-polyfill";
 import Badge from "../Badge";
 import Messenger from "../Messages";
 import Storage from "../Storage";
+import { UserInfo } from "../User";
 import Blocker from "./Blocker";
 import WebRequestInterceptor from "./WebRequestInterceptor";
 
@@ -35,13 +36,13 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 			url: "https://twitter.com/login",
 		});
 
-		return new Promise((resolve) => {
+		return new Promise<UserInfo>((resolve) => {
 			setTimeout(async () => {
 				const userInfoResponse = await Messenger.sendGetUserInfo(twitterTab);
 				const userInfo = userInfoResponse?.userInfo;
 				if (userInfo) {
 					Storage.setUserInfo(userInfo);
-					resolve();
+					resolve(userInfo);
 				}
 			}, timeToLoadTwitter);
 		});

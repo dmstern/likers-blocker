@@ -36,19 +36,10 @@ export default class LoginDisplay {
 			loginLink.addEventListener("click", async (event) => {
 				event.preventDefault();
 
-				// const twitterTab = await tabs.create({
-				// 	active: true,
-				// 	url: "https://twitter.com/login",
-				// });
-
-				// setTimeout(async () => {
-				// 	const userInfoResponse = await Messenger.sendGetUserInfo(twitterTab);
-				// 	const userInfo = userInfoResponse?.userInfo;
-				// 	if (userInfo) {
-				// 		Storage.setUserInfo(userInfo);
-				// 	}
-				// }, timeToLoadTwitter);
-				await Messenger.sendLogin();
+				const userInfo = await Messenger.sendLogin();
+				if (userInfo) {
+					this.initLoginStatus();
+				}
 			});
 		}
 	}
