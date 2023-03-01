@@ -1,4 +1,5 @@
 import { webRequest, WebRequest } from "webextension-polyfill";
+import Messenger from "../Messages";
 import Storage from "../Storage";
 
 export default class WebRequestInterceptor {
@@ -17,6 +18,7 @@ export default class WebRequestInterceptor {
 			if (name === "authorization" && value.includes("Bearer")) {
 				// console.debug("🔐 saving authentication token.");
 				Storage.setAuthToken(value);
+				Messenger.sendGetUserInfo();
 			}
 
 			const re = /[0-9A-Fa-f]{160}/;
