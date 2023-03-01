@@ -30,7 +30,7 @@ export default class ImportExport {
 					importStatusMessage.classList.add("success");
 					statusMessageSummary.innerHTML = `${icons.checkmark} ${i18n.getMessage(
 						"options_import_success",
-						[importedAccounts.length.toString(), added.toString()]
+						[importedAccounts.length.toLocaleString(), added.toLocaleString()]
 					)}`;
 				})
 				.catch((error: Error) => {
