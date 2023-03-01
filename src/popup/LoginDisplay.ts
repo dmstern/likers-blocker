@@ -32,16 +32,18 @@ export default class LoginDisplay {
 
 	initLoginLink() {
 		const loginLink = document.querySelector("#loginLink");
-		if (loginLink) {
-			loginLink.addEventListener("click", async (event) => {
-				event.preventDefault();
-
-				const userInfo = await Messenger.sendLogin();
-				if (userInfo) {
-					this.initLoginStatus();
-				}
-			});
+		if (!loginLink) {
+			return;
 		}
+
+		loginLink.addEventListener("click", async (event) => {
+			event.preventDefault();
+
+			const userInfo = await Messenger.sendLogin();
+			if (userInfo) {
+				this.initLoginStatus();
+			}
+		});
 	}
 
 	setLoggedIn() {
