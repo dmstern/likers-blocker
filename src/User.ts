@@ -93,6 +93,10 @@ export class UserSet<UserType extends AbstractUser> {
 		return this.users;
 	}
 
+	splice(amount: number): UserType[] {
+		return this.users.splice(0, amount);
+	}
+
 	/**
 	 * Find a specific user by it's screen_name or id in the set.
 	 * @param user the user object to find in the set.

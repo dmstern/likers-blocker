@@ -215,7 +215,7 @@ export default class Storage {
 		Messenger.sendQueueUpdate({ queueLength });
 	}
 
-	private static async increaseQueueLength(): Promise<void> {
+	static async increaseQueueLength(): Promise<void> {
 		let queueLength: number = await this.getQueueLength();
 		queueLength++;
 
@@ -224,7 +224,7 @@ export default class Storage {
 		this.set(Key.queueLength, queueLength);
 	}
 
-	private static async decreaseQueueLength(): Promise<void> {
+	static async decreaseQueueLength(): Promise<void> {
 		let queueLength: number = await this.getQueueLength();
 		queueLength--;
 
@@ -302,6 +302,17 @@ export default class Storage {
 		this.setQueueLength(queue.size);
 
 		return addedUsersCount;
+	}
+
+	static async dequeueMulti(amount: number): Promise<QueuedUser[]> {
+		const queue: UserSet<QueuedUser> = await this.getQueue();
+
+		const dequeued = queue.splice(amount);
+		this.set(Key.blockingQueue, queue.toArray());
+
+		// DO NOT manipulate queueLength here! For better performance and realtime value display in popup, it's done in Blocker.ts
+
+		return dequeued;
 	}
 
 	static async queueEmpty(): Promise<boolean> {
