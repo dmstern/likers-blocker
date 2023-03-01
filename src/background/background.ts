@@ -27,6 +27,8 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 		Blocker.run();
 	});
 
+	Messenger.onGetTempQueue(() => Blocker.getTempQueue());
+
 	Messenger.onLogin(async () => {
 		const timeToLoadTwitter = 4000;
 

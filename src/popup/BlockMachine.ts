@@ -1,10 +1,8 @@
-import { QueuedUser } from "./../User";
 import { i18n } from "webextension-polyfill";
 import icons from "../icons";
+import Messenger from "../Messages";
 import settings from "../settings";
-import Storage from "../Storage";
-
-const loadAvatarsAtOnce = 14;
+import { QueuedUser } from "./../User";
 
 const classes = {
 	blockSuccess: "block--success",
@@ -18,10 +16,18 @@ export default class BlockMachine {
 	}
 
 	static async init() {
-		const queue = await Storage.getQueue();
-		const previewItemsInQueue = queue.toArray().slice(0, loadAvatarsAtOnce);
-		previewItemsInQueue.forEach((user, index) => {
+		const queue = await Messenger.sendGetTempQueue();
+		queue.forEach((user, index) => {
 			this.renderAvatar(user, index);
+		});
+
+		Messenger.onNextBatch(({ nextBatchFromStorage }) => {
+			const avatars = document.querySelectorAll(".machine__avatar");
+			const elementWithHighestIndex = avatars.item(0) as HTMLElement;
+			const highestIndex = elementWithHighestIndex.style.getPropertyValue("--index");
+			nextBatchFromStorage.forEach((user, index) => {
+				this.renderAvatar(user, Number.parseInt(highestIndex) + index);
+			});
 		});
 	}
 
@@ -61,15 +67,6 @@ export default class BlockMachine {
 			index = index - 1;
 			setIndexToElement(avatar, index);
 		});
-
-		await this.loadNextUserFromQueue();
-	}
-
-	private static async loadNextUserFromQueue() {
-		const queue = await Storage.getQueue();
-		const index = loadAvatarsAtOnce - 1;
-		const nextUser = queue.toArray().at(index);
-		this.renderAvatar(nextUser, index);
 	}
 
 	static runFailAnimation(status: number) {

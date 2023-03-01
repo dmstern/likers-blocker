@@ -46,6 +46,8 @@ function alignRightButtons() {
 	});
 
 	Messenger.onBlock(async ({ success, status }) => {
+		Stats.update();
+
 		if (success) {
 			await BlockMachine.runBlockAnimation();
 		} else {

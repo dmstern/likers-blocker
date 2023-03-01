@@ -1,6 +1,6 @@
 import { runtime, Tabs, tabs } from "webextension-polyfill";
-import { UserInfo } from "./User";
 import { getTwitterTab } from "./Tabs";
+import { QueuedUser, UserInfo } from "./User";
 
 enum Action {
 	getUserInfo = "getUserInfo",
@@ -8,6 +8,8 @@ enum Action {
 	blockSpeedUpdate = "blockSpeedUpdate",
 	block = "block",
 	login = "login",
+	getTempQueue = "getTempQueue",
+	nextBatch = "nextBatch",
 }
 
 interface Message {
@@ -24,6 +26,11 @@ export interface BlockData {
 	status: number;
 }
 
+export interface NextBatchData {
+	nextBatchFromStorage: QueuedUser[];
+	newTempQueue: QueuedUser[];
+}
+
 export interface QueueUpdateMessage extends Message {
 	queueLength: number;
 	blockListLength?: number;
@@ -31,6 +38,16 @@ export interface QueueUpdateMessage extends Message {
 
 export interface GetUserInfoMessage extends Message {
 	action: Action.getUserInfo;
+}
+
+export interface GetTempQueueMessage extends Message {
+	action: Action.getTempQueue;
+}
+
+export interface NextBatchMessage extends Message {
+	action: Action.nextBatch;
+	newTempQueue: QueuedUser[];
+	nextBatchFromStorage: QueuedUser[];
 }
 
 export interface LoginMessage extends Message {
@@ -47,12 +64,35 @@ export interface GetUserInfoResponse {
 	userInfo: UserInfo;
 }
 
+export type GetTempQueueResponse = QueuedUser[];
+
 export default class Messenger {
 	private static log(message: Message, error?: Error) {
 		if (error) {
 			console.info("✉ Message was send but no receiver listens to it.", message, error);
 		} else {
 			console.debug("✉ message from background", message);
+		}
+	}
+
+	static async sendGetTempQueue(): Promise<QueuedUser[]> {
+		const message: GetTempQueueMessage = { action: Action.getTempQueue };
+
+		try {
+			return await runtime.sendMessage(message);
+		} catch (error) {
+			this.log(message, error);
+		}
+	}
+
+	static async sendNextBatch(data: NextBatchData) {
+		const { newTempQueue, nextBatchFromStorage } = data;
+		const message: NextBatchMessage = { action: Action.nextBatch, newTempQueue, nextBatchFromStorage };
+
+		try {
+			return await runtime.sendMessage(message);
+		} catch (error) {
+			this.log(message, error);
 		}
 	}
 
@@ -112,6 +152,28 @@ export default class Messenger {
 		} catch (error) {
 			this.log(message, error);
 		}
+	}
+
+	static onGetTempQueue(callback: () => Promise<GetTempQueueResponse>): void {
+		runtime.onMessage.addListener((message: GetTempQueueMessage) => {
+			if (message.action === Action.getTempQueue) {
+				this.log(message);
+				return callback();
+			}
+		});
+	}
+
+	static onNextBatch(
+		callback: (response: { newTempQueue: QueuedUser[]; nextBatchFromStorage: QueuedUser[] }) => void
+	): void {
+		runtime.onMessage.addListener((message: NextBatchMessage) => {
+			if (message.action === Action.nextBatch) {
+				const { newTempQueue, nextBatchFromStorage } = message;
+				this.log(message);
+				callback({ newTempQueue, nextBatchFromStorage });
+				return true;
+			}
+		});
 	}
 
 	static onBlock(callback: (data: BlockData) => Promise<void>): void {

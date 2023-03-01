@@ -1,9 +1,11 @@
 import { alarms } from "webextension-polyfill";
 import APIService from "../APIService";
 import Badge from "../Badge";
+import Messenger from "../Messages";
+import Notification, { Notify } from "../Notification";
 import settings from "../settings";
 import Storage, { Key } from "../Storage";
-import Notification, { Notify } from "../Notification";
+import { QueuedUser } from "./../User";
 
 const blockIntervals: NodeJS.Timeout[] = [];
 
@@ -11,6 +13,7 @@ export default class Blocker {
 	static readonly alarmName: string = "blockTask";
 	private static isRunning = false;
 	private static blocksInCurrentIterationCount = 0;
+	private static dequeuedUsers: QueuedUser[];
 
 	static async run() {
 		this.clearIntervals();
@@ -31,7 +34,7 @@ export default class Blocker {
 
 		const response = await this.processBlocking(blocksPerMinute);
 
-		if (response.status === 401) {
+		if (response?.status === 401) {
 			await Notification.push(Notify.unauthenticated);
 			Blocker.stop();
 			Storage.remove(Key.userInfo);
@@ -44,7 +47,23 @@ export default class Blocker {
 		this.isRunning = false;
 	}
 
-	private static init() {
+	static async getTempQueue(): Promise<QueuedUser[]> {
+		if (!this.dequeuedUsers) {
+			// tempQueue is empty, get the first batch from storage:
+			this.dequeuedUsers = await Storage.dequeueMulti(settings.DEQUEUE_BATCH_SIZE);
+			console.debug("🕍 NEW dequeueUsers", this.dequeuedUsers);
+		} else if (this.dequeuedUsers.length < 14) {
+			// tempQueue is getting empty, get the next batch from storage:
+			const nextBatchFromStorage = await Storage.dequeueMulti(settings.DEQUEUE_BATCH_SIZE);
+			this.dequeuedUsers = nextBatchFromStorage.concat(this.dequeuedUsers);
+			Messenger.sendNextBatch({ nextBatchFromStorage, newTempQueue: this.dequeuedUsers });
+			console.debug("🕍 MORE dequeueUsers", this.dequeuedUsers);
+		}
+
+		return this.dequeuedUsers;
+	}
+
+	private static async init() {
 		if (this.isRunning) {
 			return;
 		}
@@ -62,13 +81,19 @@ export default class Blocker {
 			this.clearIntervals();
 		}
 
-		const user = await Storage.dequeue();
+		// remove and get the first user from tempQueue:
+		const user = (await this.getTempQueue()).shift();
 
 		if (!user) {
 			return;
 		}
 
 		const response = await APIService.block(user);
+
+		if (response.ok) {
+			await Storage.decreaseQueueLength();
+		}
+
 		const queueLength = await Storage.getQueueLength();
 		this.blocksInCurrentIterationCount++;
 		Badge.updateBadgeCount(queueLength);

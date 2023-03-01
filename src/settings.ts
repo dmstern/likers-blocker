@@ -16,4 +16,5 @@ export default {
 		normal: "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
 		mini: "https://abs.twimg.com/sticky/default_profile_images/default_profile_mini.png",
 	},
+	DEQUEUE_BATCH_SIZE: 50,
 };
