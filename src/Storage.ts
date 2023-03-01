@@ -204,6 +204,7 @@ export default class Storage {
 
 		if (queueLength === undefined) {
 			queueLength = (await this.getQueue()).size;
+			this.setQueueLength(queueLength);
 		}
 
 		return queueLength;
