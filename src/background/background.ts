@@ -28,7 +28,7 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 	});
 
 	Messenger.onLogin(async () => {
-		const timeToLoadTwitter = 2000;
+		const timeToLoadTwitter = 4000;
 
 		const twitterTab = await tabs.create({
 			active: true,
