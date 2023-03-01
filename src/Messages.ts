@@ -1,5 +1,6 @@
 import { runtime, Tabs, tabs } from "webextension-polyfill";
 import { UserInfo } from "./User";
+import { getTwitterTab } from "./Tabs";
 
 enum Action {
 	getUserInfo = "getUserInfo",
@@ -76,10 +77,10 @@ export default class Messenger {
 		}
 	}
 
-	static async sendGetUserInfo(twitterTab: Tabs.Tab): Promise<GetUserInfoResponse> {
-		// if (!twitterTab) {
-		// 	twitterTab = await getTwitterTab();
-		// }
+	static async sendGetUserInfo(twitterTab?: Tabs.Tab): Promise<GetUserInfoResponse> {
+		if (!twitterTab) {
+			twitterTab = await getTwitterTab();
+		}
 
 		const message = { action: Action.getUserInfo };
 
