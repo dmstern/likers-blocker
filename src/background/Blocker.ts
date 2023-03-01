@@ -2,7 +2,8 @@ import { alarms } from "webextension-polyfill";
 import APIService from "../APIService";
 import Badge from "../Badge";
 import settings from "../settings";
-import Storage from "../Storage";
+import Storage, { Key } from "../Storage";
+import Notification, { Notify } from "../Notification";
 
 const blockIntervals: NodeJS.Timeout[] = [];
 
@@ -28,7 +29,13 @@ export default class Blocker {
 
 		blockIntervals.push(setInterval(() => this.processBlocking(blocksPerMinute), blockInterval));
 
-		await this.processBlocking(blocksPerMinute);
+		const response = await this.processBlocking(blocksPerMinute);
+
+		if (response.status === 401) {
+			await Notification.push(Notify.unauthenticated);
+			Blocker.stop();
+			Storage.remove(Key.userInfo);
+		}
 	}
 
 	static stop() {
@@ -50,7 +57,7 @@ export default class Blocker {
 		this.isRunning = true;
 	}
 
-	private static async processBlocking(blocksPerMinute: number): Promise<number> {
+	private static async processBlocking(blocksPerMinute: number): Promise<Response | undefined> {
 		if (this.blocksInCurrentIterationCount >= blocksPerMinute) {
 			this.clearIntervals();
 		}
@@ -61,10 +68,11 @@ export default class Blocker {
 			return;
 		}
 
-		await APIService.block(user);
+		const response = await APIService.block(user);
 		const queueLength = await Storage.getQueueLength();
 		this.blocksInCurrentIterationCount++;
 		Badge.updateBadgeCount(queueLength);
+		return response;
 	}
 
 	private static clearIntervals() {

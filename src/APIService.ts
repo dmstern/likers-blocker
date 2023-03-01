@@ -1,5 +1,4 @@
 import Messenger from "./Messages";
-import Notification, { Notify } from "./Notification";
 import Storage from "./Storage";
 import { QueuedUser } from "./User";
 const API_URL = "https://api.twitter.com/1.1/";
@@ -148,10 +147,6 @@ export default class APIService {
 		} else {
 			console.error("🛑 did not block", response);
 			Storage.queue(user);
-
-			if (response.status === 401) {
-				await Notification.push(Notify.unauthenticated);
-			}
 		}
 
 		Messenger.sendBlock({ success: wasSuccessful, status: response.status });
