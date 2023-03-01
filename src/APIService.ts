@@ -154,7 +154,7 @@ export default class APIService {
 			}
 		}
 
-		await Messenger.sendBlock({ success: wasSuccessful, status: response.status });
+		Messenger.sendBlock({ success: wasSuccessful, status: response.status });
 		return response;
 	}
 
