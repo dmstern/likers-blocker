@@ -1,10 +1,10 @@
-import typescript from "@rollup/plugin-typescript";
-import { terser } from "rollup-plugin-terser";
-import sass from "rollup-plugin-sass";
-import prettier from "rollup-plugin-prettier";
 import eslint from "@rollup/plugin-eslint";
+import typescript from "@rollup/plugin-typescript";
 import { writeFileSync } from "fs";
 import copy from "rollup-plugin-copy";
+import prettier from "rollup-plugin-prettier";
+import sass from "rollup-plugin-sass";
+import { terser } from "rollup-plugin-terser";
 
 const targetFolder = "dist";
 const chromeTargetFolder = "dist_chrome";
