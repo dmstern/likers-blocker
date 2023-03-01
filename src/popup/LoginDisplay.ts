@@ -1,10 +1,7 @@
-import { tabs } from "webextension-polyfill";
 import Messenger from "../Messages";
 import settings from "../settings";
 import Storage from "../Storage";
 import { UserInfo } from "../User";
-
-const timeToLoadTwitter = 5000;
 
 export default class LoginDisplay {
 	private main: HTMLElement;
@@ -39,18 +36,19 @@ export default class LoginDisplay {
 			loginLink.addEventListener("click", async (event) => {
 				event.preventDefault();
 
-				const twitterTab = await tabs.create({
-					active: true,
-					url: "https://twitter.com/login",
-				});
+				// const twitterTab = await tabs.create({
+				// 	active: true,
+				// 	url: "https://twitter.com/login",
+				// });
 
-				setTimeout(async () => {
-					const userInfoResponse = await Messenger.sendGetUserInfo(twitterTab);
-					const userInfo = userInfoResponse?.userInfo;
-					if (userInfo) {
-						Storage.setUserInfo(userInfo);
-					}
-				}, timeToLoadTwitter);
+				// setTimeout(async () => {
+				// 	const userInfoResponse = await Messenger.sendGetUserInfo(twitterTab);
+				// 	const userInfo = userInfoResponse?.userInfo;
+				// 	if (userInfo) {
+				// 		Storage.setUserInfo(userInfo);
+				// 	}
+				// }, timeToLoadTwitter);
+				await Messenger.sendLogin();
 			});
 		}
 	}
