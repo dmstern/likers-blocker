@@ -63,8 +63,6 @@ export default class Messenger {
 		const { success, status } = data;
 		const message = { action: Action.block, success, status };
 
-		console.log("sendBlock Message", message);
-
 		try {
 			await runtime.sendMessage(message);
 		} catch (error) {
@@ -122,7 +120,6 @@ export default class Messenger {
 	static onBlock(callback: (data: BlockData) => Promise<void>): void {
 		runtime.onMessage.addListener((message: BlockMessage) => {
 			if (message.action === Action.block) {
-				console.log("========= on block", Action.block);
 				const { success, status } = message;
 				this.log(message);
 				return callback({ success, status });
