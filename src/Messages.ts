@@ -1,5 +1,5 @@
 import { runtime, Tabs, tabs } from "webextension-polyfill";
-import { QueuedUser, UserInfo } from "./User";
+import { UserInfo } from "./User";
 
 enum Action {
 	getUserInfo = "getUserInfo",
@@ -14,8 +14,6 @@ interface Message {
 }
 
 export interface QueueUpdateData {
-	queuedUser?: QueuedUser;
-	dequeuedUser?: QueuedUser;
 	queueLength: number;
 	blockListLength?: number;
 }
@@ -26,8 +24,6 @@ export interface BlockData {
 }
 
 export interface QueueUpdateMessage extends Message {
-	queuedUser?: QueuedUser;
-	dequeuedUser?: QueuedUser;
 	queueLength: number;
 	blockListLength?: number;
 }
@@ -159,8 +155,8 @@ export default class Messenger {
 		runtime.onMessage.addListener((message: QueueUpdateMessage) => {
 			if (message.action === Action.queueUpdate) {
 				this.log(message);
-				const { dequeuedUser, queueLength, blockListLength } = message;
-				callback({ dequeuedUser, queueLength, blockListLength });
+				const { queueLength } = message;
+				callback({ queueLength });
 				return true;
 			}
 		});

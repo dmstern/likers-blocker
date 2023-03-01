@@ -28,6 +28,8 @@ export enum Key {
 	intervalBetweenBlockAccountsInSeconds = "intervalBetweenBlockAccountsInSeconds",
 	blocksPerMinute = "blocksPerMinute",
 	scrollsPerMinute = "scrollsPerMinute",
+	queueLength = "queueLength",
+	blockListLength = "blockListLength",
 }
 
 const values = {
@@ -197,6 +199,55 @@ export default class Storage {
 		}
 	}
 
+	static async getQueueLength(): Promise<number> {
+		let queueLength: number = await (this.get(Key.queueLength) as Promise<number>);
+
+		if (queueLength === undefined) {
+			queueLength = (await this.getQueue()).size;
+		}
+
+		return queueLength;
+	}
+
+	private static async setQueueLength(queueLength: number): Promise<void> {
+		await this.set(Key.queueLength, queueLength);
+		await Messenger.sendQueueUpdate({ queueLength });
+	}
+
+	private static async increaseQueueLength(): Promise<void> {
+		let queueLength: number = await this.getQueueLength();
+		queueLength++;
+
+		await Messenger.sendQueueUpdate({ queueLength });
+
+		this.set(Key.queueLength, queueLength);
+	}
+
+	private static async decreaseQueueLength(): Promise<void> {
+		let queueLength: number = await this.getQueueLength();
+		queueLength--;
+
+		await Messenger.sendQueueUpdate({ queueLength });
+
+		this.set(Key.queueLength, queueLength);
+	}
+
+	static async getBlockListLength(): Promise<number> {
+		let blockListLength: number = await (this.get(Key.blockListLength) as Promise<number>);
+
+		if (blockListLength === undefined) {
+			blockListLength = (await this.getBlockedAccounts()).size;
+		}
+
+		return blockListLength;
+	}
+
+	private static async increaseBlockListLength(): Promise<void> {
+		let blockListLength: number = await this.getBlockListLength();
+		blockListLength++;
+		this.set(Key.blockListLength, blockListLength);
+	}
+
 	static async getQueue(): Promise<UserSet<QueuedUser>> {
 		let queued = (await this.get(Key.blockingQueue)) as QueuedUser[] | undefined;
 
@@ -204,7 +255,8 @@ export default class Storage {
 			queued = [];
 		}
 
-		Messenger.sendQueueUpdate({ queueLength: queued.length });
+		const queueLength = queued.length;
+		await this.setQueueLength(queueLength);
 
 		return new UserSet<QueuedUser>(queued);
 	}
@@ -212,15 +264,23 @@ export default class Storage {
 	static async queue(user: QueuedUser) {
 		const queue = await this.getQueue();
 		const hasAdded = queue.add(user);
-		Messenger.sendQueueUpdate({ queueLength: queue.size, queuedUser: hasAdded ? user : null });
+
+		if (hasAdded) {
+			await this.increaseQueueLength();
+		}
+
 		this.set(Key.blockingQueue, queue.toArray());
 	}
 
 	static async dequeue(): Promise<QueuedUser> {
 		const queue = await this.getQueue();
 		const user = queue.shift();
-		this.set(Key.blockingQueue, queue.toArray());
-		Messenger.sendQueueUpdate({ queueLength: queue.size, dequeuedUser: user });
+
+		if (user) {
+			await this.decreaseQueueLength();
+		}
+
+		await this.set(Key.blockingQueue, queue.toArray());
 		return user;
 	}
 
@@ -237,15 +297,15 @@ export default class Storage {
 		const newUsers = users.filter((user) => !blockedAccounts.has(user));
 		const addedUsersCount: number = queue.merge(newUsers);
 
-		Messenger.sendQueueUpdate({ queueLength: queue.size });
-		this.set(Key.blockingQueue, queue.toArray());
+		await this.set(Key.blockingQueue, queue.toArray());
+		await this.setQueueLength(queue.size);
 
 		return addedUsersCount;
 	}
 
 	static async queueEmpty(): Promise<boolean> {
-		const queue = await this.getQueue();
-		return queue.size === 0;
+		const queueLength = await this.getQueueLength();
+		return queueLength === 0;
 	}
 
 	static async getBlockedAccounts(): Promise<UserSet<BlockedUser>> {
@@ -267,7 +327,9 @@ export default class Storage {
 		}));
 
 		blocked.merge(blockCandidates);
-		this.set(Key.blockedAccounts, blocked.toArray());
+
+		await this.set(Key.blockListLength, blocked.size);
+		await this.set(Key.blockedAccounts, blocked.toArray());
 	}
 
 	static async addBlocked(user: QueuedUser) {
@@ -286,7 +348,11 @@ export default class Storage {
 			blockedUser.interacted_with = user.interacted_with;
 		}
 
-		blocked.add(blockedUser);
+		const wasAdded = blocked.add(blockedUser);
+		if (wasAdded) {
+			await this.increaseBlockListLength();
+		}
+
 		this.set(Key.blockedAccounts, blocked.toArray());
 	}
 

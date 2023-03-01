@@ -62,9 +62,9 @@ export default class Blocker {
 		}
 
 		await APIService.block(user);
-		const queue = await Storage.getQueue();
+		const queueLength = await Storage.getQueueLength();
 		this.blocksInCurrentIterationCount++;
-		Badge.updateBadgeCount(queue.size);
+		Badge.updateBadgeCount(queueLength);
 	}
 
 	private static clearIntervals() {
