@@ -8,6 +8,7 @@ import Storage, { Key } from "../Storage";
 import { QueuedUser } from "./../User";
 
 const blockIntervals: NodeJS.Timeout[] = [];
+const avatarsOnBlockMachine = 14;
 
 export default class Blocker {
 	static readonly alarmName: string = "blockTask";
@@ -52,10 +53,10 @@ export default class Blocker {
 			// tempQueue is empty, get the first batch from storage:
 			this.dequeuedUsers = await Storage.dequeueMulti(settings.DEQUEUE_BATCH_SIZE);
 			console.debug("🕍 NEW dequeueUsers", this.dequeuedUsers);
-		} else if (this.dequeuedUsers.length < 14) {
+		} else if (this.dequeuedUsers.length < avatarsOnBlockMachine) {
 			// tempQueue is getting empty, get the next batch from storage:
 			const nextBatchFromStorage = await Storage.dequeueMulti(settings.DEQUEUE_BATCH_SIZE);
-			this.dequeuedUsers = nextBatchFromStorage.concat(this.dequeuedUsers);
+			this.dequeuedUsers = this.dequeuedUsers.concat(nextBatchFromStorage);
 			Messenger.sendNextBatch({ nextBatchFromStorage, newTempQueue: this.dequeuedUsers });
 			console.debug("🕍 MORE dequeueUsers", this.dequeuedUsers);
 		}
