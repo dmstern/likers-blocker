@@ -10,11 +10,8 @@ export default class Status {
 	static queueListLabel: HTMLElement;
 
 	private static async init() {
-		// Values:
-		const queue = await Storage.getQueue();
-		const blockedAccounts = await Storage.getBlockedAccounts();
-		const queueLength = queue.size || 0;
-		const blockedLength = blockedAccounts.size || 0;
+		const queueLength = await Storage.getQueueLength();
+		const blockedLength = await Storage.getBlockListLength();
 
 		this.queueLength = queueLength;
 		this.blockedLength = blockedLength;

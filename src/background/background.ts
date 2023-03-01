@@ -16,7 +16,7 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 	Blocker.run();
 	WebRequestInterceptor.interceptTwitterRequests();
 	Badge.setColor();
-	Storage.getQueue().then((queue) => Badge.updateBadgeCount(queue.size));
+	Storage.getQueueLength().then((queueLength) => Badge.updateBadgeCount(queueLength));
 
 	Messenger.onQueueUpdate(({ queueLength }) => {
 		Badge.updateBadgeCount(queueLength);

@@ -32,8 +32,8 @@ import ScrollSpeedSlider from "./ScrollSpeedSlider";
 			await storage.local.clear();
 			BlockSpeedSlider.init();
 			ScrollSpeedSlider.init();
-			const queue = await Storage.getQueue();
-			Badge.updateBadgeCount(queue.size);
+			const queueLength = await Storage.getQueueLength();
+			Badge.updateBadgeCount(queueLength);
 		});
 	}
 })();
