@@ -6,6 +6,7 @@ enum Action {
 	queueUpdate = "queueUpdate",
 	blockSpeedUpdate = "blockSpeedUpdate",
 	block = "block",
+	login = "login",
 }
 
 interface Message {
@@ -33,6 +34,10 @@ export interface QueueUpdateMessage extends Message {
 
 export interface GetUserInfoMessage extends Message {
 	action: Action.getUserInfo;
+}
+
+export interface LoginMessage extends Message {
+	action: Action.login;
 }
 
 export interface BlockMessage extends Message {
@@ -93,6 +98,16 @@ export default class Messenger {
 		}
 	}
 
+	static async sendLogin() {
+		const message = { action: Action.login };
+
+		try {
+			await runtime.sendMessage(message);
+		} catch (error) {
+			this.log(message, error);
+		}
+	}
+
 	static async sendQueueUpdate(data: QueueUpdateData) {
 		const action = Action.queueUpdate;
 		const message = { action, ...data };
@@ -128,6 +143,15 @@ export default class Messenger {
 	static onGetUserInfo(callback: () => Promise<GetUserInfoResponse>): void {
 		runtime.onMessage.addListener((message: GetUserInfoMessage) => {
 			if (message.action === Action.getUserInfo) {
+				this.log(message);
+				return callback();
+			}
+		});
+	}
+
+	static onLogin(callback: () => Promise<void>): void {
+		runtime.onMessage.addListener((message: LoginMessage) => {
+			if (message.action === Action.login) {
 				this.log(message);
 				return callback();
 			}

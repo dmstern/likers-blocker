@@ -1,4 +1,4 @@
-import { alarms } from "webextension-polyfill";
+import { alarms, tabs } from "webextension-polyfill";
 import Badge from "../Badge";
 import Messenger from "../Messages";
 import Storage from "../Storage";
@@ -25,5 +25,25 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 	Messenger.onBlockSpeedUpdate(() => {
 		Blocker.stop();
 		Blocker.run();
+	});
+
+	Messenger.onLogin(async () => {
+		const timeToLoadTwitter = 5000;
+
+		const twitterTab = await tabs.create({
+			active: true,
+			url: "https://twitter.com/login",
+		});
+
+		return new Promise((resolve) => {
+			setTimeout(async () => {
+				const userInfoResponse = await Messenger.sendGetUserInfo(twitterTab);
+				const userInfo = userInfoResponse?.userInfo;
+				if (userInfo) {
+					Storage.setUserInfo(userInfo);
+					resolve();
+				}
+			}, timeToLoadTwitter);
+		});
 	});
 })();
