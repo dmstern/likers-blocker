@@ -14,6 +14,8 @@ const TOPBAR_SELECTOR = {
 	desktop: "[aria-labelledby=modal-header] > div > div > div > div > div > div > div > div > div",
 };
 
+const BLOCKED_BUTTON_SELECTOR = "[data-testid=UserCell] [role=button]";
+
 export default class AccountCollector {
 	private progressInPercent: number;
 	private uiIdleCounter: number;
@@ -70,8 +72,16 @@ export default class AccountCollector {
 	}
 
 	public static run(): void {
-		// for when we are on the likes page:
+		// If nothing else suits:
 		new AccountCollector();
+
+		// when initially loading any twitter page:
+		tryToAccessDOM(TOPBAR_SELECTOR[TwitterPage.viewport], null, null, null, 100).then(
+			() => new AccountCollector()
+		);
+
+		// when initially loading the block page:
+		tryToAccessDOM(BLOCKED_BUTTON_SELECTOR, null, null, null, 100).then(() => new AccountCollector());
 
 		// For every other page: try it on click again:
 		document.body.addEventListener("click", () => new AccountCollector());
