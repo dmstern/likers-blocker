@@ -38,8 +38,9 @@ export default class Badge {
 		];
 
 		const { suffix, divisor } = minifyProperties.find(({ divisor }) => length >= divisor);
-		const prefix = suffix.length > 0 ? ">" : "";
-		const text = length == 0 ? "" : `${prefix}${Math.floor(length / divisor)}${suffix}`;
+		const displayValue = Math.floor(length / divisor);
+		const prefix = suffix.length > 0 && displayValue.toString().length < 2 ? ">" : "";
+		const text = length == 0 ? "" : `${prefix}${displayValue}${suffix}`;
 		const details = {
 			text: text,
 		};
