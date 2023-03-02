@@ -932,7 +932,7 @@ export default class AccountCollector {
 				this.uiIdleCounter = -1;
 
 				warning.addEventListener("transitionend", () => {
-					this.popup.removeChild(warning);
+					warning.remove();
 				});
 			});
 		});
