@@ -60,6 +60,46 @@ export default class TwitterPage {
 		});
 	}
 
+	static async getTweetId(): Promise<string> {
+		const isTweetPage = await this.isTweetPage();
+		const parts = location.href.split("/");
+		const lastPart = parts.at(-1);
+		const endsWithNumber = /\d/.test(lastPart);
+		const isTweetBasePage = location.pathname.includes("status") && endsWithNumber;
+
+		let tweetId: string;
+
+		if (isTweetBasePage) {
+			tweetId = lastPart;
+		}
+
+		if (isTweetPage) {
+			tweetId = parts.at(-2);
+		}
+
+		return tweetId;
+	}
+
+	static async getListId(): Promise<string> {
+		const isTweetPage = await this.isListPage();
+		const parts = location.href.split("/");
+		const lastPart = parts.at(-1);
+		const endsWithNumber = /\d/.test(lastPart);
+		const isTweetBasePage = location.pathname.includes("status") && endsWithNumber;
+
+		let tweetId: string;
+
+		if (isTweetBasePage) {
+			tweetId = lastPart;
+		}
+
+		if (isTweetPage) {
+			tweetId = parts.at(-2);
+		}
+
+		return tweetId;
+	}
+
 	static isLikesPage(): Promise<boolean> {
 		const isLikesPage = location.pathname.endsWith("likes");
 		document.body.classList.toggle("lb-likes-page", isLikesPage);
