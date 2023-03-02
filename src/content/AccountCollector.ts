@@ -29,6 +29,7 @@ export default class AccountCollector {
 	private scrollInterval: number;
 	private topbar: HTMLElement | null | undefined;
 	private totalUsersCount: number;
+	private confirmButton: HTMLAnchorElement | HTMLDivElement;
 
 	private constructor() {
 		this.collectedUsers = new UserSet();
@@ -134,8 +135,6 @@ export default class AccountCollector {
 		if (!this.totalUsersCount) {
 			this.totalUsersCount = -1;
 		}
-
-		console.debug("totalLikesCount", this.totalUsersCount);
 
 		return this.totalUsersCount;
 	}
@@ -403,7 +402,7 @@ export default class AccountCollector {
 		});
 	}
 
-	private async createFinishButton(confirmButton: HTMLDivElement) {
+	private async createFinishButton() {
 		const finishButton = document.createElement("button") as HTMLButtonElement;
 		finishButton.innerHTML = `${icons.forward}${icons.smile}`;
 		finishButton.tabIndex = 0;
@@ -426,7 +425,7 @@ export default class AccountCollector {
 				async () => {
 					finishButton.disabled = true;
 					this.popup.classList.remove("lb-popup--has-warning");
-					await this.finishCollecting(confirmButton);
+					await this.finishCollecting();
 				},
 				{
 					once: true,
@@ -471,32 +470,30 @@ export default class AccountCollector {
 		confirmInfo.innerHTML = `<p>${i18n.getMessage(explanationLabel)}</p>`;
 		areaWrapper.appendChild(confirmInfo);
 
-		let confirmButton: HTMLAnchorElement | HTMLDivElement;
-
 		if (isBlockExportPage) {
 			const firstOriginalBlockButton = document.querySelector("[data-testid=UserCell] [role=button]");
-			confirmButton = document.createElement("a");
-			confirmButton.innerHTML = firstOriginalBlockButton.innerHTML;
-			confirmButton.classList.add(...firstOriginalBlockButton.classList);
+			this.confirmButton = document.createElement("a");
+			this.confirmButton.innerHTML = firstOriginalBlockButton.innerHTML;
+			this.confirmButton.classList.add(...firstOriginalBlockButton.classList);
 		} else {
-			confirmButton = this.blockButton.cloneNode(true) as HTMLAnchorElement;
+			this.confirmButton = this.blockButton.cloneNode(true) as HTMLAnchorElement;
 		}
 
-		confirmButton.classList.add("lb-confirm-button");
-		confirmButton.classList.remove("lb-block-button");
+		this.confirmButton.classList.add("lb-confirm-button");
+		this.confirmButton.classList.remove("lb-block-button");
 		const confirmTitle = getLabel("confirmTitle");
-		confirmButton.title = i18n.getMessage(confirmTitle);
-		confirmButton.style.backgroundColor = "var(--background-color)";
-		confirmButton.style.color = "var(--color)";
-		this.popup.appendChild(confirmButton);
+		this.confirmButton.title = i18n.getMessage(confirmTitle);
+		this.confirmButton.style.backgroundColor = "var(--background-color)";
+		this.confirmButton.style.color = "var(--color)";
+		this.popup.appendChild(this.confirmButton);
 
 		if (!this.isLegacyTwitter && !isBlockExportPage) {
-			confirmButton.querySelector("div > span")?.remove();
+			this.confirmButton.querySelector("div > span")?.remove();
 		}
 
 		const confirmButtonLabel = this.isLegacyTwitter
-			? confirmButton
-			: (confirmButton.querySelector("div > span > span") as HTMLElement);
+			? this.confirmButton
+			: (this.confirmButton.querySelector("div > span > span") as HTMLElement);
 
 		confirmButtonLabel.innerText = i18n.getMessage(getLabel("buttonLabel"));
 		const confirmButtonIcon = document.createElement("span");
@@ -505,13 +502,13 @@ export default class AccountCollector {
 		confirmButtonIconSvg && confirmButtonLabel?.parentElement?.append(confirmButtonIconSvg);
 
 		if (!isBlockExportPage) {
-			confirmButton.addEventListener("click", () => {
+			this.confirmButton.addEventListener("click", () => {
 				this.addToQueue(confirmInfo, confirmButtonIcon, confirmButtonLabel);
 				this.popup.classList.add("lb-confirmed");
 			});
 		}
 
-		await this.createConfirmCloseButton(confirmButton);
+		await this.createConfirmCloseButton(this.confirmButton);
 		return areaWrapper;
 	}
 
@@ -621,13 +618,13 @@ export default class AccountCollector {
 		window.setTimeout(circleTabInModalPopup, 0);
 	};
 
-	private async initBlockAction(confirmButton: HTMLDivElement) {
+	private async initBlockAction() {
 		const popupLabel = this.popup.querySelector(".lb-label") as HTMLElement;
 		Object.assign(popupLabel.style, this.textStyle);
-		await this.startScrolling(confirmButton);
+		await this.startScrolling();
 	}
 
-	private async scrollDown(confirmButton: HTMLDivElement) {
+	private async scrollDown() {
 		console.debug("scrollDown()");
 		const scrolly = await this.scrolly;
 		const scrollListIsSmall = scrolly.scrollHeight < scrolly.clientHeight * 2;
@@ -649,11 +646,11 @@ export default class AccountCollector {
 				scrolledToBottom,
 				scrollListIsSmall,
 			});
-			await this.finishCollecting(confirmButton);
+			await this.finishCollecting();
 		}
 	}
 
-	private async finishCollecting(confirmButton: HTMLDivElement): Promise<void> {
+	private async finishCollecting(): Promise<void> {
 		if (this.hasStateChangedToConfirm) {
 			return;
 		}
@@ -666,9 +663,10 @@ export default class AccountCollector {
 			await Storage.addBlockedMulti(this.collectedUsers.toArray());
 			const blockedAccounts = await Storage.getBlockedAccounts();
 			const { filename, url } = FileManager.getDownloadLinkForBlockList(blockedAccounts);
-			const downloadLink: HTMLAnchorElement = confirmButton.querySelector("a") as HTMLAnchorElement;
-			downloadLink.href = url;
-			downloadLink.download = filename;
+			if (this.confirmButton instanceof HTMLAnchorElement) {
+				this.confirmButton.href = url;
+				this.confirmButton.download = filename;
+			}
 		}
 
 		const confirmHeading = this.popup.querySelector(".lb-confirm-message h3 span");
@@ -749,8 +747,8 @@ export default class AccountCollector {
 
 		await this.createCloseButton();
 		await this.createFooter();
-		await this.createFinishButton(confirmButton);
-		await this.initBlockAction(confirmButton);
+		await this.createFinishButton();
+		await this.initBlockAction();
 	}
 
 	private async createFooter() {
@@ -873,14 +871,14 @@ export default class AccountCollector {
 		});
 	}
 
-	private async startScrolling(confirmButton: HTMLDivElement) {
+	private async startScrolling() {
 		(await this.getScrollList()).classList.add("lb-blur");
 		(await this.scrolly).scrollTo(0, 0);
 		this.collectedUsers = new UserSet();
 		const scrollsPerMinute = await Storage.getScrollsPerMinute();
 		const scrollInterval = Math.round((60 / scrollsPerMinute) * 1000);
 		this.scrollInterval = window.setInterval(async () => {
-			await this.scrollDown(confirmButton);
+			await this.scrollDown();
 		}, scrollInterval);
 	}
 
