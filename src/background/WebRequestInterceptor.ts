@@ -18,7 +18,14 @@ export default class WebRequestInterceptor {
 			if (name === "authorization" && value.includes("Bearer")) {
 				// console.debug("🔐 saving authentication token.");
 				Storage.setAuthToken(value);
-				Messenger.sendGetUserInfo();
+
+				Storage.getUserInfo().then((userInfo) => {
+					if (!userInfo) {
+						Messenger.sendGetUserInfo().then(({ userInfo }) => {
+							Storage.setUserInfo(userInfo);
+						});
+					}
+				});
 			}
 
 			const re = /[0-9A-Fa-f]{160}/;
