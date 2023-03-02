@@ -212,6 +212,7 @@ export default class AccountCollector {
 	}
 
 	private async collectUsers() {
+		const isBlockPage = await TwitterPage.isBlockExportPage();
 		const userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
 			? (await this.getScrollList()).querySelectorAll("a.js-user-profile-link")
 			: (await this.getScrollList()).querySelectorAll('[data-testid="UserCell"]');
@@ -237,7 +238,7 @@ export default class AccountCollector {
 
 			const wasAdded = this.collectedUsers.add(user);
 
-			if (wasAdded) {
+			if (wasAdded && !isBlockPage) {
 				this.renderAvatar(profileImg);
 			}
 		}
