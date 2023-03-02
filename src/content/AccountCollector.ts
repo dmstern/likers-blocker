@@ -1,4 +1,5 @@
 import { i18n } from "webextension-polyfill";
+import APIService from "../APIService";
 import FileManager from "../FileManager";
 import icons from "../icons";
 import settings from "../settings";
@@ -25,6 +26,7 @@ export default class AccountCollector {
 	private popupWrapper: HTMLElement;
 	private scrollInterval: number;
 	private topbar: HTMLElement | null | undefined;
+	private totalUsersCount: number;
 
 	private constructor() {
 		this.collectedUsers = new UserSet();
@@ -100,51 +102,32 @@ export default class AccountCollector {
 		return linkModifier === badgeType ? "lb-footer__link--show-badge" : "";
 	}
 
-	async getTotalUsersCount(): Promise<number> {
-		function parseCountFromElement(countElement: HTMLElement | null): number {
-			if (!countElement) {
-				return -1;
-			}
+	private async getTotalUsersCount(): Promise<number> {
+		const isRetweetsPage = await TwitterPage.isRetweetsPage();
+		const isTweetPage = await TwitterPage.isTweetPage();
+		const isListPage = await TwitterPage.isListPage();
 
-			const likesCountText = countElement.textContent;
-			const chars = likesCountText?.split("");
-			const factors = {
-				M: 1_000_000,
-				K: 1_000,
-			};
-
-			if (chars) {
-				const lastCharacter = chars.at(-1)?.toString();
-				const factor = lastCharacter && lastCharacter in factors ? factors[lastCharacter] : 1;
-				return parseInt(chars.filter((char) => !isNaN(Number(char))).join("")) * factor;
-			}
-
-			return -1;
-		}
-
-		if (await TwitterPage.isBlockExportPage()) {
-			return -1;
-		}
-
-		if (this.isLegacyTwitter) {
-			const likesCounterLink = await tryToAccessDOM("[data-tweet-stat-count].request-favorited-popup");
-			if (likesCounterLink) {
-				likesCounterLink.addEventListener("click", () => new AccountCollector());
-				return parseCountFromElement(likesCounterLink.querySelector("strong"));
+		if (!this.totalUsersCount) {
+			if (isTweetPage) {
+				const tweetId = await TwitterPage.getTweetId();
+				const tweet = await APIService.getTweet(tweetId);
+				this.totalUsersCount = isRetweetsPage ? tweet.retweet_count : tweet.favorite_count;
+			} else if (isListPage) {
+				const listId = await TwitterPage.getListId();
+				const list = await APIService.getList(listId);
+				this.totalUsersCount =
+					isListPage === AccountList.followers ? list.subscriber_count : list.member_count;
 			}
 		}
 
-		const isListPage = (await TwitterPage.isListPage()) as AccountList;
-		if (isListPage) {
-			return parseCountFromElement(await tryToAccessDOM(`a[href$="${isListPage}"] span span`));
+		// prevent multiple api calls of not successful:
+		if (!this.totalUsersCount) {
+			this.totalUsersCount = -1;
 		}
 
-		const usersCountElement = await tryToAccessDOM("a[href$=likes] > div > span > span");
-		if (usersCountElement) {
-			return parseCountFromElement(usersCountElement);
-		}
+		console.debug("totalLikesCount", this.totalUsersCount);
 
-		return -1;
+		return this.totalUsersCount;
 	}
 
 	private async getLimitMessage() {

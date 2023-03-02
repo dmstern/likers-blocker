@@ -1,5 +1,6 @@
 import Messenger from "./Messages";
 import Storage from "./Storage";
+import { Tweet, List } from "./APIResponseTypes";
 import { QueuedUser } from "./User";
 const API_URL = "https://api.twitter.com/1.1/";
 
@@ -8,6 +9,8 @@ enum Endpoint {
 	// userInfo = "users/show",
 	retweeters = "statuses/retweets",
 	lookupUsers = "users/lookup",
+	getTweet = "statuses/show",
+	getList = "lists/show",
 }
 
 enum Method {
@@ -151,6 +154,36 @@ export default class APIService {
 
 		Messenger.sendBlock({ success: wasSuccessful, status: response.status });
 		return response;
+	}
+
+	static async getTweet(id: string): Promise<Tweet | undefined> {
+		const response = await this.sendGetRequest({
+			endpoint: Endpoint.getTweet,
+			params: { id },
+			preventPreflight: true,
+		});
+
+		if (response && response.ok) {
+			const tweet = await response.json();
+			return tweet;
+		} else {
+			console.error("No Tweet found", response);
+		}
+	}
+
+	static async getList(id: string): Promise<List | undefined> {
+		const response = await this.sendGetRequest({
+			endpoint: Endpoint.getList,
+			params: { list_id: id },
+			preventPreflight: true,
+		});
+
+		if (response && response.ok) {
+			const tweet = await response.json();
+			return tweet;
+		} else {
+			console.error("No Tweet found", response);
+		}
 	}
 
 	// static async getRetweeters(tweetId: string): Promise<User[]> {
