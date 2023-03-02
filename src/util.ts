@@ -61,6 +61,8 @@ function tryToAccessDOM(
 				clearInterval(interval);
 				resolve(elementToExpect);
 			}
+
+			// console.debug("found element", selector, elementToExpect);
 		}
 
 		interval = setInterval(tryIt, 500);
