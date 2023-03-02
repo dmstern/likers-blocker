@@ -23,11 +23,11 @@ function tryToAccessDOM(
 	selector: string,
 	multiple?: boolean,
 	expectedCount?: number,
-	context?: HTMLElement
+	context?: HTMLElement,
+	tryMax = 10
 ): Promise<HTMLElement | null> {
 	let elementToExpect: HTMLElement | null = null;
 	let tryCounter = 0;
-	const tryMax = 10;
 	let interval: NodeJS.Timeout | undefined = undefined;
 
 	return new Promise((resolve) => {
