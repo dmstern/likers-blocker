@@ -10,6 +10,11 @@
 	text-shadow: 0 0 5px hsla(0deg 0% 80% / 80%);
 	color: $color-success;
 	animation: spark 2s ease forwards;
+	display: none;
+
+	.animation-level--frisky & {
+		display: block;
+	}
 }
 
 @keyframes spark {

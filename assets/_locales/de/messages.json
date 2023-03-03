@@ -279,6 +279,26 @@
 		"message": "Twitter-Anzeigen blockieren",
 		"description": "Label for the options setting if ad blocker should be active."
 	},
+	"options_animation_level": {
+		"message": "Animationen",
+		"description": "Option setting label how much should the UI be animated."
+	},
+	"options_animation_level_hint": {
+		"message": "Für langsamere Computer kannst du die Leistung evtl. verbessern, indem du das Animationslevel etwas runter drehst und bpsw. auf die Block-Maschine oder den Einsammel-Laster verzichtest.",
+		"description": "Option setting label hint (mouseover) how much should the UI be animated."
+	},
+	"options_animation_level_off": {
+		"message": "aus",
+		"description": "Option value label for animation level 'off'."
+	},
+	"options_animation_level_mild": {
+		"message": "moderat",
+		"description": "Option value label for animation level 'mild'."
+	},
+	"options_animation_level_frisky": {
+		"message": "verspielt",
+		"description": "Option value label for animation level 'frisky'."
+	},
 	"options_reset": {
 		"message": "Einstellungen zurücksetzen",
 		"description": "Reset settings button label. (may not be too long)"

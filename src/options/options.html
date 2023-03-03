@@ -120,6 +120,32 @@
 		</div>
 	</div>
 
+	<div class="setting animation-level-slider">
+		<div class="setting__content">
+			<label class="setting__label label" data-title="options_animation_level_hint">
+				<span data-icon="animation"></span>
+				<span data-label="options_animation_level" class="label__text"></span>
+				<span data-icon="question"></span>
+			</label>
+			<div class="setting__value-wrapper">
+				<div class="setting__value">
+					<div class="animation-level-slider__state-icons">
+						<span data-icon="fire"></span>
+						<span data-icon="scale"></span>
+						<span data-icon="boltSlash"></span>
+					</div>
+				</div>
+				<input type="range" min="-1" max="1" name="animation" id="animationLevel" list="animationLevelValues"
+					class="setting__input">
+				<datalist id="animationLevelValues">
+					<option value="-1" data-label-attribute="options_animation_level_off"></option>
+					<option value="0" data-label-attribute="options_animation_level_mild"></option>
+					<option value="1" data-label-attribute="options_animation_level_frisky"></option>
+				</datalist>
+			</div>
+		</div>
+	</div>
+
 	<div class="setting ad-block-switcher">
 		<label label class="setting__content">
 			<div class="label">

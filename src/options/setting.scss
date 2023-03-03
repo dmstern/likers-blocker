@@ -47,8 +47,13 @@
 		@include value;
 
 		margin: 0 1rem;
-		width: 6rem;
+		min-width: 6rem;
 		box-shadow: none;
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
 
 		&--colored {
 			color: hsl(var(--hue) 90% var(--colored-value--light));

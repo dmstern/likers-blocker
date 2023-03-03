@@ -287,6 +287,26 @@
 		"message": "Block Twitter ads",
 		"description": "Label for the options setting if ad blocker should be active."
 	},
+	"options_animation_level": {
+		"message": "Animations",
+		"description": "Option setting label how much should the UI be animated."
+	},
+	"options_animation_level_hint": {
+		"message": "For slower computers, you could likely improve the performance by reducing the UI animations the collecting like truck or the block machine",
+		"description": "Option setting label hint (mouseover) how much should the UI be animated."
+	},
+	"options_animation_level_off": {
+		"message": "aus",
+		"description": "Option value label for animation level 'off'."
+	},
+	"options_animation_level_mild": {
+		"message": "mild",
+		"description": "Option value label for animation level 'mild'."
+	},
+	"options_animation_level_frisky": {
+		"message": "frisky",
+		"description": "Option value label for animation level 'frisky'."
+	},
 	"options_reset": {
 		"message": "Reset settings",
 		"description": "Reset settings button label. (may not be too long)"

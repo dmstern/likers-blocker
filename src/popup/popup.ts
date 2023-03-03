@@ -9,6 +9,9 @@ import BlockSpeedometer from "./BlockSpeedometer";
 import LoginDisplay from "./LoginDisplay";
 import "./popup.scss";
 import Stats from "./Stats";
+import Storage, { AnimationLevel } from "../Storage";
+
+let popupAnimationLevel: AnimationLevel;
 
 function alignRightButtons() {
 	const rightButtons: NodeListOf<HTMLElement> = document.querySelectorAll(".btn--issue");
@@ -32,7 +35,14 @@ function alignRightButtons() {
 	new BlockSpeedometer();
 	new AdBlockCounter();
 	Stats.update();
-	BlockMachine.init();
+
+	Storage.getAnimationLevel().then((animationLevel) => {
+		document.body.classList.add(`animation-level--${animationLevel}`);
+		popupAnimationLevel = animationLevel;
+		if (animationLevel === AnimationLevel.frisky) {
+			BlockMachine.init();
+		}
+	});
 
 	const optionsButton = document.querySelector("#options");
 	optionsButton?.addEventListener("click", () => {
@@ -48,6 +58,10 @@ function alignRightButtons() {
 
 	Messenger.onBlock(async ({ success, status }) => {
 		Stats.update();
+
+		if (popupAnimationLevel !== AnimationLevel.frisky) {
+			return;
+		}
 
 		if (success) {
 			await BlockMachine.runBlockAnimation();
