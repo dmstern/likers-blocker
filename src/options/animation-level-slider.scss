@@ -3,16 +3,40 @@
 		--hue: 0deg;
 	}
 
-	25% {
-		--hue: 90deg;
+	10% {
+		--hue: 36deg;
+	}
+
+	20% {
+		--hue: 72deg;
+	}
+
+	30% {
+		--hue: 108deg;
+	}
+
+	40% {
+		--hue: 108deg;
 	}
 
 	50% {
 		--hue: 180deg;
 	}
 
-	75% {
-		--hue: 270deg;
+	60% {
+		--hue: 216deg;
+	}
+
+	70% {
+		--hue: 252deg;
+	}
+
+	80% {
+		--hue: 288deg;
+	}
+
+	90% {
+		--hue: 324deg;
 	}
 
 	100% {
@@ -23,7 +47,7 @@
 .animation-level-slider {
 	&__state-icons {
 		width: 1.2rem;
-		height: 5rem;
+		height: 80px;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -56,7 +80,7 @@
 		}
 
 		.setting__value--colored {
-			animation: rainbow 5s infinite;
+			animation: rainbow 10s ease infinite;
 		}
 	}
 }

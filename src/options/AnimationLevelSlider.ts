@@ -49,14 +49,6 @@ export default class AnimationLevelSlider {
 		animationLevelValueDisplay.classList.toggle("setting__value--colored", value > -1);
 		animationLevelValueDisplay.title = animationLevel;
 
-		// const hue = {
-		// 	off: "0",
-		// 	mild: "100",
-		// 	frisky: "-78",
-		// };
-
-		// animationLevelValueDisplay.style.setProperty("--hue", hue[animationLevel]);
-
 		this.setStateClass(animationLevel);
 	}
 }
