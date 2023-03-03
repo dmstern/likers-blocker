@@ -1,0 +1,54 @@
+.switch {
+	--height: 28px;
+	--width: 60px;
+	--padding: 4px;
+	--bubble-width: calc(var(--height) - (var(--padding)));
+
+  position: relative;
+  display: inline-block;
+  width: var(--width);
+  height: var(--height);
+
+	/* Hide default HTML checkbox */
+	input {
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+
+	&__slider {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: var(--color--decent);
+		border-radius: var(--height);
+		transition: .4s;
+
+		&::before {
+			position: absolute;
+			content: "";
+			height: var(--bubble-width);
+			width: var(--bubble-width);
+			left: calc(var(--padding) / 2);
+			top: calc(var(--padding) / 2);
+			background-color: white;
+			border-radius: 50%;
+			transition: .4s;
+	
+			input:checked + & {
+				transform: translateX(calc(var(--width) - var(--bubble-width) - var(--padding)));
+			}
+		}
+
+		input:checked + & {
+			background-color: var(--color--info);
+		}
+
+		input:focus + & {
+			box-shadow: 0 0 1px var(--color--info);
+		}		
+	}	
+}

@@ -13,7 +13,8 @@
 	<div class="setting import-export">
 
 		<div class="import-export__include-old">
-			<a href="http://twitter.com/settings/blocked/all" data-title="options_include_previously_blocked_hint" target="_blank" rel="noopener noreferrer">
+			<a href="http://twitter.com/settings/blocked/all" data-title="options_include_previously_blocked_hint"
+				target="_blank" rel="noopener noreferrer">
 				<span data-label="options_include_previously_blocked"></span>
 				<span data-icon="external"></span>
 			</a>
@@ -82,7 +83,8 @@
 			</label>
 			<div class="setting__value-wrapper">
 				<div class="setting__value setting__value--colored"></div>
-				<input type="range" min="0" max="60" name="block-speed" id="blockSpeed" list="blockSpeedValues" class="setting__input">
+				<input type="range" min="0" max="60" name="block-speed" id="blockSpeed" list="blockSpeedValues"
+					class="setting__input">
 				<div class="range-scale"></div>
 				<datalist id="blockSpeedValues">
 					<option value="0"></option>
@@ -96,19 +98,19 @@
 					<option value="8"></option>
 					<option value="9"></option>
 					<option value="10""></option>
-					<option value="12""></option>
+					<option value=" 12""></option>
 					<option value="14""></option>
-					<option value="16""></option>
+					<option value=" 16""></option>
 					<option value="18""></option>
-					<option value="20""></option>
+					<option value=" 20""></option>
 					<option value="25""></option>
-					<option value="30""></option>
+					<option value=" 30""></option>
 					<option value="35""></option>
-					<option value="40""></option>
+					<option value=" 40""></option>
 					<option value="45""></option>
-					<option value="50""></option>
+					<option value=" 50""></option>
 					<option value="55""></option>
-					<option value="60""></option>
+					<option value=" 60""></option>
 				</datalist>
 			</div>
 		</div>
@@ -119,13 +121,16 @@
 	</div>
 
 	<div class="setting ad-block-switcher">
-		<div class="setting__content">
-			<label class="label" for="adBlockSwitcher">
+		<label label class="setting__content">
+			<div class="label">
 				<span data-icon="store"></span>
-				<span data-label="options_ad_block-switcher"></span>
-			</label>
-			<input type="checkbox" name="ad-block-switcher" id="adBlockSwitcher" checked>
-		</div>
+				<span data-label="options_ad_block_switcher"></span>
+			</div>
+			<div class="switch">
+				<input type="checkbox" name="ad-block-switcher" id="adBlockSwitcher" checked>
+				<span class="switch__slider"></span>
+			</div>
+		</label>
 	</div>
 
 	<hr>
