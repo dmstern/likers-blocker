@@ -1,0 +1,62 @@
+@keyframes rainbow {
+	0% {
+		--hue: 0deg;
+	}
+
+	25% {
+		--hue: 90deg;
+	}
+
+	50% {
+		--hue: 180deg;
+	}
+
+	75% {
+		--hue: 270deg;
+	}
+
+	100% {
+		--hue: 360deg;
+	}
+}
+
+.animation-level-slider {
+	&__state-icons {
+		width: 1.2rem;
+		height: 5rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		transition: 500ms;
+	}
+
+	&--off {
+		.animation-level-slider__state-icons {
+			transform: translateY(-37%)
+		}
+
+		.setting__value--colored {
+			--hue: 0;
+		}
+	}
+
+	&--mild {
+		.animation-level-slider__state-icons {
+			transform: translateY(0)
+		}
+
+		.setting__value--colored {
+			--hue: 100;
+		}
+	}
+
+	&--frisky {
+		.animation-level-slider__state-icons {
+			transform: translateY(37%);
+		}
+
+		.setting__value--colored {
+			animation: rainbow 5s infinite;
+		}
+	}
+}

@@ -35,6 +35,11 @@
 	top: 8px;
 	left: var(--lb-popup-padding);
 	transform: translateY(-100%);
+	display: none;
+
+	.animation-level--frisky & {
+		display: block;
+	}
 
 	.lb-confirmed & {
 		animation: drive 3s ease-in 0s forwards;

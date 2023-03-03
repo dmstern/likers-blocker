@@ -37,7 +37,6 @@
 	--stand-height: 24px;
 
   position: absolute;
-  display: block;
   width: var(--length);
 	height: var(--thickness);
   left: 50%;
@@ -45,6 +44,11 @@
 	opacity: .3;
 	transition: all 500ms ease;
 	color: var(--graphics-color);
+	display: none;
+
+	.animation-level--frisky & {
+		display: block;
+	}
 
 	.block-speed-fast & {
 		--run-duration: 500ms;

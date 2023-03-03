@@ -17,6 +17,11 @@ export default class BlockMachine {
 
 	static async init() {
 		const queue = await Messenger.sendGetTempQueue();
+
+		if (!queue) {
+			return;
+		}
+
 		queue.forEach((user, index) => {
 			this.renderAvatar(user, index);
 		});

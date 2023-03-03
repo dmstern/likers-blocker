@@ -25,4 +25,8 @@ export function localizeUI() {
 	replaceData("title", (element, message) => {
 		element.setAttribute("title", message);
 	});
+
+	replaceData("label-attribute", (element, message) => {
+		element.setAttribute("label", message);
+	});
 }

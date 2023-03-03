@@ -4,7 +4,7 @@ import APIService from "../APIService";
 import FileManager from "../FileManager";
 import icons from "../icons";
 import settings from "../settings";
-import Storage from "../Storage";
+import Storage, { AnimationLevel } from "../Storage";
 import { QueuedUser, UserSet } from "../User";
 import { debounce, tryToAccessDOM } from "../util";
 import TextStyle from "./TextStyle";
@@ -31,6 +31,7 @@ export default class AccountCollector {
 	private topbar: HTMLElement | null | undefined;
 	private totalUsersCount: number;
 	private confirmButton: HTMLAnchorElement | HTMLDivElement;
+	private _animationLevel: AnimationLevel;
 
 	private constructor() {
 		this.collectedUsers = new UserSet();
@@ -38,6 +39,11 @@ export default class AccountCollector {
 		this.uiIdleCounter = 0;
 		this.lastCollectedUserCount = [];
 		this.isLegacyTwitter = document.getElementById("page-outer") !== null;
+
+		Storage.getAnimationLevel().then((animationLevel) => {
+			this._animationLevel = animationLevel;
+			document.body.classList.add(`animation-level--${animationLevel}`);
+		});
 
 		this.setUpBlockButton().then();
 		this.setUpExportButton().then();
@@ -53,6 +59,15 @@ export default class AccountCollector {
 			document.body.classList.add("lb-legacy-twitter");
 		}
 		this.legacyTwitter = legacyTwitter;
+	}
+
+	private async getAnimationLevel() {
+		if (!this._animationLevel) {
+			this._animationLevel = await Storage.getAnimationLevel();
+		}
+
+		document.body.classList.add(`animation-level--${this._animationLevel}`);
+		return this._animationLevel;
 	}
 
 	private get loadingInfo() {
@@ -221,6 +236,7 @@ export default class AccountCollector {
 			settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.collectedUsers.size / 500);
 		const totalUserCount = await this.getTotalUsersCount();
 		const probablyAlmostReadyThreshold = totalUserCount < 100 ? 70 : totalUserCount < 200 ? 80 : 90;
+		const animationLevel = await this.getAnimationLevel();
 
 		const users: HTMLAnchorElement[] = Array.from(userCells);
 
@@ -238,7 +254,7 @@ export default class AccountCollector {
 
 			const wasAdded = this.collectedUsers.add(user);
 
-			if (wasAdded && !isBlockPage) {
+			if (wasAdded && !isBlockPage && animationLevel === AnimationLevel.frisky) {
 				this.renderAvatar(profileImg);
 			}
 		}

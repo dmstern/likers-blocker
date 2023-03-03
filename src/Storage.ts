@@ -6,6 +6,18 @@ import { BlockedUser, QueuedUser, UserInfo, UserSet } from "./User";
 
 const date = new Date();
 
+export enum AnimationLevel {
+	off = "off",
+	mild = "mild",
+	frisky = "frisky",
+}
+
+export const animationLevelValues: Record<AnimationLevel, -1 | 0 | 1> = {
+	off: -1,
+	mild: 0,
+	frisky: 1,
+};
+
 export enum Key {
 	includeRetweeters = "includeRetweeters",
 	hideBadgeShare = "hideBadgeShare",
@@ -32,13 +44,22 @@ export enum Key {
 	blockListLength = "blockListLength",
 	blockedAdsCounts = "blockedAdsCounts",
 	adBlockerActive = "adBlockerActive",
+	animationLevel = "animationLevel",
 }
 
 const values = {
 	today: parseInt(`${date.getFullYear()}${date.getMonth()}${date.getDate()}`),
 };
 
-type StorageValue = boolean | number | string | UserInfo | UserInfo[] | BlockedUser[] | QueuedUser[];
+type StorageValue =
+	| boolean
+	| number
+	| string
+	| UserInfo
+	| UserInfo[]
+	| BlockedUser[]
+	| QueuedUser[]
+	| AnimationLevel;
 
 export default class Storage {
 	private static async prefix(key: Key) {
@@ -235,6 +256,21 @@ export default class Storage {
 		this.set(Key.queueLength, queueLength);
 	}
 
+	static async getAnimationLevel(): Promise<AnimationLevel> {
+		let animationLevel = (await this.get(Key.animationLevel, false)) as AnimationLevel;
+
+		if (animationLevel === undefined) {
+			animationLevel = AnimationLevel.frisky;
+			Storage.setAnimationLevel(animationLevel);
+		}
+
+		return animationLevel;
+	}
+
+	static setAnimationLevel(value: AnimationLevel) {
+		this.set(Key.animationLevel, value, false);
+	}
+
 	static async getBlockedAdsCount(): Promise<number> {
 		let blockedAdsCount: number = (await this.get(Key.blockedAdsCounts)) as number;
 
@@ -253,7 +289,7 @@ export default class Storage {
 	}
 
 	static async isAdBlockerActive(): Promise<boolean> {
-		let isAdBlockerActive = (await this.get(Key.adBlockerActive)) as boolean;
+		let isAdBlockerActive = (await this.get(Key.adBlockerActive, false)) as boolean;
 
 		if (isAdBlockerActive === undefined) {
 			isAdBlockerActive = true;
@@ -264,7 +300,7 @@ export default class Storage {
 	}
 
 	static async setAdBlockerActive(shouldBeActive: boolean) {
-		this.set(Key.adBlockerActive, shouldBeActive);
+		this.set(Key.adBlockerActive, shouldBeActive, false);
 	}
 
 	static async getBlockListLength(): Promise<number> {
