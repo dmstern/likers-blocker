@@ -68,7 +68,8 @@ export default class AdBlocker {
 
 		ads.forEach((ad) => {
 			console.info("removing ad...");
-			ad.remove();
+			ad.style.visibility = "hidden";
+			ad.style.maxHeight = "0";
 			Storage.increaseBlockedAdsCount();
 		});
 		// ads.forEach((ad) => (ad.style.border = "2px solid magenta"));
