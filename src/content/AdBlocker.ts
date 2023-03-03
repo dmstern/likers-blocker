@@ -3,6 +3,7 @@ import { tryToAccessDOM } from "../util";
 
 const sponsoredSVGPath =
 	'svg path[d="M19.498 3h-15c-1.381 0-2.5 1.12-2.5 2.5v13c0 1.38 1.119 2.5 2.5 2.5h15c1.381 0 2.5-1.12 2.5-2.5v-13c0-1.38-1.119-2.5-2.5-2.5zm-3.502 12h-2v-3.59l-5.293 5.3-1.414-1.42L12.581 10H8.996V8h7v7z"]';
+const debugging = false;
 
 export default class AdBlocker {
 	private static _scrollListener: () => void;
@@ -70,14 +71,21 @@ export default class AdBlocker {
 			.filter((ad) => ad);
 
 		ads.forEach((ad) => {
-			if (ad instanceof HTMLElement && !ad.style.getPropertyValue("--adBlocked")) {
-				console.info("removing ad...");
-				// ad.style.visibility = "hidden";
-				// ad.style.maxHeight = "0";
-				ad.style.setProperty("--adBlocked", "true");
-				ad.style.border = "2px solid magenta";
-				Storage.increaseBlockedAdsCount();
+			if (!(ad instanceof HTMLElement) || ad.style.getPropertyValue("--adBlocked")) {
+				return;
 			}
+
+			console.info("removing ad...");
+			ad.style.setProperty("--adBlocked", "true");
+
+			if (debugging) {
+				ad.style.border = "2px solid magenta";
+			} else {
+				ad.style.visibility = "hidden";
+				ad.style.maxHeight = "0";
+			}
+
+			Storage.increaseBlockedAdsCount();
 		});
 	}
 }
