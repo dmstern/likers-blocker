@@ -1,0 +1,20 @@
+@import "../sass-commons/variables";
+
+.ad-block-counter {
+	justify-content: flex-end;
+	align-items: center;
+	display: none;
+	
+	&.active {
+		display: flex;
+		margin-top: 1rem;
+	}
+
+	&__label {
+		margin-right: 1rem;
+	}
+
+	&__value {	
+		box-shadow: $button-shadow;
+	}
+}

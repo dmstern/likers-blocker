@@ -2,7 +2,8 @@ import Messenger from "../Messages";
 import Storage from "../Storage";
 import { tryToAccessDOM } from "../util";
 import AccountCollector from "./AccountCollector";
-import { injectFonts } from "./Fonts";
+import AdBlocker from "./AdBlocker";
+// import { injectFonts } from "./Fonts";
 import "./styles/index.scss";
 
 (function () {
@@ -31,8 +32,22 @@ import "./styles/index.scss";
 
 	AccountCollector.run();
 
+	Storage.isAdBlockerActive().then((isAdBlockerActive) => {
+		if (isAdBlockerActive) {
+			AdBlocker.start();
+		}
+	});
+
+	Messenger.onToggleAdBlocker((shouldAdBlockerBeActive) => {
+		if (shouldAdBlockerBeActive) {
+			AdBlocker.start();
+		} else {
+			AdBlocker.stop();
+		}
+	});
+
 	setTimeout(() => {
-		console.log("%cadding LikersBlocker fonts", "background: RedOrange");
-		injectFonts();
+		// console.log("%cadding LikersBlocker fonts", "background: RedOrange");
+		// injectFonts();
 	}, 10000);
 })();

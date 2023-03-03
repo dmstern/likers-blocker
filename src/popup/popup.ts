@@ -3,6 +3,7 @@ import Badge from "../Badge";
 import { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
 import Messenger from "../Messages";
+import AdBlockCounter from "./AdBlockCounter";
 import BlockMachine from "./BlockMachine";
 import BlockSpeedometer from "./BlockSpeedometer";
 import LoginDisplay from "./LoginDisplay";
@@ -29,7 +30,7 @@ function alignRightButtons() {
 	alignRightButtons();
 	new LoginDisplay();
 	new BlockSpeedometer();
-
+	new AdBlockCounter();
 	Stats.update();
 	BlockMachine.init();
 
