@@ -13,9 +13,13 @@ export default class ImportExport {
 		// 	"#includePreviouslyBlocked"
 		// ) as HTMLInputElement;
 
-		importListButton?.addEventListener("click", () => {
-			document.body.classList.add("select-file");
-		});
+		// importListButton?.addEventListener("click", () => {
+		// 	document.body.classList.add("select-file");
+		// });
+
+		// importListButton?.addEventListener("cancel abort", () => {
+		// 	document.body.classList.remove("select-file");
+		// });
 
 		importListButton?.addEventListener("change", (event) => {
 			const errorDetails = importStatusMessage.querySelector(".details");
@@ -47,7 +51,7 @@ export default class ImportExport {
 					}
 				})
 				.finally(() => {
-					document.body.classList.remove("select-file");
+					// document.body.classList.remove("select-file");
 
 					setTimeout(() => {
 						importStatusMessage.classList.remove("success", "warning", "info");
