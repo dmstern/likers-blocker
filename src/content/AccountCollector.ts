@@ -31,7 +31,6 @@ export default class AccountCollector {
 	private topbar: HTMLElement | null | undefined;
 	private totalUsersCount: number;
 	private confirmButton: HTMLAnchorElement | HTMLDivElement;
-	private _animationLevel: AnimationLevel;
 
 	private constructor() {
 		this.collectedUsers = new UserSet();
@@ -39,12 +38,7 @@ export default class AccountCollector {
 		this.uiIdleCounter = 0;
 		this.lastCollectedUserCount = [];
 		this.isLegacyTwitter = document.getElementById("page-outer") !== null;
-
-		Storage.getAnimationLevel().then((animationLevel) => {
-			this._animationLevel = animationLevel;
-			document.body.classList.add(`animation-level--${animationLevel}`);
-		});
-
+		this.getAnimationLevel().then();
 		this.setUpBlockButton().then();
 		this.setUpExportButton().then();
 		Storage.storePackageVersion().then();
@@ -62,12 +56,16 @@ export default class AccountCollector {
 	}
 
 	private async getAnimationLevel() {
-		if (!this._animationLevel) {
-			this._animationLevel = await Storage.getAnimationLevel();
-		}
+		const animationLevel = await Storage.getAnimationLevel();
 
-		document.body.classList.add(`animation-level--${this._animationLevel}`);
-		return this._animationLevel;
+		document.body.classList.remove(
+			"animation-level--off",
+			"animation-level--mild",
+			"animation-level--frisky"
+		);
+		document.body.classList.add(`animation-level--${animationLevel}`);
+
+		return animationLevel;
 	}
 
 	private get loadingInfo() {

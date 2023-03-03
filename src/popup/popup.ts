@@ -37,6 +37,11 @@ function alignRightButtons() {
 	Stats.update();
 
 	Storage.getAnimationLevel().then((animationLevel) => {
+		document.body.classList.remove(
+			"animation-level--off",
+			"animation-level--mild",
+			"animation-level--frisky"
+		);
 		document.body.classList.add(`animation-level--${animationLevel}`);
 		popupAnimationLevel = animationLevel;
 		if (animationLevel === AnimationLevel.frisky) {
