@@ -45,10 +45,10 @@ export default class AdBlocker {
 		return this._scrollListener;
 	}
 
-	private static async findAds(async: boolean): Promise<NodeListOf<HTMLElement>> {
+	private static async findAds(async: boolean): Promise<NodeListOf<Element>> {
 		const adSVGPaths = async
-			? ((await tryToAccessDOM(sponsoredSVGPath, true, null, null, 50)) as NodeListOf<HTMLElement>)
-			: (document.querySelectorAll(sponsoredSVGPath) as NodeListOf<HTMLElement>);
+			? ((await tryToAccessDOM(sponsoredSVGPath, true, null, null, 50)) as NodeListOf<Element>)
+			: (document.querySelectorAll(sponsoredSVGPath) as NodeListOf<Element>);
 
 		if (!adSVGPaths || adSVGPaths.length === 0) {
 			return;
@@ -57,21 +57,27 @@ export default class AdBlocker {
 		return adSVGPaths;
 	}
 
-	private static removeAds(adSVGPaths: NodeListOf<HTMLElement>) {
+	private static removeAds(adSVGPaths: NodeListOf<Element>) {
 		if (!adSVGPaths || !adSVGPaths.length) {
 			return;
 		}
 
-		const ads: HTMLElement[] = Array.from(adSVGPaths).map(
-			(path) => path.closest('[data-testid="cellInnerDiv"]') || path.closest('[data-testid="UserCell"]')
-		);
+		const ads: Element[] = Array.from(adSVGPaths)
+			.map(
+				(path) =>
+					path.closest('[data-testid="cellInnerDiv"]') || path.closest('[data-testid="UserCell"]')
+			)
+			.filter((ad) => ad);
 
 		ads.forEach((ad) => {
-			console.info("removing ad...");
-			ad.style.visibility = "hidden";
-			ad.style.maxHeight = "0";
-			Storage.increaseBlockedAdsCount();
+			if (ad instanceof HTMLElement && !ad.style.getPropertyValue("--adBlocked")) {
+				console.info("removing ad...");
+				// ad.style.visibility = "hidden";
+				// ad.style.maxHeight = "0";
+				ad.style.setProperty("--adBlocked", "true");
+				ad.style.border = "2px solid magenta";
+				Storage.increaseBlockedAdsCount();
+			}
 		});
-		// ads.forEach((ad) => (ad.style.border = "2px solid magenta"));
 	}
 }
