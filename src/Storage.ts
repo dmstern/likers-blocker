@@ -30,6 +30,8 @@ export enum Key {
 	scrollsPerMinute = "scrollsPerMinute",
 	queueLength = "queueLength",
 	blockListLength = "blockListLength",
+	blockedAdsCounts = "blockedAdsCounts",
+	adBlockerActive = "adBlockerActive",
 }
 
 const values = {
@@ -231,6 +233,38 @@ export default class Storage {
 		Messenger.sendQueueUpdate({ queueLength });
 
 		this.set(Key.queueLength, queueLength);
+	}
+
+	static async getBlockedAdsCount(): Promise<number> {
+		let blockedAdsCount: number = (await this.get(Key.blockedAdsCounts)) as number;
+
+		if (blockedAdsCount === undefined) {
+			blockedAdsCount = 0;
+			this.set(Key.blockedAdsCounts, blockedAdsCount);
+		}
+
+		return blockedAdsCount;
+	}
+
+	static async increaseBlockedAdsCount() {
+		let blockedAdsCount = await this.getBlockedAdsCount();
+		blockedAdsCount++;
+		this.set(Key.blockedAdsCounts, blockedAdsCount);
+	}
+
+	static async isAdBlockerActive(): Promise<boolean> {
+		let isAdBlockerActive = (await this.get(Key.adBlockerActive)) as boolean;
+
+		if (isAdBlockerActive === undefined) {
+			isAdBlockerActive = true;
+			this.setAdBlockerActive(isAdBlockerActive);
+		}
+
+		return isAdBlockerActive as boolean;
+	}
+
+	static async setAdBlockerActive(shouldBeActive: boolean) {
+		this.set(Key.adBlockerActive, shouldBeActive);
 	}
 
 	static async getBlockListLength(): Promise<number> {

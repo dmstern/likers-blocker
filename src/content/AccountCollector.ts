@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { i18n } from "webextension-polyfill";
 import APIService from "../APIService";
 import FileManager from "../FileManager";
@@ -311,9 +312,14 @@ export default class AccountCollector {
 	}
 
 	private async createBlockButton() {
-		const followButton = this.isLegacyTwitter
-			? await tryToAccessDOM("button.button-text.follow-text")
-			: await tryToAccessDOM("[role=button] [role=button]", false, 1, await this.getScrollList());
+		const followButton: HTMLElement = this.isLegacyTwitter
+			? ((await tryToAccessDOM("button.button-text.follow-text")) as HTMLElement)
+			: ((await tryToAccessDOM(
+					"[role=button] [role=button]",
+					false,
+					1,
+					await this.getScrollList()
+			  )) as HTMLElement);
 
 		// prevent multiple blockButtons:
 		if (document.querySelector("[data-testid=blockAll]")) {
@@ -321,7 +327,7 @@ export default class AccountCollector {
 		}
 
 		this.blockButton = document.createElement("a");
-		const followButtonClasses = followButton?.classList;
+		const followButtonClasses = followButton instanceof HTMLElement ? followButton.classList : [];
 
 		if (followButtonClasses) {
 			this.blockButton.classList.add("lb-block-button", ...followButtonClasses);
@@ -691,11 +697,11 @@ export default class AccountCollector {
 		}
 
 		if (this.isLegacyTwitter) {
-			heading = await tryToAccessDOM("#activity-popup-dialog-header");
+			heading = (await tryToAccessDOM("#activity-popup-dialog-header")) as HTMLElement;
 			this.isLegacyTwitter = true;
 			this.topbar = heading?.parentElement;
 		} else {
-			this.topbar = await tryToAccessDOM(TOPBAR_SELECTOR[TwitterPage.viewport]);
+			this.topbar = (await tryToAccessDOM(TOPBAR_SELECTOR[TwitterPage.viewport])) as HTMLElement;
 		}
 
 		return this.topbar;
@@ -846,7 +852,7 @@ export default class AccountCollector {
 			return;
 		}
 
-		const blockedListContainer = await tryToAccessDOM("section", true, 3);
+		const blockedListContainer = (await tryToAccessDOM("section", true, 3)) as HTMLElement;
 
 		if (!blockedListContainer) {
 			return;

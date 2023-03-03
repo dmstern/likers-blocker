@@ -101,6 +101,10 @@
       }
     }
 	},
+	"popup_ad_block_count": {
+		"message": "Blocked ads:",
+		"description": "Label in popup for blocked ads count"
+	},
 	"tweet_text": {
 		"message": "https://twitter.com/share?text=Found a racist or otherwise disgusting tweet and people even like those stuff? @LikersBlocker helps you to get rid of those people within seconds.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech",
 		"description": "href for the tweet button. Contains a prefilled tweet text."
@@ -278,6 +282,10 @@
         "example" : "30"
       }
     }
+	},
+	"options_ad_block-switcher": {
+		"message": "Block Twitter ads",
+		"description": "Label for the options setting if ad blocker should be active."
 	},
 	"options_reset": {
 		"message": "Reset settings",

@@ -3,6 +3,7 @@ import Badge from "../Badge";
 import { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
 import Storage, { Key } from "../Storage";
+import AdBlockSwitcher from "./AdBlockSwitcher";
 import BlockSpeedSlider from "./BlockSpeedSlider";
 import ImportExport from "./ImportExport";
 import "./options.scss";
@@ -11,6 +12,7 @@ import ScrollSpeedSlider from "./ScrollSpeedSlider";
 (function () {
 	localizeUI();
 	injectIcons();
+	new AdBlockSwitcher();
 	ImportExport.init();
 	BlockSpeedSlider.init();
 	ScrollSpeedSlider.init();

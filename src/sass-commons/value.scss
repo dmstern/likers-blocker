@@ -10,3 +10,7 @@
 	text-align: center;
 	transition: all 500ms ease;
 }
+
+.value {
+	 @include value;
+}

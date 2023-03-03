@@ -10,6 +10,7 @@ enum Action {
 	login = "login",
 	getTempQueue = "getTempQueue",
 	nextBatch = "nextBatch",
+	toggleAdBlocker = "toggleAdBlocker",
 }
 
 interface Message {
@@ -26,6 +27,10 @@ export interface BlockData {
 	status: number;
 }
 
+export interface ToggleAdBlockerData {
+	shouldAdBlockerBeActive: boolean;
+}
+
 export interface NextBatchData {
 	nextBatchFromStorage: QueuedUser[];
 	newTempQueue: QueuedUser[];
@@ -34,6 +39,10 @@ export interface NextBatchData {
 export interface QueueUpdateMessage extends Message {
 	queueLength: number;
 	blockListLength?: number;
+}
+
+export interface ToggleAdBlockerMessage extends Message {
+	shouldAdBlockerBeActive: boolean;
 }
 
 export interface GetUserInfoMessage extends Message {
@@ -133,6 +142,25 @@ export default class Messenger {
 		}
 	}
 
+	static async sendToggleAdBlocker(
+		shouldAdBlockerBeActive: boolean,
+		twitterTab?: Tabs.Tab
+	): Promise<void> {
+		if (!twitterTab) {
+			twitterTab = await getTwitterTab(false);
+		}
+
+		const message: ToggleAdBlockerMessage = { action: Action.toggleAdBlocker, shouldAdBlockerBeActive };
+
+		if (twitterTab) {
+			try {
+				return tabs.sendMessage(twitterTab.id, message);
+			} catch (error) {
+				this.log(message, error);
+			}
+		}
+	}
+
 	static async sendLogin(): Promise<UserInfo> {
 		const message = { action: Action.login };
 
@@ -152,6 +180,16 @@ export default class Messenger {
 		} catch (error) {
 			this.log(message, error);
 		}
+	}
+
+	static onToggleAdBlocker(callback: (shouldAdBlockerBeActive: boolean) => void) {
+		runtime.onMessage.addListener((message: ToggleAdBlockerMessage) => {
+			if (message.action === Action.toggleAdBlocker) {
+				this.log(message);
+				callback(message.shouldAdBlockerBeActive);
+				return true;
+			}
+		});
 	}
 
 	static onGetTempQueue(callback: () => Promise<GetTempQueueResponse>): void {
