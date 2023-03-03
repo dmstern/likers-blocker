@@ -275,7 +275,7 @@
       }
     }
 	},
-	"options_ad_block-switcher": {
+	"options_ad_block_switcher": {
 		"message": "Twitter-Anzeigen blockieren",
 		"description": "Label for the options setting if ad blocker should be active."
 	},
