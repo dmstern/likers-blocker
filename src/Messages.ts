@@ -8,7 +8,6 @@ enum Action {
 	blockSpeedUpdate = "blockSpeedUpdate",
 	block = "block",
 	login = "login",
-	getTempQueue = "getTempQueue",
 	nextBatch = "nextBatch",
 	toggleAdBlocker = "toggleAdBlocker",
 }
@@ -33,7 +32,6 @@ export interface ToggleAdBlockerData {
 
 export interface NextBatchData {
 	nextBatchFromStorage: QueuedUser[];
-	newTempQueue: QueuedUser[];
 }
 
 export interface QueueUpdateMessage extends Message {
@@ -49,13 +47,8 @@ export interface GetUserInfoMessage extends Message {
 	action: Action.getUserInfo;
 }
 
-export interface GetTempQueueMessage extends Message {
-	action: Action.getTempQueue;
-}
-
 export interface NextBatchMessage extends Message {
 	action: Action.nextBatch;
-	newTempQueue: QueuedUser[];
 	nextBatchFromStorage: QueuedUser[];
 }
 
@@ -84,19 +77,9 @@ export default class Messenger {
 		}
 	}
 
-	static async sendGetTempQueue(): Promise<QueuedUser[]> {
-		const message: GetTempQueueMessage = { action: Action.getTempQueue };
-
-		try {
-			return await runtime.sendMessage(message);
-		} catch (error) {
-			this.log(message, error);
-		}
-	}
-
 	static async sendNextBatch(data: NextBatchData) {
-		const { newTempQueue, nextBatchFromStorage } = data;
-		const message: NextBatchMessage = { action: Action.nextBatch, newTempQueue, nextBatchFromStorage };
+		const { nextBatchFromStorage } = data;
+		const message: NextBatchMessage = { action: Action.nextBatch, nextBatchFromStorage };
 
 		try {
 			return await runtime.sendMessage(message);
@@ -192,23 +175,12 @@ export default class Messenger {
 		});
 	}
 
-	static onGetTempQueue(callback: () => Promise<GetTempQueueResponse>): void {
-		runtime.onMessage.addListener((message: GetTempQueueMessage) => {
-			if (message.action === Action.getTempQueue) {
-				this.log(message);
-				return callback();
-			}
-		});
-	}
-
-	static onNextBatch(
-		callback: (response: { newTempQueue: QueuedUser[]; nextBatchFromStorage: QueuedUser[] }) => void
-	): void {
+	static onNextBatch(callback: (response: { nextBatchFromStorage: QueuedUser[] }) => void): void {
 		runtime.onMessage.addListener((message: NextBatchMessage) => {
 			if (message.action === Action.nextBatch) {
-				const { newTempQueue, nextBatchFromStorage } = message;
+				const { nextBatchFromStorage } = message;
 				this.log(message);
-				callback({ newTempQueue, nextBatchFromStorage });
+				callback({ nextBatchFromStorage });
 				return true;
 			}
 		});
