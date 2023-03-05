@@ -11,19 +11,19 @@
 		"message": "Usage",
 		"description": "Label of the usage guide"
 	},
-	"popup_usageStep1": {
+	"popup_usage_step_1": {
 		"message": "Once you click on a tweet, there is a link which indicates how many people liked this tweet. Click on that link to get the list of all likers.",
 		"description": "Usage guide step 1"
 	},
-	"popup_usageStep2": {
+	"popup_usage_step_2": {
 		"message": "Then click on the new button on the top which says \"Block all\".",
 		"description": "Usage guide step 2"
 	},
-	"popup_usageStep3": {
+	"popup_usage_step_3": {
 		"message": "All users are being collected. You can chose to block also direct retweeters and then confirm it afterwards.",
 		"description": "Usage guide step 3"
 	},
-	"popup_usageStep4": {
+	"popup_usage_step_4": {
 		"message": "The collected accounts will be added to the blocking queue and will be blocked in background.",
 		"description": "Usage guide step 4"
 	},
@@ -59,7 +59,7 @@
 		"message": "Glad that you appreciate our work! 😊<br /> We do this in our free time. This tool is and remains free for everyone and free from ads. Would you consider to donate a little tip?",
 		"description": "text that encourages the user to donate"
 	},
-	"popup_reportBug": {
+	"popup_report_bug": {
 		"message": "Report bug",
 		"description": "Label for the report bug button "
 	},
@@ -109,15 +109,19 @@
 		"message": "https://twitter.com/share?text=Found a racist or otherwise disgusting tweet and people even like those stuff? @LikersBlocker helps you to get rid of those people within seconds.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech",
 		"description": "href for the tweet button. Contains a prefilled tweet text."
 	},
-	"ui_blockAll": {
+	"ui_block_all": {
 		"message": "Block all",
 		"description": "Label for the Block all button"
 	},
-	"ui_scrollSpeed": {
+	"ui_confirm_message_heading_addon": {
+		"message": "Block all?",
+		"description": "Second part of the heading on confirm dialog, something like 'block all?'"
+	},
+	"ui_scroll_speed": {
 		"message": "Want to speed up scrolling? You can adapt the scrolling speed in the settings by clicking on the extension icon in the top right corner of your browser.",
 		"description": "Label for the options button in the collecting window."
 	},
-	"ui_usersFound": {
+	"ui_users_found": {
 		"message": "users found",
 		"description": "Message how many users have been collected. Gets prefixed the number of collected users."
 	},
@@ -129,7 +133,7 @@
 		"message": "Save the .csv file on your computer to share it with others or to use it with multiple accounts.",
 		"description": "Explanation text that is displayed after collecting and before adding downloading the exported."
 	},
-	"ui_collectingUsernames": {
+	"ui_collecting_usernames": {
 		"message": "Collecting usernames",
 		"description": "Message that tells the user that the tool is collecting users from a list."
 	},
@@ -141,19 +145,19 @@
 		"message": "This is fine, thanks.",
 		"description": "Label for the finish button"
 	},
-	"ui_twitterHides": {
+	"ui_twitter_hides": {
 		"message": "Some users may be hidden by Twitter.",
 		"description": "Message that is shown during or after collecting that tells the user that some users may be hidden."
 	},
-	"ui_onlyListItems": {
+	"ui_only_list_items": {
 		"message": "We can only block users from this list",
 		"description": "Message that tells the user, that only accounts that occur in the list can be blocked."
 	},
-	"ui_blockRetweeters": {
+	"ui_block_retweeters": {
 		"message": "Also block retweeters?",
 		"description": "Label of the checkbox where the user can chose to also block retweeters of the liked tweet."
 	},
-	"ui_retweetersHoverHint": {
+	"ui_retweeters_hover_hint": {
 		"message": "Only includes direct retweeters without a comment.",
 		"description": "Title (tooltip) of the retweeters checkbox"
 	},
@@ -161,7 +165,7 @@
 		"message": "OK",
 		"description": "Label of the OK button"
 	},
-	"ui_addToQueue": {
+	"ui_add_to_queue": {
 		"message": "Add to queue",
 		"description": "Label of the confirm button"
 	},
@@ -191,23 +195,23 @@
 		"message": "Export",
 		"description": "Title of the export button"
 	},
-	"ui_takeAMoment": {
+	"ui_take_a_moment": {
 		"message": "Depending on the number of blocked accounts, this may take a while.",
 		"description": "Info that the collection of blocked accounts to export them may take long."
 	},
-	"ui_warningHeading": {
+	"ui_warning_heading": {
 		"message": "Oops! Seems like your UI is hanging.",
 		"description": "The heading of the warning popup when the UI is hanging."
 	},
-	"ui_warningText": {
+	"ui_warning_text": {
 		"message": "Maybe you have changed the browser window. Please click OK or scroll with your mouse wheel to continue the user collection process.",
 		"description": "The main text of the UI hanging warning which tells the user what to do to continue the scroll process."
 	},
-	"ui_doNotShowAgain": {
+	"ui_do_not_show_again": {
 		"message": "Don't show again",
 		"description": "Button label for do not show again"
 	},
-	"ui_newRelease": {
+	"ui_new_release": {
 		"message": "You installed the latest LikersBlocker version. 🎉 See what's new.",
 		"description": "New Release icon title"
 	},

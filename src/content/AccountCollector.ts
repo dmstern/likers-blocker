@@ -98,7 +98,7 @@ export default class AccountCollector {
 		);
 	}
 
-	private static async getBadgeClass(linkModifier): Promise<string> {
+	private static async getBadgeClass(linkModifier: string): Promise<string> {
 		const badgeTypes = {
 			follow: await Storage.getHideBadgeFollow(),
 			share: await Storage.getHideBadgeShare(),
@@ -158,9 +158,9 @@ export default class AccountCollector {
 
 	private async getLimitMessage() {
 		if (await TwitterPage.isBlockExportPage()) {
-			return `${i18n.getMessage("ui_takeAMoment")}`;
+			return `${i18n.getMessage("ui_take_a_moment")}`;
 		} else {
-			return `${i18n.getMessage("ui_onlyListItems")}<br>${i18n.getMessage("ui_twitterHides")}`;
+			return `${i18n.getMessage("ui_only_list_items")}<br>${i18n.getMessage("ui_twitter_hides")}`;
 		}
 	}
 
@@ -362,7 +362,7 @@ export default class AccountCollector {
 			: this.blockButton.querySelector("div > span > span");
 
 		if (blockButtonLabel) {
-			blockButtonLabel.innerHTML = i18n.getMessage("ui_blockAll");
+			blockButtonLabel.innerHTML = i18n.getMessage("ui_block_all");
 		}
 
 		(await this.getTopbar())?.appendChild(this.blockButton);
@@ -400,10 +400,10 @@ export default class AccountCollector {
 		includeRetweetersLink.target = "_blank";
 		includeRetweetersLink.innerHTML = `
 			${icons.retweets}
-			<span>${i18n.getMessage("ui_blockRetweeters")}</span>
+			<span>${i18n.getMessage("ui_block_retweeters")}</span>
 		`;
 		includeRetweetersLink.classList.add("lb-link");
-		includeRetweetersLink.title = i18n.getMessage("ui_retweetersHoverHint");
+		includeRetweetersLink.title = i18n.getMessage("ui_retweeters_hover_hint");
 		includeRetweetersLink.href = location.href.replace("likes", "retweets");
 
 		labelWrapper.appendChild(includeRetweetersLink);
@@ -474,7 +474,7 @@ export default class AccountCollector {
 				},
 				buttonLabel: {
 					block: "ui_download",
-					queue: "ui_addToQueue",
+					queue: "ui_add_to_queue",
 				},
 				icon: {
 					block: icons.download,
@@ -573,6 +573,7 @@ export default class AccountCollector {
 	}
 
 	private async createConfirmMessageElement() {
+		const isBlockExportPage = await TwitterPage.isBlockExportPage();
 		this.confirmMessageElement = this.loadingInfo?.cloneNode() as HTMLElement | null;
 		if (!this.confirmMessageElement) {
 			return;
@@ -582,21 +583,17 @@ export default class AccountCollector {
 		this.confirmMessageElement.classList.remove("lb-collecting");
 		this.confirmMessageElement.classList.add("lb-confirm-message");
 
-		const confirmHeadingAddon = (await TwitterPage.isBlockExportPage())
-			? ""
-			: `<span>${i18n.getMessage("ui_blockAll")}?</span>`;
-
 		this.confirmMessageElement.innerHTML = `
 			<h3>
-				<span>${i18n.getMessage("ui_usersFound")}.</span>
-				${confirmHeadingAddon}
+				<span>${i18n.getMessage("ui_users_found")}.</span>
+				<span>${!isBlockExportPage ? i18n.getMessage("ui_confirm_message_heading_addon") : ""}</span>
 			</h3>
 			<div class="lb-label__main"></div>`;
 
 		this.popup.appendChild(this.confirmMessageElement);
 	}
 
-	private async createPopup(content) {
+	private async createPopup(content: string) {
 		this.popupWrapper = document.createElement("div");
 		TwitterPage.popupContainer.appendChild(this.popupWrapper);
 		this.popupWrapper.classList.add("lb-popup-wrapper", "lb-hide");
@@ -694,6 +691,7 @@ export default class AccountCollector {
 
 		const confirmHeading = this.popup.querySelector(".lb-confirm-message h3 span");
 
+		// Add total found users count to heading:
 		if (confirmHeading) {
 			confirmHeading.innerHTML = `${this.collectedUsers.size.toLocaleString()} ${
 				confirmHeading.innerHTML
@@ -741,13 +739,13 @@ export default class AccountCollector {
 		const popupInner = `
 			<div class="lb-label lb-collecting">
 				<h3 id="lb-popup-heading">
-					<span>${i18n.getMessage("ui_collectingUsernames")}...</span>
+					<span>${i18n.getMessage("ui_collecting_usernames")}...</span>
 					<span class="lb-user-counter"></span>
 				</h3>
 				<p class="lb-text">${await this.getLimitMessage()}</p>
 				<p class="lb-text">
 					${icons.speedometer}&nbsp;
-					${i18n.getMessage("ui_scrollSpeed")}
+					${i18n.getMessage("ui_scroll_speed")}
 				</p>
 				<div class="lb-progress-bar">
 					<div class="lb-progress-bar__inner" style="background-color: ${TwitterPage.highlightColor}">
@@ -792,7 +790,7 @@ export default class AccountCollector {
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--new-release ${isNewRelease ? "sparkle" : ""}"
 						href="https://github.com/dmstern/likers-blocker/releases" target="_blank" title="${i18n.getMessage(
-							"ui_newRelease"
+							"ui_new_release"
 						)}">${icons.sparkles}</a>
 				</li>
 				<li class="lb-footer__item">
@@ -806,7 +804,7 @@ export default class AccountCollector {
 					<a class="lb-footer__link lb-footer__item--report ${await AccountCollector.getBadgeClass(
 						"report"
 					)}" href="https://github.com/dmstern/likers-blocker/issues/new" target="_blank" title="${i18n.getMessage(
-			"popup_reportBug"
+			"popup_report_bug"
 		)}">${icons.issue}</a>
 				</li>
 				<li class="lb-footer__item">
@@ -923,12 +921,12 @@ export default class AccountCollector {
 		warning.style.backgroundColor = TwitterPage.backgroundColor;
 		warning.classList.add("lb-warning");
 		warning.innerHTML = `
-			<h4 class="lb-warning__heading">${icons.warn}<span>${i18n.getMessage("ui_warningHeading")}</span></h4>
-			<span class="lb-warning__text">${i18n.getMessage("ui_warningText")}</span>
+			<h4 class="lb-warning__heading">${icons.warn}<span>${i18n.getMessage("ui_warning_heading")}</span></h4>
+			<span class="lb-warning__text">${i18n.getMessage("ui_warning_text")}</span>
 			<div class="lb-warning__buttons">
 				<button class="lb-warning__button lb-warning__button--ok">${i18n.getMessage("ui_ok")}</button>
 				<button class="lb-warning__button lb-warning__button--hide">${i18n.getMessage(
-					"ui_doNotShowAgain"
+					"ui_do_not_show_again"
 				)}</button>
 			</div>
 		`;
