@@ -9,6 +9,10 @@ export default class WebRequestInterceptor {
 		}
 
 		for (const header of details.requestHeaders) {
+			if (!header || !header.name || !header.value) {
+				continue;
+			}
+
 			const { name, value } = header;
 
 			if (!value) {
@@ -21,8 +25,10 @@ export default class WebRequestInterceptor {
 
 				LoginStorage.getUserInfo().then((userInfo) => {
 					if (!userInfo) {
-						Messenger.sendGetUserInfo().then(({ userInfo }) => {
-							LoginStorage.setUserInfo(userInfo);
+						Messenger.sendGetUserInfo().then((response) => {
+							if (response && response.userInfo) {
+								LoginStorage.setUserInfo(response.userInfo);
+							}
 						});
 					}
 				});
