@@ -2,6 +2,7 @@ import { i18n } from "webextension-polyfill";
 import icons from "../icons";
 import Messenger from "../Messages";
 import settings from "../settings";
+import QueueStorage from "../storage/QueueStorage";
 import { QueuedUser } from "./../User";
 
 const classes = {
@@ -16,13 +17,13 @@ export default class BlockMachine {
 	}
 
 	static async init() {
-		const queue = await Messenger.sendGetTempQueue();
+		const queue = await QueueStorage.getTempQueue();
 
 		if (!queue) {
 			return;
 		}
 
-		queue.forEach((user, index) => {
+		queue.toArray().forEach((user, index) => {
 			this.renderAvatar(user, index);
 		});
 

@@ -1,5 +1,7 @@
 import Messenger from "../Messages";
-import Storage from "../Storage";
+import LoginStorage from "../storage/LoginStorage";
+import OptionsStorage from "../storage/OptionsStorage";
+import Storage from "../storage/Storage";
 import { tryToAccessDOM } from "../util";
 import AccountCollector from "./AccountCollector";
 import AdBlocker from "./AdBlocker";
@@ -9,7 +11,7 @@ import "./styles/index.scss";
 (function () {
 	//listen to messages from background
 	Messenger.onGetUserInfo(async () => {
-		let userInfo = await Storage.getUserInfo();
+		let userInfo = await LoginStorage.getUserInfo();
 
 		if (userInfo && userInfo.screen_name) {
 			return Promise.resolve({ userInfo });
@@ -25,14 +27,14 @@ import "./styles/index.scss";
 			const screen_name = profileLink.href.split("/").pop();
 			const profile_image_url_https = profileImg.src;
 			userInfo = { screen_name, profile_image_url_https, id: parseInt(userId) };
-			Storage.setUserInfo(userInfo);
+			LoginStorage.setUserInfo(userInfo);
 			return Promise.resolve({ userInfo });
 		}
 	});
 
 	AccountCollector.run();
 
-	Storage.isAdBlockerActive().then((isAdBlockerActive) => {
+	OptionsStorage.isAdBlockerActive().then((isAdBlockerActive) => {
 		if (isAdBlockerActive) {
 			AdBlocker.start();
 		}

@@ -4,7 +4,10 @@ import APIService from "../APIService";
 import FileManager from "../FileManager";
 import icons from "../icons";
 import settings from "../settings";
-import Storage, { AnimationLevel } from "../Storage";
+import BlockListStorage from "../storage/BlockListStorage";
+import OptionsStorage, { AnimationLevel } from "../storage/OptionsStorage";
+import QueueStorage from "../storage/QueueStorage";
+import Storage from "../storage/Storage";
 import { QueuedUser, UserSet } from "../User";
 import { debounce, tryToAccessDOM } from "../util";
 import TextStyle from "./TextStyle";
@@ -56,7 +59,7 @@ export default class AccountCollector {
 	}
 
 	private async getAnimationLevel() {
-		const animationLevel = await Storage.getAnimationLevel();
+		const animationLevel = await OptionsStorage.getAnimationLevel();
 
 		document.body.classList.remove(
 			"animation-level--off",
@@ -557,7 +560,7 @@ export default class AccountCollector {
 		confirmButtonIcon: HTMLElement,
 		confirmButtonLabel: HTMLElement
 	) {
-		const addedCount = await Storage.queueMulti(this.collectedUsers.toArray());
+		const addedCount = await QueueStorage.queueMulti(this.collectedUsers.toArray());
 		confirmInfo.innerHTML = `<p>${i18n.getMessage("ui_confirm_clicked", [addedCount.toString()])}</p>`;
 
 		const confirmButtonIconSvg = confirmButtonIcon.querySelector("svg");
@@ -680,8 +683,8 @@ export default class AccountCollector {
 		this.stopScrolling();
 
 		if (await TwitterPage.isBlockExportPage()) {
-			await Storage.addBlockedMulti(this.collectedUsers.toArray());
-			const blockedAccounts = await Storage.getBlockedAccounts();
+			await BlockListStorage.addBlockedMulti(this.collectedUsers.toArray());
+			const blockedAccounts = await BlockListStorage.getBlockedAccounts();
 			const { filename, url } = FileManager.getDownloadLinkForBlockList(blockedAccounts);
 			if (this.confirmButton instanceof HTMLAnchorElement) {
 				this.confirmButton.href = url;
@@ -895,7 +898,7 @@ export default class AccountCollector {
 		(await this.getScrollList()).classList.add("lb-blur");
 		(await this.scrolly).scrollTo(0, 0);
 		this.collectedUsers = new UserSet();
-		const scrollsPerMinute = await Storage.getScrollsPerMinute();
+		const scrollsPerMinute = await OptionsStorage.getScrollsPerMinute();
 		const scrollInterval = Math.round((60 / scrollsPerMinute) * 1000);
 		this.scrollInterval = window.setInterval(async () => {
 			await this.scrollDown();

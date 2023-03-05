@@ -3,13 +3,13 @@ import Badge from "../Badge";
 import { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
 import Messenger from "../Messages";
+import OptionsStorage, { AnimationLevel } from "../storage/OptionsStorage";
 import AdBlockCounter from "./AdBlockCounter";
 import BlockMachine from "./BlockMachine";
 import BlockSpeedometer from "./BlockSpeedometer";
 import LoginDisplay from "./LoginDisplay";
 import "./popup.scss";
 import Stats from "./Stats";
-import Storage, { AnimationLevel } from "../Storage";
 
 let popupAnimationLevel: AnimationLevel;
 
@@ -36,7 +36,7 @@ function alignRightButtons() {
 	new AdBlockCounter();
 	Stats.update();
 
-	Storage.getAnimationLevel().then((animationLevel) => {
+	OptionsStorage.getAnimationLevel().then((animationLevel) => {
 		document.body.classList.remove(
 			"animation-level--off",
 			"animation-level--mild",

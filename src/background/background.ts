@@ -1,7 +1,8 @@
 import { alarms, tabs } from "webextension-polyfill";
 import Badge from "../Badge";
 import Messenger from "../Messages";
-import Storage from "../Storage";
+import LoginStorage from "../storage/LoginStorage";
+import QueueStorage from "../storage/QueueStorage";
 import { UserInfo } from "../User";
 import Blocker from "./Blocker";
 import WebRequestInterceptor from "./WebRequestInterceptor";
@@ -16,7 +17,7 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 	Blocker.run();
 	WebRequestInterceptor.interceptTwitterRequests();
 	Badge.setColor();
-	Storage.getQueueLength().then((queueLength) => Badge.updateBadgeCount(queueLength));
+	QueueStorage.getQueueLength().then((queueLength) => Badge.updateBadgeCount(queueLength));
 
 	Messenger.onQueueUpdate(({ queueLength }) => {
 		Badge.updateBadgeCount(queueLength);
@@ -27,7 +28,7 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 		Blocker.run();
 	});
 
-	Messenger.onGetTempQueue(() => Blocker.getTempQueue());
+	// Messenger.onGetTempQueue(() => Blocker.getTempQueue());
 
 	Messenger.onLogin(async () => {
 		const timeToLoadTwitter = 4000;
@@ -42,7 +43,7 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 				const userInfoResponse = await Messenger.sendGetUserInfo(twitterTab);
 				const userInfo = userInfoResponse?.userInfo;
 				if (userInfo) {
-					Storage.setUserInfo(userInfo);
+					LoginStorage.setUserInfo(userInfo);
 					resolve(userInfo);
 				}
 			}, timeToLoadTwitter);

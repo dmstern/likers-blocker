@@ -1,6 +1,6 @@
 import { webRequest, WebRequest } from "webextension-polyfill";
 import Messenger from "../Messages";
-import Storage from "../Storage";
+import LoginStorage from "../storage/LoginStorage";
 
 export default class WebRequestInterceptor {
 	static logURL(details: WebRequest.OnBeforeSendHeadersDetailsType): void {
@@ -17,12 +17,12 @@ export default class WebRequestInterceptor {
 
 			if (name === "authorization" && value.includes("Bearer")) {
 				// console.debug("🔐 saving authentication token.");
-				Storage.setAuthToken(value);
+				LoginStorage.setAuthToken(value);
 
-				Storage.getUserInfo().then((userInfo) => {
+				LoginStorage.getUserInfo().then((userInfo) => {
 					if (!userInfo) {
 						Messenger.sendGetUserInfo().then(({ userInfo }) => {
-							Storage.setUserInfo(userInfo);
+							LoginStorage.setUserInfo(userInfo);
 						});
 					}
 				});
@@ -31,12 +31,12 @@ export default class WebRequestInterceptor {
 			const re = /[0-9A-Fa-f]{160}/;
 			if (name === "x-csrf-token" && re.test(value) && value.length == 160) {
 				// console.debug("⚙ saving csfr");
-				Storage.setCSFR(value);
+				LoginStorage.setCSFR(value);
 			}
 
 			if (name === "Accept-Language") {
 				// console.debug("🌐 saving accepted language");
-				Storage.setAcceptedLanguage(value);
+				LoginStorage.setAcceptedLanguage(value);
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-import Storage from "../Storage";
+import Storage from "../storage/Storage";
 import { tryToAccessDOM } from "../util";
 
 const sponsoredSVGPath =

@@ -1,5 +1,5 @@
 import settings from "../settings";
-import Storage from "../Storage";
+import OptionsStorage from "../storage/OptionsStorage";
 import "./scroll-speed-slider.scss";
 
 const scrollSpeedSlider = document.querySelector("#scrollSpeed") as HTMLInputElement;
@@ -11,7 +11,7 @@ export default class ScrollSpeedSlider {
 	static hasEventListener: boolean;
 
 	static init() {
-		Storage.getScrollsPerMinute().then((scrollsPerMinute) => {
+		OptionsStorage.getScrollsPerMinute().then((scrollsPerMinute) => {
 			if (scrollSpeedSlider) {
 				scrollSpeedSlider.min = settings.SCROLLS_PER_MINUTE_MIN.toString();
 				scrollSpeedSlider.max = settings.SCROLLS_PER_MINUTE_MAX.toString();
@@ -31,7 +31,7 @@ export default class ScrollSpeedSlider {
 			const value = (event.target as HTMLInputElement).value;
 			const scrollsPerMinute = Number.parseInt(value);
 			setScrollsPerMinuteValue(scrollsPerMinute);
-			Storage.setScrollsPerMinute(scrollsPerMinute);
+			OptionsStorage.setScrollsPerMinute(scrollsPerMinute);
 		});
 	}
 }
