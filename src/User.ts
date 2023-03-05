@@ -54,7 +54,7 @@ export class UserSet<UserType extends AbstractUser> {
 	/**
 	 * Merge a collection of multiple users into the set.
 	 * @param users new users that should be added to the set
-	 * @returns the number of how many new objects were stored.
+	 * @returns the number of how many new objects were actually added.
 	 */
 	merge(users: UserType[]): number {
 		const oldSize = this.size;
