@@ -124,17 +124,14 @@ function parseCSV(csv: string): QueuedUser[] {
 				id = firstColumn;
 			}
 
-			if (secondColumn && secondColumn.startsWith("https://twitter.com")) {
-				interacted_with = secondColumn.replace("https://twitter.com", "");
-			}
-
 			const baseUser = id ? { id } : { screen_name };
 
-			return {
-				...baseUser,
-				interacted_with,
-				profile_image_url_https: "",
-			};
+			if (secondColumn && secondColumn.startsWith("https://twitter.com")) {
+				interacted_with = secondColumn.replace("https://twitter.com", "");
+				return { ...baseUser, interacted_with };
+			}
+
+			return baseUser;
 		})
 		.filter((user) => user && (user.screen_name || user.id));
 }
