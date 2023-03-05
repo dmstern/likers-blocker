@@ -75,49 +75,49 @@ export default class Storage {
 	}
 
 	static async getPackageVersion(): Promise<string> {
-		return this.get(Key.packageVersion) as Promise<string>;
+		return this.get(Key.packageVersion, false) as Promise<string>;
 	}
 
 	static async getHideBadgeShare(): Promise<boolean> {
-		return this.get(Key.hideBadgeShare) as Promise<boolean>;
+		return this.get(Key.hideBadgeShare, false) as Promise<boolean>;
 	}
 
 	static setHideBadgeShare(value: boolean) {
-		this.set(Key.hideBadgeShare, value);
+		this.set(Key.hideBadgeShare, value, false);
 	}
 
 	static async getHideBadgeDonate(): Promise<boolean> {
-		return this.get(Key.hideBadgeDonate) as Promise<boolean>;
+		return this.get(Key.hideBadgeDonate, false) as Promise<boolean>;
 	}
 
 	static setHideBadgeDonate(value: boolean) {
-		this.set(Key.hideBadgeDonate, value);
+		this.set(Key.hideBadgeDonate, value, false);
 	}
 
 	static async getHideBadgeFollow(): Promise<boolean> {
-		return this.get(Key.hideBadgeFollow) as Promise<boolean>;
+		return this.get(Key.hideBadgeFollow, false) as Promise<boolean>;
 	}
 
 	static setHideBadgeFollow(value: boolean) {
-		this.set(Key.hideBadgeFollow, value);
+		this.set(Key.hideBadgeFollow, value, false);
 	}
 
 	static async getHideIdleWarning(): Promise<boolean> {
-		return this.get(Key.hideIdleWarning) as Promise<boolean>;
+		return this.get(Key.hideIdleWarning, false) as Promise<boolean>;
 	}
 
 	static setHideIdleWarning(value: boolean) {
-		this.set(Key.hideIdleWarning, value);
+		this.set(Key.hideIdleWarning, value, false);
 	}
 
 	static async getInstalledNewReleaseDate(): Promise<number> {
-		const value = await this.get(Key.installedNewReleaseDate);
+		const value = await this.get(Key.installedNewReleaseDate, false);
 		const dateFromStorage = parseInt(value[Key.installedNewReleaseDate]);
 		return Number.isNaN(dateFromStorage) ? values.today : dateFromStorage;
 	}
 
 	static setInstalledNewReleaseDate(value: number) {
-		this.set(Key.installedNewReleaseDate, value);
+		this.set(Key.installedNewReleaseDate, value, false);
 	}
 
 	static async getIsNewRelease(): Promise<boolean> {
@@ -128,11 +128,11 @@ export default class Storage {
 	static async storePackageVersion() {
 		const storedVersion = await this.getPackageVersion();
 		if (storedVersion !== runtime.getManifest().version) {
-			Storage.remove(Key.hideBadgeDonate);
-			this.remove(Key.hideBadgeFollow);
-			this.remove(Key.hideBadgeShare);
+			Storage.remove(Key.hideBadgeDonate, false);
+			this.remove(Key.hideBadgeFollow, false);
+			this.remove(Key.hideBadgeShare, false);
 			this.setInstalledNewReleaseDate(values.today);
-			this.set(Key.packageVersion, runtime.getManifest().version);
+			this.set(Key.packageVersion, runtime.getManifest().version, false);
 		}
 	}
 
