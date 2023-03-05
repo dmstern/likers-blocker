@@ -1,5 +1,6 @@
 import { downloads } from "webextension-polyfill";
-import Storage from "./Storage";
+import BlockListStorage from "./storage/BlockListStorage";
+import QueueStorage from "./storage/QueueStorage";
 import { BlockedUser, QueuedUser, UserSet } from "./User";
 
 const filename = "blocklist.csv";
@@ -17,7 +18,7 @@ export default class FileManager {
 	}
 
 	static async downloadBlockList() {
-		const users = await Storage.getBlockedAccounts();
+		const users = await BlockListStorage.getBlockedAccounts();
 		const file = new File([usersToCSV(users)], filename, {
 			type: mimeType,
 		});
@@ -54,7 +55,7 @@ export default class FileManager {
 						console.debug("⚙ parsed:", blockedAccounts);
 
 						if (blockedAccounts.length) {
-							const added = await Storage.queueMulti(blockedAccounts);
+							const added = await QueueStorage.queueMulti(blockedAccounts);
 							resolve([blockedAccounts, added]);
 						} else {
 							reject(new Error("empty"));

@@ -1,6 +1,6 @@
 import Messenger from "../Messages";
 import settings from "../settings";
-import Storage from "../Storage";
+import LoginStorage from "../storage/LoginStorage";
 import { UserInfo } from "../User";
 
 export default class LoginDisplay {
@@ -13,13 +13,13 @@ export default class LoginDisplay {
 	}
 
 	private async initLoginStatus() {
-		this.userInfo = await Storage.getUserInfo();
+		this.userInfo = await LoginStorage.getUserInfo();
 
 		if (!this.userInfo || this.userInfo?.errors?.length) {
 			//send request to get user info to other tab
-			// const messageResponse = await Messenger.sendGetUserInfo();
-			// this.userInfo = messageResponse?.userInfo;
-			this.userInfo = await Storage.getUserInfo();
+			const messageResponse = await Messenger.sendGetUserInfo();
+			this.userInfo = messageResponse?.userInfo;
+			// this.userInfo = await LoginStorage.getUserInfo();
 		}
 
 		if (!this.userInfo || this.userInfo.errors?.length) {

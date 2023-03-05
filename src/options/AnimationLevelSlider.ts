@@ -1,4 +1,4 @@
-import Storage, { AnimationLevel, animationLevelValues } from "../Storage";
+import OptionsStorage, { AnimationLevel, animationLevelValues } from "../storage/OptionsStorage";
 import "./animation-level-slider.scss";
 
 const animationLevelSlider = document.querySelector("#animationLevel") as HTMLInputElement;
@@ -11,7 +11,7 @@ export default class AnimationLevelSlider {
 	private static hasEventListener: boolean;
 
 	static init() {
-		Storage.getAnimationLevel().then((animationLevel) => {
+		OptionsStorage.getAnimationLevel().then((animationLevel) => {
 			if (animationLevelSlider) {
 				animationLevelSlider.value = animationLevelValues[animationLevel].toString();
 				this.setValues(animationLevelValues[animationLevel], animationLevel);
@@ -40,7 +40,7 @@ export default class AnimationLevelSlider {
 			);
 			const animationLevel = AnimationLevel[animationLevelLabel];
 
-			Storage.setAnimationLevel(animationLevel);
+			OptionsStorage.setAnimationLevel(animationLevel);
 			this.setValues(value, animationLevel);
 		});
 	}

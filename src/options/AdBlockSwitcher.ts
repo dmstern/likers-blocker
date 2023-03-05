@@ -1,5 +1,5 @@
 import Messenger from "../Messages";
-import Storage from "../Storage";
+import OptionsStorage from "../storage/OptionsStorage";
 
 export default class AdBlockSwitcher {
 	constructor() {
@@ -9,13 +9,13 @@ export default class AdBlockSwitcher {
 			return;
 		}
 
-		Storage.isAdBlockerActive().then((isAdBlockerActive) => {
+		OptionsStorage.isAdBlockerActive().then((isAdBlockerActive) => {
 			adBlockSwitcher.checked = isAdBlockerActive;
 		});
 
 		adBlockSwitcher.addEventListener("change", () => {
 			Messenger.sendToggleAdBlocker(adBlockSwitcher.checked);
-			Storage.setAdBlockerActive(adBlockSwitcher.checked);
+			OptionsStorage.setAdBlockerActive(adBlockSwitcher.checked);
 		});
 	}
 }

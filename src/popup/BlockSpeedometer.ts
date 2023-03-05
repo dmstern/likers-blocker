@@ -1,7 +1,7 @@
 import { i18n, runtime } from "webextension-polyfill";
-import Storage from "../Storage";
 import "../sass-commons/speedometer-icon.scss";
 import settings from "../settings";
+import OptionsStorage from "../storage/OptionsStorage";
 
 export default class BlockSpeedometer {
 	constructor() {
@@ -11,7 +11,7 @@ export default class BlockSpeedometer {
 	private async init() {
 		const speedometer = document.querySelector(".block-speedometer") as HTMLElement;
 		const label = speedometer.querySelector("[data-label]") as HTMLElement;
-		const blockSpeed = await Storage.getBlocksPerMinute();
+		const blockSpeed = await OptionsStorage.getBlocksPerMinute();
 
 		document.body.classList.toggle("block-speed-fast", blockSpeed > 30);
 		document.body.style.setProperty("--block-speed", blockSpeed.toString());

@@ -1,4 +1,4 @@
-import Storage from "../Storage";
+import OptionsStorage from "../storage/OptionsStorage";
 import "./ad-block-counter.scss";
 
 export default class AdBlockCounter {
@@ -10,11 +10,11 @@ export default class AdBlockCounter {
 			return;
 		}
 
-		Storage.isAdBlockerActive().then((isAdBlockerActive) => {
+		OptionsStorage.isAdBlockerActive().then((isAdBlockerActive) => {
 			wrapper.classList.toggle("active", isAdBlockerActive);
 		});
 
-		Storage.getBlockedAdsCount().then((blockedAdsCount) => {
+		OptionsStorage.getBlockedAdsCount().then((blockedAdsCount) => {
 			adBlockCount.innerHTML = blockedAdsCount.toString();
 		});
 	}

@@ -1,4 +1,5 @@
-import Storage from "../Storage";
+import BlockListStorage from "../storage/BlockListStorage";
+import QueueStorage from "../storage/QueueStorage";
 
 export default class Status {
 	static queueLength: number;
@@ -10,8 +11,8 @@ export default class Status {
 	static queueListLabel: HTMLElement;
 
 	private static async init() {
-		const queueLength = await Storage.getQueueLength();
-		const blockedLength = await Storage.getBlockListLength();
+		const queueLength = await QueueStorage.getQueueLength();
+		const blockedLength = await BlockListStorage.getBlockListLength();
 
 		this.queueLength = queueLength;
 		this.blockedLength = blockedLength;

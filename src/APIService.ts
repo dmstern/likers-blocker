@@ -1,6 +1,8 @@
+import { List, Tweet } from "./APIResponseTypes";
 import Messenger from "./Messages";
-import Storage from "./Storage";
-import { Tweet, List } from "./APIResponseTypes";
+import BlockListStorage from "./storage/BlockListStorage";
+import LoginStorage from "./storage/LoginStorage";
+import QueueStorage from "./storage/QueueStorage";
 import { QueuedUser } from "./User";
 const API_URL = "https://api.twitter.com/1.1/";
 
@@ -35,10 +37,10 @@ export default class APIService {
 	}
 
 	private static async getHeaders(method: Method, preventPreflight = false): Promise<HeadersInit> {
-		const csrf = (await Storage.getCSFR()) as string;
-		const authorization = (await Storage.getAuthToken()) as string;
-		const acceptedLanguage = (await Storage.getAcceptedLanguage()) as string;
-		const lang = await Storage.getLanguage();
+		const csrf = (await LoginStorage.getCSFR()) as string;
+		const authorization = (await LoginStorage.getAuthToken()) as string;
+		const acceptedLanguage = (await LoginStorage.getAcceptedLanguage()) as string;
+		const lang = await LoginStorage.getLanguage();
 		console.debug("authorization " + authorization);
 		if (!csrf || !authorization) {
 			throw new Error("CSRF or Authorization not set");
@@ -133,7 +135,7 @@ export default class APIService {
 
 	static async block(user: QueuedUser): Promise<Response | undefined> {
 		console.info(`👊 blocking ${user.screen_name}...`);
-		const isAlreadyBlocked: boolean = (await Storage.getBlockedAccounts()).has(user);
+		const isAlreadyBlocked: boolean = (await BlockListStorage.getBlockedAccounts()).has(user);
 
 		if (isAlreadyBlocked) {
 			console.warn(`${user.screen_name} is already blocked.`);
@@ -146,10 +148,10 @@ export default class APIService {
 
 		if (wasSuccessful) {
 			console.info("%c✔ user blocked.", "color: YellowGreen");
-			Storage.addBlocked(user);
+			BlockListStorage.addBlocked(user);
 		} else {
 			console.error("🛑 did not block", response);
-			Storage.queue(user);
+			QueueStorage.queue(user);
 		}
 
 		Messenger.sendBlock({ success: wasSuccessful, status: response.status });

@@ -1,9 +1,9 @@
 import { i18n } from "webextension-polyfill";
 import Messenger from "../Messages";
-import settings from "../settings";
-import Storage from "../Storage";
-import "./block-speed-slider.scss";
 import "../sass-commons/speedometer-icon.scss";
+import settings from "../settings";
+import OptionsStorage from "../storage/OptionsStorage";
+import "./block-speed-slider.scss";
 
 const blockSpeedSlider = document.querySelector("#blockSpeed") as HTMLInputElement;
 const blockSpeedValueDisplay = blockSpeedSlider?.parentElement.querySelector(
@@ -14,7 +14,7 @@ export default class BlockSpeedSlider {
 	private static hasEventListener: boolean;
 
 	static init() {
-		Storage.getBlocksPerMinute().then((blocksPerMinute) => {
+		OptionsStorage.getBlocksPerMinute().then((blocksPerMinute) => {
 			document.body.style.setProperty("--block-speed-max", settings.BLOCKS_PER_MINUTE_MAX.toString());
 
 			if (blockSpeedSlider) {
@@ -42,7 +42,7 @@ export default class BlockSpeedSlider {
 			const value = (event.target as HTMLInputElement).value;
 			const blocksPerMinute = Number.parseInt(value);
 
-			Storage.setBlocksPerMinute(blocksPerMinute);
+			OptionsStorage.setBlocksPerMinute(blocksPerMinute);
 			Messenger.sendBlockSpeedUpdate();
 		});
 	}
