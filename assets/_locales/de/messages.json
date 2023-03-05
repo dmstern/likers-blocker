@@ -4,7 +4,7 @@
 		"description": "Name of the extension."
 	},
 	"extensionDescription": {
-		"message": "Blockiert Accounts, die hassschürende Tweets liken oder retweeten sowie Listenmitglieder und Werbeanzeigen",
+		"message": "Blockiert Accounts, die hassschürende Tweets liken oder retweeten sowie Listenmitglieder und Werbeanzeigen.",
 		"description": "Describes the extension."
 	},
 	"popup_usage": {
