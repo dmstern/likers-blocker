@@ -9,6 +9,18 @@ export default class AdBlocker {
 	private static _scrollListener: () => void;
 	private static isRunning: boolean;
 
+	private static get scrollListener() {
+		if (!this._scrollListener) {
+			this._scrollListener = () => {
+				this.findAds(false).then((svgPaths) => {
+					this.removeAds(svgPaths);
+				});
+			};
+		}
+
+		return this._scrollListener;
+	}
+
 	static start() {
 		if (this.isRunning) {
 			return;
@@ -32,18 +44,6 @@ export default class AdBlocker {
 		window.removeEventListener("scroll", this.scrollListener);
 		this.isRunning = false;
 		console.info("AdBlocker stopped.");
-	}
-
-	private static get scrollListener() {
-		if (!this._scrollListener) {
-			this._scrollListener = () => {
-				this.findAds(false).then((svgPaths) => {
-					this.removeAds(svgPaths);
-				});
-			};
-		}
-
-		return this._scrollListener;
 	}
 
 	private static async findAds(async: boolean): Promise<NodeListOf<Element>> {

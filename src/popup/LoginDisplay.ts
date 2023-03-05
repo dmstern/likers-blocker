@@ -30,7 +30,7 @@ export default class LoginDisplay {
 		this.setLoggedIn();
 	}
 
-	initLoginLink() {
+	private initLoginLink() {
 		const loginLink = document.querySelector("#loginLink");
 		if (!loginLink) {
 			return;
@@ -46,7 +46,7 @@ export default class LoginDisplay {
 		});
 	}
 
-	setLoggedIn() {
+	private setLoggedIn() {
 		this.main?.classList.add("logged-in");
 
 		const profilePicture = this.userInfo.profile_image_url_https || settings.DEFAULT_PROFILE_IMG.normal;

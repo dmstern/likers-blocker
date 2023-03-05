@@ -23,6 +23,7 @@ export default class AnimationLevelSlider {
 			this.hasEventListener = true;
 		}
 	}
+
 	static setStateClass(level: AnimationLevel) {
 		settingWrapper.classList.remove(
 			"animation-level-slider--off",

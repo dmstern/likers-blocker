@@ -33,6 +33,10 @@ export class UserSet<UserType extends AbstractUser> {
 		}
 	}
 
+	get size() {
+		return this.users.length;
+	}
+
 	/**
 	 * Add a new user to the set if was not already in it.
 	 * @param user the user to be added
@@ -85,16 +89,21 @@ export class UserSet<UserType extends AbstractUser> {
 		return this.users.shift();
 	}
 
-	get size() {
-		return this.users.length;
-	}
-
 	toArray(): UserType[] {
 		return this.users;
 	}
 
 	splice(amount: number): UserType[] {
 		return this.users.splice(0, amount);
+	}
+
+	/**
+	 * Test if a user with the same screen_name or id is in the set.
+	 * @param user a user object to test if it is in the set
+	 * @returns true if a user with the given screen_name or id is in the set.
+	 */
+	has(user: AbstractUser): boolean {
+		return this.find(user) !== undefined;
 	}
 
 	/**
@@ -110,14 +119,5 @@ export class UserSet<UserType extends AbstractUser> {
 				return item.id === user.id;
 			}
 		});
-	}
-
-	/**
-	 * Test if a user with the same screen_name or id is in the set.
-	 * @param user a user object to test if it is in the set
-	 * @returns true if a user with the given screen_name or id is in the set.
-	 */
-	has(user: AbstractUser): boolean {
-		return this.find(user) !== undefined;
 	}
 }

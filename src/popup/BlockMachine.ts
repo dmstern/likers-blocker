@@ -37,20 +37,6 @@ export default class BlockMachine {
 		});
 	}
 
-	private static renderAvatar(user: QueuedUser, index: number) {
-		const avatar = document.createElement("span");
-		const profileImgUrl = user.profile_image_url_https || settings.DEFAULT_PROFILE_IMG.mini;
-		avatar.style.backgroundImage = `url(${profileImgUrl.replace("normal", "mini")}`;
-		avatar.title = user.screen_name ? `@${user.screen_name}` : user.id.toString();
-		avatar.classList.add("machine__avatar");
-		setIndexToElement(avatar, index);
-		this.accountsWrapper.prepend(avatar);
-	}
-
-	private static clearStateClasses() {
-		document.body.classList.remove(...Object.values(classes));
-	}
-
 	static async runBlockAnimation() {
 		this.clearStateClasses();
 
@@ -95,6 +81,20 @@ export default class BlockMachine {
 				errorSign.innerHTML = `${icons.warn}<span>${i18n.getMessage("popup_unauthenticated")}</span>`;
 			}
 		}
+	}
+
+	private static renderAvatar(user: QueuedUser, index: number) {
+		const avatar = document.createElement("span");
+		const profileImgUrl = user.profile_image_url_https || settings.DEFAULT_PROFILE_IMG.mini;
+		avatar.style.backgroundImage = `url(${profileImgUrl.replace("normal", "mini")}`;
+		avatar.title = user.screen_name ? `@${user.screen_name}` : user.id.toString();
+		avatar.classList.add("machine__avatar");
+		setIndexToElement(avatar, index);
+		this.accountsWrapper.prepend(avatar);
+	}
+
+	private static clearStateClasses() {
+		document.body.classList.remove(...Object.values(classes));
 	}
 }
 

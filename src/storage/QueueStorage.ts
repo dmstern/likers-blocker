@@ -52,6 +52,41 @@ export default class QueueStorage extends Storage {
 		return queueLength;
 	}
 
+	static async queue(user: QueuedUser) {
+		const queue = await this.getQueue();
+		const hasAdded = queue.add(user);
+
+		if (hasAdded) {
+			await this.increaseQueueLength();
+		}
+
+		super.set(Key.blockingQueue, queue.toArray());
+	}
+
+	/**
+	 * Add multiple users to queue.
+	 * @param users a UserSet of the users to be queued
+	 * @returns the number of new added users
+	 */
+	static async queueMulti(users: QueuedUser[]): Promise<number> {
+		const queue: UserSet<QueuedUser> = await this.getQueue();
+
+		// Avoid adding already blocked accounts to queue:
+		const blockedAccounts: UserSet<BlockedUser> = await BlockListStorage.getBlockedAccounts();
+		const newUsers = users.filter((user) => !blockedAccounts.has(user));
+		const addedUsersCount: number = queue.merge(newUsers);
+
+		super.set(Key.blockingQueue, queue.toArray());
+		this.setQueueLength(queue.size);
+
+		return addedUsersCount;
+	}
+
+	static async queueEmpty(): Promise<boolean> {
+		const queueLength = await this.getQueueLength();
+		return queueLength === 0;
+	}
+
 	private static async setQueueLength(queueLength: number): Promise<void> {
 		this.set(Key.queueLength, queueLength);
 		Messenger.sendQueueUpdate({ queueLength });
@@ -93,36 +128,6 @@ export default class QueueStorage extends Storage {
 		return new UserSet<QueuedUser>(queued);
 	}
 
-	static async queue(user: QueuedUser) {
-		const queue = await this.getQueue();
-		const hasAdded = queue.add(user);
-
-		if (hasAdded) {
-			await this.increaseQueueLength();
-		}
-
-		super.set(Key.blockingQueue, queue.toArray());
-	}
-
-	/**
-	 * Add multiple users to queue.
-	 * @param users a UserSet of the users to be queued
-	 * @returns the number of new added users
-	 */
-	static async queueMulti(users: QueuedUser[]): Promise<number> {
-		const queue: UserSet<QueuedUser> = await this.getQueue();
-
-		// Avoid adding already blocked accounts to queue:
-		const blockedAccounts: UserSet<BlockedUser> = await BlockListStorage.getBlockedAccounts();
-		const newUsers = users.filter((user) => !blockedAccounts.has(user));
-		const addedUsersCount: number = queue.merge(newUsers);
-
-		super.set(Key.blockingQueue, queue.toArray());
-		this.setQueueLength(queue.size);
-
-		return addedUsersCount;
-	}
-
 	private static async dequeueMulti(amount: number): Promise<UserSet<QueuedUser>> {
 		const queue: UserSet<QueuedUser> = await this.getQueue();
 
@@ -130,10 +135,5 @@ export default class QueueStorage extends Storage {
 		super.set(Key.blockingQueue, queue.toArray());
 
 		return new UserSet<QueuedUser>(dequeued);
-	}
-
-	static async queueEmpty(): Promise<boolean> {
-		const queueLength = await this.getQueueLength();
-		return queueLength === 0;
 	}
 }

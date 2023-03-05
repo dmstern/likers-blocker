@@ -6,16 +6,6 @@ export enum CookieName {
 }
 
 export default class Cookies {
-	private static async get(name: CookieName): Promise<string> {
-		if (cookies && cookies.get) {
-			const cookie = await cookies.get({ name, url: "https://twitter.com" });
-			return cookie?.value;
-		} else {
-			const entries = document.cookie.split("; ");
-			return entries.find((row) => row?.startsWith(`${name}=`))?.split("=")[1];
-		}
-	}
-
 	static async getLanguage() {
 		const lang = await this.get(CookieName.lang);
 		return lang || runtime.getManifest().default_locale;
@@ -29,5 +19,15 @@ export default class Cookies {
 		}
 
 		return "";
+	}
+
+	private static async get(name: CookieName): Promise<string> {
+		if (cookies && cookies.get) {
+			const cookie = await cookies.get({ name, url: "https://twitter.com" });
+			return cookie?.value;
+		} else {
+			const entries = document.cookie.split("; ");
+			return entries.find((row) => row?.startsWith(`${name}=`))?.split("=")[1];
+		}
 	}
 }
