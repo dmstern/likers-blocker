@@ -90,7 +90,7 @@ export default class APIService {
 			const tweet = await response.json();
 			return tweet;
 		} else {
-			console.error("No Tweet found", response);
+			console.error("No tweet found", response);
 		}
 	}
 
@@ -105,7 +105,7 @@ export default class APIService {
 			const tweet = await response.json();
 			return tweet;
 		} else {
-			console.error("No Tweet found", response);
+			console.error("No list found", response);
 		}
 	}
 
