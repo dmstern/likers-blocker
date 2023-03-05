@@ -12,12 +12,6 @@ export default class BlockListStorage extends Storage {
 		return blockListLength;
 	}
 
-	private static async increaseBlockListLength(): Promise<void> {
-		let blockListLength: number = await this.getBlockListLength();
-		blockListLength++;
-		super.set(Key.blockListLength, blockListLength);
-	}
-
 	static async getBlockedAccounts(): Promise<UserSet<BlockedUser>> {
 		let blocked = (await super.get(Key.blockedAccounts)) as BlockedUser[] | undefined;
 
@@ -64,5 +58,11 @@ export default class BlockListStorage extends Storage {
 		}
 
 		super.set(Key.blockedAccounts, blocked.toArray());
+	}
+
+	private static async increaseBlockListLength(): Promise<void> {
+		let blockListLength: number = await this.getBlockListLength();
+		blockListLength++;
+		super.set(Key.blockListLength, blockListLength);
 	}
 }

@@ -47,30 +47,6 @@ export default class AccountCollector {
 		Storage.storePackageVersion().then();
 	}
 
-	public get isLegacyTwitter() {
-		return this.legacyTwitter;
-	}
-
-	public set isLegacyTwitter(legacyTwitter) {
-		if (legacyTwitter) {
-			document.body.classList.add("lb-legacy-twitter");
-		}
-		this.legacyTwitter = legacyTwitter;
-	}
-
-	private async getAnimationLevel() {
-		const animationLevel = await OptionsStorage.getAnimationLevel();
-
-		document.body.classList.remove(
-			"animation-level--off",
-			"animation-level--mild",
-			"animation-level--frisky"
-		);
-		document.body.classList.add(`animation-level--${animationLevel}`);
-
-		return animationLevel;
-	}
-
 	private get loadingInfo() {
 		return this.popup.querySelector(".lb-label");
 	}
@@ -87,6 +63,17 @@ export default class AccountCollector {
 
 	private get hasStateChangedToConfirm(): boolean {
 		return Array.from(this.popup.classList).some((className) => className === "lb-confirm");
+	}
+
+	private get isLegacyTwitter() {
+		return this.legacyTwitter;
+	}
+
+	private set isLegacyTwitter(legacyTwitter) {
+		if (legacyTwitter) {
+			document.body.classList.add("lb-legacy-twitter");
+		}
+		this.legacyTwitter = legacyTwitter;
 	}
 
 	public static run(): void {
@@ -128,6 +115,19 @@ export default class AccountCollector {
 		const notHiddenBadgeType = entries.find(([, value]) => !value);
 		const badgeType = notHiddenBadgeType ? notHiddenBadgeType[0] : "";
 		return linkModifier === badgeType ? "lb-footer__link--show-badge" : "";
+	}
+
+	private async getAnimationLevel() {
+		const animationLevel = await OptionsStorage.getAnimationLevel();
+
+		document.body.classList.remove(
+			"animation-level--off",
+			"animation-level--mild",
+			"animation-level--frisky"
+		);
+		document.body.classList.add(`animation-level--${animationLevel}`);
+
+		return animationLevel;
 	}
 
 	private async getTotalUsersCount(): Promise<number> {
@@ -535,7 +535,7 @@ export default class AccountCollector {
 		return areaWrapper;
 	}
 
-	async createConfirmCloseButton(confirmButton: HTMLAnchorElement) {
+	private async createConfirmCloseButton(confirmButton: HTMLAnchorElement) {
 		const confirmCloseButton = confirmButton.cloneNode(true) as HTMLElement;
 		confirmCloseButton.classList.add("lb-confirm-button--done");
 		this.popup.appendChild(confirmCloseButton);

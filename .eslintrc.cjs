@@ -35,5 +35,7 @@ module.exports = {
 				message: "Please avoid single-line if syntax.",
 			},
 		],
+		"@typescript-eslint/member-ordering": "warn",
+		"lines-between-class-members": ["warn", "always", { exceptAfterSingleLine: true }],
 	},
 };

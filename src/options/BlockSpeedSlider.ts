@@ -30,6 +30,7 @@ export default class BlockSpeedSlider {
 			this.hasEventListener = true;
 		}
 	}
+
 	private static addEventListener() {
 		blockSpeedSlider.addEventListener("input", (event) => {
 			const value = (event.target as HTMLInputElement).value;

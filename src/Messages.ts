@@ -69,14 +69,6 @@ export interface GetUserInfoResponse {
 export type GetTempQueueResponse = QueuedUser[];
 
 export default class Messenger {
-	private static log(message: Message, error?: Error) {
-		if (error) {
-			console.info("✉ Message was send but no receiver listens to it.", message, error);
-		} else {
-			console.debug("✉ message from background", message);
-		}
-	}
-
 	static async sendNextBatch(data: NextBatchData) {
 		const { nextBatchFromStorage } = data;
 		const message: NextBatchMessage = { action: Action.nextBatch, nextBatchFromStorage };
@@ -233,5 +225,13 @@ export default class Messenger {
 				return true;
 			}
 		});
+	}
+
+	private static log(message: Message, error?: Error) {
+		if (error) {
+			console.info("✉ Message was send but no receiver listens to it.", message, error);
+		} else {
+			console.debug("✉ message from background", message);
+		}
 	}
 }

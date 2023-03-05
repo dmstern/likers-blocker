@@ -36,27 +36,6 @@ const values = {
 type StorageValue = boolean | number | string | UserInfo | UserInfo[] | BlockedUser[] | QueuedUser[];
 
 export default class Storage {
-	private static async prefix(key: Key) {
-		const id = await this.getIdentity();
-		return `${id}_${key}`;
-	}
-
-	protected static async get(key: Key, groupedByUser = true): Promise<StorageValue> {
-		const storageKey = groupedByUser ? await this.prefix(key) : key;
-		const value = await storage.local.get(storageKey);
-		return value[storageKey];
-	}
-
-	protected static async set(key: Key, value: StorageValue, groupedByUser = true) {
-		const storageKey = groupedByUser ? await this.prefix(key) : key;
-		await storage.local.set({ [storageKey]: value });
-	}
-
-	protected static async remove(key: Key, groupedByUser = true) {
-		const storageKey = groupedByUser ? await Storage.prefix(key) : key;
-		await storage.local.remove(storageKey);
-	}
-
 	static async getIdentity(): Promise<string> {
 		const idFromCookies = await Cookies.getIdentity();
 		const idFromStorage = (await this.get(Key.userId, false)) as string;
@@ -151,5 +130,26 @@ export default class Storage {
 		let blockedAdsCount = await this.getBlockedAdsCount();
 		blockedAdsCount++;
 		this.set(Key.blockedAdsCounts, blockedAdsCount);
+	}
+
+	protected static async get(key: Key, groupedByUser = true): Promise<StorageValue> {
+		const storageKey = groupedByUser ? await this.prefix(key) : key;
+		const value = await storage.local.get(storageKey);
+		return value[storageKey];
+	}
+
+	protected static async set(key: Key, value: StorageValue, groupedByUser = true) {
+		const storageKey = groupedByUser ? await this.prefix(key) : key;
+		await storage.local.set({ [storageKey]: value });
+	}
+
+	protected static async remove(key: Key, groupedByUser = true) {
+		const storageKey = groupedByUser ? await Storage.prefix(key) : key;
+		await storage.local.remove(storageKey);
+	}
+
+	private static async prefix(key: Key) {
+		const id = await this.getIdentity();
+		return `${id}_${key}`;
 	}
 }
