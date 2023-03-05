@@ -1,46 +1,46 @@
 @keyframes rainbow {
 	0% {
-		--hue: 0deg;
+		color: hsl(0deg 90% 50%);
 	}
 
 	10% {
-		--hue: 36deg;
+		color: hsl(36deg 90% 50%);
 	}
 
 	20% {
-		--hue: 72deg;
+		color: hsl(72deg 90% 50%);
 	}
 
 	30% {
-		--hue: 108deg;
+		color: hsl(108deg 90% 50%);
 	}
 
 	40% {
-		--hue: 108deg;
+		color: hsl(108deg 90% 50%);
 	}
 
 	50% {
-		--hue: 180deg;
+		color: hsl(180deg 90% 50%);
 	}
 
 	60% {
-		--hue: 216deg;
+		color: hsl(216deg 90% 50%);
 	}
 
 	70% {
-		--hue: 252deg;
+		color: hsl(252deg 90% 50%);
 	}
 
 	80% {
-		--hue: 288deg;
+		color: hsl(288deg 90% 50%);
 	}
 
 	90% {
-		--hue: 324deg;
+		color: hsl(324deg 90% 50%);
 	}
 
 	100% {
-		--hue: 360deg;
+		color: hsl(360deg 90% 50%);
 	}
 }
 
