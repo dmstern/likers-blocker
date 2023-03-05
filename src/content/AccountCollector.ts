@@ -585,7 +585,7 @@ export default class AccountCollector {
 
 		this.confirmMessageElement.innerHTML = `
 			<h3>
-				<span>${i18n.getMessage("ui_users_found")}.</span>
+				<span>${i18n.getMessage("ui_users_found")}</span>
 				<span>${!isBlockExportPage ? i18n.getMessage("ui_confirm_message_heading_addon") : ""}</span>
 			</h3>
 			<div class="lb-label__main"></div>`;
@@ -689,14 +689,16 @@ export default class AccountCollector {
 			}
 		}
 
-		const confirmHeading = this.popup.querySelector(".lb-confirm-message h3 span");
-
 		// Add total found users count to heading:
-		if (confirmHeading) {
-			confirmHeading.innerHTML = `${this.collectedUsers.size.toLocaleString()} ${
-				confirmHeading.innerHTML
-			}`;
-		}
+		setTimeout(() => {
+			const confirmHeading = this.popup.querySelector(".lb-confirm-message h3 span");
+			if (confirmHeading) {
+				confirmHeading.innerHTML = i18n.getMessage(
+					"ui_users_found",
+					this.collectedUsers.size.toLocaleString()
+				);
+			}
+		}, 1000);
 
 		this.popup.classList.add("lb-check", "lb-collected");
 		setTimeout(async () => {
