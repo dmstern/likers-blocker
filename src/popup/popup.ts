@@ -36,6 +36,8 @@ function alignRightButtons() {
 	new AdBlockCounter();
 	Stats.update();
 
+	document.querySelector("#extensionVersion").innerHTML = `v${runtime.getManifest().version}`;
+
 	OptionsStorage.getAnimationLevel().then((animationLevel) => {
 		document.body.classList.remove(
 			"animation-level--off",

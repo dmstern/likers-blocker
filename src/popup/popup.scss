@@ -57,6 +57,14 @@
 	}
 }
 
+.popup-heading {
+	&__version {
+		opacity: 0.6;
+		font-size: .6em;
+		font-weight: normal;
+	}
+}
+
 .main__inactive-content {
 	display: flex;
 	align-items: center;
