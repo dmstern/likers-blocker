@@ -122,8 +122,14 @@
 		"description": "Label for the options button in the collecting window."
 	},
 	"ui_users_found": {
-		"message": "users found",
-		"description": "Message how many users have been collected. Gets prefixed the number of collected users."
+		"message": "$count$ users found.",
+		"description": "Message how many users have been collected. Gets prefixed the number of collected users.",
+		"placeholders": {
+			"count": {
+				"content": "$1",
+				"example": "432"
+			}
+		}
 	},
 	"ui_queue_explanation": {
 		"message": "The users are not blocked yet. To block them, add them to the blocking queue. They will be processed bit by bit in background to not violate the block limit of Twitter.",
