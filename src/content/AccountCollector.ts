@@ -100,9 +100,9 @@ export default class AccountCollector {
 
 	private static async getBadgeClass(linkModifier: string): Promise<string> {
 		const badgeTypes = {
+			donate: await Storage.getHideBadgeDonate(),
 			follow: await Storage.getHideBadgeFollow(),
 			share: await Storage.getHideBadgeShare(),
-			donate: await Storage.getHideBadgeDonate(),
 		};
 
 		const allBadgedDone = Object.values(badgeTypes).every((value) => value);
@@ -848,16 +848,16 @@ export default class AccountCollector {
 				link?.classList.remove("lb-footer__link--show-badge");
 
 				switch (badgeType) {
+					case "donate": {
+						Storage.setHideBadgeDonate(true);
+						break;
+					}
 					case "follow": {
 						Storage.setHideBadgeFollow(true);
 						break;
 					}
 					case "share": {
 						Storage.setHideBadgeShare(true);
-						break;
-					}
-					case "donate": {
-						Storage.setHideBadgeDonate(true);
 						break;
 					}
 				}
