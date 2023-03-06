@@ -8,12 +8,13 @@
 	// position: absolute;
 	// left: 108px;
 	// bottom: 0;
-	cursor: help;
 	width: var(--width);
 	height: var(--height);
 	display: block;
 	white-space: nowrap;
 	font-size: .8rem;
+	color: var(--color--decent);
+	cursor: help;
 
 	&__icon {
 		width: 1.2rem;
