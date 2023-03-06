@@ -76,7 +76,7 @@
 		"description": "Label of the queue counter"
 	},
 	"popup_list": {
-		"message": "Bereits geblockte Accounts:",
+		"message": "Geblockte Accounts:",
 		"description": "Label of the blocklist counter"
 	},
 	"popup_unauthenticated": {
