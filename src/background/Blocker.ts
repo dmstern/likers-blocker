@@ -1,8 +1,9 @@
-import { alarms } from "webextension-polyfill";
+import { alarms, i18n } from "webextension-polyfill";
 import APIServiceMock from "../APIServiceMock";
 import Badge from "../Badge";
 import Notification, { Notify } from "../Notification";
 import settings from "../settings";
+import BlockListStorage from "../storage/BlockListStorage";
 import LoginStorage from "../storage/LoginStorage";
 import OptionsStorage from "../storage/OptionsStorage";
 import QueueStorage from "../storage/QueueStorage";
@@ -53,6 +54,18 @@ export default class Blocker {
 	}
 
 	private static async processBlocking(blocksPerMinute: number) {
+		const reachedLimit = await BlockListStorage.isBlockLimitReached();
+		if (reachedLimit) {
+			this.stop();
+			await Notification.notify(
+				i18n.getMessage("notification_reached_limit_title"),
+				i18n.getMessage(
+					"notification_reached_limit_content",
+					settings.BLOCKS_PER_SESSION_LIMIT.toString()
+				)
+			);
+		}
+
 		if (this.blocksInCurrentIterationCount >= blocksPerMinute) {
 			this.clearIntervals();
 		}

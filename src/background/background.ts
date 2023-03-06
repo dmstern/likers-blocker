@@ -28,8 +28,12 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 		Blocker.run();
 	});
 
-	Messenger.onLogin(async () => {
-		const timeToLoadTwitter = 4000;
+	Messenger.onLogin(() => {
+		Blocker.run();
+	});
+
+	Messenger.onClickLogin(async () => {
+		const timeToLoadTwitter = 5000;
 
 		const twitterTab = await tabs.create({
 			active: true,
@@ -41,7 +45,7 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 				const userInfoResponse = await Messenger.sendGetUserInfo(twitterTab);
 				const userInfo = userInfoResponse?.userInfo;
 				if (userInfo) {
-					LoginStorage.setUserInfo(userInfo);
+					LoginStorage.login(userInfo);
 					resolve(userInfo);
 				}
 			}, timeToLoadTwitter);

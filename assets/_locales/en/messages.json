@@ -105,6 +105,20 @@
 		"message": "Blocked ads:",
 		"description": "Label in popup for blocked ads count"
 	},
+	"popup_block_limit": {
+		"message": "$remaining$ remaining blocks.",
+		"description": "Block limit energy display label.",
+		"placeholders": {
+			"remaining": {
+				"content": "$1",
+				"example": "434"
+			}
+		}
+	},
+	"popup_block_limit_hint": {
+		"message": "When you reach the block limit, you can charge the battery by logging out from Twitter and logging in again.",
+		"description": "Block limit energy display hint (mouseover)."
+	},
 	"tweet_text": {
 		"message": "https://twitter.com/share?text=Found a racist or otherwise disgusting tweet and people even like those stuff? @LikersBlocker helps you to get rid of those people within seconds.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech",
 		"description": "href for the tweet button. Contains a prefilled tweet text."
@@ -340,5 +354,19 @@
 	"notification_unauthenticated_content": {
 		"message": "Apparently you have blocked too fast or exceeded the block limit. Please login again and block slower.",
 		"description": "Notification content if user was force-logged-out."
+	},
+	"notification_reached_limit_title": {
+		"message": "Reached block limit.",
+		"description": "Notification title if session block limit is reached."
+	},
+	"notification_reached_limit_content": {
+		"message": "Twitter does not allow more than $limit$ blocks at once. To proceed blocking, please logout out from Twitter and login again.",
+		"description": "Notification content if session block limit is reached.",
+		"placeholders": {
+			"limit": {
+				"content": "$1",
+				"example": "500"
+			}
+		}
 	}
 }

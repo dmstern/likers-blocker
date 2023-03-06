@@ -21,9 +21,13 @@ export default class Notification {
 		const title = i18n.getMessage(messages[notify].titleKey);
 		const message = i18n.getMessage(messages[notify].messageKey);
 
+		return this.notify(title, message);
+	}
+
+	static async notify(title: string, message: string) {
 		return notifications.create({
 			type: "basic",
-			iconUrl: runtime.getURL("link48.png"),
+			iconUrl: runtime.getURL("icon48.png"),
 			title,
 			message,
 		});

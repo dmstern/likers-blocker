@@ -1,0 +1,10 @@
+.block-counter {
+	display: flex;
+	margin-top: 1.6rem;
+	justify-content: space-between;
+	align-items: center;
+
+	.block-limit {
+		height: 100%;
+	}
+}

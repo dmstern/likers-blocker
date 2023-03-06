@@ -1,11 +1,17 @@
 import { webRequest, WebRequest } from "webextension-polyfill";
 import Messenger from "../Messages";
 import LoginStorage from "../storage/LoginStorage";
+import Blocker from "./Blocker";
 
 export default class WebRequestInterceptor {
 	static logURL(details: WebRequest.OnBeforeSendHeadersDetailsType): void {
 		if (!details.requestHeaders) {
 			return;
+		}
+
+		if (new URL(details.url).pathname.includes("logout.json")) {
+			Blocker.stop();
+			LoginStorage.logout();
 		}
 
 		for (const header of details.requestHeaders) {
@@ -27,7 +33,7 @@ export default class WebRequestInterceptor {
 					if (!userInfo) {
 						Messenger.sendGetUserInfo().then((response) => {
 							if (response && response.userInfo) {
-								LoginStorage.setUserInfo(response.userInfo);
+								LoginStorage.login(response.userInfo);
 							}
 						});
 					}

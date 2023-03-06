@@ -5,6 +5,7 @@ import { localizeUI } from "../Localization";
 import Messenger from "../Messages";
 import OptionsStorage, { AnimationLevel } from "../storage/OptionsStorage";
 import AdBlockCounter from "./AdBlockCounter";
+import BlockLimit from "./BlockLimit";
 import BlockMachine from "./BlockMachine";
 import BlockSpeedometer from "./BlockSpeedometer";
 import LoginDisplay from "./LoginDisplay";
@@ -34,6 +35,7 @@ function alignRightButtons() {
 	new LoginDisplay();
 	new BlockSpeedometer();
 	new AdBlockCounter();
+	const blockLimit = new BlockLimit();
 	Stats.update();
 
 	document.querySelector("#extensionVersion").innerHTML = `v${runtime.getManifest().version}`;
@@ -72,6 +74,7 @@ function alignRightButtons() {
 
 		if (success) {
 			await BlockMachine.runBlockAnimation();
+			blockLimit.fillLevelUpdate();
 		} else {
 			BlockMachine.runFailAnimation(status);
 		}

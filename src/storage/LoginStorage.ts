@@ -1,11 +1,19 @@
 import { runtime } from "webextension-polyfill";
 import Cookies from "../Cookies";
+import Messenger from "../Messages";
 import { UserInfo } from "../User";
+import BlockListStorage from "./BlockListStorage";
 import Storage, { Key } from "./Storage";
 
 export default class LoginStorage extends Storage {
+	static login(userInfo: UserInfo) {
+		this.setUserInfo(userInfo);
+		Messenger.sendLogin();
+	}
+
 	static logout() {
 		super.remove(Key.userInfo);
+		BlockListStorage.resetCurrentBlocksCount();
 	}
 
 	static async getLanguage(): Promise<string> {
@@ -52,7 +60,7 @@ export default class LoginStorage extends Storage {
 		return new Promise<UserInfo>((resolve) => resolve(userInfo));
 	}
 
-	static setUserInfo(userInfo: UserInfo) {
+	private static setUserInfo(userInfo: UserInfo) {
 		if (userInfo.errors) {
 			return;
 		}
