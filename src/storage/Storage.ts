@@ -109,7 +109,7 @@ export default class Storage {
 	static async storePackageVersion() {
 		const storedVersion = await this.getPackageVersion();
 		if (storedVersion !== runtime.getManifest().version) {
-			Storage.remove(Key.hideBadgeDonate, false);
+			this.remove(Key.hideBadgeDonate, false);
 			this.remove(Key.hideBadgeFollow, false);
 			this.remove(Key.hideBadgeShare, false);
 			this.setInstalledNewReleaseDate(values.today);
