@@ -146,7 +146,7 @@
 		}
 	},
 	"ui_queue_explanation": {
-		"message": "The users are not blocked yet. To block them, add them to the blocking queue. They will be processed bit by bit in background to not violate the block limit of Twitter.",
+		"message": "The users are not blocked yet. To block them, add them to the blocking queue. They will be processed bit by bit in background to avoid violating Twitter's block limit.",
 		"description": "Explanation text that is displayed after collecting and before adding accounts to queue."
 	},
 	"ui_block_explanation": {
@@ -198,7 +198,7 @@
 		"description": "MouseOver text that will be shown when hovering the confirmation button."
 	},
 	"ui_confirm_clicked": {
-		"message": "OK. I'll block $added_count$ new accounts... This will take some time to not to violate Twitter's block limits and risk logout or account suspension. You can find the blocking queue under the extension icon in the top right of your browser window.",
+		"message": "OK. I'll block $added_count$ new accounts... This will take some time to avoid violating Twitter's block limits and risk logout or account suspension. You can find the blocking queue under the extension icon in the top right of your browser window.",
 		"description": "Confirmation message that is shown after user confirmed the queueing of the collected users.",
 		"placeholders":{
 			"added_count": {
