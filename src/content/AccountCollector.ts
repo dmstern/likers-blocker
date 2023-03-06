@@ -294,7 +294,7 @@ export default class AccountCollector {
 
 			if (progressBar) {
 				progressBar.style.setProperty("--progress", this.progressInPercent.toString());
-				if (this.progressInPercent > 10) {
+				if (this.progressInPercent > 50) {
 					progressBar.classList.add("lb-progress-bar__inner--large");
 				}
 			}
