@@ -1,21 +1,25 @@
+// Edge:
 @mixin small-screen {
 	@media screen and (max-width: 401px) {
 		@content;
 	}	
 }
 
+// Chrome:
 @mixin medium-screen {
 	@media screen and (min-width: 402px) and (max-width: 567px) {
 		@content;
 	}	
 }
 
+// Chrome and Firefox:
 @mixin medium-screen-up {
 	@media screen and (min-width: 402px) {
 		@content;
 	}	
 }
 
+// Firefox:
 @mixin large-screen {
 	@media screen and (min-width: 568px) {
 		@content;
