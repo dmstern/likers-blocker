@@ -2,6 +2,7 @@ import { i18n, runtime } from "webextension-polyfill";
 import "../sass-commons/speedometer-icon.scss";
 import settings from "../settings";
 import OptionsStorage from "../storage/OptionsStorage";
+import Storage from "../storage/Storage";
 
 export default class BlockSpeedometer {
 	constructor() {
@@ -12,11 +13,12 @@ export default class BlockSpeedometer {
 		const speedometer = document.querySelector(".block-speedometer") as HTMLElement;
 		const label = speedometer.querySelector("[data-label]") as HTMLElement;
 		const blockSpeed = await OptionsStorage.getBlocksPerMinute();
+		const isBlockerRunning = await Storage.isBlockerRunning();
 
 		document.body.classList.toggle("block-speed-fast", blockSpeed > 30);
 		document.body.style.setProperty("--block-speed", blockSpeed.toString());
 		document.body.style.setProperty("--block-speed-max", settings.BLOCKS_PER_MINUTE_MAX.toString());
-		document.body.classList.toggle("blocker-sleeping", blockSpeed < 1);
+		document.body.classList.toggle("is-blocker-running", isBlockerRunning && blockSpeed > 0);
 
 		if (!speedometer || !label) {
 			return;

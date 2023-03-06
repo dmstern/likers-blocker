@@ -7,13 +7,21 @@ import BlockListStorage from "../storage/BlockListStorage";
 import LoginStorage from "../storage/LoginStorage";
 import OptionsStorage from "../storage/OptionsStorage";
 import QueueStorage from "../storage/QueueStorage";
+import Storage from "../storage/Storage";
 
 const blockIntervals: NodeJS.Timeout[] = [];
 
 export default class Blocker {
 	static readonly alarmName: string = "blockTask";
-	private static isRunning = false;
 	private static blocksInCurrentIterationCount = 0;
+
+	static async isRunning() {
+		return await Storage.isBlockerRunning();
+	}
+
+	static setRunning(isRunning: boolean) {
+		Storage.setBlockerRunning(isRunning);
+	}
 
 	static async run() {
 		this.clearIntervals();
@@ -37,11 +45,11 @@ export default class Blocker {
 	static stop() {
 		this.clearIntervals();
 		alarms.clear(Blocker.alarmName);
-		this.isRunning = false;
+		this.setRunning(false);
 	}
 
 	private static async init() {
-		if (this.isRunning) {
+		if (await this.isRunning()) {
 			return;
 		}
 
@@ -50,7 +58,7 @@ export default class Blocker {
 			periodInMinutes: settings.BLOCK_PERIOD_IN_MINUTES,
 		});
 
-		this.isRunning = true;
+		this.setRunning(true);
 	}
 
 	private static async processBlocking(blocksPerMinute: number) {

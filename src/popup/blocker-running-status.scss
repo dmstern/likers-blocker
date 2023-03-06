@@ -1,0 +1,20 @@
+.blocker-running-status {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	opacity: .7;
+	display: block;
+	
+	&[title] {
+		cursor: help;
+	}
+
+	.is-blocker-running & {
+		display: none;
+	}
+
+	svg.pause-icon {
+		width: auto;
+		height: 1.6rem;
+	}
+}
