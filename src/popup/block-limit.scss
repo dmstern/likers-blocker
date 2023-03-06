@@ -35,8 +35,8 @@
 			content: "";
 			background: var(--graphics-color);
 			width: 50%;
-			height: calc(var(--width) / 4);
-			border-radius: var(--border-radius);
+			height: calc(var(--width) / 3.5);
+			border-radius: calc(var(--border-radius) / 2);
 			position: absolute;
 			left: 50%;
 			top: 0;
@@ -50,7 +50,7 @@
 			left: var(--padding);
 			bottom: var(--padding);
 			background-color: hsla(calc(var(--fill-level) * 1deg) 90% 50% / 70%);
-			border-radius: calc(var(--border-radius) - 1px);
+			border-radius: calc(var(--border-radius) / 2);
 			width: calc(var(--width) - var(--padding) * 4);
 			height: calc(var(--fill-level) * 1% - var(--padding));
 			min-height: 2px;
