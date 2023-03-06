@@ -7,6 +7,6 @@
 	}
 
 	&__label {
-		color: hsl(var(--hue) 90% 50%);
+		color: hsl(var(--hue) 90% var(--colored-value--light));
 	}
 }
