@@ -209,10 +209,16 @@ export default class AccountCollector {
 	}
 
 	private async closePopup() {
+		const animationLevel = await this.getAnimationLevel();
 		this.popup.classList.add("lb-hide");
-		this.popup.addEventListener("transitionend", () => {
+
+		if (animationLevel === AnimationLevel.off) {
 			this.popup.remove();
-		});
+		} else {
+			this.popup.addEventListener("transitionend", () => {
+				this.popup.remove();
+			});
+		}
 
 		this.popupWrapper.remove();
 		(await this.getScrollList()).classList.remove("lb-blur");
@@ -426,6 +432,7 @@ export default class AccountCollector {
 	}
 
 	private async createFinishButton() {
+		const animationLevel = await this.getAnimationLevel();
 		const finishButton = document.createElement("button") as HTMLButtonElement;
 		finishButton.innerHTML = `${icons.forward}${icons.smile}`;
 		finishButton.tabIndex = 0;
@@ -435,7 +442,7 @@ export default class AccountCollector {
 		finishButton.style.color = TwitterPage.highlightColor;
 		this.popup.append(finishButton);
 
-		finishButton.addEventListener("click", () => {
+		finishButton.addEventListener("click", async () => {
 			finishButton.classList.add("lb-finish-button--active");
 			const finishButtonIcon = finishButton.querySelector("svg");
 
@@ -443,17 +450,17 @@ export default class AccountCollector {
 				return;
 			}
 
-			finishButtonIcon.addEventListener(
-				"transitionend",
-				async () => {
-					finishButton.disabled = true;
-					this.popup.classList.remove("lb-popup--has-warning");
-					await this.finishCollecting();
-				},
-				{
-					once: true,
-				}
-			);
+			const finish = async () => {
+				finishButton.disabled = true;
+				this.popup.classList.remove("lb-popup--has-warning");
+				await this.finishCollecting();
+			};
+
+			if (animationLevel === AnimationLevel.off) {
+				await finish();
+			} else {
+				finishButtonIcon.addEventListener("transitionend", finish, { once: true });
+			}
 		});
 	}
 
@@ -644,7 +651,7 @@ export default class AccountCollector {
 		await this.startScrolling();
 	}
 
-	private async scrollDown() {
+	private async scrollDown(animationLevel: AnimationLevel) {
 		console.debug("scrollDown()");
 		const scrolly = await this.scrolly;
 		const scrollListIsSmall = scrolly.scrollHeight < scrolly.clientHeight * 2;
@@ -656,7 +663,7 @@ export default class AccountCollector {
 		scrolly.scroll({
 			top: scrolly.scrollTop + scrolly.clientHeight,
 			left: 0,
-			behavior: "smooth",
+			behavior: animationLevel === AnimationLevel.off ? "auto" : "smooth",
 		});
 
 		await this.collectUsers();
@@ -897,11 +904,12 @@ export default class AccountCollector {
 	private async startScrolling() {
 		(await this.getScrollList()).classList.add("lb-blur");
 		(await this.scrolly).scrollTo(0, 0);
+		const animationLevel = await this.getAnimationLevel();
 		this.collectedUsers = new UserSet();
 		const scrollsPerMinute = await OptionsStorage.getScrollsPerMinute();
 		const scrollInterval = Math.round((60 / scrollsPerMinute) * 1000);
 		this.scrollInterval = window.setInterval(async () => {
-			await this.scrollDown();
+			await this.scrollDown(animationLevel);
 		}, scrollInterval);
 	}
 
@@ -911,6 +919,8 @@ export default class AccountCollector {
 	};
 
 	private async createIdleWarning() {
+		const animationLevel = await this.getAnimationLevel();
+
 		if (
 			(await Storage.getHideIdleWarning()) ||
 			Array.from(this.popup.classList).includes("lb-popup--has-warning") ||
@@ -946,9 +956,13 @@ export default class AccountCollector {
 				this.popup.classList.remove("lb-popup--has-warning");
 				this.uiIdleCounter = -1;
 
-				warning.addEventListener("transitionend", () => {
+				if (animationLevel === AnimationLevel.off) {
 					warning.remove();
-				});
+				} else {
+					warning.addEventListener("transitionend", () => {
+						warning.remove();
+					});
+				}
 			});
 		});
 

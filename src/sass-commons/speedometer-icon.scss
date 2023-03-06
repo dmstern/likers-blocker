@@ -1,10 +1,22 @@
 .speedometer-icon {
 	position: relative;
 
+	svg.icon--speedometer {
+		display: none;
+
+		.animation-level--off & {
+			display: inline-block;
+		}
+	}
+
 	.speedometer-blank {
 		position: relative;
 		left: 0;
 		top: 0;
+
+		.animation-level--off & {
+			display: none;
+		}
 	}
 
 	&__gradient {
@@ -16,6 +28,10 @@
 		border-radius: 50px 50px 10px 10px;
 		opacity: .8;
 		background: linear-gradient(90deg, rgb(45 181 40) 0%, rgb(209 186 28) 50%, rgb(154 13 13) 100%);
+
+		.animation-level--off & {
+			display: none;
+		}
 
 		&::after {
 			position: absolute;
@@ -38,5 +54,9 @@
 		transform: rotate(calc((var(--block-speed) / var(--block-speed-max, 60)) * 220deg));
 		transition: all 150ms linear;
 		transform-origin: 49% 64%;
+
+		.animation-level--off & {
+			display: none;
+		}
 	}
 }

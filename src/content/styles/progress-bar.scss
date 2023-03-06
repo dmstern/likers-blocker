@@ -33,7 +33,11 @@
 			min-width: 4rem;
 		}
 
-		.lb-block-page .lb-collecting & {
+		.lb-block-page.animation-level--off & {
+			display: none;
+		}
+
+		.lb-block-page:not(.animation-level--off) .lb-collecting & {
 			text-align: center;
 			width: 50%;
 			animation: load 1200ms ease-in-out infinite alternate;
