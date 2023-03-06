@@ -28,6 +28,7 @@ export enum Key {
 	scrollsPerMinute = "options.scrollsPerMinute",
 	adBlockerActive = "options.adBlockerActive",
 	animationLevel = "options.animationLevel",
+	blockerRunning = "blockerRunning",
 }
 
 const values = {
@@ -131,6 +132,14 @@ export default class Storage {
 		let blockedAdsCount = await this.getBlockedAdsCount();
 		blockedAdsCount++;
 		this.set(Key.blockedAdsCounts, blockedAdsCount);
+	}
+
+	static async isBlockerRunning() {
+		return (await this.get(Key.blockerRunning)) as boolean;
+	}
+
+	static setBlockerRunning(isRunning: boolean) {
+		this.set(Key.blockerRunning, isRunning);
 	}
 
 	protected static async get(key: Key, groupedByUser = true): Promise<StorageValue> {

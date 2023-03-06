@@ -111,6 +111,10 @@
 		"message": "Wenn das Block-Limit erreicht ist, kannst du den Akku aufladen, indem du dich bei Twitter ab- und wieder neu anmeldest.",
 		"description": "Block limit energy display hint (mouseover)."
 	},
+	"popup_blocker_running_status": {
+		"message": "Blocker ist pausiert.",
+		"description": "Mouseover hint in popup that blocker is paused."
+	},
 	"tweet_text": {
 		"message": "https://twitter.com/share?text=Einen rassistischen oder anderweitig richtig ätzenden Tweet gefunden und Leute liken das auch noch? Mit dem @LikersBlocker könnt ihr in Sekunden alle blocken, mit denen ihr sicher nichts zu tun haben wollt.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech",
 		"description": "href for the tweet button. Contains a prefilled tweet text."

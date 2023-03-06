@@ -3,6 +3,11 @@
 	justify-content: space-between;
 	margin-bottom: 1rem;
 	position: relative;
+	opacity: .5;
+
+	.is-blocker-running & {
+		opacity: 1;
+	}
 
 	.label__text {
 		display: block;

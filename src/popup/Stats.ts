@@ -1,5 +1,6 @@
 import BlockListStorage from "../storage/BlockListStorage";
 import QueueStorage from "../storage/QueueStorage";
+import Storage from "../storage/Storage";
 
 export default class Status {
 	static queueLength: number;
@@ -14,7 +15,9 @@ export default class Status {
 		await this.init();
 		const hasQueue = this.queueLength > 0;
 		const hasBlocked = this.blockedLength > 0;
+		const isBlockerRunning = await Storage.isBlockerRunning();
 
+		document.body.classList.toggle("is-blocker-running", isBlockerRunning);
 		this.queueListNode.innerHTML = this.queueLength.toLocaleString();
 		this.blockListNode.innerHTML = this.blockedLength.toLocaleString();
 		this.main.classList.toggle("has-queue", hasQueue);

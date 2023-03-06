@@ -54,7 +54,7 @@
 		--run-duration: 500ms;
 	}
 	
-	.has-queue:not(.blocker-sleeping) & {
+	.has-queue & {
 		opacity: 1;
 	}
 
