@@ -7,9 +7,10 @@ enum Action {
 	queueUpdate = "queueUpdate",
 	blockSpeedUpdate = "blockSpeedUpdate",
 	block = "block",
-	login = "login",
+	clickLogin = "clickLogin",
 	nextBatch = "nextBatch",
 	toggleAdBlocker = "toggleAdBlocker",
+	login = "login",
 }
 
 interface Message {
@@ -50,6 +51,10 @@ export interface GetUserInfoMessage extends Message {
 export interface NextBatchMessage extends Message {
 	action: Action.nextBatch;
 	nextBatchFromStorage: QueuedUser[];
+}
+
+export interface ClickLoginMessage extends Message {
+	action: Action.clickLogin;
 }
 
 export interface LoginMessage extends Message {
@@ -136,11 +141,21 @@ export default class Messenger {
 		}
 	}
 
-	static async sendLogin(): Promise<UserInfo> {
-		const message = { action: Action.login };
+	static async sendClickLogin(): Promise<UserInfo> {
+		const message = { action: Action.clickLogin };
 
 		try {
 			return await runtime.sendMessage(message);
+		} catch (error) {
+			this.log(message, error);
+		}
+	}
+
+	static async sendLogin(): Promise<void> {
+		const message = { action: Action.login };
+
+		try {
+			await runtime.sendMessage(message);
 		} catch (error) {
 			this.log(message, error);
 		}
@@ -207,7 +222,16 @@ export default class Messenger {
 		});
 	}
 
-	static onLogin(callback: () => Promise<UserInfo>): void {
+	static onClickLogin(callback: () => Promise<UserInfo>): void {
+		runtime.onMessage.addListener((message: ClickLoginMessage) => {
+			if (message.action === Action.clickLogin) {
+				this.log(message);
+				return callback();
+			}
+		});
+	}
+
+	static onLogin(callback: () => void): void {
 		runtime.onMessage.addListener((message: LoginMessage) => {
 			if (message.action === Action.login) {
 				this.log(message);

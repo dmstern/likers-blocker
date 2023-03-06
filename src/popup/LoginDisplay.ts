@@ -39,7 +39,7 @@ export default class LoginDisplay {
 		loginLink.addEventListener("click", async (event) => {
 			event.preventDefault();
 
-			const userInfo = await Messenger.sendLogin();
+			const userInfo = await Messenger.sendClickLogin();
 			if (userInfo) {
 				this.initLoginStatus();
 			}

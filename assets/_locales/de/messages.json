@@ -97,6 +97,20 @@
 		"message": "Blockierte Anzeigen:",
 		"description": "Label in popup for blocked ads count"
 	},
+	"popup_block_limit": {
+		"message": "$remaining$ verbleibende Blocks.",
+		"description": "Block limit energy display label.",
+		"placeholders": {
+			"remaining": {
+				"content": "$1",
+				"example": "434"
+			}
+		}
+	},
+	"popup_block_limit_hint": {
+		"message": "Wenn das Block-Limit erreicht ist, kannst du den Akku aufladen, indem du dich bei Twitter ab- und wieder neu anmeldest.",
+		"description": "Block limit energy display hint (mouseover)."
+	},
 	"tweet_text": {
 		"message": "https://twitter.com/share?text=Einen rassistischen oder anderweitig richtig ätzenden Tweet gefunden und Leute liken das auch noch? Mit dem @LikersBlocker könnt ihr in Sekunden alle blocken, mit denen ihr sicher nichts zu tun haben wollt.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech",
 		"description": "href for the tweet button. Contains a prefilled tweet text."
@@ -332,5 +346,19 @@
 	"notification_unauthenticated_content": {
 		"message": "Anscheinend hast du zu schnell geblock oder das BlockLimit überschritten. Melde dich bitte neu bei Twitter an und Blocke langsamer.",
 		"description": "Notification content if user was force-logged-out."
+	},
+	"notification_reached_limit_title": {
+		"message": "Block-Limit erreicht.",
+		"description": "Notification title if session block limit is reached."
+	},
+	"notification_reached_limit_content": {
+		"message": "Twitter erlaubt nicht mehr als $limit$ Blocks auf einmal. Um weiter blocken zu können, melde dich bitte bei Twitter ab und wieder an.",
+		"description": "Notification content if session block limit is reached.",
+		"placeholders": {
+			"limit": {
+				"content": "$1",
+				"example": "500"
+			}
+		}
 	}
 }

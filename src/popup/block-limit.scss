@@ -1,0 +1,63 @@
+.block-limit {
+	--width: 16px;
+	--height: 24px;
+	--padding: 2px;
+	--border-radius: 3px;
+	--fill-level: 50%;
+	
+	// position: absolute;
+	// left: 108px;
+	// bottom: 0;
+	cursor: help;
+	width: var(--width);
+	height: var(--height);
+	display: block;
+	white-space: nowrap;
+	font-size: .8rem;
+
+	&__icon {
+		width: 1.2rem;
+		height: 1.2rem;
+		display: inline-block;
+		position: relative;
+	}
+	
+	&__battery {
+		position: absolute;
+		left: 0;
+		bottom: -4px;
+		width: var(--width);
+		height: var(--height);
+		border-radius: var(--border-radius);
+		border: 2px solid var(--graphics-color);
+		margin-right: .5rem;
+
+		// plus pole:
+		&::before {
+			content: "";
+			background: var(--graphics-color);
+			width: 50%;
+			height: calc(var(--width) / 4);
+			border-radius: var(--border-radius);
+			position: absolute;
+			left: 50%;
+			top: 0;
+			transform: translate(-50%, -100%);
+		}
+
+		// inner fill-level:
+		&::after {
+			content: "";
+			position: absolute;
+			left: var(--padding);
+			bottom: var(--padding);
+			background-color: hsla(calc(var(--fill-level) * 1deg) 90% 50% / 70%);
+			border-radius: calc(var(--border-radius) - 1px);
+			width: calc(var(--width) - var(--padding) * 4);
+			height: calc(var(--fill-level) * 1% - var(--padding));
+			min-height: 2px;
+			max-height: calc(100% - var(--padding) * 2);
+			transition: height 500ms;
+		}
+	}
+}

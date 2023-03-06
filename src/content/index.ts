@@ -27,7 +27,7 @@ import "./styles/index.scss";
 			const screen_name = profileLink.href.split("/").pop();
 			const profile_image_url_https = profileImg.src;
 			userInfo = { screen_name, profile_image_url_https, id: parseInt(userId) };
-			LoginStorage.setUserInfo(userInfo);
+			LoginStorage.login(userInfo);
 			return Promise.resolve({ userInfo });
 		}
 	});
