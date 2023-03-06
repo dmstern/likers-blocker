@@ -1,13 +1,10 @@
 .block-limit {
-	--width: 16px;
-	--height: 24px;
+	--width: 14px;
+	--height: 21px;
 	--padding: 2px;
 	--border-radius: 3px;
 	--fill-level: 50%;
 	
-	// position: absolute;
-	// left: 108px;
-	// bottom: 0;
 	width: var(--width);
 	height: var(--height);
 	display: block;
