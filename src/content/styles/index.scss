@@ -16,3 +16,8 @@
 @import "./export";
 @import "./truck-animation";
 @import "./added-count-label";
+
+.animation-level--off * {
+	transition: none !important;
+	animation: none !important;
+}

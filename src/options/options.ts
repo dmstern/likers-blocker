@@ -24,6 +24,15 @@ function initOptionSettings() {
 	injectIcons();
 	initOptionSettings();
 
+	OptionsStorage.getAnimationLevel().then((animationLevel) => {
+		document.body.classList.remove(
+			"animation-level--off",
+			"animation-level--mild",
+			"animation-level--frisky"
+		);
+		document.body.classList.add(`animation-level--${animationLevel}`);
+	});
+
 	const resetButton = document.querySelector("#resetButton");
 	const clearButton = document.querySelector("#clearButton");
 
