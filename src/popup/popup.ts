@@ -38,7 +38,10 @@ function alignRightButtons() {
 	const blockLimit = new BlockLimit();
 	Stats.update();
 
-	document.querySelector("#extensionVersion").innerHTML = `v${runtime.getManifest().version}`;
+	const versionElement = document.querySelector("#extensionVersion") as HTMLElement;
+	if (versionElement) {
+		versionElement.innerHTML = `v${runtime.getManifest().version}`;
+	}
 
 	OptionsStorage.getAnimationLevel().then((animationLevel) => {
 		document.body.classList.remove(
