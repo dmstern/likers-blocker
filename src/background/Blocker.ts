@@ -64,6 +64,8 @@ export default class Blocker {
 					settings.BLOCKS_PER_SESSION_LIMIT.toString()
 				)
 			);
+
+			return;
 		}
 
 		if (this.blocksInCurrentIterationCount >= blocksPerMinute) {
