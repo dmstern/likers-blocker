@@ -18,8 +18,10 @@
 		position: relative;
 
 		@include small-screen {
-			flex-direction: column;
-			align-items: flex-start;
+			&:not(#{&}--small) {
+				flex-direction: column;
+				align-items: flex-start;
+			}
 		}
 	}
 
