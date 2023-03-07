@@ -1,6 +1,7 @@
 import { alarms, runtime, tabs } from "webextension-polyfill";
 import Badge from "../Badge";
 import Messenger from "../Messages";
+import settings from "../settings";
 import LoginStorage from "../storage/LoginStorage";
 import QueueStorage from "../storage/QueueStorage";
 import { UserInfo } from "../User";
@@ -52,11 +53,13 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 		});
 	});
 
-	runtime.onInstalled.addListener((object) => {
-		const externalUrl = "https://dmstern.github.io/likers-blocker/#usage";
+	runtime.onInstalled.addListener(({ reason }) => {
+		if (reason === "install") {
+			tabs.create({ url: settings.USAGE_URL });
+		}
 
-		if (object.reason === "install") {
-			tabs.create({ url: externalUrl });
+		if (reason === "update") {
+			tabs.create({ url: settings.RELEASE_NOTES_URL });
 		}
 	});
 })();
