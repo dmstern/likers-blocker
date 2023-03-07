@@ -1,0 +1,11 @@
+body.screenshot-blur {
+	.user-info__logged-in,
+	[aria-label="Timeline: Liked by"] [data-testid="cellInnerDiv"],
+	[data-testid="tweetText"],
+	[data-testid^="UserAvatar-Container"],
+	[data-testid="User-Names"],
+	[data-testid="UserCell"],
+	&:not(.likers-blocker-popup) a[href]:not([href*="status"]) {
+		filter: blur(5px);
+	}
+}

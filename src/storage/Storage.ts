@@ -29,6 +29,7 @@ export enum Key {
 	adBlockerActive = "options.adBlockerActive",
 	animationLevel = "options.animationLevel",
 	blockerRunning = "blockerRunning",
+	screenshotMode = "screenshotMode",
 }
 
 const values = {
@@ -49,6 +50,14 @@ export default class Storage {
 		}
 
 		return new Promise<string>((resolve) => resolve(identity));
+	}
+
+	static async getScreenshotMode(): Promise<boolean> {
+		const isScreenshotMode = (await this.get(Key.screenshotMode, false)) as Promise<boolean>;
+		if (isScreenshotMode === undefined) {
+			this.set(Key.screenshotMode, false, false);
+		}
+		return !!isScreenshotMode;
 	}
 
 	static async setIdentity(userId: string) {

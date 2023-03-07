@@ -16,6 +16,7 @@
 @import "./block-speedometer";
 @import "./block-counter";
 @import "./blocker-running-status";
+@import "../sass-commons/debug";
 
 @keyframes drive {
 	0% {
