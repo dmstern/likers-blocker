@@ -48,8 +48,12 @@ import "./styles/index.scss";
 		}
 	});
 
-	setTimeout(() => {
-		// console.log("%cadding LikersBlocker fonts", "background: RedOrange");
-		// injectFonts();
-	}, 10000);
+	// setTimeout(() => {
+	// console.log("%cadding LikersBlocker fonts", "background: RedOrange");
+	// injectFonts();
+	// }, 10000);
+
+	Storage.getScreenshotMode().then((isScreenshotMode) => {
+		document.body.classList.toggle("screenshot-blur", isScreenshotMode);
+	});
 })();

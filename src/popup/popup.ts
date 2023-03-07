@@ -4,6 +4,7 @@ import { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
 import Messenger from "../Messages";
 import OptionsStorage, { AnimationLevel } from "../storage/OptionsStorage";
+import Storage from "../storage/Storage";
 import AdBlockCounter from "./AdBlockCounter";
 import BlockLimit from "./BlockLimit";
 import BlockMachine from "./BlockMachine";
@@ -81,5 +82,9 @@ function alignRightButtons() {
 		} else {
 			BlockMachine.runFailAnimation(status);
 		}
+	});
+
+	Storage.getScreenshotMode().then((isScreenshotMode: boolean) => {
+		document.body.classList.toggle("screenshot-blur", isScreenshotMode);
 	});
 })();

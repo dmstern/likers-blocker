@@ -16,6 +16,7 @@
 @import "./export";
 @import "./truck-animation";
 @import "./added-count-label";
+@import "../../sass-commons/debug";
 
 .animation-level--off * {
 	transition: none !important;
