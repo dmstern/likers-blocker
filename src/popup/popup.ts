@@ -87,4 +87,16 @@ function alignRightButtons() {
 	Storage.getScreenshotMode().then((isScreenshotMode: boolean) => {
 		document.body.classList.toggle("screenshot-blur", isScreenshotMode);
 	});
+
+	const instructions = document.querySelector(".instructions") as HTMLElement;
+
+	if (instructions) {
+		const a = document.createElement("a");
+		const imageUrl = runtime.getURL("likers-blocker-collecting-and-confirm-animation--tweet.gif");
+		a.href = imageUrl;
+		a.target = "_target";
+		a.classList.add("instructions__image-wrapper");
+		a.innerHTML = `<img src="${imageUrl}" />`;
+		instructions.querySelector("li:first-child")?.append(a);
+	}
 })();

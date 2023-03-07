@@ -1,4 +1,13 @@
 .instructions {
+	&__image-wrapper {
+		float: right;
+		width: 50%;
+
+		img {
+			width: 100%;
+		}
+	}
+
 	.icon-bulb {
 		display: none;
 	}
