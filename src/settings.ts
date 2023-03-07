@@ -19,4 +19,6 @@ export default {
 	DEQUEUE_BATCH_SIZE: 42,
 	TEMP_QUEUE_BATCH_THRESHOLD: 14,
 	BLOCKS_PER_SESSION_LIMIT: 500,
+	USAGE_URL: "https://dmstern.github.io/likers-blocker/#usage",
+	RELEASE_NOTES_URL: "https://github.com/dmstern/likers-blocker/releases",
 };
