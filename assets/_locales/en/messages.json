@@ -4,7 +4,7 @@
 		"description": "Name of the extension."
 	},
 	"extensionDescription": {
-		"message": "block likers, retweeters, list members and Twitter ads.",
+		"message": "Block likers, retweeters, list members and Twitter ads.",
 		"description": "Describes the extension."
 	},
 	"popup_usage": {
