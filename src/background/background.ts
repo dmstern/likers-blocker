@@ -1,4 +1,4 @@
-import { alarms, tabs } from "webextension-polyfill";
+import { alarms, runtime, tabs } from "webextension-polyfill";
 import Badge from "../Badge";
 import Messenger from "../Messages";
 import LoginStorage from "../storage/LoginStorage";
@@ -50,5 +50,13 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 				}
 			}, timeToLoadTwitter);
 		});
+	});
+
+	runtime.onInstalled.addListener((object) => {
+		const externalUrl = "https://dmstern.github.io/likers-blocker/#usage";
+
+		if (object.reason === "install") {
+			tabs.create({ url: externalUrl });
+		}
 	});
 })();
