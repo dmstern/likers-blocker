@@ -24,7 +24,7 @@
 		"description": "Usage guide step 3"
 	},
 	"popup_usage_step_4": {
-		"message": "Nach dem Auslesen werden die Accounts zur Block-Warteschlange hinzugefügt und im Hintegrund blockiert.",
+		"message": "Nach dem Auslesen werden die Accounts zur Block-Warteschlange hinzugefügt und im Hintegrund geblockt.",
 		"description": "Usage guide step 4"
 	},
 	"popup_options": {
@@ -76,7 +76,7 @@
 		"description": "Label of the queue counter"
 	},
 	"popup_list": {
-		"message": "Geblockte Accounts:",
+		"message": "Blockierte Accounts:",
 		"description": "Label of the blocklist counter"
 	},
 	"popup_unauthenticated": {
@@ -116,7 +116,7 @@
 		"description": "Mouseover hint in popup that blocker is paused."
 	},
 	"tweet_text": {
-		"message": "https://twitter.com/share?text=Einen rassistischen oder anderweitig richtig ätzenden Tweet gefunden und Leute liken das auch noch? Mit dem @LikersBlocker könnt ihr in Sekunden alle blocken, mit denen ihr sicher nichts zu tun haben wollt.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech",
+		"message": "https://twitter.com/share?text=Einen rassistischen oder anderweitig richtig ätzenden Tweet gefunden und Leute liken das auch noch? Mit dem @LikersBlocker könnt ihr in Sekunden alle blockieren, mit denen ihr sicher nichts zu tun haben wollt.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech",
 		"description": "href for the tweet button. Contains a prefilled tweet text."
 	},
 	"ui_block_all": {
@@ -166,7 +166,7 @@
 		"description": "Message that is shown during or after collecting that tells the user that some users may hidden."
 	},
 	"ui_only_list_items": {
-		"message": "Wir können nur Accounts aus dieser Liste blocken.",
+		"message": "Wir können nur Accounts aus dieser Liste blockieren.",
 		"description": "Message that tells the user, that only accounts that occur in the list can be blocked."
 	},
 	"ui_block_retweeters": {
@@ -212,7 +212,7 @@
 		"description": "Title of the export button"
 	},
 	"ui_take_a_moment": {
-		"message": "Abhängig von der Anzahl geblockter Accounts kann das eine Weile dauern.",
+		"message": "Abhängig von der Anzahl blockierter Accounts kann das eine Weile dauern.",
 		"description": "Info that the collection of blocked accounts to export them may take long."
 	},
 	"ui_warning_heading": {
@@ -266,11 +266,11 @@
 		"description": "Error message if the import failed."
 	},
 	"options_include_previously_blocked": {
-		"message": "Alle bereits geblockten Accounts einschließen",
+		"message": "Alle bereits blockierten Accounts einschließen",
 		"description": "Checkbox label: include previously blocked accounts without LikersBlocker."
 	},
 	"options_include_previously_blocked_hint": {
-		"message": "Damit kannst du in deinen Twitter-Einstellungen alle vormals (ohne LikersBlocker) geblockten Accounts einsammeln und herunterladen.",
+		"message": "Damit kannst du in deinen Twitter-Einstellungen alle vormals (ohne LikersBlocker) blockierten Accounts einsammeln und herunterladen.",
 		"description": "Link explanation (mouse over text): include previously blocked accounts without LikersBlocker."
 	},
 	"options_block_speed": {
