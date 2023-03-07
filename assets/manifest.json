@@ -27,7 +27,6 @@
 	"permissions": [
 		"storage",
 		"webRequest",
-		"webRequestBlocking",
 		"alarms",
 		"cookies",
 		"downloads",
