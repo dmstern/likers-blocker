@@ -2,7 +2,7 @@
 
 ![Logo](assets/icon128.png)
 
-A browser extension to block all visible likers (and optionally all retweeters) of a tweet on Twitter.
+A browser extension to block likers, retweeters, list members and Twitter ads and share your block lists with others.
 
 ![Preview](screenshots/preview2-medium.png)
 
@@ -10,8 +10,6 @@ Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 
 > In Übrigen wünsche ich mir für solche Fälle ein Twitter-Add-On, das alle Liker eines bestimmten Tweets blockt, weil es nur Arschlöcher sein können. Wer programmiert es?
 > – [10:41 am · 22 Feb. 2020](https://twitter.com/sixtus/status/1231152136857231360)
-
-In collaboration with [@pkreissel](https://twitter.com/pkreissel).
 
 ## Installation
 
@@ -25,47 +23,49 @@ In collaboration with [@pkreissel](https://twitter.com/pkreissel).
 
 ## Usage
 
-### Block likers of a tweet
+### Block likers or retweeters of a tweet
 
 - Once you click on a tweet, there is a link which indicates how many people liked this tweet.
-- Click on that link to get the list of all likers
+- Click on that link to get the list of all likers (or, to block the retweeters on the "retweeters" count)
 
   ![Screenshot](screenshots/likes.png)
+  ![Screenshot](screenshots/retweets.png)
 
-- Then click on the new button on the top which says "Block all".
-  ![Screenshot](screenshots/block-all-button.png)
-  ![Screenshot](screenshots/collecting-usernames.png)
-- You can also chose to block all retweeters of the tweet (only direct retweeters without comment).
-  ![Screenshot](screenshots/confirm.png)
-- Confirm to add the collected users to the blocking queue.
+- Then click on the new button on the top which says "Block all", wait until Likers Blocker has collected all accounts (or skip if a smaller portion is fine for you ![Screenshot](screenshots/this-is-fine-crop.png)) and confirm to add the users to the blocking queue.
+  ![Screenshot](screenshots/likers-blocker-collecting-and-confirm-animation.gif)
 - ✔ DONE. LikersBlocker will process the blocking queue bit by bit in the background.
+  You can find the status of the blocking queue by clicking on the extension icon in the upper right corner of your browser.
+  ![Screenshot](screenshots/likers-blocker-block-animation.gif)
 
-### Block all members of a list
+### Block all members or followers of a list
 
 - Click on a list of twitter users
-- Click on the number of members
+- Click on the number of members (or followers)
 - Proceed with point three above ("Block all")
 
-### Share your block list with others
+### Preferences
 
-Since Twitter has disabled its ability to import/export block lists, _LikersBlocker_ brings back the feature.
+![Screenshot](screenshots/likers-blocker-options.gif)
 
-#### Export
+### Import / Export
 
-- Go to "Settings and privacy" > "Content preferences" > "Blocked accounts" (Or just go to [https://twitter.com/settings/blocked/all](https://twitter.com/settings/blocked/all))
-- Click on the share button above the list of blocked accounts
-  ![Screenshot](screenshots/likers-blocker-share-block-list-btn.png)
+#### Only blocked by LikersBlocker
+
+- Go to the extension options by clicking on the options button in the bottom right corner of the extension popup:
+
+  ![Screenshot](screenshots/options-button.png)
+- On the top of the options page you can find a file select button to import a CSV file and an export button to export your block list. This will download a CSV file with all accounts that were blocked by the extension.
+![Screenshot](screenshots/import.png)
+
+#### All blocked from Twitter settings
+
+- _Alternatively_, you can "visually" collect all previously blocked accounts by clicking on the first link on the options page (which opens the [Twitter settings](https://twitter.com/settings/blocked/all)) and then on the share button.
+  ![Screenshot](screenshots/likers-blocker-export-all.png)
 - Wait a moment until all accounts from your list are collected (make sure to leave the tab in the foreground to avoid stopping the automatic down scrolling)
-- Copy and share the block links with other persons to share your block list with them.
-  ![Screenshot](screenshots/likers-blocker-share-block-list.png)
+  ![Screenshot](screenshots/likers-blocker-export-collecting.png)
+- After the collecting you can download the CSV file which includes all collected blocked accounts
+  ![Screenshot](screenshots/likers-blocker-export-all-confirm.png)
 
-#### Import
-
-- When you receive a block link, just click on it or enter it into the address bar of your browser.
-- If you use it for the first time, you will have to authorize the app to access your twitter account.
-- You get a list of all users that are about to be blocked.
-- Confirm and wait for the success message.
-- ✔ DONE. All the collected likers of the tweet are blocked. 😇
 
 ## Found an error or want to suggest a feature?
 
@@ -81,27 +81,31 @@ To test the extension locally:
 
 ### Build
 
-- Install Node.js 16.x
+#### Prerequisites
 
-Or, if you different node versions on your machine for different projects, you can use Node Version Manager (NVM) and run:
+Install Node.js 16.x
+
+Or, if you different node versions on your machine for different projects, you can use Node Version Manager (NVM) and run the following command in the repository directory:
 
 ```bash
 nvm use
 ```
 
-In the repository directory, run:
+#### Install the dependencies
 
 ```bash
 npm install
 ```
 
+#### Start the build process in watch mode
+
 ```bash
-npm run build
+npm start
 ```
 
-### Run
+### Load the local extension in your browser
 
-#### Chrome
+#### Chromium
 
 - Go to `chrome://extensions`
 - Enable the developer mode with the regarding toggle button on the right side
@@ -128,8 +132,8 @@ We would highly appreciate if you considered donating a little tip, rate this ex
 
 ### Donate
 
-- 💝 [paypal.me/dmstr](https://paypal.me/dmstr)
-- 💝 [paypal.me/philipkreissel](https://paypal.me/philipkreissel)
+- 💝 **[paypal.me/dmstr](https://paypal.me/dmstr)**
+- 💝 **[paypal.me/philipkreissel](https://paypal.me/philipkreissel)**
 
 ### Rate
 
@@ -137,7 +141,7 @@ We would highly appreciate if you considered donating a little tip, rate this ex
 
 ### Share
 
-[🐦 Tweet about this extension](<https://twitter.com/share?text=With the @LikersBlocker you can block people that like hate speech.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech>) and tell your friends!
+[🐦 Tweet about this extension](<<https://twitter.com/share?text=With> the @LikersBlocker you can block people that like hate speech.&url=<https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker>,sayNoToHateSpeech>) and tell your friends!
 
 ### Follow us on Twitter
 
@@ -145,6 +149,6 @@ We would highly appreciate if you considered donating a little tip, rate this ex
 
 [![Likers Blocker](https://pbs.twimg.com/profile_images/1397331928928378880/3O3zY4bh_bigger.png)  @LikersBlocker](https://twitter.com/LikersBlocker)
 
-[![Philip Kreißel](https://pbs.twimg.com/profile_images/1427346761291599879/XZ6AgKyH_bigger.jpg)  @pkreissel](https://twitter.com/pkreissel) (Backend)
+<a href="https://twitter.com/pkreissel"><img src="https://pbs.twimg.com/profile_images/1427346761291599879/XZ6AgKyH_bigger.jpg" alt="Daniel Morgenstern" style="border-radius:50%;"> @pkreissel</a>
 
-[![Daniel Morgenstern](https://pbs.twimg.com/profile_images/1568632463055851520/zOdgX634_bigger.jpg)  @d_mstern](https://twitter.com/d_mstern) (Frontend)
+<a href="https://twitter.com/d_mstern"><img src="https://pbs.twimg.com/profile_images/1584902128694329350/St36d5Jg_bigger.jpg" alt="Daniel Morgenstern" style="border-radius:50%;"> @d_mstern</a>
