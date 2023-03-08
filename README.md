@@ -11,6 +11,8 @@ Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 > In Übrigen wünsche ich mir für solche Fälle ein Twitter-Add-On, das alle Liker eines bestimmten Tweets blockt, weil es nur Arschlöcher sein können. Wer programmiert es?
 > – [10:41 am · 22 Feb. 2020](https://twitter.com/sixtus/status/1231152136857231360)
 
+![Screenshots with themes](screenshots/likers-blocker-themes-wide.png)
+
 ## Installation
 
 [<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Firefox_logo%2C_2019.svg/68px-Firefox_logo%2C_2019.svg.png" width="64" height="auto" alt="Firefox"> Install for Mozilla Firefox](https://addons.mozilla.org/firefox/addon/likers-blocker/)
