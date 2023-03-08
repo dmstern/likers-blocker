@@ -73,59 +73,11 @@ If you find a bug or want to suggest new features, please [file a new issue](htt
 
 ## Contribution
 
-Feel free to suggest improvements or to create pull requests!
-
-To test the extension locally:
-
-- Clone this repository
-
-### Build
-
-#### Prerequisites
-
-Install Node.js 16.x
-
-Or, if you different node versions on your machine for different projects, you can use Node Version Manager (NVM) and run the following command in the repository directory:
-
-```bash
-nvm use
-```
-
-#### Install the dependencies
-
-```bash
-npm install
-```
-
-#### Start the build process in watch mode
-
-```bash
-npm start
-```
-
-### Load the local extension in your browser
-
-#### Chromium
-
-- Go to `chrome://extensions`
-- Enable the developer mode with the regarding toggle button on the right side
-- Click on "Load unpacked"
-- Select the `dist` folder of the cloned repository
-
-#### Firefox
-
-- Go `about:debugging#/runtime/this-firefox`
-- Click on `Load Temporary Add-On...`
-- Select any file in the `dist` folder of the cloned repository
-
----
-
-[![Creative Commons License Agreement](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
-All information on this site is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+see [CONTRIBUTION.md](CONTRIBUTION.md).
 
 ## Support
 
-Glad that you appreciate our work! :)
+Glad that you appreciate our work! 😃
 
 We do this in our free time. This tool is and remains free for everyone and free from ads.
 We would highly appreciate if you considered donating a little tip, rate this extension in your browser or tell others about it.
@@ -152,3 +104,11 @@ We would highly appreciate if you considered donating a little tip, rate this ex
 <a href="https://twitter.com/pkreissel"><img src="https://pbs.twimg.com/profile_images/1427346761291599879/XZ6AgKyH_bigger.jpg" alt="Daniel Morgenstern" style="border-radius:50%;"> @pkreissel</a>
 
 <a href="https://twitter.com/d_mstern"><img src="https://pbs.twimg.com/profile_images/1584902128694329350/St36d5Jg_bigger.jpg" alt="Daniel Morgenstern" style="border-radius:50%;"> @d_mstern</a>
+
+![ ](blank.png)
+
+---
+
+[![Creative Commons License Agreement](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
+All information on this site is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+
