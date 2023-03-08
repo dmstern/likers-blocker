@@ -51,7 +51,7 @@ export default class LoginDisplay {
 
 		const profilePicture = this.userInfo.profile_image_url_https || settings.DEFAULT_PROFILE_IMG.normal;
 		const screeName = this.userInfo.screen_name;
-		const miniProfilePicture = profilePicture.replace("normal", "mini");
+		const miniProfilePicture = profilePicture.replace("normal", "mini").replace("bigger", "mini");
 		const profilePictureElement = document.querySelector("#profile-picture") as HTMLImageElement;
 		const userNameElement = document.querySelector("#user-name");
 
