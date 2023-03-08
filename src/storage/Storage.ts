@@ -1,4 +1,4 @@
-import { runtime, storage } from "webextension-polyfill";
+import { storage } from "webextension-polyfill";
 import Cookies from "../Cookies";
 import { BlockedUser, QueuedUser, UserInfo } from "../User";
 
@@ -9,7 +9,6 @@ export enum Key {
 	hideBadgeDonate = "hideBadgeDonate",
 	hideBadgeFollow = "hideBadgeFollow",
 	hideIdleWarning = "hideIdleWarning",
-	packageVersion = "packageVersion",
 	installedNewReleaseDate = "installedNewReleaseDate",
 	blockedAdsCounts = "blockedAdsCounts",
 	acceptedLanguage = "login.acceptedLanguage",
@@ -64,10 +63,6 @@ export default class Storage {
 		this.set(Key.userId, userId, false);
 	}
 
-	static async getPackageVersion(): Promise<string> {
-		return this.get(Key.packageVersion, false) as Promise<string>;
-	}
-
 	static async getHideBadgeShare(): Promise<boolean> {
 		return this.get(Key.hideBadgeShare, false) as Promise<boolean>;
 	}
@@ -106,8 +101,8 @@ export default class Storage {
 		return Number.isNaN(dateFromStorage) ? values.today : dateFromStorage;
 	}
 
-	static setInstalledNewReleaseDate(value: number) {
-		this.set(Key.installedNewReleaseDate, value, false);
+	static resetInstalledNewReleaseDate() {
+		this.set(Key.installedNewReleaseDate, values.today, false);
 	}
 
 	static async getIsNewRelease(): Promise<boolean> {
@@ -115,15 +110,10 @@ export default class Storage {
 		return values.today < value + 3;
 	}
 
-	static async storePackageVersion() {
-		const storedVersion = await this.getPackageVersion();
-		if (storedVersion !== runtime.getManifest().version) {
-			this.remove(Key.hideBadgeDonate, false);
-			this.remove(Key.hideBadgeFollow, false);
-			this.remove(Key.hideBadgeShare, false);
-			this.setInstalledNewReleaseDate(values.today);
-			this.set(Key.packageVersion, runtime.getManifest().version, false);
-		}
+	static async resetBadges() {
+		this.remove(Key.hideBadgeDonate, false);
+		this.remove(Key.hideBadgeFollow, false);
+		this.remove(Key.hideBadgeShare, false);
 	}
 
 	static async getBlockedAdsCount(): Promise<number> {

@@ -4,6 +4,7 @@ import Messenger from "../Messages";
 import settings from "../settings";
 import LoginStorage from "../storage/LoginStorage";
 import QueueStorage from "../storage/QueueStorage";
+import Storage from "../storage/Storage";
 import { UserInfo } from "../User";
 import Blocker from "./Blocker";
 import WebRequestInterceptor from "./WebRequestInterceptor";
@@ -59,6 +60,8 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 		}
 
 		if (reason === "update") {
+			Storage.resetBadges();
+			Storage.resetInstalledNewReleaseDate();
 			tabs.create({ url: settings.RELEASE_NOTES_URL });
 		}
 	});
