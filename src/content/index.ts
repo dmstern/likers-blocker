@@ -1,4 +1,5 @@
 import Messenger from "../Messages";
+import settings from "../settings";
 import LoginStorage from "../storage/LoginStorage";
 import OptionsStorage from "../storage/OptionsStorage";
 import Storage from "../storage/Storage";
@@ -56,4 +57,7 @@ import "./styles/index.scss";
 	Storage.getScreenshotMode().then((isScreenshotMode) => {
 		document.body.classList.toggle("screenshot-blur", isScreenshotMode);
 	});
+
+	document.body.style.setProperty("--color--brand", settings.BRAND_COLOR);
+	document.body.style.setProperty("--color--brand--dark", settings.BRAND_COLOR_DARK);
 })();
