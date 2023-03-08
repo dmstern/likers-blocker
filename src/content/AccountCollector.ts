@@ -44,7 +44,6 @@ export default class AccountCollector {
 		this.getAnimationLevel().then();
 		this.setUpBlockButton().then();
 		this.setUpExportButton().then();
-		Storage.storePackageVersion().then();
 	}
 
 	private get loadingInfo() {
