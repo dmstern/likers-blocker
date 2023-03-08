@@ -805,7 +805,7 @@ export default class AccountCollector {
 				<li class="lb-footer__item">
 					<a class="lb-footer__link lb-footer__link--donate ${await AccountCollector.getBadgeClass(
 						"donate"
-					)}" href="https://github.com/dmstern/likers-blocker#donate" target="_blank" title="${i18n.getMessage(
+					)}" href="https://dmstern.github.io/likers-blocker/#donate" target="_blank" title="${i18n.getMessage(
 			"popup_tip"
 		)}">${icons.gift}</a>
 				</li>

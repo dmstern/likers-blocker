@@ -22,7 +22,7 @@
 
 	&__link {
 		display: inline-block;
-		transition: all 200ms ease;
+		transition: all 100ms linear;
 		color: $color-gray;
 		padding: 0.5rem;
 		position: relative;
@@ -47,10 +47,27 @@
 			top: 0.5rem;
 			left: 0.5rem;
 			opacity: 0.8;
+			color: white;
+			font-family: "Arial Black", Arial, Helvetica, Ubuntu, sans-serif;
+			font-weight: 800;
+			font-size: 0.7rem;
+			line-height: 1em;
+		}
+
+		&--donate {
+			&::after {
+				content: "1";
+				width: .9rem;
+				height: .9rem;
+				top: 0.4rem;
+				left: 0.4rem;
+			}
 		}
 
 		&--show-badge::after {
-			display: inline-block;
+			display: inline-flex;
+			justify-content: center;
+			align-items: center;
 		}
 
 		&--new-release {
