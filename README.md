@@ -89,7 +89,7 @@ We would highly appreciate if you considered donating a little tip, rate this ex
 
 ### Rate
 
-⭐⭐⭐⭐⭐ Rate this extension in the [Chrome Web Store](https://chrome.google.com/webstore/detail/melnbpmfhaejmcpfflfjmchondkpmkcj/), on [Firefox Add-Ons](https://addons.mozilla.org/firefox/addon/likers-blocker/), [Opera Add-Ons](https://addons.opera.com/de/extensions/details/likers-blocker/).
+⭐⭐⭐⭐⭐ Rate this extension in the [Chrome Web Store](https://chrome.google.com/webstore/detail/melnbpmfhaejmcpfflfjmchondkpmkcj/), on [Firefox Add-Ons](https://addons.mozilla.org/firefox/addon/likers-blocker/), [Opera Add-Ons](https://addons.opera.com/de/extensions/details/likers-blocker/), [Edge Add-Ons](https://microsoftedge.microsoft.com/addons/detail/likers-blocker/fpcekgmidebefplhmglkndcbepplhkkb).
 
 ### Share
 
