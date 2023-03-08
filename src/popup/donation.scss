@@ -2,19 +2,23 @@
 	0% {
 		transform: rotate(var(--rotate)) translateX(var(--translate));
 	}
-	
-	25% {
+
+// fast
+	20% {
 		transform: rotate(calc(var(--rotate) * -1)) translateX(var(--translate));
 	}
-	
+
+// slow
 	50% {
 		transform: rotate(calc(var(--rotate) * -1)) translateX(calc(var(--translate) * -1));
 	}
-	
-	75% {
+
+// fast
+	70% {
 		transform: rotate(var(--rotate)) translateX(calc(var(--translate) * -1));
 	}
 
+// slow
 	100% {
 		transform: rotate(var(--rotate)) translateX(var(--translate));
 	}
