@@ -5,7 +5,10 @@ body.screenshot-blur {
 	[data-testid^="UserAvatar-Container"],
 	[data-testid="User-Names"],
 	[data-testid="UserCell"],
-	&:not(.likers-blocker-popup) a[href]:not([href*="status"]) {
-		filter: blur(5px);
+	[data-testid="trend"],
+	[data-testid="SideNav_AccountSwitcher_Button"],
+	h2:not([id="modal-heading"]),
+	&:not(.extension-popup) div:not(.lb-popup) a[href]:not([href*="status"]) {
+		filter: blur(4px);
 	}
 }
