@@ -1,0 +1,44 @@
+@keyframes fade {
+	0% {
+		transform: rotate(var(--rotate)) translateX(var(--translate));
+	}
+	
+	25% {
+		transform: rotate(calc(var(--rotate) * -1)) translateX(var(--translate));
+	}
+	
+	50% {
+		transform: rotate(calc(var(--rotate) * -1)) translateX(calc(var(--translate) * -1));
+	}
+	
+	75% {
+		transform: rotate(var(--rotate)) translateX(calc(var(--translate) * -1));
+	}
+
+	100% {
+		transform: rotate(var(--rotate)) translateX(var(--translate));
+	}
+}
+
+li.donation {
+	list-style: none;
+	display: flex;
+	align-items: center;
+	margin-left: -1em;
+
+	--translate: 2px;
+	--rotate: 8deg;
+
+	.icon {
+		margin-right: 0.5em;
+	}
+
+	a:hover {
+		--icon-color: var(--color--pink);
+
+		.icon {
+			animation: fade 2s infinite ease;
+			transform-origin: 100% 50%;
+		}
+	}
+}

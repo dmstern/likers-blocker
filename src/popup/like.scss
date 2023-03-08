@@ -1,0 +1,21 @@
+@keyframes pulse {
+	to {
+		color: var(--color--brand);
+		opacity: .5;
+	}
+}
+
+.like {
+	&:not([open])	&__btn .icon {
+		animation: pulse 2s ease 6s 2 alternate;
+	}
+
+	&[open] {
+		.btn {
+			.icon {
+				color: var(--color--brand);
+				fill: currentcolor;
+			}
+		}
+	}
+}

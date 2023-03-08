@@ -10,13 +10,14 @@
 @import "../sass-commons/stats";
 @import "../sass-commons/user-info";
 @import "../sass-commons/instructions";
-@import "../sass-commons/donation";
+@import "../sass-commons/debug";
+@import "./like";
+@import "./donation";
 @import "./machine";
 @import "./error-sign";
 @import "./block-speedometer";
 @import "./block-counter";
 @import "./blocker-running-status";
-@import "../sass-commons/debug";
 
 @keyframes drive {
 	0% {
