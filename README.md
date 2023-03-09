@@ -4,14 +4,14 @@
 
 A browser extension to block likers, retweeters, list members and Twitter ads and share your block lists with others.
 
-![Preview](screenshots/preview2-medium.png)
+![Preview](screenshots/Ad-Preview/preview2-medium.png)
 
 Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 
 > In Übrigen wünsche ich mir für solche Fälle ein Twitter-Add-On, das alle Liker eines bestimmten Tweets blockt, weil es nur Arschlöcher sein können. Wer programmiert es?
 > – [10:41 am · 22 Feb. 2020](https://twitter.com/sixtus/status/1231152136857231360)
 
-![Screenshots with themes](screenshots/likers-blocker-themes-wide.png)
+![Screenshots with themes](screenshots/Ad-Preview/likers-blocker-themes-wide.png)
 
 ## Installation
 
