@@ -1,4 +1,5 @@
-name: CI	# Name of your workflow
+
+name: Publish Firefox	# Name of your workflow
 
 on:
   workflow_dispatch:	# Allows you to manually trigger workflow
