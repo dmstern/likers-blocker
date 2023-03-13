@@ -43,6 +43,12 @@
 			"background.js"
 		]
 	},
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "{89935eae-8bfa-4d3b-ad16-0881dff87d50}",
+			"strict_min_version": "69"
+		}
+	},
 	"action": {
 		"default_popup": "popup.html"
 	},
