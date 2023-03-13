@@ -97,7 +97,9 @@ export default class Storage {
 
 	static async getInstalledNewReleaseDate(): Promise<number> {
 		const value = await this.get(Key.installedNewReleaseDate, false);
-		const dateFromStorage = parseInt(value[Key.installedNewReleaseDate]);
+		const dateFromStorage: number | undefined = value
+			? parseInt(value[Key.installedNewReleaseDate])
+			: undefined;
 		return Number.isNaN(dateFromStorage) ? values.today : dateFromStorage;
 	}
 
