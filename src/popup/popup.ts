@@ -3,6 +3,7 @@ import Badge from "../Badge";
 import { injectIcons } from "../icons";
 import { localizeUI } from "../Localization";
 import Messenger from "../Messages";
+import settings from "../settings";
 import OptionsStorage, { AnimationLevel } from "../storage/OptionsStorage";
 import Storage from "../storage/Storage";
 import AdBlockCounter from "./AdBlockCounter";
@@ -98,5 +99,10 @@ function alignRightButtons() {
 		a.classList.add("instructions__image-wrapper");
 		a.innerHTML = `<img src="${imageUrl}" />`;
 		instructions.querySelector("li:first-child")?.append(a);
+
+		const usageLink = document.querySelector("#usageLink") as HTMLAnchorElement;
+		if (usageLink) {
+			usageLink.href = settings.USAGE_URL;
+		}
 	}
 })();

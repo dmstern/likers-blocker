@@ -27,6 +27,10 @@
 		"message": "The collected accounts will be added to the blocking queue and will be blocked in background.",
 		"description": "Usage guide step 4"
 	},
+	"popup_usage_link": {
+		"message": "Read more",
+		"description": "Link label for instructions in popup."
+	},
 	"popup_options": {
 		"message": "Import / Export / Options",
 		"description": "Label or title for options button in popup window."
