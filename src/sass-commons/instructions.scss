@@ -13,13 +13,15 @@
 	}
 
 	&[open] {
-		.icon-bulb {
-			display: block;
-			color: var(--color--success);
-		}
-	
-		.icon-question {
-			display: none;
+		summary {
+			.icon-bulb {
+				display: block;
+				color: var(--color--success);
+			}
+			
+			.icon-question {
+				display: none;
+			}
 		}
 	}
 }

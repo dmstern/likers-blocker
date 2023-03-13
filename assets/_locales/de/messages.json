@@ -27,6 +27,10 @@
 		"message": "Nach dem Auslesen werden die Accounts zur Block-Warteschlange hinzugefügt und im Hintegrund geblockt.",
 		"description": "Usage guide step 4"
 	},
+	"popup_usage_link": {
+		"message": "Genaue Anleitung nachlesen",
+		"description": "Link label for instructions in popup."
+	},
 	"popup_options": {
 		"message": "Import / Export / Einstellungen",
 		"description": "Label or title for options button in popup window."
