@@ -8,7 +8,7 @@ on:
 
 jobs:
   Publish:
-    name: Publish Package to Chrome and Edge
+    name: Publish Package to Chrome
     runs-on: ubuntu-latest
 
     steps:
@@ -29,6 +29,22 @@ jobs:
         client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
         client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
         refresh-token: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+
+jobs:
+  Publish:
+    name: Publish Package to Edge
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 16
+    - name: Build
+      run: |
+        npm install
+        npm run build
+        npm run postversion
     - name: Upload & release Edge
       run: |
         touch .env
