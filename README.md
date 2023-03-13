@@ -25,6 +25,16 @@ Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 
 ## Usage
 
+---
+
+⚠️ **IMPORTANT:** If you use Firefox, please right-click the extension icon, click "manage extension", go to "Permissions" and enable all permissions to make sure the extension works.
+
+![Screenshot](screenshots/likers-blocker-permissions-0.png)
+![Screenshot](screenshots/likers-blocker-permissions-1.png)
+
+---
+
+
 ### Block likers or retweeters of a tweet
 
 - Once you click on a tweet, there is a link which indicates how many people liked this tweet.
