@@ -25,12 +25,10 @@ Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 
 ## Usage
 
----
+*⚠️ **IMPORTANT:** If you use Firefox, please right-click the extension icon after installing, click "manage extension", go to "Permissions" and enable all permissions to make sure the extension works.*
 
-⚠️ **IMPORTANT:** If you use Firefox, please right-click the extension icon, click "manage extension", go to "Permissions" and enable all permissions to make sure the extension works.
-
-![Screenshot](screenshots/likers-blocker-permissions-0.png)
-![Screenshot](screenshots/likers-blocker-permissions-1.png)
+![Manage Extensions Screenshot](screenshots/likers-blocker-permissions-0.png)
+![Permissions Screenshot](screenshots/likers-blocker-permissions-1.png)
 
 ---
 
@@ -40,14 +38,14 @@ Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 - Once you click on a tweet, there is a link which indicates how many people liked this tweet.
 - Click on that link to get the list of all likers (or, to block the retweeters on the "retweeters" count)
 
-  ![Screenshot](screenshots/likes.png)
-  ![Screenshot](screenshots/retweets.png)
+  ![Likes Screenshot](screenshots/likes.png)
+  ![Retweets Screenshot](screenshots/retweets.png)
 
-- Then click on the new button on the top which says "Block all", wait until Likers Blocker has collected all accounts (or skip if a smaller portion is fine for you ![Screenshot](screenshots/this-is-fine-crop.png)) and confirm to add the users to the blocking queue.
-  ![Screenshot](screenshots/likers-blocker-collecting-and-confirm-animation.gif)
+- Then click on the new button on the top which says "Block all", wait until Likers Blocker has collected all accounts (or skip if a smaller portion is fine for you <img src="screenshots/this-is-fine-crop.png" style="padding: 0;margin: 0;display: inline;border: none;width: auto;height: 1em;">) and confirm to add the users to the blocking queue.
+  ![Screencast of Collecting and Confirm Animation](screenshots/likers-blocker-collecting-and-confirm-animation.gif)
 - ✔ DONE. LikersBlocker will process the blocking queue bit by bit in the background.
   You can find the status of the blocking queue by clicking on the extension icon in the upper right corner of your browser.
-  ![Screenshot](screenshots/likers-blocker-block-animation.gif)
+  ![Screencast of block animation](screenshots/likers-blocker-block-animation.gif)
 
 ### Block all members or followers of a list
 
@@ -57,7 +55,7 @@ Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 
 ### Preferences
 
-![Screenshot](screenshots/likers-blocker-options.gif)
+![Screencast of Options page](screenshots/likers-blocker-options.gif)
 
 ### Import / Export
 
@@ -65,18 +63,18 @@ Inspired by [Mario Sixtus (@sixtus)](https://twitter.com/sixtus):
 
 - Go to the extension options by clicking on the options button in the bottom right corner of the extension popup:
 
-  ![Screenshot](screenshots/options-button.png)
+  ![Screenshot: Options button](screenshots/options-button.png)
 - On the top of the options page you can find a file select button to import a CSV file and an export button to export your block list. This will download a CSV file with all accounts that were blocked by the extension.
-![Screenshot](screenshots/import.png)
+![Screenshot: Import Button](screenshots/import.png)
 
 #### All blocked from Twitter settings
 
-- _Alternatively_, you can "visually" collect all previously blocked accounts by clicking on the first link on the options page (which opens the [Twitter settings](https://twitter.com/settings/blocked/all)) and then on the share button.
-  ![Screenshot](screenshots/likers-blocker-export-all.png)
+- *Alternatively*, you can "visually" collect all previously blocked accounts by clicking on the first link on the options page (which opens the [Twitter settings](https://twitter.com/settings/blocked/all)) and then on the share button.
+  ![Screenshot: Export all](screenshots/likers-blocker-export-all.png)
 - Wait a moment until all accounts from your list are collected (make sure to leave the tab in the foreground to avoid stopping the automatic down scrolling)
-  ![Screenshot](screenshots/likers-blocker-export-collecting.png)
+  ![Screenshot: export and collecting](screenshots/likers-blocker-export-collecting.png)
 - After the collecting you can download the CSV file which includes all collected blocked accounts
-  ![Screenshot](screenshots/likers-blocker-export-all-confirm.png)
+  ![Screenshot export / confirm](screenshots/likers-blocker-export-all-confirm.png)
 
 
 ## Found an error or want to suggest a feature?
