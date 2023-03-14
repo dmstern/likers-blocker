@@ -8,7 +8,7 @@ body.screenshot-blur {
 	[data-testid="trend"],
 	[data-testid="SideNav_AccountSwitcher_Button"],
 	h2:not([id="modal-heading"]),
-	&:not(.extension-popup) div:not(.lb-popup) a[href]:not([href*="status"]) {
+	&:not(.extension-popup) a[href]:not([href*="status"], .lb-footer__link) {
 		filter: blur(4px);
 	}
 }
