@@ -29,6 +29,7 @@ export enum Key {
 	animationLevel = "options.animationLevel",
 	blockerRunning = "blockerRunning",
 	screenshotMode = "screenshotMode",
+	useMock = "useMock",
 }
 
 const values = {
@@ -57,6 +58,14 @@ export default class Storage {
 			this.set(Key.screenshotMode, false, false);
 		}
 		return !!isScreenshotMode;
+	}
+
+	static async getUseMock(): Promise<boolean> {
+		const useMock = (await this.get(Key.useMock, false)) as Promise<boolean>;
+		if (useMock === undefined) {
+			this.set(Key.useMock, false, false);
+		}
+		return !!useMock;
 	}
 
 	static async setIdentity(userId: string) {
