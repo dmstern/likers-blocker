@@ -1,5 +1,5 @@
 import { alarms, i18n } from "webextension-polyfill";
-import APIServiceMock from "../APIServiceMock";
+import APIService from "../APIService";
 import Badge from "../Badge";
 import Notification, { Notify } from "../Notification";
 import settings from "../settings";
@@ -87,8 +87,8 @@ export default class Blocker {
 			return;
 		}
 
-		// const response = await APIService.block(user);
-		const response = await APIServiceMock.block(user);
+		const response = await APIService.block(user);
+		// const response = await APIServiceMock.block(user);
 
 		if (response?.status === 401) {
 			await Notification.push(Notify.unauthenticated);
