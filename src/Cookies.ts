@@ -23,7 +23,7 @@ export default class Cookies {
 
 	private static async get(name: CookieName): Promise<string> {
 		if (cookies && cookies.get) {
-			const cookie = await cookies.get({ name, url: "https://twitter.com" });
+			const cookie = await cookies.get({ name, url: "twitter.com" });
 			return cookie?.value;
 		} else {
 			const entries = document.cookie.split("; ");

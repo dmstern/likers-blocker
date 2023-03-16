@@ -249,9 +249,9 @@ export default class AccountCollector {
 		for (const userCell of users) {
 			const userLink = userCell.querySelector('a[aria-hidden="true"]') as HTMLAnchorElement;
 			const profileImg = userCell.querySelector("img") as HTMLImageElement;
-			const userUrl = userLink.href;
+			const userUrl = new URL(userLink.href);
 			const profileUrl = profileImg.src;
-			const userHandle = userUrl.replace("https://twitter.com/", "");
+			const userHandle = userUrl.pathname.replace("/", "");
 			const user = {
 				screen_name: userHandle,
 				interacted_with: location.pathname,

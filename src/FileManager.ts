@@ -127,8 +127,8 @@ function parseCSV(csv: string): QueuedUser[] {
 
 			const baseUser = id ? { id } : { screen_name };
 
-			if (secondColumn && secondColumn.startsWith("https://twitter.com")) {
-				interacted_with = secondColumn.replace("https://twitter.com", "");
+			if (secondColumn && secondColumn.startsWith("https://")) {
+				interacted_with = new URL(secondColumn).pathname;
 				return { ...baseUser, interacted_with };
 			}
 
