@@ -52,7 +52,7 @@
 		"default_popup": "popup.html"
 	},
 	"content_security_policy": {
-		"extension_pages": "default-src 'self' https://api.twitter.com; script-src 'self'; object-src 'self'; connect-src 'self' https://api.twitter.com https://twitter.com/; img-src 'self' https://pbs.twimg.com https://abs.twimg.com;"
+		"extension_pages": "default-src 'self' https://api.twitter.com; script-src 'self'; object-src 'self'; connect-src 'self' https://api.twitter.com https://twitter.com https://mobile.twitter.com; img-src 'self' https://pbs.twimg.com https://abs.twimg.com;"
 	},
 	"default_locale": "en"
 }
