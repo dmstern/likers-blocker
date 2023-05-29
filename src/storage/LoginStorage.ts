@@ -7,6 +7,7 @@ import Storage, { Key } from "./Storage";
 
 export default class LoginStorage extends Storage {
 	static login(userInfo: UserInfo) {
+		BlockListStorage.resetCurrentBlocksCount();
 		this.setUserInfo(userInfo);
 		Messenger.sendLogin();
 	}

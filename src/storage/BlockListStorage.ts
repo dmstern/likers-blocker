@@ -69,8 +69,9 @@ export default class BlockListStorage extends Storage {
 
 	public static async getCurrentBlocksCount(): Promise<number> {
 		let currentBlocksCount: number = (await this.get(Key.currentBlocksCount)) as number;
-
-		if (currentBlocksCount === undefined) {
+		const lastResetDateStr: string = (await this.get(Key.lastResetDate)) as string;
+		const lastResetDate: Date = new Date(lastResetDateStr);
+		if (currentBlocksCount === undefined || lastResetDate.getDate() !== new Date().getDate()) {
 			this.resetCurrentBlocksCount();
 			currentBlocksCount = 0;
 		}
@@ -79,6 +80,7 @@ export default class BlockListStorage extends Storage {
 	}
 
 	static resetCurrentBlocksCount() {
+		this.set(Key.lastResetDate, new Date().toString());
 		this.set(Key.currentBlocksCount, 0);
 	}
 

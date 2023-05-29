@@ -23,6 +23,7 @@ export enum Key {
 	blockedAccounts = "blocklist.blockedAccounts",
 	blockListLength = "blocklist.blockListLength",
 	currentBlocksCount = "blocklist.currentBlocksCount",
+	lastResetDate = "blocklist.lastResetDate",
 	blocksPerMinute = "options.blocksPerMinute",
 	scrollsPerMinute = "options.scrollsPerMinute",
 	adBlockerActive = "options.adBlockerActive",
