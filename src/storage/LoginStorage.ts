@@ -6,6 +6,10 @@ import BlockListStorage from "./BlockListStorage";
 import Storage, { Key } from "./Storage";
 
 export default class LoginStorage extends Storage {
+	static async isLoggedIn(): Promise<boolean> {
+		return (await this.get(Key.userInfo)) !== undefined;
+	}
+
 	static login(userInfo: UserInfo) {
 		BlockListStorage.resetCurrentBlocksCount();
 		this.setUserInfo(userInfo);

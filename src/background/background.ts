@@ -14,6 +14,9 @@ import WebRequestInterceptor from "./WebRequestInterceptor";
 		if (alarm.name === Blocker.alarmName) {
 			Blocker.run();
 		}
+		if (alarm.name === Blocker.heartbeatName) {
+			Blocker.heartbeat();
+		}
 	});
 
 	Blocker.run();

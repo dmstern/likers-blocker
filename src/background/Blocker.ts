@@ -14,6 +14,7 @@ const blockIntervals: NodeJS.Timeout[] = [];
 
 export default class Blocker {
 	static readonly alarmName: string = "blockTask";
+	static readonly heartbeatName: string = "blockTaskHeartbeat";
 	private static blocksInCurrentIterationCount = 0;
 
 	static async isRunning() {
@@ -22,6 +23,16 @@ export default class Blocker {
 
 	static setRunning(isRunning: boolean) {
 		Storage.setBlockerRunning(isRunning);
+	}
+
+	static async heartbeat() {
+		const isRunning = await this.isRunning();
+		const reachedLimit = await BlockListStorage.isBlockLimitReached();
+		//check logged in
+		const isLoggedIn = await LoginStorage.isLoggedIn();
+		if (!isRunning && !reachedLimit && isLoggedIn) {
+			this.run();
+		}
 	}
 
 	static async run() {
@@ -59,12 +70,18 @@ export default class Blocker {
 			periodInMinutes: settings.BLOCK_PERIOD_IN_MINUTES,
 		});
 
+		alarms.create(Blocker.heartbeatName, {
+			delayInMinutes: 0,
+			periodInMinutes: 15,
+		});
+
 		this.setRunning(true);
 	}
 
 	private static async processBlocking(blocksPerMinute: number) {
 		const reachedLimit = await BlockListStorage.isBlockLimitReached();
-		if (reachedLimit) {
+		const isLoggedIn = await LoginStorage.isLoggedIn();
+		if (reachedLimit || !isLoggedIn) {
 			this.stop();
 			await Notification.notify(
 				i18n.getMessage("notification_reached_limit_title"),
@@ -73,7 +90,6 @@ export default class Blocker {
 					settings.BLOCKS_PER_SESSION_LIMIT.toString()
 				)
 			);
-
 			return;
 		}
 
@@ -93,7 +109,7 @@ export default class Blocker {
 
 		if (response?.status === 401) {
 			await Notification.push(Notify.unauthenticated);
-			Blocker.stop();
+			this.stop();
 			LoginStorage.logout();
 		}
 
