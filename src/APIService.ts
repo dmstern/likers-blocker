@@ -155,7 +155,7 @@ export default class APIService {
 		return {
 			"User-Agent": navigator.userAgent,
 			Accept: "*/*",
-			"Accept-Language": acceptedLanguage ?? "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
+			"Accept-Language": acceptedLanguage ?? "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7,sv",
 			"Content-Type": ContentType,
 			"x-twitter-auth-type": "OAuth2Session",
 			"x-twitter-client-language": lang,
