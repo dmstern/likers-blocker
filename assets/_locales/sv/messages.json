@@ -1,0 +1,380 @@
+{
+	"extensionName": {
+		"message": "Likers Blocker",
+		"description": "Name of the extension."
+	},
+	"extensionDescription": {
+		"message": "Blockera konton som gillat eller reteweetat en tweet, står på en lista och Twitter-annonser.",
+		"description": "Describes the extension."
+	},
+	"popup_usage": {
+		"message": "Användning",
+		"description": "Label of the usage guide"
+	},
+	"popup_usage_step_1": {
+		"message": "När du klickar på en tweet finns det en länk som anger hur många som gillat tweeten. Klicka på den länken för att få en lista över alla som gillat tweeten.",
+		"description": "Usage guide step 1"
+	},
+	"popup_usage_step_2": {
+		"message": "Klicka sedan på den nya knappen längst upp där det står \"Blockera alla\".",
+		"description": "Usage guide step 2"
+	},
+	"popup_usage_step_3": {
+		"message": "Alla användare samlas in. Du kan välja att blockera alla som direkt-retweetat också, och bekräfta det efteråt.",
+		"description": "Usage guide step 3"
+	},
+	"popup_usage_step_4": {
+		"message": "De samlade kontona läggs till en blockeringskö och kommer blockeras i bakgrunden.",
+		"description": "Usage guide step 4"
+	},
+	"popup_usage_link": {
+		"message": "Läs mer",
+		"description": "Link label for instructions in popup."
+	},
+	"popup_options": {
+		"message": "Importera / Exportera / Inställningar",
+		"description": "Label or title for options button in popup window."
+	},
+	"popup_logged_in_as": {
+		"message": "Inloggad som",
+		"description": "Label: logged in as"
+	},
+	"popup_not_logged_in": {
+		"message": "Du är inte inloggad.",
+		"description": "Info that the user is not logged in."
+	},
+	"popup_login": {
+		"message": "Logga in",
+		"description": "Link label for login."
+	},
+	"popup_like": {
+		"message": "Gilla",
+		"description": "Label for the Like button"
+	},
+	"popup_export": {
+		"message": "Exportera Blocklista:",
+		"description": "Label for the export button in the popup window."
+	},
+	"popup_import": {
+		"message": "Importera Blocklista",
+		"description": "Label for the import button in the popup window."
+	},
+	"popup_donate": {
+		"message": "Roligt att du uppskattar vårt arbete! 😊<br /> Vi arbetar med detta på vår lediga tid. Detta verktyg är och förblir gratis för alla och fritt från annonser. Kan du tänka dig att donera lite dricks?",
+		"description": "text that encourages the user to donate"
+	},
+	"popup_report_bug": {
+		"message": "Rapportera bug",
+		"description": "Label for the report bug button "
+	},
+	"popup_tip": {
+		"message": "Bjud oss på kaffe",
+		"description": "Label for the donation button"
+	},
+	"popup_share": {
+		"message": "Sprid ordet",
+		"description": "Label for the share button"
+	},
+	"popup_follow": {
+		"message": "Följ oss på twitter",
+		"description": "Label for the follow button"
+	},
+	"popup_contact": {
+		"message": "Kontakt",
+		"description": "label of the contact link"
+	},
+	"popup_queue": {
+		"message": "Kommer att blockeras:",
+		"description": "Label of the queue counter"
+	},
+	"popup_list": {
+		"message": "Blockerade konton:",
+		"description": "Label of the blocklist counter"
+	},
+	"popup_unauthenticated": {
+		"message": "Du har blivit utloggad.",
+		"description": "Label of error sign when Twitter force-logged-out the user."
+	},
+	"popup_block_speed": {
+		"message": "Blockeringshastighet: $bpm$ bpm",
+		"description": "Label of the block speed display in the popup window.",
+		"placeholders": {
+      "bpm" : {
+        "content" : "$1",
+        "example" : "2"
+      }
+    }
+	},
+	"popup_ad_block_count": {
+		"message": "Blockerade annonser:",
+		"description": "Label in popup for blocked ads count"
+	},
+	"popup_block_limit": {
+		"message": "$remaining$ återstående blockeringar.",
+		"description": "Block limit energy display label.",
+		"placeholders": {
+			"remaining": {
+				"content": "$1",
+				"example": "434"
+			}
+		}
+	},
+	"popup_block_limit_hint": {
+		"message": "När du har nått blockeringsgränsen kan du ladda batteriet genom att logga ut från Twitter och logga in igen.",
+		"description": "Block limit energy display hint (mouseover)."
+	},
+	"popup_blocker_running_status": {
+		"message": "Blockeraren är pausad.",
+		"description": "Mouseover hint in popup that blocker is paused."
+	},
+	"tweet_text": {
+		"message": "https://twitter.com/share?text=Hittat en rasist eller annan obehaglig tweet som massa folk gillat? @LikersBlocker hjälper dig att bli av med sådana på ett ögonblick.&url=https://dmstern.github.io/likers-blocker&hashtags=LikersBlocker,sayNoToHateSpeech",
+		"description": "href for the tweet button. Contains a prefilled tweet text."
+	},
+	"ui_block_all": {
+		"message": "Blockera alla",
+		"description": "Label for the Block all button"
+	},
+	"ui_confirm_message_heading_addon": {
+		"message": "Blockera alla?",
+		"description": "Second part of the heading on confirm dialog, something like 'block all?'"
+	},
+	"ui_scroll_speed": {
+		"message": "Vill du snabba upp scrollningen? Du kan anpassa scrollhastigheten i inställningarna genom att klicka på tilläggsikonen i det övre högra hörnet av din webbläsare.",
+		"description": "Label for the options button in the collecting window."
+	},
+	"ui_users_found": {
+		"message": "$count$ användare hittade.",
+		"description": "Message how many users have been collected. Gets prefixed the number of collected users.",
+		"placeholders": {
+			"count": {
+				"content": "$1",
+				"example": "432"
+			}
+		}
+	},
+	"ui_queue_explanation": {
+		"message": "Användarna är inte blockerade ännu. Om du vill blockera dem lägger du till dem i blockeringskön. De kommer att behandlas bit för bit i bakgrunden för att undvika att överskrida Twitters blockeringsgräns.",
+		"description": "Explanation text that is displayed after collecting and before adding accounts to queue."
+	},
+	"ui_block_explanation": {
+		"message": "Spara .csv-filen på din dator om du vill dela den med andra eller använda den med flera konton.",
+		"description": "Explanation text that is displayed after collecting and before adding downloading the exported."
+	},
+	"ui_collecting_usernames": {
+		"message": "Samlar in användarnamn",
+		"description": "Message that tells the user that the tool is collecting users from a list."
+	},
+	"ui_cancel": {
+		"message": "Avbryt",
+		"description": "Label for the cancel button"
+	},
+	"ui_finish": {
+		"message": "Det är bra, tack.",
+		"description": "Label for the finish button"
+	},
+	"ui_twitter_hides": {
+		"message": "Vissa användare kan vara dolda av Twitter.",
+		"description": "Message that is shown during or after collecting that tells the user that some users may be hidden."
+	},
+	"ui_only_list_items": {
+		"message": "Vi kan endast blockera användare från denna lista",
+		"description": "Message that tells the user, that only accounts that occur in the list can be blocked."
+	},
+	"ui_block_retweeters": {
+		"message": "Blockera även retweetare?",
+		"description": "Label of the checkbox where the user can chose to also block retweeters of the liked tweet."
+	},
+	"ui_retweeters_hover_hint": {
+		"message": "Inkluderar endast direkta retweetare utan kommentar.",
+		"description": "Title (tooltip) of the retweeters checkbox"
+	},
+	"ui_ok": {
+		"message": "OK",
+		"description": "Label of the OK button"
+	},
+	"ui_add_to_queue": {
+		"message": "Lägg till i kön",
+		"description": "Label of the confirm button"
+	},
+	"ui_download": {
+		"message": "Ladda ner blocklista",
+		"description": "Label of the download button in export view"
+	},
+	"ui_confirm_title": {
+		"message": "Lägger till de insamlade kontona i blockeringskön. Dessa kommer att blockeras bit för bit i bakgrunden.",
+		"description": "MouseOver text that will be shown when hovering the confirmation button."
+	},
+	"ui_confirm_clicked": {
+		"message": "OK. Jag kommer att blockera $added_count$ nya konton... Detta kommer att ta lite tid för att undvika att överskrida Twitters blockeringsgränser och riskera utloggning eller avstängning av kontot. Du hittar blockeringskön under tilläggsikonen längst upp till höger i ditt webbläsarfönster.",
+		"description": "Confirmation message that is shown after user confirmed the queueing of the collected users.",
+		"placeholders":{
+			"added_count": {
+				"content": "$1",
+				"example": "33"
+			}
+		}
+	},
+	"ui_confirm_button_label": {
+		"message": "Klar.",
+		"description": "Button label after user confirmed the queueing of the collected users."
+	},
+	"ui_export": {
+		"message": "Exportera",
+		"description": "Title of the export button"
+	},
+	"ui_take_a_moment": {
+		"message": "Beroende på antalet blockerade konton kan detta ta ett tag.",
+		"description": "Info that the collection of blocked accounts to export them may take long."
+	},
+	"ui_warning_heading": {
+		"message": "Hoppsan! Det verkar som om ditt användargränssnitt hängt sig.",
+		"description": "The heading of the warning popup when the UI is hanging."
+	},
+	"ui_warning_text": {
+		"message": "Kanske har du bytt webbläsarfönster. Klicka på OK eller skrolla med mushjulet för att fortsätta insamlingen av användare.",
+		"description": "The main text of the UI hanging warning which tells the user what to do to continue the scroll process."
+	},
+	"ui_do_not_show_again": {
+		"message": "Visa inte igen",
+		"description": "Button label for do not show again"
+	},
+	"ui_new_release": {
+		"message": "Du installerade den senaste versionen av LikersBlocker. 🎉 Se vad som är nytt.",
+		"description": "New Release icon title"
+	},
+	"options_export": {
+		"message": "Exportera blocklista:",
+		"description": "Label for the export button in the options page."
+	},
+	"options_import": {
+		"message": "Importera blocklista:",
+		"description": "Heading for the import button in the options page."
+	},
+	"options_download": {
+		"message": "Ladda ner CSV",
+		"description": "Label for the import button in the options page."
+	},
+	"options_import_success": {
+		"message": "Blocklista med $count$ användare importerades. $added$ nya lades till i kön...",
+		"description": "Success message if the import was successful.",
+		"placeholders": {
+      "count" : {
+        "content" : "$1",
+        "example" : "1000"
+      },
+      "added" : {
+        "content" : "$2",
+        "example" : "300"
+      }
+    }
+	},
+	"options_import_empty": {
+		"message": "Blocklistan är tom.",
+		"description": "Warning message if the imported block list is empty."
+	},
+	"options_import_error": {
+		"message": "Felmeddelande: Felaktigt filformat. Blocklistan importerades inte.",
+		"description": "Error message if the import failed."
+	},
+	"options_include_previously_blocked": {
+		"message": "Inkludera även tidigare blockerade konton",
+		"description": "Link label: include previously blocked accounts without LikersBlocker."
+	},
+	"options_include_previously_blocked_hint": {
+		"message": "Låter dig samla in och ladda ner en lista över alla tidigare (utan Likers Blocker) blockerade konton.",
+		"description": "Link explanation (mouse over text): include previously blocked accounts without LikersBlocker."
+	},
+	"options_block_speed": {
+		"message": "Blockeringshastighet i bpm",
+		"description": "Options label: block speed"
+	},
+	"options_scroll_speed": {
+		"message": "Insamlingshastighet",
+		"description": "Options label: scroll speed"
+	},
+	"options_scroll_speed_hint": {
+		"message": "Scrollningshastighet när användare samlas in (spm = scrollningar per minut). Ändringen kommer att gälla om du startar insamlingsprocessen nästa gång.",
+		"description": "Hint: Explaining the unit of scroll speed (scrolls per minute)"
+	},
+	"options_scroll_speed_warning": {
+		"message": "För snabb scrollning kan stoppa insamlingsprocessen för tidigt.",
+		"description": "Warning that too fast scrolling when collecting users may stop the collecting process to early."
+	},
+	"options_block_speed_hint": {
+		"message": "bpm  = blockeringar per minut",
+		"description": "Hint: Explaining the unit of block speed (blocks per minute)"
+	},
+	"options_block_speed_warning": {
+		"message": "Varning: Mer än $danger$ blockeringar per minut kan leda till tvingad utloggning eller avstängning av konto.",
+		"description": "Warning about account suspension or force-logout for block speed values over about 30.",
+		"placeholders": {
+      "danger" : {
+        "content" : "$1",
+        "example" : "30"
+      }
+    }
+	},
+	"options_ad_block_switcher": {
+		"message": "Blockera Twitterannonser",
+		"description": "Label for the options setting if ad blocker should be active."
+	},
+	"options_animation_level": {
+		"message": "Animationer",
+		"description": "Option setting label how much should the UI be animated."
+	},
+	"options_animation_level_hint": {
+		"message": "För långsammare datorer kan du kanske förbättra prestandan genom att sänka animationsnivån lite och t.ex. utelämna blockmaskinen eller insamlingsbilen.",
+		"description": "Option setting label hint (mouseover) how much should the UI be animated."
+	},
+	"options_animation_level_off": {
+		"message": "av",
+		"description": "Option value label for animation level 'off'."
+	},
+	"options_animation_level_mild": {
+		"message": "medium",
+		"description": "Option value label for animation level 'mild'."
+	},
+	"options_animation_level_frisky": {
+		"message": "snabb",
+		"description": "Option value label for animation level 'frisky'."
+	},
+	"options_reset": {
+		"message": "Återställ inställningarna",
+		"description": "Reset settings button label. (may not be too long)"
+	},
+	"options_reset_hint": {
+		"message": "Återställ inställningarna",
+		"description": "Reset settings button mouseover hint. (may be longer than the label)"
+	},
+	"options_clear": {
+		"message": "Rensa all data",
+		"description": "Clear data button label"
+	},
+	"options_clear_hint": {
+		"message": "Alla användarinställningar, blocklistor och köer kommer att tas bort från din webbläsare",
+		"description": "Clear extension data button hover hint"
+	},
+	"notification_unauthenticated_title": {
+		"message": "Du har loggats ut.",
+		"description": "Notification title if user was force-logged-out."
+	},
+	"notification_unauthenticated_content": {
+		"message": "Du har tydligen blockerat för snabbt eller överskridit blockeringsgränsen. Logga in igen och blockera långsammare.",
+		"description": "Notification content if user was force-logged-out."
+	},
+	"notification_reached_limit_title": {
+		"message": "Blockeringsgränsen uppnådd.",
+		"description": "Notification title if session block limit is reached."
+	},
+	"notification_reached_limit_content": {
+		"message": "Twitter tillåter inte fler än $limit$ blockeringar på en gång. För att fortsätta blockeringen, logga ut från Twitter och logga in igen.",
+		"description": "Notification content if session block limit is reached.",
+		"placeholders": {
+			"limit": {
+				"content": "$1",
+				"example": "500"
+			}
+		}
+	}
+}
