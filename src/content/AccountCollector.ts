@@ -15,7 +15,7 @@ import TwitterPage, { AccountList } from "./TwitterPage";
 
 const TOPBAR_SELECTOR = {
 	mobile: "main > div > div > div > div > div > div",
-	desktop: "[aria-labelledby=modal-header] > div > div > div > div > div > div > div > div > div",
+	desktop: "[aria-labelledby=modal-header] > div > div > div > div > div > div > div > div > div"
 };
 
 const BLOCKED_BUTTON_SELECTOR = "[data-testid=UserCell] [role=button]";
@@ -234,13 +234,14 @@ export default class AccountCollector {
 
 	private async collectUsers() {
 		const isBlockPage = await TwitterPage.isBlockExportPage();
-		const userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
-			? (await this.getScrollList()).querySelectorAll("a.js-user-profile-link")
-			: (await this.getScrollList()).querySelectorAll('[data-testid="UserCell"]');
+		 const userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
+		 	? (await this.getScrollList()).querySelectorAll("a.js-user-profile-link")
+		 	: document.querySelectorAll('[aria-labelledby=modal-header] [data-testid="UserCell"]');
+		// const userCells: NodeListOf<HTMLAnchorElement> = document.querySelectorAll('[aria-labelledby=modal-header] [data-testid="UserCell"]');
 		// Increase allowance for larger lists to avoid false-positive warnings:
 		const idleCounterAllowance =
 			settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.collectedUsers.size / 500);
-		const totalUserCount = await this.getTotalUsersCount();
+		const totalUserCount = 9999999999;//= await this.getTotalUsersCount(); - THIS API IS NO LONGER AVAILABLE!
 		const probablyAlmostReadyThreshold = totalUserCount < 100 ? 70 : totalUserCount < 200 ? 80 : 90;
 		const animationLevel = await this.getAnimationLevel();
 
