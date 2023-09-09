@@ -26,8 +26,16 @@ npm install
 
 ### Start the build process in watch mode
 
+For Unix based systems:
+
 ```bash
 npm start
+```
+
+For Windows:
+
+```bash
+npm run start:win
 ```
 
 ## Load the local extension in your browser

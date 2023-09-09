@@ -32,7 +32,6 @@ export default class AccountCollector {
 	private popupWrapper: HTMLElement;
 	private scrollInterval: number;
 	private topbar: HTMLElement | null | undefined;
-	private totalUsersCount: number;
 	private confirmButton: HTMLAnchorElement | HTMLDivElement;
 
 	private constructor() {
@@ -133,26 +132,50 @@ export default class AccountCollector {
 		const isRetweetsPage = await TwitterPage.isRetweetsPage();
 		const isTweetPage = await TwitterPage.isTweetPage();
 		const isListPage = await TwitterPage.isListPage();
-
-		if (!this.totalUsersCount) {
-			if (isTweetPage) {
-				const tweetId = await TwitterPage.getTweetId();
-				const tweet = await APIService.getTweet(tweetId);
-				this.totalUsersCount = isRetweetsPage ? tweet.retweet_count : tweet.favorite_count;
-			} else if (isListPage) {
-				const listId = await TwitterPage.getListId();
-				const list = await APIService.getList(listId);
-				this.totalUsersCount =
-					isListPage === AccountList.followers ? list.subscriber_count : list.member_count;
-			}
+		let totalUsersCount = -1;
+		console.log(
+			"getTotalUsersCount() - isRetweetsPage:" +
+				isRetweetsPage +
+				" - isTweetPage:" +
+				isTweetPage +
+				" - isListPage:" +
+				isListPage
+		);
+		if (isTweetPage) {
+			const interactionElements = document.querySelectorAll('article div[role="group"] a span');
+			let tweetLikes = -1;
+			let tweetReposts = -1;
+			interactionElements.forEach((iElement) => {
+				if (iElement.textContent === "Likes") {
+					tweetLikes = parseInt(
+						iElement.parentElement.parentElement.querySelector(
+							'[data-testid="app-text-transition-container"]'
+						).textContent
+					);
+					console.log("Tweet Likes:" + tweetLikes);
+				} else if (iElement.textContent === "Reposts") {
+					tweetReposts = parseInt(
+						iElement.parentElement.parentElement.querySelector(
+							'[data-testid="app-text-transition-container"]'
+						).textContent
+					);
+					console.log("Tweet Reposts:" + tweetReposts);
+				}
+			});
+			totalUsersCount = isRetweetsPage ? tweetReposts : tweetLikes;
+		} else if (isListPage) {
+			const listId = await TwitterPage.getListId();
+			const list = await APIService.getList(listId);
+			totalUsersCount =
+				isListPage === AccountList.followers ? list.subscriber_count : list.member_count;
 		}
 
 		// prevent multiple api calls of not successful:
-		if (!this.totalUsersCount) {
-			this.totalUsersCount = -1;
+		if (!totalUsersCount) {
+			totalUsersCount = -1;
 		}
 
-		return this.totalUsersCount;
+		return totalUsersCount;
 	}
 
 	private async getLimitMessage() {
@@ -200,7 +223,7 @@ export default class AccountCollector {
 	}
 
 	private async changeStateToConfirm() {
-		console.debug("changeStateToConfirm()");
+		console.debug("LikersBlocker: changeStateToConfirm()");
 		this.popup.classList.add("lb-confirm");
 		const avatarsWrapper = document.querySelector(".lb-truck-animation__avatars");
 		avatarsWrapper?.remove();
@@ -234,12 +257,17 @@ export default class AccountCollector {
 
 	private async collectUsers() {
 		const isBlockPage = await TwitterPage.isBlockExportPage();
-		const userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
+		let userCells: NodeListOf<HTMLAnchorElement> = this.isLegacyTwitter
 			? (await this.getScrollList()).querySelectorAll("a.js-user-profile-link")
-			: (await this.getScrollList()).querySelectorAll('[data-testid="UserCell"]');
+			: document.querySelectorAll('[aria-labelledby=modal-header] [data-testid="UserCell"]');
+		if (isBlockPage) {
+			userCells = document.querySelectorAll('div[aria-label="Timeline: Blocked accounts"] div[data-testid="cellInnerDiv"]');
+		}
+		// const userCells: NodeListOf<HTMLAnchorElement> = document.querySelectorAll('[aria-labelledby=modal-header] [data-testid="UserCell"]');
 		// Increase allowance for larger lists to avoid false-positive warnings:
 		const idleCounterAllowance =
 			settings.IDLE_COUNTER_ALLOWANCE + Math.floor(this.collectedUsers.size / 500);
+
 		const totalUserCount = await this.getTotalUsersCount();
 		const probablyAlmostReadyThreshold = totalUserCount < 100 ? 70 : totalUserCount < 200 ? 80 : 90;
 		const animationLevel = await this.getAnimationLevel();
@@ -651,7 +679,7 @@ export default class AccountCollector {
 	}
 
 	private async scrollDown(animationLevel: AnimationLevel) {
-		console.debug("scrollDown()");
+		console.debug("LikersBlocker: scrollDown()");
 		const scrolly = await this.scrolly;
 		const scrollListIsSmall = scrolly.scrollHeight < scrolly.clientHeight * 2;
 		const scrollTop = Math.ceil(scrolly.scrollTop);
@@ -668,7 +696,7 @@ export default class AccountCollector {
 		await this.collectUsers();
 
 		if (scrolledToBottom || scrollListIsSmall || allUsersCollected) {
-			console.info("finished collecting!", {
+			console.info("LikersBlocker: finished collecting!", {
 				scrolledToBottom,
 				scrollListIsSmall,
 			});
@@ -681,7 +709,7 @@ export default class AccountCollector {
 			return;
 		}
 
-		console.debug("finishCollecting()");
+		console.debug("LikersBlocker: finishCollecting()");
 
 		this.stopScrolling();
 
@@ -913,7 +941,7 @@ export default class AccountCollector {
 	}
 
 	private stopScrolling = () => {
-		console.debug("stopScrolling()");
+		console.debug("LikersBlocker: stopScrolling()");
 		clearInterval(this.scrollInterval);
 	};
 
